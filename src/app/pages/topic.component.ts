@@ -1,0 +1,277 @@
+import {
+  Component,
+  Input,
+  OnInit,
+  ViewChildren,
+  QueryList,
+  OnDestroy
+} from '@angular/core';
+
+import * as socketio from 'socket.io-client';
+
+import {
+  Topic,
+  AtApiService,
+  Res,
+  AtConfig
+} from 'anontown';
+import { UserDataService } from '../services';
+
+import { ActivatedRoute, Params } from '@angular/router';
+import { ResComponent } from '../components/res.component';
+
+@Component({
+  selector: 'at-topic',
+  template: `
+    <div *ngIf="topic" class="container">
+      <div class="topic-tool">
+        <div class="pull-right">
+          <button type="button" (click)="favo()" class="btn btn-default btn-sm" *ngIf="ud.isToken|async">
+            <span [ngClass]="['glyphicon',isFavo?'glyphicon-star':'glyphicon-star-empty']"></span>
+          </button>
+          <button type="button" class="btn btn-default btn-sm" (click)="detail()">
+            <span [ngClass]="['glyphicon',isDetail?'glyphicon-chevron-up':'glyphicon-chevron-down']"></span>
+          </button>
+          <button type="button" class="btn btn-default btn-sm" *ngIf="ud.isToken|async" (click)="edit()">
+            <span class="glyphicon glyphicon-edit"></span>
+          </button>
+          <button type="button" class="btn btn-default btn-sm" (click)="autoScrollMenu()">
+            <span class="glyphicon glyphicon-play-circle"></span>
+          </button>
+        </div>
+        <div *ngIf="isAutoScrollMenu" class="panel panel-default">
+          <div class="panel-body">
+            <button type="button" class="btn btn-default btn-sm" (click)="autoScroll()">
+              <span [ngClass]="['glyphicon',isAutoScroll?'glyphicon-stop':'glyphicon-play']"></span>
+            </button>
+            <input type="range" [(ngModel)]="autoScrollSpeed" max="100">
+          </div>
+        </div>
+        <at-topic-data [topic]="topic" *ngIf="isDetail"></at-topic-data>
+        <at-res-write [topic]="topic" [reply]="null" *ngIf="(ud.isToken|async)&&isEdit" (write)="readNew()"></at-res-write>
+      </div>
+      <button type="button" class="btn btn-default btn-sm" (click)="readNew()">最新</button><br>
+      <div>
+        <at-res #resE *ngFor="let r of reses" [res]="r"></at-res>
+      </div>
+      <button type="button" class="btn btn-default btn-sm" (click)="readOld()">前</button><br>
+    </div>
+  `,
+  styles: [`
+    .topic-tool{
+      position:fixed;
+      width: 80vw;
+      z-index: 999;
+      right: 100px;
+    }
+  `]
+})
+export class TopicComponent implements OnInit, OnDestroy {
+  @Input()
+  topic: Topic;
+
+  @ViewChildren('resE') resE: QueryList<ResComponent>;
+
+  private reses: Res[] = [];
+  private limit = 50;
+
+  private isFavo: boolean;
+
+
+  constructor(
+    private ud: UserDataService,
+    private api: AtApiService,
+    private route: ActivatedRoute) {
+  }
+
+  private intervalID: NodeJS.Timer;
+
+  //他のレスを取得している間はロック
+  private isLock = false;
+  private async lock(call: () => Promise<void>) {
+    if (this.isLock) {
+      return;
+    }
+    this.isLock = true;
+    await call()
+      .catch(e => {
+        this.isLock = false;
+        throw e;
+      });
+    this.isLock = false;
+  }
+
+  private isAutoScrollMenu = false;
+  autoScrollMenu() {
+    this.isAutoScrollMenu = !this.isAutoScrollMenu;
+  }
+
+  private isEdit = false;
+  edit() {
+    this.isEdit = !this.isEdit;
+  }
+
+  private isDetail = false;
+  detail() {
+    this.isDetail = !this.isDetail;
+  }
+
+  autoScrollSpeed = 20;
+  private isAutoScroll = false;
+  autoScroll() {
+    this.isAutoScroll = !this.isAutoScroll;
+  }
+
+  async ngOnDestroy() {
+    clearInterval(this.intervalID);
+    this.socket.close();
+  }
+
+  private socket: SocketIOClient.Socket;
+  async ngOnInit() {
+    if (!this.topic) {
+      let id: string = "";
+      this.route.params.forEach((params: Params) => {
+        id = params["id"];
+      });
+      this.topic = await this.api.findTopicOne({ id });
+    }
+
+    if (await this.ud.isToken) {
+      this.isFavo = (await this.ud.storage).isFavo(this.topic);
+    }
+
+    if (await this.ud.isToken && (await this.ud.storage).isRead(this.topic)) {
+      //読んだことあるなら続きから
+      await this.lock(async () => {
+        this.reses = await this.api.findRes(await this.ud.authOrNull,
+          {
+            topic: this.topic.id,
+            type: "before",
+            equal: true,
+            date: ((await this.ud.storage).topicRead.find(x => x.topic.id === this.topic.id) as { res: Res }).res.date,
+            limit: this.limit
+          });
+      });
+    } else {
+      //読んだことないなら最新レス
+      await this.findNew();
+    }
+
+    this.intervalID = setInterval(() => {
+      if (this.isAutoScroll) {
+        document.body.scrollTop -= this.autoScrollSpeed;
+      }
+      this.scroll();
+    }, 500);
+
+    //自動更新
+    this.socket = socketio.connect(AtConfig.serverURL, { forceNew: true });
+    this.socket.emit("topic-join", this.topic.id);
+    this.socket.on("topic", (msg: string) => {
+      if (msg === this.topic.id) {
+        this.readNew();
+      }
+    });
+  }
+
+  private async findNew() {
+    await this.lock(async () => {
+      this.reses = await this.api.findResNew(await this.ud.authOrNull,
+        {
+          topic: this.topic.id,
+          limit: this.limit
+        });
+    });
+  }
+
+  async readNew() {
+    if (this.reses.length === 0) {
+      this.findNew();
+    } else {
+      await this.lock(async () => {
+        //一番上のレスと座標を取得
+        let rc = this.resE.first;
+        let rcY: number;
+        if (rc.elementRef) {
+          rcY = rc.elementRef.nativeElement.getBoundingClientRect().top as number;
+        }
+
+        this.reses = (await this.api.findRes(await this.ud.authOrNull,
+          {
+            topic: this.topic.id,
+            type: "after",
+            equal: false,
+            date: this.reses[0].date,
+            limit: this.limit
+          }
+        )).concat(this.reses);
+
+        if (rc.elementRef) {
+          setTimeout(() => {
+            document.body.scrollTop += rc.elementRef.nativeElement.getBoundingClientRect().top - rcY
+          }, 0);
+        }
+      });
+    }
+  }
+
+  async readOld() {
+    if (this.reses.length === 0) {
+      this.findNew();
+    } else {
+      await this.lock(async () => {
+        this.reses = this.reses.concat(await this.api.findRes(await this.ud.authOrNull,
+          {
+            topic: this.topic.id,
+            type: "before",
+            equal: false,
+            date: this.reses[this.reses.length - 1].date,
+            limit: this.limit
+          }
+        ));
+      });
+    }
+  }
+
+  async favo() {
+    let storage = await this.ud.storage;
+    if (storage.isFavo(this.topic)) {
+      //削除
+      storage.topicFav = storage.topicFav.filter(x => x.id !== this.topic.id);
+    } else {
+      storage.topicFav.push(this.topic);
+    }
+    this.isFavo = storage.isFavo(this.topic);
+  }
+
+  async scroll() {
+    //最短距離のレスID
+    var res: Res;
+    {
+      let getTop = (rc: ResComponent) => rc.elementRef.nativeElement.getBoundingClientRect().top as number;
+      //最短
+      let rc: ResComponent | null = null;
+      this.resE.forEach(x => {
+        if (rc === null) {
+          rc = x;
+        } else if (Math.abs(getTop(rc)) > Math.abs(getTop(x))) {
+          rc = x;
+        }
+      });
+      if (rc === null) {
+        return;
+      }
+      res = (rc as ResComponent).res;
+    }
+    //セット
+    if (await this.ud.isToken) {
+      if ((await this.ud.storage).isRead(this.topic)) {
+        let val = ((await this.ud.storage).topicRead.find(x => x.topic.id === this.topic.id) as { topic: Topic, res: Res });
+        val.res = res;
+      } else {
+        (await this.ud.storage).topicRead.push({ topic: this.topic, res: res });
+      }
+    }
+  }
+}

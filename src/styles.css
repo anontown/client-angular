@@ -1,1 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
+body{
+    padding-bottom: 20px;
+}
+
+.loading{
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  max-width: 100%;
+  max-height: 100%;
+}
