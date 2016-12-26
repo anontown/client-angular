@@ -2,7 +2,11 @@ import {
   Component,
   Input,
   ElementRef,
-  OnInit
+  OnInit,
+  EventEmitter,
+  Output,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef
 } from '@angular/core';
 
 import {
@@ -66,10 +70,11 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
       </div>
       <at-res-write *ngIf="isReply&&(ud.isToken|async)" [topic]="res.topic" [reply]="res" (write)="write()"></at-res-write>
       <div *ngIf="children.length!==0">
-        <at-res *ngFor="let c of children" [res]="c"></at-res>
+        <at-res *ngFor="let c of children" [res]="c" (update)="childrenUpdate($event)"></at-res>
       </div>
     </div>
   `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styles: [`
     .res{
       border:solid 1px #cccccc;
@@ -98,22 +103,33 @@ export class ResComponent implements OnInit {
   public res: Res;
   private children: Res[] = [];
 
+  @Output()
+  update = new EventEmitter<Res>();
+
   private isSelf: boolean;
 
   constructor(private ud: UserDataService,
     private api: AtApiService,
     private modal: NgbModal,
-    public elementRef: ElementRef) {
+    public elementRef: ElementRef,
+    private cd: ChangeDetectorRef) {
   }
 
   async ngOnInit() {
     this.isSelf = (await this.ud.isToken) && (await this.ud.token).user === this.res.user;
+    this.cd.markForCheck();
+  }
+
+  childrenUpdate(res: Res) {
+    this.children[this.children.findIndex((r) => r.id === res.id)] = res;
+    this.cd.markForCheck();
   }
 
 
   private isReply = false;
   reply() {
     this.isReply = !this.isReply;
+    this.cd.markForCheck();
   }
 
   async hashClick() {
@@ -125,6 +141,7 @@ export class ResComponent implements OnInit {
         hash: this.res.hash
       });
     }
+    this.cd.markForCheck();
   }
 
   async sendReplyClick() {
@@ -135,6 +152,7 @@ export class ResComponent implements OnInit {
         id: this.res.reply as string
       })];
     }
+    this.cd.markForCheck();
   }
 
   async receiveReplyClick() {
@@ -146,28 +164,30 @@ export class ResComponent implements OnInit {
         reply: this.res.id
       });
     }
+    this.cd.markForCheck();
   }
 
   async uv() {
-    this.api.uvRes(await this.ud.auth, {
+    this.update.emit(await this.api.uvRes(await this.ud.auth, {
       id: this.res.id
-    });
+    }));
   }
 
   async dv() {
-    this.api.dvRes(await this.ud.auth, {
+    this.update.emit(await this.api.dvRes(await this.ud.auth, {
       id: this.res.id
-    });
+    }));
   }
 
   async del() {
-    this.api.delRes(await this.ud.auth, {
+    this.update.emit(await this.api.delRes(await this.ud.auth, {
       id: this.res.id
-    });
+    }));
   }
 
   write() {
     this.isReply = false;
+    this.cd.markForCheck();
   }
 
   //モーダル
@@ -177,6 +197,7 @@ export class ResComponent implements OnInit {
     this.profile = await this.api.findProfileOne(await this.ud.authOrNull, {
       id: this.res.profile as string
     });
+    this.cd.markForCheck();
     await this.modal.open(profileModal, {
       backdrop: "static",
       keyboard: false

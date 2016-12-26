@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import {
   Topic
 } from 'anontown';
@@ -36,7 +36,7 @@ import { UserDataService } from '../services';
         <button type="button" class="btn btn-default" *ngIf="ud.isToken|async" (click)="edit()">
           <span class="glyphicon glyphicon-edit"></span>
         </button>
-        <at-topic-edit *ngIf="isEdit&&(ud.isToken|async)" [topic]="topic"></at-topic-edit>
+        <at-topic-edit *ngIf="isEdit&&(ud.isToken|async)" [topic]="topic" (update)="update.emit($event)"></at-topic-edit>
       </div>
     </div>
   `,
@@ -44,6 +44,9 @@ import { UserDataService } from '../services';
 export class TopicDataComponent {
   @Input()
   topic: Topic;
+
+  @Output()
+  update = new EventEmitter<Topic>();
 
   private ud: UserDataService;
   constructor(ud: UserDataService) {

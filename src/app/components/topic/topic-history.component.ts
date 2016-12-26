@@ -27,7 +27,7 @@ import { UserDataService } from '../../services';
           </dd>
         </dl>
         <div *ngIf="hashReses.length!==0">
-          <at-res *ngFor="let r of hashReses" [res]="r"></at-res>
+          <at-res *ngFor="let r of hashReses" [res]="r" (update)="updateRes($event)"></at-res>
         </div>
       </div>
     </div>
@@ -51,6 +51,10 @@ export class TopicHistoryComponent {
   constructor(private api: AtApiService,
     private ud: UserDataService) {
 
+  }
+
+  updateRes(res: Res) {
+    this.hashReses[this.hashReses.findIndex((r) => r.id === res.id)] = res;
   }
 
   async hashClick() {

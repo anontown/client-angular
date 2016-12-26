@@ -11,7 +11,7 @@ import { UserDataService } from '../services';
         <div *ngIf="ud.isToken|async" class="container">
             <button type="button" (click)="readNew()" class="btn btn-default">最新</button><br>
             <div>
-                <at-res *ngFor="let r of reses" [res]="r"></at-res>
+                <at-res *ngFor="let r of reses" [res]="r" (update)="updateRes($event)"></at-res>
             </div>
             <button type="button" (click)="readOld()" class="btn btn-default">前</button><br>
         </div>
@@ -31,6 +31,10 @@ export class UserNoticeComponent implements OnInit {
 
     ngOnInit() {
         this.findNew();
+    }
+
+    updateRes(res: Res) {
+        this.reses[this.reses.findIndex((r) => r.id === res.id)] = res;
     }
 
     private async findNew() {

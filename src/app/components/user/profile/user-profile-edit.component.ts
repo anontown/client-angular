@@ -61,13 +61,19 @@ export class UserProfileEditComponent extends OnInit {
 
     ok() {
         (async () => {
-            await this.api.updateProfile(await this.ud.auth, {
+            let profile = await this.api.updateProfile(await this.ud.auth, {
                 id: this.profile.id,
                 name: this.name,
                 text: this.text
             });
             this.errorMsg = null;
-        })().catch(e =>{
+
+            //プロフィール更新
+            let profiles = await this.ud.profiles;
+            profiles[profiles.indexOf(this.profile)] = profile;
+            this.profile = profile;
+            this.ngOnInit();
+        })().catch(e => {
             if (e instanceof AtError) {
                 this.errorMsg = e.message;
             } else {

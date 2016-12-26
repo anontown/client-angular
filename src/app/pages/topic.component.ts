@@ -1,6 +1,5 @@
 import {
   Component,
-  Input,
   OnInit,
   ViewChildren,
   QueryList,
@@ -48,12 +47,12 @@ import { ResComponent } from '../components/res.component';
             <input type="range" [(ngModel)]="autoScrollSpeed" max="50">
           </div>
         </div>
-        <at-topic-data [topic]="topic" *ngIf="isDetail"></at-topic-data>
+        <at-topic-data [topic]="topic" *ngIf="isDetail" (update)="topicUpdate($event)"></at-topic-data>
         <at-res-write [topic]="topic" [reply]="null" *ngIf="(ud.isToken|async)&&isWrite" (write)="write()"></at-res-write>
       </div>
       <button type="button" class="btn btn-default btn-sm" (click)="readNew()">最新</button><br>
       <div>
-        <at-res #resE *ngFor="let r of reses" [res]="r"></at-res>
+        <at-res #resE *ngFor="let r of reses" [res]="r" (update)="updateRes($event)"></at-res>
       </div>
       <button type="button" class="btn btn-default btn-sm" (click)="readOld()">前</button><br>
     </div>
@@ -68,7 +67,6 @@ import { ResComponent } from '../components/res.component';
   `]
 })
 export class TopicComponent implements OnInit, OnDestroy {
-  @Input()
   topic: Topic;
 
   @ViewChildren('resE') resE: QueryList<ResComponent>;
@@ -78,6 +76,9 @@ export class TopicComponent implements OnInit, OnDestroy {
 
   private isFavo: boolean;
 
+  topicUpdate(topic: Topic) {
+    this.topic = topic;
+  }
 
   constructor(
     private ud: UserDataService,
@@ -101,6 +102,10 @@ export class TopicComponent implements OnInit, OnDestroy {
         throw e;
       });
     this.isLock = false;
+  }
+
+  updateRes(res: Res) {
+    this.reses[this.reses.findIndex((r) => r.id === res.id)] = res;
   }
 
   private isAutoScrollMenu = false;

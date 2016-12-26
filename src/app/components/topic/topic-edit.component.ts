@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import {
   AtApiService,
   Topic,
@@ -36,6 +36,9 @@ export class TopicEditComponent extends OnInit {
   @Input()
   private topic: Topic;
 
+  @Output()
+  update = new EventEmitter<Topic>();
+
   private title = "";
   private category = "";
   private text = "";
@@ -54,13 +57,14 @@ export class TopicEditComponent extends OnInit {
 
   ok() {
     (async () => {
-      await this.api.updateTopic(await this.ud.auth, {
+      let topic = await this.api.updateTopic(await this.ud.auth, {
         id: this.topic.id,
         title: this.title,
         category: this.category.length === 0 ? [] : this.category.split("/"),
         text: this.text
       });
       this.errorMsg = null;
+      this.update.emit(topic);
     })().catch(e => {
       if (e instanceof AtError) {
         this.errorMsg = e.message;
