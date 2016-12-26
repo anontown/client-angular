@@ -13,7 +13,7 @@ import { AtConfig } from 'anontown';
       2chの不便な点を改善した掲示板です。<br>
       登録は10秒で終わります。メアドなどは一切不要です。<br>
       専ブラなどのクライアントソフトも不要な為すぐに使い始めることが出来ます。<br>
-      まずは<a href="https://github.com/kgtkr/Anontown/wiki">Wiki</a>に行って使い方などを確認しましょう。<br>
+      まずは<a href="https://kgtkr.gitbooks.io/anontown/content/">ドキュメント</a>を読んで下さい。<br>
       <br>
       ※現在テスト運用中なので予告なくデータ削除等を行う場合があります
     </div>

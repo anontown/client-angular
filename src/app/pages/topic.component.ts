@@ -4,9 +4,10 @@ import {
   OnInit,
   ViewChildren,
   QueryList,
-  OnDestroy
+  OnDestroy,
+  NgZone
 } from '@angular/core';
-
+import { Observable, Subscription } from 'rxjs';
 import * as socketio from 'socket.io-client';
 
 import {
@@ -32,7 +33,7 @@ import { ResComponent } from '../components/res.component';
           <button type="button" class="btn btn-default btn-sm" (click)="detail()">
             <span [ngClass]="['glyphicon',isDetail?'glyphicon-chevron-up':'glyphicon-chevron-down']"></span>
           </button>
-          <button type="button" class="btn btn-default btn-sm" *ngIf="ud.isToken|async" (click)="edit()">
+          <button type="button" class="btn btn-default btn-sm" *ngIf="ud.isToken|async" (click)="writeMenu()">
             <span class="glyphicon glyphicon-edit"></span>
           </button>
           <button type="button" class="btn btn-default btn-sm" (click)="autoScrollMenu()">
@@ -44,11 +45,11 @@ import { ResComponent } from '../components/res.component';
             <button type="button" class="btn btn-default btn-sm" (click)="autoScroll()">
               <span [ngClass]="['glyphicon',isAutoScroll?'glyphicon-stop':'glyphicon-play']"></span>
             </button>
-            <input type="range" [(ngModel)]="autoScrollSpeed" max="100">
+            <input type="range" [(ngModel)]="autoScrollSpeed" max="50">
           </div>
         </div>
         <at-topic-data [topic]="topic" *ngIf="isDetail"></at-topic-data>
-        <at-res-write [topic]="topic" [reply]="null" *ngIf="(ud.isToken|async)&&isEdit" (write)="readNew()"></at-res-write>
+        <at-res-write [topic]="topic" [reply]="null" *ngIf="(ud.isToken|async)&&isWrite" (write)="write()"></at-res-write>
       </div>
       <button type="button" class="btn btn-default btn-sm" (click)="readNew()">最新</button><br>
       <div>
@@ -81,7 +82,8 @@ export class TopicComponent implements OnInit, OnDestroy {
   constructor(
     private ud: UserDataService,
     private api: AtApiService,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute,
+    private zone: NgZone) {
   }
 
   private intervalID: NodeJS.Timer;
@@ -104,19 +106,31 @@ export class TopicComponent implements OnInit, OnDestroy {
   private isAutoScrollMenu = false;
   autoScrollMenu() {
     this.isAutoScrollMenu = !this.isAutoScrollMenu;
+    if (this.isAutoScrollMenu) {
+      this.isWrite = false;
+      this.isDetail = false;
+    }
   }
 
-  private isEdit = false;
-  edit() {
-    this.isEdit = !this.isEdit;
+  private isWrite = false;
+  writeMenu() {
+    this.isWrite = !this.isWrite;
+    if (this.isWrite) {
+      this.isAutoScrollMenu = false;
+      this.isDetail = false;
+    }
   }
 
   private isDetail = false;
   detail() {
     this.isDetail = !this.isDetail;
+    if (this.isDetail) {
+      this.isAutoScrollMenu = false;
+      this.isWrite = false;
+    }
   }
 
-  autoScrollSpeed = 20;
+  autoScrollSpeed = 10;
   private isAutoScroll = false;
   autoScroll() {
     this.isAutoScroll = !this.isAutoScroll;
@@ -125,9 +139,16 @@ export class TopicComponent implements OnInit, OnDestroy {
   async ngOnDestroy() {
     clearInterval(this.intervalID);
     this.socket.close();
+    this.scrollObs.unsubscribe();
   }
 
+  write() {
+    this.isWrite = false;
+  }
+
+
   private socket: SocketIOClient.Socket;
+  private scrollObs: Subscription;
   async ngOnInit() {
     if (!this.topic) {
       let id: string = "";
@@ -158,12 +179,21 @@ export class TopicComponent implements OnInit, OnDestroy {
       await this.findNew();
     }
 
-    this.intervalID = setInterval(() => {
-      if (this.isAutoScroll) {
-        document.body.scrollTop -= this.autoScrollSpeed;
-      }
-      this.scroll();
-    }, 500);
+    this.zone.runOutsideAngular(() => {
+      this.intervalID = setInterval(() => {
+        if (this.isAutoScroll) {
+          document.body.scrollTop -= this.autoScrollSpeed;
+        }
+      }, 200);
+
+      this.scrollObs = Observable.fromEvent(document, "scroll")
+        .throttleTime(300)
+        .subscribe(() => {
+          this.scroll();
+        });
+    });
+
+
 
     //自動更新
     this.socket = socketio.connect(AtConfig.serverURL, { forceNew: true });

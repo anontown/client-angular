@@ -48,6 +48,9 @@ export class UserProfileAddComponent {
                 name: this.name,
                 text: this.text
             });
+
+            this.name = "";
+            this.text = "";
             (await this.ud.profiles).push(p);
         })().catch(e => {
             if (e instanceof AtError) {

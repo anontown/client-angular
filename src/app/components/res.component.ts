@@ -48,7 +48,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
       </button>
       <div [innerHTML]="res.mdtext"></div>
       <div class="res-footer">
-        <span *ngIf="!isSelf&&(ud.isToken|async)">
+        <span *ngIf="!isSelf&&(ud.isToken|async)&&!res.isVote">
           <button type="button" (click)="uv()" class="res-button">
             <span class="glyphicon glyphicon-thumbs-up"></span>
           </button>
@@ -57,14 +57,14 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
             <span class="glyphicon glyphicon-thumbs-down"></span>
           </button>
         </span>
-        <span *ngIf="isSelf||!(ud.isToken|async)">
+        <span *ngIf="isSelf||!(ud.isToken|async)||res.isVote">
           <span class="glyphicon glyphicon-hand-right" style="padding-right:4px;"></span>{{res.vote}}
         </span>
-        <button type="button" *ngIf="isSelf" (click)="del()" class="res-button">
+        <button type="button" *ngIf="isSelf&&res.deleteFlag==='active'" (click)="del()" class="res-button">
           <span class="glyphicon glyphicon-remove"></span>
         </button>
       </div>
-      <at-res-write *ngIf="isReply&&(ud.isToken|async)" [topic]="res.topic" [reply]="res"></at-res-write>
+      <at-res-write *ngIf="isReply&&(ud.isToken|async)" [topic]="res.topic" [reply]="res" (write)="write()"></at-res-write>
       <div *ngIf="children.length!==0">
         <at-res *ngFor="let c of children" [res]="c"></at-res>
       </div>
@@ -164,6 +164,10 @@ export class ResComponent implements OnInit {
     this.api.delRes(await this.ud.auth, {
       id: this.res.id
     });
+  }
+
+  write() {
+    this.isReply = false;
   }
 
   //モーダル

@@ -11,10 +11,7 @@ import { UserDataService } from '../services';
     <div class="panel panel-default">
       <div class="panel-body">
         <h1>{{topic.title}}</h1>
-        <button type="button" class="btn btn-default" (click)="detail()">
-          <span [ngClass]="['glyphicon',isDetail?'glyphicon-chevron-up':'glyphicon-chevron-down']"></span>
-        </button>
-        <div *ngIf="isDetail">
+        <div>
           <dl class="dl-horizontal">
             <dt>作成</dt>
             <dd>{{topic.date|date:"y/MM/dd(EEE) HH:mm:ss"}}</dd>
@@ -51,13 +48,6 @@ export class TopicDataComponent {
   private ud: UserDataService;
   constructor(ud: UserDataService) {
     this.ud = ud;
-  }
-
-
-  //本文を表示するか
-  private isDetail = false;
-  detail() {
-    this.isDetail = !this.isDetail;
   }
 
   private isEdit = false;
