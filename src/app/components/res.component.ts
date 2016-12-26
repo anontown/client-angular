@@ -50,7 +50,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
           <span class="glyphicon glyphicon-arrow-right"></span>
           {{res.replyCount}}
       </button>
-      <div [innerHTML]="res.mdtext"></div>
+      <div [innerHTML]="res.mdtext" class="aa"></div>
       <div class="res-footer">
         <span *ngIf="!isSelf&&(ud.isToken|async)&&!res.isVote">
           <button type="button" (click)="uv()" class="res-button">

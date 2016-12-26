@@ -33,17 +33,18 @@ import { UserDataService } from '../services';
                 </div>
                 <div class="form-group">
                     <label>本文</label>
+                    <button type="button" class="btn btn-default btn-xs" (click)="aa()">AA</button>
                     <textarea [(ngModel)]="text" class="form-control" name="text"></textarea>
-                    <div [innerHTML]="text|md" class="well"></div>
+                    <div [innerHTML]="text|md" class="well aa"></div>
                 </div>
                 <button type="submit" class="btn btn-default">書き込む</button>
             </form>
         </div>
     </div>
-    <div  *ngIf="ud.notToken|async">
+    <div *ngIf="ud.notToken|async">
         ログインしないと書き込めません
     </div>
-    `,
+    `
 })
 export class ResWriteComponent {
     private name = "";
@@ -84,5 +85,12 @@ export class ResWriteComponent {
                 throw e;
             }
         });
+    }
+
+    aa() {
+        if (this.text.length === 0) {
+            return;
+        }
+        this.text = this.text.split(/\r\n|\r|\n/).map(s => "    " + s).join("\n");
     }
 }
