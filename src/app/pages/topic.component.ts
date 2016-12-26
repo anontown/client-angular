@@ -62,7 +62,9 @@ import { ResComponent } from '../components/res.component';
       position:fixed;
       width: 80vw;
       z-index: 999;
-      right: 100px;
+      right: 10vw;
+      height:60vh;
+      overflow: auto;
     }
   `]
 })
