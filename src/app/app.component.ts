@@ -5,7 +5,6 @@ import {
     ElementRef,
     OnInit
 } from '@angular/core';
-import { Router } from '@angular/router';
 import { AtApiService, AtConfig } from 'anontown';
 import { UserDataService } from './services';
 var $ = require('jquery');
@@ -26,22 +25,22 @@ var $ = require('jquery');
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
                         <li *ngIf="ud.isToken|async">
-                            <a (click)="ok(['/favo'])">お気に入り</a>
+                            <a [routerLink]="['/favo']">お気に入り</a>
                         </li>
                         <li>
-                            <a (click)="ok(['/topic/search'],{title:'',category:''})">検索</a>
+                            <a [routerLink]="['/topic/search']" [queryParams]="{title:'',category:''}">検索</a>
                         </li>
                         <li *ngIf="ud.isToken|async">
-                            <a (click)="ok(['/topic/write'])">新規トピック</a>
+                            <a [routerLink]="['/topic/write']">新規トピック</a>
                         </li>
                         <li *ngIf="ud.isToken|async">
-                            <a (click)="ok(['/user/notice'])">通知</a>
+                            <a [routerLink]="['/user/notice']">通知</a>
                         </li>
                         <li *ngIf="ud.isToken|async">
-                            <a (click)="ok(['/user/profile'])">プロフ管理</a>
+                            <a [routerLink]="['/user/profile']">プロフ管理</a>
                         </li>
                         <li *ngIf="ud.isToken|async">
-                            <a (click)="ok(['/user/msg'])">お知らせ</a>
+                            <a [routerLink]="['/user/msg']">お知らせ</a>
                         </li>
                     </ul>
                     <button *ngIf="ud.notToken|async" type="button" (click)="login()" class="btn btn-default navbar-btn navbar-right">ログイン</button>
@@ -59,18 +58,21 @@ export class AppComponent implements OnInit {
         document.body.style.paddingTop = this.nav.nativeElement.clientHeight + 20 + "px";
     }
     constructor(private ud: UserDataService,
-        private api: AtApiService,
-        private router: Router) {
+        private api: AtApiService) {
         setInterval(() => this.save(), 30 * 1000);
-    }
-
-    ok(url: any[], params: any) {
-        this.router.navigate(url, { queryParams: params });
-        $("#navbar-toggle").click();
     }
 
     ngOnInit() {
         this.resize();
+    }
+
+    ngAfterViewInit() {
+        $(".navbar-collapse").on("click", "a", function () {
+            //画面サイズがxsなら
+            if (window.innerWidth < 768) {
+                $("#navbar-toggle").click();
+            }
+        });
     }
 
     login() {
