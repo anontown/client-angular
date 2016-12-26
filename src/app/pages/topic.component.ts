@@ -24,7 +24,7 @@ import { ResComponent } from '../components/res.component';
   selector: 'at-topic',
   template: `
     <div *ngIf="topic" class="container">
-      <div class="topic-tool">
+      <div [ngClass]="{'topic-tool':true,'topic-tool-open':isAutoScrollMenu||isWrite||isDetail}">
         <div class="pull-right">
           <button type="button" (click)="favo()" class="btn btn-default btn-sm" *ngIf="ud.isToken|async">
             <span [ngClass]="['glyphicon',isFavo?'glyphicon-star':'glyphicon-star-empty']"></span>
@@ -48,7 +48,7 @@ import { ResComponent } from '../components/res.component';
           </div>
         </div>
         <at-topic-data [topic]="topic" *ngIf="isDetail" (update)="topicUpdate($event)"></at-topic-data>
-        <at-res-write [topic]="topic" [reply]="null" *ngIf="(ud.isToken|async)&&isWrite" (write)="write()"></at-res-write>
+        <at-res-write [topic]="topic" [reply]="null" *ngIf="isWrite" (write)="write()"></at-res-write>
       </div>
       <button type="button" class="btn btn-default btn-sm" (click)="readNew()">最新</button><br>
       <div>
@@ -63,6 +63,9 @@ import { ResComponent } from '../components/res.component';
       width: 80vw;
       z-index: 999;
       right: 10vw;
+    }
+
+    .topic-tool-open{
       height:60vh;
       overflow: auto;
     }
