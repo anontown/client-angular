@@ -1,4 +1,11 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import {
+    Component,
+    Input,
+    Output,
+    EventEmitter,
+    NgZone,
+    OnInit
+} from '@angular/core';
 import {
     AtApiService,
     Res,
@@ -34,7 +41,7 @@ import { UserDataService } from '../services';
                 <div class="form-group">
                     <label>本文</label>
                     <button type="button" class="btn btn-default btn-xs" (click)="aa()">AA</button>
-                    <textarea [(ngModel)]="text" class="form-control" name="text"></textarea>
+                    <textarea controls [(ngModel)]="text" class="form-control" name="text" (keypress)="key($event)"></textarea>
                     <div [innerHTML]="text|md" class="well aa"></div>
                 </div>
                 <button type="submit" class="btn btn-default">書き込む</button>
@@ -46,7 +53,7 @@ import { UserDataService } from '../services';
     </div>
     `
 })
-export class ResWriteComponent {
+export class ResWriteComponent implements OnInit {
     private name = "";
     private text = "";
     private profile: string | null = null;;
@@ -54,8 +61,23 @@ export class ResWriteComponent {
     @Output()
     write = new EventEmitter<Res>();
 
+    ngOnInit() {
+
+    }
+
     constructor(private ud: UserDataService,
-        private api: AtApiService) {
+        private api: AtApiService,
+        private zone: NgZone) {
+    }
+
+    key(e: any) {
+        this.zone.runOutsideAngular(() => {
+            if (e.shiftKey && e.keyCode == 13) {
+                this.zone.run(() => {
+                    this.ok();
+                });
+            }
+        });
     }
 
     @Input()
