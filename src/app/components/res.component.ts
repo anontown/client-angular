@@ -36,8 +36,8 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
       </div>
     </template>
 
-    <div [ngClass]="{res:true,'res-self':isSelf}" style="margin:5px 0;">
-      <div>
+    <div [ngClass]="{'res':true,'res-pop':isPop}" style="margin:5px 0;">
+      <div [ngClass]="{'res-self':isSelf}">
         <a (click)="reply()" href="javascript:void(0);">{{res.name}}</a>
         <a *ngIf="res.profile!==null" (click)="profileOpen(profileModel)" href="javascript:void(0);">[プロフィール]</a>
         <span>{{res.date|date:"y/MM/dd(EEE) HH:mm:ss"}}</span>
@@ -70,16 +70,20 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
       </div>
       <at-res-write *ngIf="isReply&&(ud.isToken|async)" [topic]="res.topic" [reply]="res" (write)="write()"></at-res-write>
       <div *ngIf="children.length!==0">
-        <at-res *ngFor="let c of children" [res]="c" (update)="childrenUpdate($event)"></at-res>
+        <at-res *ngFor="let c of children" [res]="c" (update)="childrenUpdate($event)" [isPop]="true"></at-res>
       </div>
     </div>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: [`
     .res{
-      border:solid 1px #cccccc;
+      border:solid 1px #999999;
       border-radius: 5px;
       padding:3px;
+    }
+
+    .res-pop{
+      background-color: #ffffbb;
     }
 
     .res-self{
@@ -102,6 +106,9 @@ export class ResComponent implements OnInit {
   @Input()
   public res: Res;
   private children: Res[] = [];
+
+  @Input()
+  isPop: boolean = false;
 
   @Output()
   update = new EventEmitter<Res>();

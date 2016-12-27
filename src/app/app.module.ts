@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { AnontownModule } from 'anontown';
+import { AnontownModule,AtApiService } from 'anontown';
 import {
     MdPipe,
     MapPipe
@@ -36,7 +36,9 @@ import {
     UserNoticeComponent,
     UserProfileComponent
 } from './pages';
+import { Config } from './config';
 
+AtApiService.serverURL=Config.serverURL;
 @NgModule({
     imports: [
         AnontownModule,

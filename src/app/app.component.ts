@@ -5,8 +5,9 @@ import {
     ElementRef,
     OnInit
 } from '@angular/core';
-import { AtApiService, AtConfig } from 'anontown';
+import { AtApiService } from 'anontown';
 import { UserDataService } from './services';
+import { Config } from './config';
 var $ = require('jquery');
 
 @Component({
@@ -76,7 +77,7 @@ export class AppComponent implements OnInit {
     }
 
     login() {
-        location.href = AtConfig.userURL + "/auth?client=" + AtConfig.clientID;
+        location.href = Config.userURL + "/auth?client=" + Config.clientID;
     }
 
     logout() {

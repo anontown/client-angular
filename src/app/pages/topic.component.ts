@@ -13,8 +13,8 @@ import {
   Topic,
   AtApiService,
   Res,
-  AtConfig
 } from 'anontown';
+import { Config } from '../config';
 import { UserDataService } from '../services';
 
 import { ActivatedRoute, Params } from '@angular/router';
@@ -206,7 +206,7 @@ export class TopicComponent implements OnInit, OnDestroy {
 
 
     //自動更新
-    this.socket = socketio.connect(AtConfig.serverURL, { forceNew: true });
+    this.socket = socketio.connect(Config.serverURL, { forceNew: true });
     this.socket.emit("topic-join", this.topic.id);
     this.socket.on("topic", (msg: string) => {
       if (msg === this.topic.id) {

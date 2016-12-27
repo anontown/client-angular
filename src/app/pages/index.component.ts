@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AtApiService, } from 'anontown';
 import { UserDataService } from '../services';
-
+import { Config } from '../config';
 import { ActivatedRoute } from '@angular/router';
-import { AtConfig } from 'anontown';
 
 @Component({
   selector: 'at-index',
@@ -20,7 +19,7 @@ import { AtConfig } from 'anontown';
   `
 })
 export class IndexComponent implements OnInit {
-  userURL = AtConfig.userURL;
+  userURL = Config.userURL;
 
   constructor(private api: AtApiService,
     private route: ActivatedRoute,
