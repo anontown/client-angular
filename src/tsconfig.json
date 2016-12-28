@@ -18,7 +18,7 @@
       "../node_modules/@types"
     ],
     "skipLibCheck": true,
-    "strictNullChecks": true,
+    "strictNullChecks": false,
     "noImplicitAny": true,
     "allowSyntheticDefaultImports": true,
     "noImplicitReturns": true,

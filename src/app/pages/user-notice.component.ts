@@ -7,18 +7,7 @@ import { UserDataService } from '../services';
 
 @Component({
     selector: 'at-user-notice',
-    template: `
-        <div *ngIf="ud.isToken|async" class="container">
-            <button type="button" (click)="readNew()" class="btn btn-default">最新</button><br>
-            <div>
-                <at-res *ngFor="let r of reses" [res]="r" (update)="updateRes($event)"></at-res>
-            </div>
-            <button type="button" (click)="readOld()" class="btn btn-default">前</button><br>
-        </div>
-        <div *ngIf="ud.notToken|async" class="container">
-            ログインしてください。
-        </div>
-    `,
+    templateUrl: './user-notice.component.html'
 })
 export class UserNoticeComponent implements OnInit {
     private reses: Res[] = [];

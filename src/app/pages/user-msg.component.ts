@@ -7,20 +7,7 @@ import { UserDataService } from '../services';
 
 @Component({
     selector: 'at-user-msg',
-    template: `
-        <div *ngIf="ud.isToken|async" class="container">
-            <button type="button" (click)="readNew()" class="btn btn-default">最新</button><br>
-            <div class="panel-group">
-                <div *ngFor="let m of msgs" class="panel panel-default">
-                    <div class="panel-body" [innerHTML]="m.mdtext"></div>
-                </div>
-            </div>
-            <button type="button" (click)="readOld()" class="btn btn-default">前</button><br>
-        </div>
-        <div *ngIf="ud.notToken|async" class="container">
-            ログインしてください。
-        </div>
-    `,
+    templateUrl: './user-msg.component.html'
 })
 export class UserMsgComponent implements OnInit {
     private msgs: Msg[] = [];

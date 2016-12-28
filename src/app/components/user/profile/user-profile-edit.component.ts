@@ -8,36 +8,7 @@ import { UserDataService } from '../../../services';
 
 @Component({
     selector: 'at-user-profile-edit',
-    template: `
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <button type="button" class="btn-xs btn-default" (click)="edit()">
-                    <span class="glyphicon glyphicon-edit"></span>
-                </button>
-                <a [routerLink]="['/profile',profile.id]">
-                    ●{{profile.id}}
-                </a>
-            </div>
-            <div class="panel-body">
-                <form *ngIf="isEdit" (ngSubmit)="ok()">
-                    <div class="alert alert-danger" *ngIf="errorMsg!==null">
-                        <span class="glyphicon glyphicon-exclamation-sign"></span>
-                        {{errorMsg}}
-                    </div>
-                    <div class="form-group">
-                        <label>名前</label>
-                        <input type="text" class="form-control" [(ngModel)]="name" name="name">
-                    </div>
-                    <div class="form-group">
-                        <label>本文</label>
-                        <textarea class="form-control" [(ngModel)]="text" name="text"></textarea>
-                        <div [innerHTML]="text|md" class="well"></div>
-                    </div>
-                    <button type="submit" class="btn btn-default">OK</button>
-                </form>
-            </div>
-        </div>
-    `,
+    templateUrl: './user-profile-edit.component.html'
 })
 export class UserProfileEditComponent extends OnInit {
     @Input()

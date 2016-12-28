@@ -7,25 +7,7 @@ import { Topic } from 'anontown';
 
 @Component({
     selector: 'at-user-favo-topic',
-    template: `
-        <div *ngIf="ud.isToken|async" class="container">
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>タイトル</th>
-                    <tr>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let t of favo" (click)="linkClick(t.id)">
-                        <td>{{t.title}}</td>
-                    <tr>
-                </tbody>
-            </table>
-        </div>
-        <div *ngIf="ud.notToken|async" class="container">
-            ログインしないと表示出来ません。
-        </div>
-    `,
+    templateUrl: './user-favo.component.html'
 })
 export class UserFavoTopicComponent implements OnInit {
     private ud: UserDataService;

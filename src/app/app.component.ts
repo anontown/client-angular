@@ -12,46 +12,7 @@ var $ = require('jquery');
 
 @Component({
     selector: 'app-root',
-    template: `
-        <nav class="navbar navbar-default navbar-fixed-top" (window:resize)="resize()" #nav>
-            <div class="container">
-                <div class="navbar-header">
-                    <a [routerLink]="['/']" class="navbar-brand">Anontown</a>
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar" id="navbar-toggle">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                </div>
-                <div id="navbar" class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav">
-                        <li *ngIf="ud.isToken|async">
-                            <a [routerLink]="['/favo']">お気に入り</a>
-                        </li>
-                        <li>
-                            <a [routerLink]="['/topic/search']" [queryParams]="{title:'',category:''}">検索</a>
-                        </li>
-                        <li *ngIf="ud.isToken|async">
-                            <a [routerLink]="['/topic/write']">新規トピック</a>
-                        </li>
-                        <li *ngIf="ud.isToken|async">
-                            <a [routerLink]="['/user/notice']">通知</a>
-                        </li>
-                        <li *ngIf="ud.isToken|async">
-                            <a [routerLink]="['/user/profile']">プロフ管理</a>
-                        </li>
-                        <li *ngIf="ud.isToken|async">
-                            <a [routerLink]="['/user/msg']">お知らせ</a>
-                        </li>
-                    </ul>
-                    <button *ngIf="ud.notToken|async" type="button" (click)="login()" class="btn btn-default navbar-btn navbar-right">ログイン</button>
-                    <button *ngIf="ud.isToken|async" type="button" (click)="logout()" class="btn btn-default navbar-btn navbar-right">ログアウト</button>
-                </div>
-            </div>
-        </nav>
-        <template ngbModalContainer></template>
-        <router-outlet></router-outlet>
-    `
+    templateUrl:'./app.component.html'
 })
 export class AppComponent implements OnInit {
     @ViewChild('nav') nav: ElementRef;

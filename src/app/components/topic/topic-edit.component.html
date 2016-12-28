@@ -1,0 +1,19 @@
+<form (ngSubmit)="ok()">
+    <div class="alert alert-danger" *ngIf="errorMsg!==null">
+        <span class="glyphicon glyphicon-exclamation-sign"></span> {{errorMsg}}
+    </div>
+    <div class="form-group">
+        <label>タイトル</label>
+        <input type="text" class="form-control" [(ngModel)]="title" name="title">
+    </div>
+    <div class="form-group">
+        <label>カテゴリ</label>
+        <input type="text" class="form-control" [(ngModel)]="category" name="category">
+    </div>
+    <div class="form-group">
+        <label>本文</label>
+        <textarea class="form-control" [(ngModel)]="text" name="text"></textarea>
+        <div [innerHTML]="text|md" class="well"></div>
+    </div>
+    <button type="submit" class="btn btn-default">OK</button>
+</form>

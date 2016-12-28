@@ -8,41 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'at-topic-search',
-  template: `
-    <div class="container">
-      <form (ngSubmit)="search()">
-        <div class="form-group">
-          <label>カテゴリ</label>
-          <input type="text" class="form-control" [(ngModel)]="category" name="category">
-        </div>
-        <div class="form-group">
-          <label>スレタイ</label>
-          <input type="text" class="form-control" [(ngModel)]="title" name="title">
-        </div>
-        <button type="submit" class="btn btn-default">検索</button>
-      </form>
-      <hr>
-      <table class="table table-hover">
-        <thead>
-          <tr>
-            <th>タイトル</th>
-            <th>作成</th>
-            <th>更新</th>
-            <th>カテゴリ</th>
-          <tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let t of topics" (click)="linkClick(t)" style="cursor: pointer;">
-            <td>{{t.title}}</td>
-            <td>{{t.date|date:"y/MM/dd(EEE) HH:mm:ss"}}</td>
-            <td>{{t.update|date:"y/MM/dd(EEE) HH:mm:ss"}}</td>
-            <td>{{t.category}}</td>
-          </tr>
-        </tbody>
-      </table>
-      <button type="button" *ngIf="count===limit" (click)="more()">もっと</button>
-    </div>
-  `,
+  templateUrl: './topic-search.component.html'
 })
 export class TopicSearchComponent implements OnInit {
   private topics: Topic[] = [];

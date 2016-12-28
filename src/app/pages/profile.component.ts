@@ -5,23 +5,7 @@ import { UserDataService } from '../services'
 
 @Component({
   selector: 'at-profile',
-  template: `
-    <div *ngIf="profile" class="panel panel-default">
-      <div class="panel-body">
-        <dl class="dl-horizontal">
-          <dt>ID</dt>
-          <dd>{{profile.id}}</dd>
-          <dt>名前</dt>
-          <dd>{{profile.name}}</dd>
-          <dd>
-            <div class="panel panel-default">
-              <div [innerHTML]="profile.mdtext|md" class="panel-body"></div>
-            </div>
-          </dd>
-        </dl>
-      </div>
-    </div>
-  `,
+  templateUrl: './profile.component.html'
 })
 export class ProfileComponent implements OnInit {
   @Input()

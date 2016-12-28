@@ -1,0 +1,33 @@
+<div *ngIf="topic" class="container">
+    <div [ngClass]="{'topic-tool':true,'topic-tool-open':isAutoScrollMenu||isWrite||isDetail}">
+        <div class="pull-right">
+            <button type="button" (click)="favo()" class="btn btn-default btn-sm" *ngIf="ud.isToken|async">
+        <span [ngClass]="['glyphicon',isFavo?'glyphicon-star':'glyphicon-star-empty']"></span>
+      </button>
+            <button type="button" class="btn btn-default btn-sm" (click)="detail()">
+        <span [ngClass]="['glyphicon',isDetail?'glyphicon-chevron-up':'glyphicon-chevron-down']"></span>
+      </button>
+            <button type="button" class="btn btn-default btn-sm" *ngIf="ud.isToken|async" (click)="writeMenu()">
+        <span class="glyphicon glyphicon-edit"></span>
+      </button>
+            <button type="button" class="btn btn-default btn-sm" (click)="autoScrollMenu()">
+        <span class="glyphicon glyphicon-play-circle"></span>
+      </button>
+        </div>
+        <div *ngIf="isAutoScrollMenu" class="panel panel-default">
+            <div class="panel-body">
+                <button type="button" class="btn btn-default btn-sm" (click)="autoScroll()">
+          <span [ngClass]="['glyphicon',isAutoScroll?'glyphicon-stop':'glyphicon-play']"></span>
+        </button>
+                <input type="range" [(ngModel)]="autoScrollSpeed" max="50">
+            </div>
+        </div>
+        <at-topic-data [topic]="topic" *ngIf="isDetail" (update)="topicUpdate($event)"></at-topic-data>
+        <at-res-write [topic]="topic" [reply]="null" *ngIf="isWrite" (write)="write()"></at-res-write>
+    </div>
+    <button type="button" class="btn btn-default btn-sm" (click)="readNew()">最新</button><br>
+    <div>
+        <at-res #resE *ngFor="let r of reses" [res]="r" (update)="updateRes($event)"></at-res>
+    </div>
+    <button type="button" class="btn btn-default btn-sm" (click)="readOld()">前</button><br>
+</div>
