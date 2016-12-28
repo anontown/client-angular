@@ -4,7 +4,8 @@ import {
   ViewChildren,
   QueryList,
   OnDestroy,
-  NgZone
+  NgZone,
+  AfterViewChecked
 } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import * as socketio from 'socket.io-client';
@@ -25,7 +26,7 @@ import { ResComponent } from '../components/res.component';
   templateUrl: './topic.component.html',
   styleUrls: ['./topic.component.scss']
 })
-export class TopicComponent implements OnInit, OnDestroy {
+export class TopicComponent implements OnInit, OnDestroy, AfterViewChecked {
   topic: Topic;
 
   @ViewChildren('resE') resE: QueryList<ResComponent>;
@@ -113,14 +114,22 @@ export class TopicComponent implements OnInit, OnDestroy {
 
   private socket: SocketIOClient.Socket;
   private scrollObs: Subscription;
-  async ngOnInit() {
-    if (!this.topic) {
-      let id: string = "";
-      this.route.params.forEach((params: Params) => {
-        id = params["id"];
-      });
-      this.topic = await this.api.findTopicOne({ id });
+
+  //次のビュー更新で最新レスを読み込むか
+  private isReadNew = false;
+  ngAfterViewChecked() {
+    if (this.isReadNew) {
+      this.readNew();
+      this.isReadNew = false;
     }
+  }
+
+  async ngOnInit() {
+    let id: string = "";
+    this.route.params.forEach((params: Params) => {
+      id = params["id"];
+    });
+    this.topic = await this.api.findTopicOne({ id });
 
     if (await this.ud.isToken) {
       this.isFavo = (await this.ud.storage).isFavo(this.topic);
@@ -138,6 +147,7 @@ export class TopicComponent implements OnInit, OnDestroy {
             limit: this.limit
           });
       });
+      this.isReadNew = true;
     } else {
       //読んだことないなら最新レス
       await this.findNew();
@@ -240,26 +250,27 @@ export class TopicComponent implements OnInit, OnDestroy {
   }
 
   async scroll() {
-    //最短距離のレスID
-    var res: Res;
-    {
-      let getTop = (rc: ResComponent) => rc.elementRef.nativeElement.getBoundingClientRect().top as number;
-      //最短
-      let rc: ResComponent | null = null;
-      this.resE.forEach(x => {
-        if (rc === null) {
-          rc = x;
-        } else if (Math.abs(getTop(rc)) > Math.abs(getTop(x))) {
-          rc = x;
-        }
-      });
-      if (rc === null) {
-        return;
-      }
-      res = (rc as ResComponent).res;
-    }
-    //セット
     if (await this.ud.isToken) {
+      //最短距離のレスID
+      var res: Res;
+      {
+        let getTop = (rc: ResComponent) => rc.elementRef.nativeElement.getBoundingClientRect().top as number;
+        //最短
+        let rc: ResComponent | null = null;
+        this.resE.forEach(x => {
+          if (rc === null) {
+            rc = x;
+          } else if (Math.abs(getTop(rc)) > Math.abs(getTop(x))) {
+            rc = x;
+          }
+        });
+        if (rc === null) {
+          return;
+        }
+        res = (rc as ResComponent).res;
+      }
+
+      //セット
       if ((await this.ud.storage).isRead(this.topic)) {
         let val = ((await this.ud.storage).topicRead.find(x => x.topic.id === this.topic.id) as { topic: Topic, res: Res });
         val.res = res;

@@ -20,7 +20,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'at-res',
-  templateUrl: './res-write.component.html',
+  templateUrl: './res.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./res.component.scss']
 })
