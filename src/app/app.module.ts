@@ -11,6 +11,7 @@ import {
 import {
     UserDataService,
 } from './services';
+import 'hammerjs';
 
 import { RouterModule } from '@angular/router';
 import {
