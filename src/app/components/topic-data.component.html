@@ -8,7 +8,7 @@
                 <dt>更新</dt>
                 <dd>{{topic.update|date:"y/MM/dd(EEE) HH:mm:ss"}}</dd>
                 <dt>カテゴリ</dt>
-                <dd><a [routerLink]="['/topic/search']" [queryParams]="{title:'',category:topic.category}">{{topic.category}}</a></dd>
+                <dd><a [routerLink]="['/topic/search']" [queryParams]="{title:'',category:topic.category.join('/')}">{{topic.category.join('/')}}</a></dd>
                 <dt>本文</dt>
                 <dd>
                     <div class="panel panel-default">

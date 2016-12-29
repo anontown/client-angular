@@ -2,21 +2,20 @@
   <div class="panel-heading">
     <button type="button" class="btn btn-default" (click)="detail()">
       <span [ngClass]="['glyphicon',isDetail?'glyphicon-chevron-up':'glyphicon-chevron-down']"></span>
-    </button>
-    {{history.date|date:"y/MM/dd(EEE) HH:mm:ss"}} 
+    </button> {{history.date|date:"y/MM/dd(EEE) HH:mm:ss"}}
     <a href="javascript:void(0);" (click)="hashClick()">HASH:{{history.hash}}</a>
   </div>
   <div class="panel-body">
-    <dl *ngIf="isDetail"  class="dl-horizontal">
+    <dl *ngIf="isDetail" class="dl-horizontal">
       <dt>タイトル</dt>
       <dd>{{history.title}}</dd>
       <dt>カテゴリ</dt>
-      <dd><a [routerLink]="['/topic/search']" [queryParams]="{title:'',category:history.category}">{{history.category}}</a></dd>
+      <dd><a [routerLink]="['/topic/search']" [queryParams]="{title:'',category:history.category.join('/')}">{{history.category.join('/')}}</a></dd>
       <dt>本文</dt>
       <dd>
-          <div class="panel panel-default">
-              <div [innerHTML]="history.mdtext" class="panel-body"></div>
-          </div>
+        <div class="panel panel-default">
+          <div [innerHTML]="history.mdtext" class="panel-body"></div>
+        </div>
       </dd>
     </dl>
     <div *ngIf="hashReses.length!==0">
