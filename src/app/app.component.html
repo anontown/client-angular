@@ -1,37 +1,43 @@
-<nav class="navbar navbar-default navbar-fixed-top">
-    <div class="container">
-        <div class="navbar-header">
-            <a [routerLink]="['/']" class="navbar-brand">Anontown</a>
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar" id="navbar-toggle">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                <li *ngIf="ud.isToken|async">
-                    <a [routerLink]="['/favo']">お気に入り</a>
-                </li>
-                <li>
-                    <a [routerLink]="['/topic/search']" [queryParams]="{title:'',category:''}">検索</a>
-                </li>
-                <li *ngIf="ud.isToken|async">
-                    <a [routerLink]="['/topic/write']">新規トピック</a>
-                </li>
-                <li *ngIf="ud.isToken|async">
-                    <a [routerLink]="['/user/notice']">通知</a>
-                </li>
-                <li *ngIf="ud.isToken|async">
-                    <a [routerLink]="['/user/profile']">プロフ管理</a>
-                </li>
-                <li *ngIf="ud.isToken|async">
-                    <a [routerLink]="['/user/msg']">お知らせ</a>
-                </li>
-            </ul>
-            <button *ngIf="ud.notToken|async" type="button" (click)="login()" class="btn btn-default navbar-btn navbar-right">ログイン</button>
-            <button *ngIf="ud.isToken|async" type="button" (click)="logout()" class="btn btn-default navbar-btn navbar-right">ログアウト</button>
-        </div>
-    </div>
-</nav>
-<router-outlet></router-outlet>
+<md-sidenav-layout>
+  <md-sidenav #sidenav mode="side">
+    <md-nav-list>
+      <md-list-item *ngIf="ud.isToken|async">
+        <a [routerLink]="['/favo']">お気に入り</a>
+      </md-list-item>
+      <md-list-item>
+        <a [routerLink]="['/topic/search']" [queryParams]="{title:'',category:''}">検索</a>
+      </md-list-item>
+      <md-list-item *ngIf="ud.isToken|async">
+        <a [routerLink]="['/topic/write']">新規トピック</a>
+      </md-list-item>
+      <md-list-item *ngIf="ud.isToken|async">
+        <a [routerLink]="['/user/notice']">通知</a>
+      </md-list-item>
+      <md-list-item *ngIf="ud.isToken|async">
+        <a [routerLink]="['/user/profile']">プロフ管理</a>
+      </md-list-item>
+      <md-list-item *ngIf="ud.isToken|async">
+        <a [routerLink]="['/user/msg']">お知らせ</a>
+      </md-list-item>
+    </md-nav-list>
+  </md-sidenav>
+
+  <md-toolbar>
+    <button (click)="sidenav.toggle()" class="toggle-button">
+      <i class="material-icons app-toolbar-menu">menu</i>
+    </button>
+    <button type="button" md-button [routerLink]="['/']">
+      <span>Anontown</span>
+    </button>
+    <button *ngIf="ud.notToken|async" type="button" (click)="login()">
+      ログイン
+    </button>
+    <button *ngIf="ud.isToken|async" type="button" (click)="logout()">
+      ログアウト
+    </button>
+  </md-toolbar>
+
+  <div class="content">
+    <router-outlet></router-outlet>
+  </div>
+</md-sidenav-layout>
