@@ -32,6 +32,13 @@ export class TopicSearchComponent implements OnInit {
     this.router.navigate(["/topic/search"], { queryParams: { title: this.title, category: this.category } });
   }
 
+  update() {
+    this.topics = [];
+    this.page = 0;
+    this.count = 0;
+    this.more();
+  }
+
   async more() {
     let t = await this.api.findTopic({
       title: this.title,
