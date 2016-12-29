@@ -5,6 +5,7 @@ import {
 } from 'anontown';
 
 import { ActivatedRoute, Router } from '@angular/router';
+import { UserDataService, Storage } from '../services';
 
 @Component({
   selector: 'at-topic-search',
@@ -23,7 +24,8 @@ export class TopicSearchComponent implements OnInit {
 
   constructor(private api: AtApiService,
     private route: ActivatedRoute,
-    private router: Router) {
+    private router: Router,
+    public ud: UserDataService) {
 
   }
 
@@ -50,8 +52,22 @@ export class TopicSearchComponent implements OnInit {
     this.topics = this.topics.concat(t);
     this.page++;
   }
+  getNewRes(topic: Topic): number {
+    if (this.storage) {
+      let topicRead = this.storage.topicRead.find(x => x.topic.id === topic.id);
+      if (topicRead !== undefined) {
+        return topic.resCount - topicRead.count;
+      } else {
+        return undefined;
+      }
+    } else {
+      return undefined;
+    }
+  }
 
-  ngOnInit() {
+  private storage: Storage;
+
+  async ngOnInit() {
     this.route.queryParams.forEach((params) => {
       this.title = params["title"];
       this.category = params["category"];
@@ -60,6 +76,11 @@ export class TopicSearchComponent implements OnInit {
       this.count = 0;
       this.more();
     });
+    if (await this.ud.isToken) {
+      this.storage = await this.ud.storage;
+    } else {
+      this.storage = null;
+    }
   }
 
   linkClick(topic: Topic) {

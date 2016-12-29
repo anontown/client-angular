@@ -61,6 +61,8 @@ export class TopicComponent implements OnInit, OnDestroy, AfterViewChecked {
         this.isLock = false;
         throw e;
       });
+    //レス数が変わっているはずなので更新
+    this.topic = await this.api.findTopicOne({ id: this.topic.id });
     this.isLock = false;
   }
 
@@ -272,10 +274,11 @@ export class TopicComponent implements OnInit, OnDestroy, AfterViewChecked {
 
       //セット
       if ((await this.ud.storage).isRead(this.topic)) {
-        let val = ((await this.ud.storage).topicRead.find(x => x.topic.id === this.topic.id) as { topic: Topic, res: Res });
+        let val = ((await this.ud.storage).topicRead.find(x => x.topic.id === this.topic.id));
         val.res = res;
+        val.count = this.topic.resCount;
       } else {
-        (await this.ud.storage).topicRead.push({ topic: this.topic, res: res });
+        (await this.ud.storage).topicRead.push({ topic: this.topic, res: res, count: this.topic.resCount });
       }
     }
   }

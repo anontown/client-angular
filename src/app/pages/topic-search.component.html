@@ -17,18 +17,22 @@
   <table class="table table-hover">
     <thead>
       <tr>
+        <th *ngIf="ud.isToken">新着</th>
         <th>タイトル</th>
         <th>作成</th>
         <th>更新</th>
         <th>カテゴリ</th>
+        <th>レス数</th>
         <tr>
     </thead>
     <tbody>
       <tr *ngFor="let t of topics" (click)="linkClick(t)" style="cursor: pointer;">
+<td *ngIf="ud.isToken">{{getNewRes(t)}}</td>
 <td>{{t.title}}</td>
 <td>{{t.date|date:"y/MM/dd(EEE) HH:mm:ss"}}</td>
 <td>{{t.update|date:"y/MM/dd(EEE) HH:mm:ss"}}</td>
 <td>{{t.category.join('/')}}</td>
+<td>{{t.resCount}}</td>
 </tr>
 </tbody>
 </table>
