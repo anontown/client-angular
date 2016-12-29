@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { AnontownModule,AtApiService } from 'anontown';
+import { MaterialModule } from '@angular/material';
+import { AnontownModule, AtApiService } from 'anontown';
 import {
     MdPipe,
     MapPipe
@@ -22,13 +22,13 @@ import {
     ResComponent,
     TopicDataComponent,
     TopicEditComponent,
+    ProfileComponent,
 } from './components';
 
 import { AppComponent } from './app.component';
 
 import {
     IndexComponent,
-    ProfileComponent,
     TopicComponent,
     TopicSearchComponent,
     TopicWriteComponent,
@@ -39,23 +39,19 @@ import {
 } from './pages';
 import { Config } from './config';
 
-AtApiService.serverURL=Config.serverURL;
+AtApiService.serverURL = Config.serverURL;
 @NgModule({
     imports: [
         AnontownModule,
         BrowserModule,
         FormsModule,
         HttpModule,
-        NgbModule.forRoot(),
+        MaterialModule.forRoot(),
         ReactiveFormsModule,
         RouterModule.forRoot([
             {
                 path: '',
                 component: IndexComponent
-            },
-            {
-                path: 'profile/:id',
-                component: ProfileComponent
             },
             {
                 path: 'topic/search',
@@ -114,6 +110,10 @@ AtApiService.serverURL=Config.serverURL;
     bootstrap: [AppComponent],
     providers: [
         UserDataService
+    ],
+    entryComponents: [
+        //モーダルで使うコンポーネント
+        ProfileComponent
     ]
 
 })

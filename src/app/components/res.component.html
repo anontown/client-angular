@@ -1,22 +1,7 @@
-<template #profileModel let-c="close">
-    <div class="modal-header">
-        <button type="button" class="close" aria-label="Close" (click)="c()">
-      <span aria-hidden="true">&times;</span>
-    </button>
-        <h4 class="modal-title">プロフィール</h4>
-    </div>
-    <div class="modal-body">
-        <at-profile *ngIf="profile!==null" [profile]="profile"></at-profile>
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" (click)="c()">Close</button>
-    </div>
-</template>
-
 <div [ngClass]="{'res':true,'res-pop':isPop}" style="margin:5px 0;">
 <div [ngClass]="{'res-self':isSelf}">
     <a (click)="reply()" href="javascript:void(0);">{{res.name}}</a>
-    <a *ngIf="res.profile!==null" (click)="profileOpen(profileModel)" href="javascript:void(0);">[プロフィール]</a>
+    <a *ngIf="res.profile!==null" (click)="profileOpen()" href="javascript:void(0);">[プロフィール]</a>
     <span>{{res.date|date:"y/MM/dd(EEE) HH:mm:ss"}}</span>
     <a href="javascript:void(0);" (click)="hashClick()">HASH:{{res.hash}}</a>
 </div>

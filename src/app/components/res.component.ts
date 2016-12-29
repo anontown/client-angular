@@ -11,12 +11,13 @@ import {
 
 import {
   AtApiService,
-  Profile,
   Res
 } from 'anontown';
 
 import { UserDataService } from '../services';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { MdDialog } from '@angular/material';
+
+import { ProfileComponent } from './profile.component';
 
 @Component({
   selector: 'at-res',
@@ -39,7 +40,7 @@ export class ResComponent implements OnInit {
 
   constructor(private ud: UserDataService,
     private api: AtApiService,
-    private modal: NgbModal,
+    private dialog: MdDialog,
     public elementRef: ElementRef,
     private cd: ChangeDetectorRef) {
   }
@@ -119,18 +120,9 @@ export class ResComponent implements OnInit {
     this.cd.markForCheck();
   }
 
-  //モーダル
-  profile: Profile | null = null;
-
-  async profileOpen(profileModal: any) {
-    this.profile = await this.api.findProfileOne(await this.ud.authOrNull, {
+  async profileOpen() {
+    this.dialog.open(ProfileComponent).componentInstance.profile = await this.api.findProfileOne(await this.ud.authOrNull, {
       id: this.res.profile as string
     });
-    this.cd.markForCheck();
-    await this.modal.open(profileModal, {
-      backdrop: "static",
-      keyboard: false
-    }).result;
-    //クローズ時の処理があるなら以下に書く
   }
 }

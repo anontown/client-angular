@@ -47,7 +47,7 @@ export class TopicComponent implements OnInit, OnDestroy, AfterViewChecked {
     private zone: NgZone) {
   }
 
-  private intervalID: NodeJS.Timer;
+  private intervalID: any;
 
   //他のレスを取得している間はロック
   private isLock = false;

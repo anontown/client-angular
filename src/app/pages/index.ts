@@ -1,5 +1,4 @@
 export * from './index.component';
-export * from './profile.component';
 export * from './topic.component';
 export * from './topic-search.component';
 export * from './topic-write.component';

@@ -3,9 +3,9 @@
         <button type="button" class="btn-xs btn-default" (click)="edit()">
             <span class="glyphicon glyphicon-edit"></span>
         </button>
-        <a [routerLink]="['/profile',profile.id]">
+        <span>
             ●{{profile.id}}
-        </a>
+        </span>
     </div>
     <div class="panel-body">
         <form *ngIf="isEdit" (ngSubmit)="ok()">
