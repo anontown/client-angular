@@ -155,6 +155,15 @@ export class TopicComponent implements OnInit, OnDestroy, AfterViewChecked {
       await this.findNew();
     }
 
+    let readTopic = (await this.ud.storage).topicRead.find(x => x.topic.id === this.topic.id);
+    if (readTopic !== undefined) {
+      readTopic.count = this.topic.resCount;
+    } else {
+      if (this.reses[0] !== undefined) {
+        (await this.ud.storage).topicRead.push({ topic: this.topic, res: this.reses[0], count: this.topic.resCount });
+      }
+    }
+
     this.zone.runOutsideAngular(() => {
       this.intervalID = setInterval(() => {
         if (this.isAutoScroll) {

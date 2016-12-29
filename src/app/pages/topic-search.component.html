@@ -17,7 +17,7 @@
   <table class="table table-hover">
     <thead>
       <tr>
-        <th *ngIf="ud.isToken">新着</th>
+        <th *ngIf="ud.isToken|async">新着</th>
         <th>タイトル</th>
         <th>作成</th>
         <th>更新</th>
@@ -27,7 +27,7 @@
     </thead>
     <tbody>
       <tr *ngFor="let t of topics" (click)="linkClick(t)" style="cursor: pointer;">
-<td *ngIf="ud.isToken">{{getNewRes(t)}}</td>
+<td *ngIf="ud.isToken|async">{{getNewRes(t)}}</td>
 <td>{{t.title}}</td>
 <td>{{t.date|date:"y/MM/dd(EEE) HH:mm:ss"}}</td>
 <td>{{t.update|date:"y/MM/dd(EEE) HH:mm:ss"}}</td>
