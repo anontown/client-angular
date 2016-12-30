@@ -1,27 +1,24 @@
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <button type="button" md-button (click)="edit()">
-            <md-icon>edit</md-icon>
-        </button>
-        <span>
-            ●{{profile.id}}
-        </span>
+<md-card>
+  <md-card-title>●{{profile.id}}</md-card-title>
+  <md-card-actions>
+    <button md-raised-button (click)="edit()">
+      <md-icon>edit</md-icon>
+    </button>
+  </md-card-actions>
+
+  <form *ngIf="isEdit" (ngSubmit)="ok()">
+    <div *ngIf="errorMsg!==null">
+      <md-icon>error</md-icon> {{errorMsg}}
     </div>
-    <div class="panel-body">
-        <form *ngIf="isEdit" (ngSubmit)="ok()">
-            <div class="alert alert-danger" *ngIf="errorMsg!==null">
-                <md-icon>error</md-icon> {{errorMsg}}
-            </div>
-            <div class="form-group">
-                <label>名前</label>
-                <input type="text" class="form-control" [(ngModel)]="name" name="name">
-            </div>
-            <div class="form-group">
-                <label>本文</label>
-                <textarea class="form-control" [(ngModel)]="text" name="text"></textarea>
-                <div [innerHTML]="text|md" class="well"></div>
-            </div>
-            <button type="submit" md-button>OK</button>
-        </form>
+    <div>
+      <md-input-container>
+        <input md-input placeholder="名前" [(ngModel)]="name" name="name">
+      </md-input-container>
     </div>
-</div>
+    <md-textarea [(ngModel)]="text" name="text"></md-textarea>
+    <div [innerHTML]="text|md" class="well"></div>
+    <div>
+      <button type="submit" md-button>OK</button>
+    </div>
+  </form>
+</md-card>

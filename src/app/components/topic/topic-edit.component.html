@@ -6,11 +6,15 @@
     <md-input-container>
       <input md-input placeholder="タイトル" [(ngModel)]="title" name="title">
     </md-input-container>
+  </div>
+  <div>
     <md-input-container>
       <input md-input placeholder="カテゴリ" [(ngModel)]="category" name="category">
     </md-input-container>
   </div>
   <md-textarea [(ngModel)]="text" name="text"></md-textarea>
   <div [innerHTML]="text|md"></div>
-  <button type="submit" md-button>OK</button>
+  <div>
+    <button type="submit" md-raised-button>OK</button>
+  </div>
 </form>

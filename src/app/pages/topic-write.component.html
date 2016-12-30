@@ -1,24 +1,25 @@
-<md-card *ngIf="ud.isToken|async" class="container">
-    <form (ngSubmit)="write()">
-        <div class="alert alert-danger" *ngIf="errorMsg!==null">
-            <md-icon>error</md-icon> {{errorMsg}}
-        </div>
-        <div class="form-group">
-            <label>タイトル</label>
-            <input type="text" class="form-control" [(ngModel)]="title" name="title">
-        </div>
-        <div class="form-group">
-            <label>カテゴリ</label>
-            <input type="text" class="form-control" [(ngModel)]="category" name="category">
-        </div>
-        <div class="form-group">
-            <label>本文</label>
-            <textarea class="form-control" [(ngModel)]="text" name="text"></textarea>
-            <div [innerHTML]="text|md" class="well"></div>
-        </div>
-        <button type="submit" md-button>書き込む</button>
-    </form>
+<md-card *ngIf="ud.isToken|async">
+  <form (ngSubmit)="write()">
+    <div *ngIf="errorMsg!==null">
+      <md-icon>error</md-icon> {{errorMsg}}
+    </div>
+    <div>
+      <md-input-container>
+        <input md-input placeholder="タイトル" [(ngModel)]="title" name="title">
+      </md-input-container>
+    </div>
+    <div>
+      <md-input-container>
+        <input md-input placeholder="カテゴリ" [(ngModel)]="category" name="category">
+      </md-input-container>
+    </div>
+    <md-textarea [(ngModel)]="text" name="text"></md-textarea>
+    <div [innerHTML]="text|md"></div>
+    <div>
+      <button type="submit" md-raised-button>書き込む</button>
+    </div>
+  </form>
 </md-card>
-<md-card *ngIf="ud.notToken|async" class="container">
-    ログインしないと書き込めません
+<md-card *ngIf="ud.notToken|async">
+  ログインしないと書き込めません
 </md-card>

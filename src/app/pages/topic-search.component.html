@@ -1,21 +1,31 @@
 <md-card>
   <form (ngSubmit)="search()">
-    <div class="form-group">
-      <label>カテゴリ</label>
-      <input type="text" class="form-control" [(ngModel)]="category" name="category">
+    <div>
+      <md-input-container>
+        <input md-input placeholder="カテゴリ" [(ngModel)]="category" name="category">
+      </md-input-container>
     </div>
-    <div class="form-group">
-      <label>スレタイ</label>
-      <input type="text" class="form-control" [(ngModel)]="title" name="title">
+    <div>
+      <md-input-container>
+        <input md-input placeholder="タイトル" [(ngModel)]="title" name="title">
+      </md-input-container>
     </div>
-    <button type="submit" md-raised-button>検索</button>
+    <div>
+      <button type="submit" md-raised-button>検索</button>
+    </div>
   </form>
-  <button md-button [routerLink]="['/topic/write']" *ngIf="ud.isToken|async">
-  <md-icon>edit</md-icon>
+</md-card>
+<div>
+  <button md-raised-button [routerLink]="['/topic/write']" *ngIf="ud.isToken|async">
+    <md-icon>edit</md-icon>
   </button>
   <button md-raised-button (click)="update()">
     <md-icon>refresh</md-icon>
   </button>
-</md-card>
-<at-topic-list-item *ngFor="let t of topics" [topic]="t"></at-topic-list-item>
-<button *ngIf="count===limit" (click)="more()" md-raised-button>もっと</button>
+</div>
+<div>
+  <at-topic-list-item *ngFor="let t of topics" [topic]="t"></at-topic-list-item>
+</div>
+<div *ngIf="count===limit">
+  <button (click)="more()" md-raised-button>もっと</button>
+</div>
