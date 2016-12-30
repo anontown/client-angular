@@ -1,37 +1,37 @@
 <div [ngClass]="{'res':true,'res-pop':isPop}" style="margin:5px 0;">
 <div [ngClass]="{'res-self':isSelf}">
-    <a (click)="reply()" href="javascript:void(0);">{{res.name}}</a>
-    <a *ngIf="res.profile!==null" (click)="profileOpen()" href="javascript:void(0);">[プロフィール]</a>
-    <span>{{res.date|date:"y/MM/dd(EEE) HH:mm:ss"}}</span>
-    <a href="javascript:void(0);" (click)="hashClick()">HASH:{{res.hash}}</a>
+  <a (click)="reply()" href="javascript:void(0);">{{res.name}}</a>
+  <a *ngIf="res.profile!==null" (click)="profileOpen()" href="javascript:void(0);">[プロフィール]</a>
+  <span>{{res.date|date:"y/MM/dd(EEE) HH:mm:ss"}}</span>
+  <a href="javascript:void(0);" (click)="hashClick()">HASH:{{res.hash}}</a>
 </div>
-<button *ngIf="res.reply!==null" type="button" (click)="sendReplyClick()" class="res-button">
-      <span class="glyphicon glyphicon-send"></span>
+<button *ngIf="res.reply!==null" type="button" (click)="sendReplyClick()" md-button>
+    <md-icon>send</md-icon>
   </button>
-<button type="button" (click)="receiveReplyClick()" *ngIf="res.replyCount!==0" class="res-button">
-      <span class="glyphicon glyphicon-arrow-right"></span>
-      {{res.replyCount}}
+<button type="button" (click)="receiveReplyClick()" *ngIf="res.replyCount!==0" md-button>
+    <md-icon>reply</md-icon>
+    {{res.replyCount}}
   </button>
 <div [innerHTML]="res.mdtext" class="aa"></div>
 <div class="res-footer">
-    <span *ngIf="!isSelf&&(ud.isToken|async)&&!res.isVote">
-      <button type="button" (click)="uv()" class="res-button">
-        <span class="glyphicon glyphicon-thumbs-up"></span>
+  <span *ngIf="!isSelf&&(ud.isToken|async)&&!res.isVote">
+    <button type="button" (click)="uv()" md-button>
+      <md-icon>thumb_up</md-icon>
     </button>
-    <span style="padding:0px 4px;"> {{res.vote}}</span>
-<button type="button" (click)="dv()" class="res-button">
-        <span class="glyphicon glyphicon-thumbs-down"></span>
-      </button>
+  <span style="padding:0px 4px;"> {{res.vote}}</span>
+<button type="button" (click)="dv()" md-button>
+    <md-icon>thumb_down</md-icon>
+  </button>
 </span>
 <span *ngIf="isSelf||!(ud.isToken|async)||res.isVote">
-      <span class="glyphicon glyphicon-hand-right" style="padding-right:4px;"></span>{{res.vote}}
-</span>
-<button type="button" *ngIf="isSelf&&res.deleteFlag==='active'" (click)="del()" class="res-button">
-      <span class="glyphicon glyphicon-remove"></span>
-    </button>
+    <md-icon>thumbs_up_down</md-icon>{{res.vote}}
+  </span>
+<button type="button" *ngIf="isSelf&&res.deleteFlag==='active'" (click)="del()" md-button>
+    <md-icon>delete</md-icon>
+  </button>
 </div>
 <at-res-write *ngIf="isReply&&(ud.isToken|async)" [topic]="res.topic" [reply]="res" (write)="write()"></at-res-write>
 <div *ngIf="children.length!==0">
-    <at-res *ngFor="let c of children" [res]="c" (update)="childrenUpdate($event)" [isPop]="true"></at-res>
+  <at-res *ngFor="let c of children" [res]="c" (update)="childrenUpdate($event)" [isPop]="true"></at-res>
 </div>
 </div>

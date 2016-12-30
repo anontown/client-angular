@@ -1,4 +1,4 @@
-<div *ngIf="ud.isToken|async" class="container">
+<md-card *ngIf="ud.isToken|async" class="container">
     <table class="table table-hover">
         <thead>
             <tr>
@@ -11,7 +11,7 @@
                 <tr>
         </tbody>
     </table>
-</div>
-<div *ngIf="ud.notToken|async" class="container">
+</md-card>
+<md-card *ngIf="ud.notToken|async" class="container">
     ログインしないと表示出来ません。
-</div>
+</md-card>

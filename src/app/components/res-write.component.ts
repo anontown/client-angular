@@ -17,7 +17,7 @@ import { UserDataService } from '../services';
 
 @Component({
     selector: 'at-res-write',
-    templateUrl:'./res-write.component.html'
+    templateUrl: './res-write.component.html'
 })
 export class ResWriteComponent implements OnInit {
     private name = "";
@@ -47,10 +47,10 @@ export class ResWriteComponent implements OnInit {
     }
 
     @Input()
-    private topic: Topic | string;
+    topic: Topic | string;
 
     @Input()
-    private reply: Res | null = null;
+    reply: Res | null = null;
 
     ok() {
         (async () => {

@@ -1,25 +1,23 @@
-<div class="panel panel-default">
-  <div class="panel-heading">
-    <button type="button" class="btn btn-default" (click)="detail()">
-      <span [ngClass]="['glyphicon',isDetail?'glyphicon-chevron-up':'glyphicon-chevron-down']"></span>
+<div>
+  <div>
+    <button type="button" md-button (click)="detail()">
+      <md-icon>{{isDetail?'arrow_drop_up':'arrow_drop_down'}}</md-icon>
     </button> {{history.date|date:"y/MM/dd(EEE) HH:mm:ss"}}
     <a href="javascript:void(0);" (click)="hashClick()">HASH:{{history.hash}}</a>
   </div>
-  <div class="panel-body">
-    <dl *ngIf="isDetail" class="dl-horizontal">
-      <dt>タイトル</dt>
-      <dd>{{history.title}}</dd>
-      <dt>カテゴリ</dt>
-      <dd><a [routerLink]="['/topic/search']" [queryParams]="{title:'',category:history.category.join('/')}">{{history.category.join('/')}}</a></dd>
-      <dt>本文</dt>
-      <dd>
-        <div class="panel panel-default">
-          <div [innerHTML]="history.mdtext" class="panel-body"></div>
-        </div>
-      </dd>
-    </dl>
-    <div *ngIf="hashReses.length!==0">
-      <at-res *ngFor="let r of hashReses" [res]="r" (update)="updateRes($event)"></at-res>
-    </div>
+  <dl *ngIf="isDetail" class="dl-horizontal">
+    <dt>タイトル</dt>
+    <dd>{{history.title}}</dd>
+    <dt>カテゴリ</dt>
+    <dd><a [routerLink]="['/topic/search']" [queryParams]="{title:'',category:history.category.join('/')}">{{history.category.join('/')}}</a></dd>
+    <dt>本文</dt>
+    <dd>
+      <div class="panel panel-default">
+        <div [innerHTML]="history.mdtext" class="panel-body"></div>
+      </div>
+    </dd>
+  </dl>
+  <div *ngIf="hashReses.length!==0">
+    <at-res *ngFor="let r of hashReses" [res]="r" (update)="updateRes($event)"></at-res>
   </div>
 </div>

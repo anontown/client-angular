@@ -1,11 +1,22 @@
-.topic-tool{
-    position:fixed;
+.topic-tool {
+    position: fixed;
     width: 80vw;
     z-index: 999;
     right: 10vw;
 }
 
-.topic-tool-open{
-    height:60vh;
+.topic-tool-open {
+    height: 60vh;
     overflow: auto;
+}
+
+.tool-button {
+    display: inline-block;
+    right: 0px;
+}
+
+.fab-main {
+    position: absolute;
+    bottom: 30px;
+    right: 60px;
 }

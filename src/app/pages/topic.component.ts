@@ -9,7 +9,8 @@ import {
 } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import * as socketio from 'socket.io-client';
-
+import { MdDialog } from '@angular/material';
+import { ResWriteComponent } from '../components/res-write.component';
 import {
   Topic,
   AtApiService,
@@ -44,7 +45,8 @@ export class TopicComponent implements OnInit, OnDestroy, AfterViewChecked {
     private ud: UserDataService,
     private api: AtApiService,
     private route: ActivatedRoute,
-    private zone: NgZone) {
+    private zone: NgZone,
+    private dialog: MdDialog) {
   }
 
   private intervalID: any;
@@ -74,18 +76,18 @@ export class TopicComponent implements OnInit, OnDestroy, AfterViewChecked {
   autoScrollMenu() {
     this.isAutoScrollMenu = !this.isAutoScrollMenu;
     if (this.isAutoScrollMenu) {
-      this.isWrite = false;
       this.isDetail = false;
     }
   }
 
-  private isWrite = false;
   writeMenu() {
-    this.isWrite = !this.isWrite;
-    if (this.isWrite) {
-      this.isAutoScrollMenu = false;
-      this.isDetail = false;
-    }
+    let dialog = this.dialog.open(ResWriteComponent);
+    let com = dialog.componentInstance;
+    com.topic = this.topic;
+    com.reply = null;
+    com.write.subscribe(() => {
+      dialog.close();
+    })
   }
 
   private isDetail = false;
@@ -93,7 +95,6 @@ export class TopicComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.isDetail = !this.isDetail;
     if (this.isDetail) {
       this.isAutoScrollMenu = false;
-      this.isWrite = false;
     }
   }
 
@@ -107,10 +108,6 @@ export class TopicComponent implements OnInit, OnDestroy, AfterViewChecked {
     clearInterval(this.intervalID);
     this.socket.close();
     this.scrollObs.unsubscribe();
-  }
-
-  write() {
-    this.isWrite = false;
   }
 
 

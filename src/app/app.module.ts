@@ -113,7 +113,8 @@ AtApiService.serverURL = Config.serverURL;
     ],
     entryComponents: [
         //モーダルで使うコンポーネント
-        ProfileComponent
+        ProfileComponent,
+        ResWriteComponent
     ]
 
 })

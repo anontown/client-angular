@@ -29,10 +29,10 @@
     <button type="button" md-button [routerLink]="['/']">
       <span>Anontown</span>
     </button>
-    <button *ngIf="ud.notToken|async" type="button" (click)="login()">
+    <button md-button *ngIf="ud.notToken|async" type="button" (click)="login()">
       ログイン
     </button>
-    <button *ngIf="ud.isToken|async" type="button" (click)="logout()">
+    <button md-button *ngIf="ud.isToken|async" type="button" (click)="logout()">
       ログアウト
     </button>
   </md-toolbar>

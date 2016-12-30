@@ -2,7 +2,7 @@
     <div class="panel-body">
         <form (ngSubmit)="ok()">
             <div class="alert alert-danger" *ngIf="errorMsg!==null">
-                <span class="glyphicon glyphicon-exclamation-sign"></span> {{errorMsg}}
+                <md-icon>error</md-icon> {{errorMsg}}
             </div>
             <div class="form-inline">
                 <div class="form-group">
@@ -19,11 +19,11 @@
             </div>
             <div class="form-group">
                 <label>本文</label>
-                <button type="button" class="btn btn-default btn-xs" (click)="aa()">AA</button>
+                <button type="button" md-button (click)="aa()">AA</button>
                 <textarea controls [(ngModel)]="text" class="form-control" name="text" (keypress)="key($event)"></textarea>
                 <div [innerHTML]="text|md" class="well aa"></div>
             </div>
-            <button type="submit" class="btn btn-default">書き込む</button>
+            <button type="submit" md-button>書き込む</button>
         </form>
     </div>
 </div>

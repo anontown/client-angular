@@ -1,7 +1,7 @@
 <div class="panel panel-default">
     <div class="panel-heading">
-        <button type="button" class="btn-xs btn-default" (click)="edit()">
-            <span class="glyphicon glyphicon-edit"></span>
+        <button type="button" md-button (click)="edit()">
+            <md-icon>edit</md-icon>
         </button>
         <span>
             ●{{profile.id}}
@@ -10,7 +10,7 @@
     <div class="panel-body">
         <form *ngIf="isEdit" (ngSubmit)="ok()">
             <div class="alert alert-danger" *ngIf="errorMsg!==null">
-                <span class="glyphicon glyphicon-exclamation-sign"></span> {{errorMsg}}
+                <md-icon>error</md-icon> {{errorMsg}}
             </div>
             <div class="form-group">
                 <label>名前</label>
@@ -21,7 +21,7 @@
                 <textarea class="form-control" [(ngModel)]="text" name="text"></textarea>
                 <div [innerHTML]="text|md" class="well"></div>
             </div>
-            <button type="submit" class="btn btn-default">OK</button>
+            <button type="submit" md-button>OK</button>
         </form>
     </div>
 </div>
