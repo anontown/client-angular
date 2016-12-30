@@ -10,7 +10,6 @@ import {
 import { Observable, Subscription } from 'rxjs';
 import * as socketio from 'socket.io-client';
 import { MdDialog } from '@angular/material';
-import { ResWriteComponent } from '../components/res-write.component';
 import {
   Topic,
   AtApiService,
@@ -18,7 +17,11 @@ import {
 } from 'anontown';
 import { Config } from '../config';
 import { UserDataService } from '../services';
-
+import {
+  TopicDataComponent,
+  TopicAutoScrollMenuComponent,
+  ResWriteComponent
+} from '../dialogs';
 import { ActivatedRoute, Params } from '@angular/router';
 import { ResComponent } from '../components/res.component';
 
@@ -36,10 +39,6 @@ export class TopicComponent implements OnInit, OnDestroy, AfterViewChecked {
   private limit = 50;
 
   private isFavo: boolean;
-
-  topicUpdate(topic: Topic) {
-    this.topic = topic;
-  }
 
   constructor(
     private ud: UserDataService,
@@ -72,12 +71,19 @@ export class TopicComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.reses[this.reses.findIndex((r) => r.id === res.id)] = res;
   }
 
-  private isAutoScrollMenu = false;
-  autoScrollMenu() {
-    this.isAutoScrollMenu = !this.isAutoScrollMenu;
-    if (this.isAutoScrollMenu) {
-      this.isDetail = false;
-    }
+  autoScrollSpeed = 10;
+  private isAutoScroll = false;
+  autoScroll() {
+    this.isAutoScroll = !this.isAutoScroll;
+  }
+  async autoScrollMenu() {
+    let dialog = this.dialog.open(TopicAutoScrollMenuComponent);
+    let con = dialog.componentInstance;
+    con.autoScrollSpeed = this.autoScrollSpeed;
+    con.isAutoScroll = this.isAutoScroll;
+    await dialog.afterClosed().toPromise();
+    this.autoScrollSpeed = con.autoScrollSpeed;
+    this.isAutoScroll = con.isAutoScroll;
   }
 
   writeMenu() {
@@ -90,19 +96,16 @@ export class TopicComponent implements OnInit, OnDestroy, AfterViewChecked {
     })
   }
 
-  private isDetail = false;
   detail() {
-    this.isDetail = !this.isDetail;
-    if (this.isDetail) {
-      this.isAutoScrollMenu = false;
-    }
+    let com = this.dialog.open(TopicDataComponent).componentInstance;
+    com.topic = this.topic;
+    com.update.subscribe((topic: Topic) => {
+      this.topic = topic;
+      com.topic = topic;
+    });
   }
 
-  autoScrollSpeed = 10;
-  private isAutoScroll = false;
-  autoScroll() {
-    this.isAutoScroll = !this.isAutoScroll;
-  }
+
 
   async ngOnDestroy() {
     clearInterval(this.intervalID);

@@ -1,0 +1,6 @@
+<md-dialog-content>
+  <button type="button" md-button (click)="autoScroll()">
+  <md-icon>{{isAutoScroll?'stop':'play_arrow'}}</md-icon>
+</button>
+  <input type="range" [(ngModel)]="autoScrollSpeed" max="50">
+</md-dialog-content>

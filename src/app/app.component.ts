@@ -1,7 +1,6 @@
 import {
     Component,
     HostListener,
-    OnInit
 } from '@angular/core';
 import { AtApiService } from 'anontown';
 import { UserDataService } from './services';
@@ -12,13 +11,10 @@ import { Config } from './config';
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
     constructor(private ud: UserDataService,
         private api: AtApiService) {
         setInterval(() => this.save(), 30 * 1000);
-    }
-
-    ngOnInit() {
     }
 
     login() {

@@ -18,12 +18,17 @@ import {
     TopicHistoryComponent,
     UserProfileEditComponent,
     UserProfileAddComponent,
-    ResWriteComponent,
     ResComponent,
-    TopicDataComponent,
     TopicEditComponent,
-    ProfileComponent,
+
 } from './components';
+
+import {
+    TopicDataComponent,
+    ResWriteComponent,
+    ProfileComponent,
+    TopicAutoScrollMenuComponent
+} from './dialogs';
 
 import { AppComponent } from './app.component';
 
@@ -104,7 +109,8 @@ AtApiService.serverURL = Config.serverURL;
         UserNoticeComponent,
         UserMsgComponent,
         UserMsgComponent,
-        UserFavoTopicComponent
+        UserFavoTopicComponent,
+        TopicAutoScrollMenuComponent
     ],
     //エントリ
     bootstrap: [AppComponent],
@@ -114,7 +120,9 @@ AtApiService.serverURL = Config.serverURL;
     entryComponents: [
         //モーダルで使うコンポーネント
         ProfileComponent,
-        ResWriteComponent
+        ResWriteComponent,
+        TopicDataComponent,
+        TopicAutoScrollMenuComponent
     ]
 
 })

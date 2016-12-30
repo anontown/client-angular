@@ -1,43 +1,24 @@
-<md-sidenav-layout>
-  <md-sidenav #sidenav mode="side">
-    <md-nav-list>
-      <md-list-item *ngIf="ud.isToken|async">
-        <a [routerLink]="['/favo']">お気に入り</a>
-      </md-list-item>
-      <md-list-item>
-        <a [routerLink]="['/topic/search']" [queryParams]="{title:'',category:''}">検索</a>
-      </md-list-item>
-      <md-list-item *ngIf="ud.isToken|async">
-        <a [routerLink]="['/topic/write']">新規トピック</a>
-      </md-list-item>
-      <md-list-item *ngIf="ud.isToken|async">
-        <a [routerLink]="['/user/notice']">通知</a>
-      </md-list-item>
-      <md-list-item *ngIf="ud.isToken|async">
-        <a [routerLink]="['/user/profile']">プロフ管理</a>
-      </md-list-item>
-      <md-list-item *ngIf="ud.isToken|async">
-        <a [routerLink]="['/user/msg']">お知らせ</a>
-      </md-list-item>
-    </md-nav-list>
-  </md-sidenav>
+<md-menu #menu="mdMenu">
+  <button md-menu-item [routerLink]="['/user/profile']">プロフ管理</button>
+  <button md-menu-item [routerLink]="['/user/msg']">お知らせ</button>
+  <button md-menu-item (click)="logout()">ログアウト</button>
+</md-menu>
 
-  <md-toolbar>
-    <button (click)="sidenav.toggle()" class="toggle-button">
-      <i class="material-icons app-toolbar-menu">menu</i>
-    </button>
-    <button type="button" md-button [routerLink]="['/']">
-      <span>Anontown</span>
-    </button>
-    <button md-button *ngIf="ud.notToken|async" type="button" (click)="login()">
-      ログイン
-    </button>
-    <button md-button *ngIf="ud.isToken|async" type="button" (click)="logout()">
-      ログアウト
-    </button>
-  </md-toolbar>
-
-  <div class="content">
-    <router-outlet></router-outlet>
-  </div>
-</md-sidenav-layout>
+<nav md-tab-nav-bar class="tab-nav">
+  <a md-tab-link [routerLink]="['/favo']" *ngIf="ud.isToken|async">
+    <md-icon>star</md-icon>
+  </a>
+  <a md-tab-link [routerLink]="['/topic/search']" [queryParams]="{title:'',category:''}">
+    <md-icon>search</md-icon>
+  </a>
+  <a md-tab-link [routerLink]="['/user/notice']" *ngIf="ud.isToken|async">
+    <md-icon>notifications</md-icon>
+  </a>
+  <a md-tab-link href="javascript:void(0);" *ngIf="ud.isToken|async" [mdMenuTriggerFor]="menu">
+    <md-icon>more_vert</md-icon>
+  </a>
+  <a md-tab-link href="javascript:void(0);" *ngIf="ud.notToken|async" (click)="login()">
+    ログイン/登録
+  </a>
+</nav>
+<router-outlet></router-outlet>

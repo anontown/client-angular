@@ -1,38 +1,27 @@
-<button type="button" md-fab *ngIf="ud.isToken|async" (click)="writeMenu()" class="fab-main">
-    <md-icon>edit</md-icon>
-</button>
+<div class="fab-main">
+  <button type="button" md-mini-fab *ngIf="ud.isToken|async" (click)="favo()">
+        <md-icon>{{isFavo?'star':'star_border'}}</md-icon>
+    </button>
+  <button type="button" md-mini-fab (click)="detail()">
+        <md-icon>keyboard_arrow_up</md-icon>
+    </button>
+  <button type="button" md-mini-fab (click)="autoScrollMenu()">
+        <md-icon>play_circle_outline</md-icon>
+        </button>
+  <button type="button" md-fab *ngIf="ud.isToken|async" (click)="writeMenu()">
+        <md-icon>edit</md-icon>
+    </button>
+</div>
 <div *ngIf="topic" class="container">
-    <md-card class="topic-tool">
-        <div class="pull-right">
-            <button type="button" (click)="favo()" md-button *ngIf="ud.isToken|async">
-            <md-icon>{{isFavo?'star':'star_border'}}</md-icon>
-          </button>
-            <button type="button" md-button (click)="detail()">
-            <md-icon>{{isDetail?'keyboard_arrow_down':'keyboard_arrow_up'}}</md-icon>
-          </button>
-            <button type="button" md-button (click)="autoScrollMenu()">
-            <md-icon>play_circle_outline</md-icon>
-          </button>
-        </div>
-        <div *ngIf="isAutoScrollMenu" class="panel panel-default">
-            <div class="panel-body">
-                <button type="button" md-button (click)="autoScroll()">
-                    <md-icon>{{isAutoScroll?'stop':'play_arrow'}}</md-icon>
-            </button>
-                <input type="range" [(ngModel)]="autoScrollSpeed" max="50">
-            </div>
-        </div>
-        <at-topic-data [topic]="topic" *ngIf="isDetail" (update)="topicUpdate($event)"></at-topic-data>
-    </md-card>
-    <md-card>
-        <div>
-            <button type="button" (click)="readNew()" md-button>最新</button>
-        </div>
-        <div>
-            <at-res #resE *ngFor="let r of reses" [res]="r" (update)="updateRes($event)"></at-res>
-        </div>
-        <div>
-            <button type="button" (click)="readOld()" md-button>前</button>
-        </div>
-    </md-card>
+  <md-card>
+    <div>
+      <button type="button" (click)="readNew()" md-button>最新</button>
+    </div>
+    <div>
+      <at-res #resE *ngFor="let r of reses" [res]="r" (update)="updateRes($event)"></at-res>
+    </div>
+    <div>
+      <button type="button" (click)="readOld()" md-button>前</button>
+    </div>
+  </md-card>
 </div>

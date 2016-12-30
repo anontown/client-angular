@@ -17,7 +17,7 @@ import {
 import { UserDataService } from '../services';
 import { MdDialog } from '@angular/material';
 
-import { ProfileComponent } from './profile.component';
+import { ProfileComponent } from '../dialogs';
 
 @Component({
   selector: 'at-res',

@@ -1,7 +1,7 @@
 .topic-tool {
     position: fixed;
     width: 80vw;
-    z-index: 999;
+    z-index: 50;
     right: 10vw;
 }
 
@@ -16,7 +16,8 @@
 }
 
 .fab-main {
-    position: absolute;
-    bottom: 30px;
-    right: 60px;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 999;
 }
