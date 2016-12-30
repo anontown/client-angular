@@ -8,37 +8,14 @@
       <label>スレタイ</label>
       <input type="text" class="form-control" [(ngModel)]="title" name="title">
     </div>
-    <button type="submit" md-button>検索</button>
+    <button type="submit" md-raised-button>検索</button>
   </form>
   <button md-button [routerLink]="['/topic/write']" *ngIf="ud.isToken|async">
   <md-icon>edit</md-icon>
   </button>
-  <button md-button (click)="update()">
+  <button md-raised-button (click)="update()">
     <md-icon>refresh</md-icon>
   </button>
 </md-card>
-<md-card>
-  <table class="table table-hover">
-    <thead>
-      <tr>
-        <th *ngIf="ud.isToken|async">新着</th>
-        <th>タイトル</th>
-        <th>作成</th>
-        <th>更新</th>
-        <th>カテゴリ</th>
-        <th>レス数</th>
-        <tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let t of topics" (click)="linkClick(t)" style="cursor: pointer;">
-<td *ngIf="ud.isToken|async">{{getNewRes(t)}}</td>
-<td>{{t.title}}</td>
-<td>{{t.date|date:"y/MM/dd(EEE) HH:mm:ss"}}</td>
-<td>{{t.update|date:"y/MM/dd(EEE) HH:mm:ss"}}</td>
-<td>{{t.category.join('/')}}</td>
-<td>{{t.resCount}}</td>
-</tr>
-</tbody>
-</table>
-<button type="button" *ngIf="count===limit" (click)="more()" md-button>もっと</button>
-</md-card>
+<at-topic-list-item *ngFor="let t of topics" [topic]="t"></at-topic-list-item>
+<button *ngIf="count===limit" (click)="more()" md-raised-button>もっと</button>

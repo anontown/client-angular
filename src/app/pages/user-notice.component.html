@@ -1,10 +1,14 @@
-<md-card *ngIf="ud.isToken|async" class="container">
-    <button type="button" (click)="readNew()" md-button>最新</button><br>
+<div *ngIf="ud.isToken|async">
+    <div>
+        <button type="button" (click)="readNew()" md-raised-button>最新</button>
+    </div>
     <div>
         <at-res *ngFor="let r of reses" [res]="r" (update)="updateRes($event)"></at-res>
     </div>
-    <button type="button" (click)="readOld()" md-button>前</button><br>
-</md-card>
-<md-card *ngIf="ud.notToken|async" class="container">
+    <div>
+        <button type="button" (click)="readOld()" md-raised-button>前</button>
+    </div>
+</div>
+<md-card *ngIf="ud.notToken|async">
     ログインしてください。
 </md-card>

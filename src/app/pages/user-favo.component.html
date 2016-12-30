@@ -1,17 +1,6 @@
-<md-card *ngIf="ud.isToken|async" class="container">
-    <table class="table table-hover">
-        <thead>
-            <tr>
-                <th>タイトル</th>
-                <tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let t of favo" (click)="linkClick(t.id)">
-                <td>{{t.title}}</td>
-                <tr>
-        </tbody>
-    </table>
-</md-card>
-<md-card *ngIf="ud.notToken|async" class="container">
+<div *ngIf="ud.isToken|async">
+    <at-topic-list-item *ngFor="let t of favo" [topic]="t"></at-topic-list-item>
+</div>
+<md-card *ngIf="ud.notToken|async">
     ログインしないと表示出来ません。
 </md-card>
