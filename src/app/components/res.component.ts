@@ -9,15 +9,17 @@ import {
   ChangeDetectorRef
 } from '@angular/core';
 
+
 import {
   AtApiService,
   Res
 } from 'anontown';
 
+
 import { UserDataService } from '../services';
 import { MdDialog } from '@angular/material';
 
-import { ProfileComponent } from '../dialogs';
+import { ProfileComponent, ResWriteComponent } from '../dialogs';
 
 @Component({
   selector: 'at-res',
@@ -56,10 +58,14 @@ export class ResComponent implements OnInit {
   }
 
 
-  private isReply = false;
   reply() {
-    this.isReply = !this.isReply;
-    this.cd.markForCheck();
+    let dialog = this.dialog.open(ResWriteComponent);
+    let com = dialog.componentInstance;
+    com.topic = this.res.topic;
+    com.reply = this.res;
+    com.write.subscribe(() => {
+      dialog.close();
+    });
   }
 
   async hashClick() {
@@ -113,11 +119,6 @@ export class ResComponent implements OnInit {
     this.update.emit(await this.api.delRes(await this.ud.auth, {
       id: this.res.id
     }));
-  }
-
-  write() {
-    this.isReply = false;
-    this.cd.markForCheck();
   }
 
   async profileOpen() {

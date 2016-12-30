@@ -13,15 +13,13 @@
     </button>
 </div>
 <div *ngIf="topic" class="container">
-  <md-card>
-    <div>
-      <button type="button" (click)="readNew()" md-button>最新</button>
-    </div>
-    <div>
-      <at-res #resE *ngFor="let r of reses" [res]="r" (update)="updateRes($event)"></at-res>
-    </div>
-    <div>
-      <button type="button" (click)="readOld()" md-button>前</button>
-    </div>
-  </md-card>
+  <div>
+    <button (click)="readNew()" md-raised-button>最新</button>
+  </div>
+  <div>
+    <at-res #resE *ngFor="let r of reses" [res]="r" (update)="updateRes($event)"></at-res>
+  </div>
+  <div>
+    <button (click)="readOld()" md-raised-button>前</button>
+  </div>
 </div>
