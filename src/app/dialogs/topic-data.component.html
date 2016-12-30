@@ -22,7 +22,7 @@
       </dd>
     </dl>
   </div>
-  <button type="button" md-button *ngIf="ud.isToken|async" (click)="edit()">
+  <button md-icon-button *ngIf="ud.isToken|async" (click)="edit()">
       <md-icon>edit</md-icon>
     </button>
   <at-topic-edit *ngIf="isEdit&&(ud.isToken|async)" [topic]="topic" (update)="update.emit($event)"></at-topic-edit>

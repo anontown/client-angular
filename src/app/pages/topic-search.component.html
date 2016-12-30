@@ -16,10 +16,10 @@
   </form>
 </md-card>
 <div>
-  <button md-raised-button [routerLink]="['/topic/write']" *ngIf="ud.isToken|async">
+  <button md-icon-button [routerLink]="['/topic/write']" *ngIf="ud.isToken|async">
     <md-icon>edit</md-icon>
   </button>
-  <button md-raised-button (click)="update()">
+  <button md-icon-button (click)="update()">
     <md-icon>refresh</md-icon>
   </button>
 </div>

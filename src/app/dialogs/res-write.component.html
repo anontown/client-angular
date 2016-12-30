@@ -17,7 +17,7 @@
       </md-select>
     </div>
     <div>
-      <button type="button" md-raised-button (click)="aa()">AA</button>
+      <button md-raised-button (click)="aa()">AA</button>
     </div>
     <md-textarea controls [(ngModel)]="text" name="text" (keypress)="key($event)"></md-textarea>
     <div [innerHTML]="text|md"></div>

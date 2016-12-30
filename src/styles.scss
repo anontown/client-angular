@@ -35,3 +35,8 @@ md-card{
   margin-top: 2px;
   margin-bottom: 2px;
 }
+
+md-card-actions,md-card-content,md-card-header,md-card-subtitle,md-card-title{
+  margin-left: 0px;
+  padding-left: 0px;
+}

@@ -1,6 +1,6 @@
 <div>
   <div>
-    <button type="button" md-button (click)="detail()">
+    <button md-icon-button (click)="detail()">
       <md-icon>{{isDetail?'arrow_drop_up':'arrow_drop_down'}}</md-icon>
     </button> {{history.date|date:"y/MM/dd(EEE) HH:mm:ss"}}
     <a href="javascript:void(0);" (click)="hashClick()">HASH:{{history.hash}}</a>

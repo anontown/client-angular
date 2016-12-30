@@ -1,12 +1,12 @@
 <div *ngIf="ud.isToken|async">
     <div>
-        <button type="button" (click)="readNew()" md-raised-button>最新</button>
+        <button (click)="readNew()" md-raised-button>最新</button>
     </div>
     <div>
         <at-res *ngFor="let r of reses" [res]="r" (update)="updateRes($event)"></at-res>
     </div>
     <div>
-        <button type="button" (click)="readOld()" md-raised-button>前</button>
+        <button (click)="readOld()" md-raised-button>前</button>
     </div>
 </div>
 <md-card *ngIf="ud.notToken|async">
