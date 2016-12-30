@@ -1,6 +1,6 @@
 <md-card [ngClass]="{'res':true,'res-pop':isPop}">
-  <md-card-header>
-    <md-card-title [ngClass]="{'res-self':isSelf}">
+  <md-card-header [ngClass]="{'res-self':isSelf}">
+    <md-card-title>
       <a (click)="reply()" href="javascript:void(0);">{{res.name}}</a>
       <a *ngIf="res.profile!==null" (click)="profileOpen()" href="javascript:void(0);">[プロフィール]</a>
     </md-card-title>
