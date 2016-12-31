@@ -9,6 +9,8 @@ import {
   ChangeDetectorRef
 } from '@angular/core';
 
+import * as Immutable from 'immutable';
+
 
 import {
   AtApiService,
@@ -29,8 +31,9 @@ import { ProfileComponent, ResWriteComponent } from '../dialogs';
 })
 export class ResComponent implements OnInit {
   @Input()
-  public res: Res;
-  private children: Res[] = [];
+  res: Res;
+
+  children = Immutable.List<Res>();
 
   @Input()
   isPop: boolean = false;
@@ -69,36 +72,36 @@ export class ResComponent implements OnInit {
   }
 
   async hashClick() {
-    if (this.children.length !== 0) {
-      this.children = [];
+    if (this.children.size !== 0) {
+      this.children = Immutable.List<Res>();
     } else {
-      this.children = await this.api.findResHash(await this.ud.authOrNull, {
+      this.children = Immutable.List(await this.api.findResHash(await this.ud.authOrNull, {
         topic: this.res.topic,
         hash: this.res.hash
-      });
+      }));
     }
     this.cd.markForCheck();
   }
 
   async sendReplyClick() {
-    if (this.children.length !== 0) {
-      this.children = [];
+    if (this.children.size !== 0) {
+      this.children = Immutable.List<Res>();
     } else {
-      this.children = [await this.api.findResOne(await this.ud.authOrNull, {
+      this.children = Immutable.List([await this.api.findResOne(await this.ud.authOrNull, {
         id: this.res.reply as string
-      })];
+      })]);
     }
     this.cd.markForCheck();
   }
 
   async receiveReplyClick() {
-    if (this.children.length !== 0) {
-      this.children = [];
+    if (this.children.size !== 0) {
+      this.children = Immutable.List<Res>();
     } else {
-      this.children = await this.api.findResReply(await this.ud.authOrNull, {
+      this.children = Immutable.List(await this.api.findResReply(await this.ud.authOrNull, {
         topic: this.res.topic,
         reply: this.res.id
-      });
+      }));
     }
     this.cd.markForCheck();
   }

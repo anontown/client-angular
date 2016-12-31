@@ -9,7 +9,7 @@ import {
     MapPipe
 } from './pipes';
 import {
-    UserDataService,
+    UserService,
 } from './services';
 import 'hammerjs';
 
@@ -116,7 +116,7 @@ AtApiService.serverURL = Config.serverURL;
     //エントリ
     bootstrap: [AppComponent],
     providers: [
-        UserDataService
+        UserService
     ],
     entryComponents: [
         //モーダルで使うコンポーネント

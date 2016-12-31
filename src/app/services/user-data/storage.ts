@@ -1,4 +1,5 @@
-import { Topic, Res, AtApiService, IAuthToken } from 'anontown';
+import { AtApiService, IAuthToken } from 'anontown';
+import * as Immutable from 'immutable';
 
 interface StorageJSON {
     ver: string
@@ -16,14 +17,21 @@ interface StorageJSON2 {
     topicRead: { topic: string, res: string, count: number }[]
 }
 
-export class Storage {
-    static VER: "2" = "2";
-    topicFav: Topic[];
-    topicRead: { topic: Topic, res: Res, count: number }[];
+interface StorageJSON3 {
+    ver: "3",
+    topicFav: string[],
+    topicRead: { [key: string]: { res: string, count: number } };
+}
 
-    private constructor() {
-        this.topicFav = [];
-        this.topicRead = [];
+export class Storage {
+    static VER: "3" = "3";
+    readonly topicFav: Immutable.Set<string>;
+    readonly topicRead: Immutable.Map<string, { res: string, count: number }>;
+
+    private constructor(topicFavo: Immutable.Set<string>,
+        topicRead: Immutable.Map<string, { res: string, count: number }>) {
+        this.topicFav = topicFavo;
+        this.topicRead = topicRead;
     }
 
     static convert1_1_1To2(val: StorageJSON1_0_0): StorageJSON2 {
@@ -40,9 +48,18 @@ export class Storage {
         };
     }
 
+    static convert2To3(val: StorageJSON2): StorageJSON3 {
+        let read: { [key: string]: { res: string, count: number } } = {};
+        val.topicRead.forEach(x => read[x.topic] = { res: x.res, count: x.count });
+        return {
+            ver: "3",
+            topicFav: val.topicFav,
+            topicRead: read
+        };
+    }
 
-    static async fromJSON(api: AtApiService, token: IAuthToken): Promise<Storage> {
-        let json = await api.getTokenStorage(token);
+
+    static async fromJSON(json: string): Promise<Storage> {
         if (json.length !== 0) {
             let obj = JSON.parse(json) as StorageJSON;
             while (true) {
@@ -51,59 +68,33 @@ export class Storage {
                         //バージョン0
                         obj = this.convert1_1_1To2(obj as StorageJSON1_0_0);
                         break;
-                    case Storage.VER:
+                    case "2":
                         {
-                            let j = obj as StorageJSON2;
+                            obj = this.convert2To3(obj as StorageJSON2);
+                            break;
+                        }
+                    case "3":
+                        {
+                            let json = obj as StorageJSON3;
 
-                            var s = new Storage();
-                            //お気に入りトピックリスト
-                            s.topicFav = await api.findTopicIn({ ids: j.topicFav });
-
-                            //ここまで読んだリスト
-                            {
-                                let readTopic = await api.findTopicIn({
-                                    ids: j.topicRead.map(x => x.topic)
-                                });
-                                let readRes = await api.findResIn(token, {
-                                    ids: j.topicRead.map(x => x.res)
-                                });
-                                s.topicRead = j.topicRead.map(x => {
-                                    return {
-                                        topic: readTopic.find(t => t.id === x.topic) as Topic,
-                                        res: readRes.find(r => r.id === x.res) as Res,
-                                        count: x.count
-                                    };
-                                });
-                            }
-
-                            return s;
+                            return new Storage(Immutable.Set(json.topicFav), Immutable.Map(json.topicRead));
                         }
                     default:
-                        return new Storage();
+                        return new Storage(Immutable.Set<any>(), Immutable.Map<any, any>());
                 }
             }
         } else {
-            return new Storage();
+            return new Storage(Immutable.Set<any>(), Immutable.Map<any, any>());
         }
     }
 
     toJSON(): string {
-        let j: StorageJSON2 = {
+        let j: StorageJSON3 = {
             ver: Storage.VER,
-            topicFav: this.topicFav.map(x => x.id),
-            topicRead: this.topicRead.map(x => {
-                return { topic: x.topic.id, res: x.res.id, count: x.count };
-            })
+            topicFav: this.topicFav.map(x => x).toArray(),
+            topicRead: this.topicRead.toObject()
         };
 
         return JSON.stringify(j);
-    }
-
-    isFavo(topic: Topic): boolean {
-        return this.topicFav.find(x => x.id === topic.id) !== undefined;
-    }
-
-    isRead(topic: Topic): boolean {
-        return this.topicRead.find(x => x.topic.id === topic.id) !== undefined;
     }
 }
