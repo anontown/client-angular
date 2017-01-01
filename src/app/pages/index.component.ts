@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AtApiService, } from 'anontown';
-import { UserDataService } from '../services';
+import { AtApiService } from 'anontown';
+import { UserService } from '../services';
 import { Config } from '../config';
 import { ActivatedRoute } from '@angular/router';
 
@@ -13,21 +13,31 @@ export class IndexComponent implements OnInit {
 
   constructor(private api: AtApiService,
     private route: ActivatedRoute,
-    private ud: UserDataService
+    private user: UserService
   ) {
 
   }
 
-  ngOnInit() {
+  async ngOnInit() {
+    let id: string;
+    let key: string;
     this.route.queryParams.forEach(async (params) => {
-      if (params["id"] && params["key"]) {
-        let token = await this.api.findTokenReq({
-          id: params["id"] as string,
-          key: params["key"] as string
-        })
-
-        this.ud.login(token);
-      }
+      id = params["id"];
+      key = params["key"];
     });
+    if (id && key) {
+      let token = await this.api.findTokenReq({
+        id,
+        key
+      });
+
+      await this.user.login(token);
+
+      localStorage.setItem("token", JSON.stringify({
+        id: token.id,
+        key: token.key
+      }));
+
+    }
   }
 }

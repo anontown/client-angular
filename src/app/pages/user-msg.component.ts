@@ -1,60 +1,72 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import {
     Msg,
     AtApiService,
 } from 'anontown';
-import { UserDataService } from '../services';
+import { UserService, IUserData, IUserDataListener } from '../services';
+import * as Immutable from 'immutable';
 
 @Component({
     selector: 'at-user-msg',
     templateUrl: './user-msg.component.html'
 })
-export class UserMsgComponent implements OnInit {
-    private msgs: Msg[] = [];
+export class UserMsgComponent implements OnInit, OnDestroy {
+    private msgs = Immutable.List<Msg>();
     private limit = 50;
 
     constructor(
-        private ud: UserDataService,
+        private user: UserService,
         private api: AtApiService) {
     }
 
-    private async findNew() {
-        this.msgs = await this.api.findMsgNew(await this.ud.auth,
-            {
-                limit: this.limit
-            })
-
-    }
+    ud: IUserData = null;
+    private udListener: IUserDataListener;
 
     ngOnInit() {
-        this.findNew();
+        this.user.addUserDataListener(ud => {
+            this.ud = ud;
+            if (ud !== null) {
+                this.findNew();
+            }
+        })
+    }
+
+    ngOnDestroy() {
+        this.user.removeUserDataListener(this.udListener);
+    }
+
+    private async findNew() {
+        this.msgs = Immutable.List(await this.api.findMsgNew(this.ud.auth,
+            {
+                limit: this.limit
+            }));
     }
 
     async readNew() {
-        if (this.msgs.length === 0) {
+        if (this.msgs.size === 0) {
             this.findNew();
         } else {
-            this.msgs = (await this.api.findMsg(await this.ud.auth,
+            this.msgs = Immutable.List((await this.api.findMsg(this.ud.auth,
                 {
                     type: "after",
                     equal: false,
-                    date: this.msgs[0].date,
+                    date: this.msgs.first().date,
                     limit: this.limit
-                })).concat(this.msgs);
+                })).concat(this.msgs.toArray()));
         }
     }
 
     async readOld() {
-        if (this.msgs.length === 0) {
+        if (this.msgs.size === 0) {
             this.findNew();
         } else {
-            this.msgs = this.msgs.concat(await this.api.findMsg(await this.ud.auth,
+            this.msgs = Immutable.List(this.msgs.toArray().concat(await this.api.findMsg(this.ud.auth,
                 {
                     type: "before",
                     equal: false,
-                    date: this.msgs[this.msgs.length - 1].date,
+                    date: this.msgs.last().date,
                     limit: this.limit
-                }));
+                })));
         }
     }
 }

@@ -1,19 +1,24 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { AtApiService, Topic, Res, History } from 'anontown';
-import { UserDataService } from '../../services';
+import {
+    UserService,
+    IUserDataListener,
+    IUserData
+} from '../../services';
+import * as Immutable from 'immutable';
 
 @Component({
     selector: 'at-topic-history',
     templateUrl: './topic-history.component.html'
 })
-export class TopicHistoryComponent {
+export class TopicHistoryComponent implements OnInit, OnDestroy {
     @Input()
-    private topic: Topic;
+    topic: Topic;
 
     @Input()
-    private history: History;
+    history: History;
 
-    private hashReses: Res[] = [];
+    private hashReses = Immutable.List<Res>();
 
     private isDetail = false;
 
@@ -22,19 +27,32 @@ export class TopicHistoryComponent {
     }
 
     constructor(private api: AtApiService,
-        private ud: UserDataService) {
+        private user: UserService) {
 
+    }
+
+    ud: IUserData = null;
+    private udListener: IUserDataListener;
+
+    ngOnInit() {
+        this.udListener = this.user.addUserDataListener(ud => {
+            this.ud = ud;
+        });
+    }
+
+    ngOnDestroy() {
+        this.user.removeUserDataListener(this.udListener);
     }
 
     updateRes(res: Res) {
-        this.hashReses[this.hashReses.findIndex((r) => r.id === res.id)] = res;
+        this.hashReses.set(this.hashReses.findIndex((r) => r.id === res.id), res);
     }
 
     async hashClick() {
-        if (this.hashReses.length !== 0) {
-            this.hashReses = [];
+        if (this.hashReses.size !== 0) {
+            this.hashReses = Immutable.List<Res>();
         } else {
-            this.hashReses = (await this.api.findResHash(await this.ud.authOrNull, {
+            this.hashReses = Immutable.List(await this.api.findResHash(this.ud.auth, {
                 topic: this.topic.id,
                 hash: this.history.hash
             }));

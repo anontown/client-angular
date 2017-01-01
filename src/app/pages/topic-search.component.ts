@@ -1,18 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import {
   Topic,
   AtApiService
 } from 'anontown';
 
 import { ActivatedRoute, Router } from '@angular/router';
-import { UserDataService, Storage } from '../services';
+import * as Immutable from 'immutable';
+import { IUserData, IUserDataListener, UserService } from '../services';
 
 @Component({
   selector: 'at-topic-search',
   templateUrl: './topic-search.component.html'
 })
-export class TopicSearchComponent implements OnInit {
-  private topics: Topic[] = [];
+export class TopicSearchComponent implements OnInit, OnDestroy {
+  private topics = Immutable.List<Topic>();
 
   private category = "";
   private title = "";
@@ -21,11 +22,12 @@ export class TopicSearchComponent implements OnInit {
   //最後の取得件数
   private count = 0;
 
-
+  private udListener: IUserDataListener;
+  ud: IUserData;
   constructor(private api: AtApiService,
     private route: ActivatedRoute,
     private router: Router,
-    public ud: UserDataService) {
+    private user: UserService) {
 
   }
 
@@ -35,7 +37,7 @@ export class TopicSearchComponent implements OnInit {
   }
 
   update() {
-    this.topics = [];
+    this.topics = Immutable.List<Topic>();
     this.page = 0;
     this.count = 0;
     this.more();
@@ -49,38 +51,28 @@ export class TopicSearchComponent implements OnInit {
       limit: this.limit
     });
     this.count = t.length;
-    this.topics = this.topics.concat(t);
+    this.topics = Immutable.List(this.topics.toArray().concat(t));
     this.page++;
   }
-  getNewRes(topic: Topic): number {
-    if (this.storage) {
-      let topicRead = this.storage.topicRead.find(x => x.topic.id === topic.id);
-      if (topicRead !== undefined) {
-        return topic.resCount - topicRead.count;
-      } else {
-        return undefined;
-      }
-    } else {
-      return undefined;
-    }
-  }
 
-  private storage: Storage;
 
-  async ngOnInit() {
+  ngOnInit() {
+    this.udListener = this.user.addUserDataListener(ud => {
+      this.ud = ud;
+    });
+
     this.route.queryParams.forEach((params) => {
       this.title = params["title"];
       this.category = params["category"];
-      this.topics = [];
+      this.topics = Immutable.List<Topic>();
       this.page = 0;
       this.count = 0;
       this.more();
     });
-    if (await this.ud.isToken) {
-      this.storage = await this.ud.storage;
-    } else {
-      this.storage = null;
-    }
+  }
+
+  ngOnDestroy() {
+    this.user.removeUserDataListener(this.udListener);
   }
 
   linkClick(topic: Topic) {

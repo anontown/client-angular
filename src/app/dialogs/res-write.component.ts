@@ -4,7 +4,8 @@ import {
     Output,
     EventEmitter,
     NgZone,
-    OnInit
+    OnInit,
+    OnDestroy
 } from '@angular/core';
 import {
     AtApiService,
@@ -13,28 +14,39 @@ import {
     AtError
 } from 'anontown';
 
-import { UserDataService } from '../services';
+import { UserService, IUserData, IUserDataListener } from '../services';
 
 @Component({
     selector: 'at-res-write',
     templateUrl: './res-write.component.html'
 })
-export class ResWriteComponent implements OnInit {
+export class ResWriteComponent implements OnInit, OnDestroy {
     private name = "";
     private text = "";
-    private profile: string | null = null;;
+    private profile: string | null = null;
     private errorMsg: string | null = null;
     @Output()
     write = new EventEmitter<Res>();
 
-    ngOnInit() {
+    ud: IUserData = null;
+    private udListener: IUserDataListener;
 
+    ngOnInit() {
+        this.udListener = this.user.addUserDataListener(ud => {
+            this.ud = ud;
+        });
     }
 
-    constructor(private ud: UserDataService,
+    ngOnDestroy() {
+        this.user.removeUserDataListener(this.udListener);
+    }
+
+    constructor(private user: UserService,
         private api: AtApiService,
         private zone: NgZone) {
     }
+
+
 
     key(e: any) {
         this.zone.runOutsideAngular(() => {
@@ -54,7 +66,7 @@ export class ResWriteComponent implements OnInit {
 
     ok() {
         (async () => {
-            let res = await this.api.createRes(await this.ud.auth, {
+            let res = await this.api.createRes(this.ud.auth, {
                 topic: typeof this.topic === "string" ? this.topic : this.topic.id,
                 name: this.name,
                 text: this.text,

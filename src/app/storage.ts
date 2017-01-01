@@ -1,4 +1,3 @@
-import { AtApiService, IAuthToken } from 'anontown';
 import * as Immutable from 'immutable';
 
 interface StorageJSON {
@@ -19,22 +18,38 @@ interface StorageJSON2 {
 
 interface StorageJSON3 {
     ver: "3",
-    topicFav: string[],
+    topicFavo: string[],
     topicRead: { [key: string]: { res: string, count: number } };
 }
 
 export class Storage {
     static VER: "3" = "3";
-    readonly topicFav: Immutable.Set<string>;
+    readonly topicFavo: Immutable.Set<string>;
     readonly topicRead: Immutable.Map<string, { res: string, count: number }>;
 
     private constructor(topicFavo: Immutable.Set<string>,
         topicRead: Immutable.Map<string, { res: string, count: number }>) {
-        this.topicFav = topicFavo;
+        this.topicFavo = topicFavo;
         this.topicRead = topicRead;
     }
 
-    static convert1_1_1To2(val: StorageJSON1_0_0): StorageJSON2 {
+    private copy({topicFavo = this.topicFavo, topicRead = this.topicRead}: { topicFavo?: Immutable.Set<string>, topicRead?: Immutable.Map<string, { res: string, count: number }> }): Storage {
+        return new Storage(topicFavo, topicRead);
+    }
+
+    setTopicReadCount(topic: string, count: number): Storage {
+        return this.copy({ topicRead: this.topicRead.set(topic, { res: this.topicRead.get(topic).res, count }) });
+    }
+
+    setTopicReadRes(topic: string, res: string): Storage {
+        return this.copy({ topicRead: this.topicRead.set(topic, { count: this.topicRead.get(topic).count, res }) });
+    }
+
+    setFavo(topicFavo: Immutable.Set<string>): Storage {
+        return this.copy({ topicFavo });
+    }
+
+    private static convert1_1_1To2(val: StorageJSON1_0_0): StorageJSON2 {
         return {
             ver: "2",
             topicFav: val.topicFav,
@@ -48,18 +63,18 @@ export class Storage {
         };
     }
 
-    static convert2To3(val: StorageJSON2): StorageJSON3 {
+    private static convert2To3(val: StorageJSON2): StorageJSON3 {
         let read: { [key: string]: { res: string, count: number } } = {};
         val.topicRead.forEach(x => read[x.topic] = { res: x.res, count: x.count });
         return {
             ver: "3",
-            topicFav: val.topicFav,
+            topicFavo: val.topicFav,
             topicRead: read
         };
     }
 
 
-    static async fromJSON(json: string): Promise<Storage> {
+    static fromJSON(json: string): Storage {
         if (json.length !== 0) {
             let obj = JSON.parse(json) as StorageJSON;
             while (true) {
@@ -77,7 +92,7 @@ export class Storage {
                         {
                             let json = obj as StorageJSON3;
 
-                            return new Storage(Immutable.Set(json.topicFav), Immutable.Map(json.topicRead));
+                            return new Storage(Immutable.Set(json.topicFavo), Immutable.Map(json.topicRead));
                         }
                     default:
                         return new Storage(Immutable.Set<any>(), Immutable.Map<any, any>());
@@ -91,7 +106,7 @@ export class Storage {
     toJSON(): string {
         let j: StorageJSON3 = {
             ver: Storage.VER,
-            topicFav: this.topicFav.map(x => x).toArray(),
+            topicFavo: this.topicFavo.map(x => x).toArray(),
             topicRead: this.topicRead.toObject()
         };
 

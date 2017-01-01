@@ -1,5 +1,5 @@
 <md-card>
-  <form *ngIf="ud.isToken|async" (ngSubmit)="ok()">
+  <form *ngIf="ud" (ngSubmit)="ok()">
     <div *ngIf="errorMsg!==null">
       <md-icon>error</md-icon> {{errorMsg}}
     </div>
@@ -14,7 +14,7 @@
       <button type="submit" md-raised-button>OK</button>
     </div>
   </form>
+  <div *ngIf="!ud">
+    ログインしないとプロフィール管理は出来ません
+  </div>
 </md-card>
-<div *ngIf="ud.notToken|async">
-  ログインしないとプロフィール管理は出来ません
-</div>

@@ -1,4 +1,4 @@
-<md-dialog-content *ngIf="ud.isToken|async">
+<md-dialog-content *ngIf="ud">
   <form (ngSubmit)="ok()">
     <div *ngIf="errorMsg!==null">
       <md-icon>error</md-icon> {{errorMsg}}
@@ -11,7 +11,7 @@
         <md-option [value]="null" selected>
           なし
         </md-option>
-        <md-option *ngFor="let p of ud.profiles|async" [value]="p.id">
+        <md-option *ngFor="let p of ud.profiles" [value]="p.id">
           ●{{p.id}} {{p.name}}
         </md-option>
       </md-select>
@@ -26,6 +26,6 @@
     </div>
   </form>
 </md-dialog-content>
-<md-dialog-content *ngIf="ud.notToken|async">
+<md-dialog-content *ngIf="ud">
   ログインしないと書き込めません
 </md-dialog-content>

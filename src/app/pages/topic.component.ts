@@ -16,7 +16,7 @@ import {
   Res,
 } from 'anontown';
 import { Config } from '../config';
-import { UserDataService } from '../services';
+import { UserService, IUserData, IUserDataListener } from '../services';
 import {
   TopicDataComponent,
   TopicAutoScrollMenuComponent,
@@ -24,6 +24,7 @@ import {
 } from '../dialogs';
 import { ActivatedRoute, Params } from '@angular/router';
 import { ResComponent } from '../components/res.component';
+import * as Immutable from 'immutable';
 
 @Component({
   selector: 'at-topic',
@@ -35,13 +36,11 @@ export class TopicComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   @ViewChildren('resE') resE: QueryList<ResComponent>;
 
-  private reses: Res[] = [];
+  private reses = Immutable.List<Res>();
   private limit = 50;
 
-  private isFavo: boolean;
-
   constructor(
-    private ud: UserDataService,
+    private user: UserService,
     private api: AtApiService,
     private route: ActivatedRoute,
     private zone: NgZone,
@@ -68,7 +67,7 @@ export class TopicComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   updateRes(res: Res) {
-    this.reses[this.reses.findIndex((r) => r.id === res.id)] = res;
+    this.reses = this.reses.set(this.reses.findIndex((r) => r.id === res.id), res);
   }
 
   autoScrollSpeed = 10;
@@ -106,14 +105,6 @@ export class TopicComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
 
-
-  async ngOnDestroy() {
-    clearInterval(this.intervalID);
-    this.socket.close();
-    this.scrollObs.unsubscribe();
-  }
-
-
   private socket: SocketIOClient.Socket;
   private scrollObs: Subscription;
 
@@ -126,6 +117,16 @@ export class TopicComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
   }
 
+  ud: IUserData;
+  private udListener: IUserDataListener;
+
+  ngOnDestroy() {
+    clearInterval(this.intervalID);
+    this.socket.close();
+    this.scrollObs.unsubscribe();
+    this.user.removeUserDataListener(this.udListener);
+  }
+
   async ngOnInit() {
     let id: string = "";
     this.route.params.forEach((params: Params) => {
@@ -133,36 +134,35 @@ export class TopicComponent implements OnInit, OnDestroy, AfterViewChecked {
     });
     this.topic = await this.api.findTopicOne({ id });
 
-    if (await this.ud.isToken) {
-      this.isFavo = (await this.ud.storage).isFavo(this.topic);
-    }
-
-    if (await this.ud.isToken && (await this.ud.storage).isRead(this.topic)) {
-      //読んだことあるなら続きから
-      await this.lock(async () => {
-        this.reses = await this.api.findRes(await this.ud.authOrNull,
-          {
-            topic: this.topic.id,
-            type: "before",
-            equal: true,
-            date: ((await this.ud.storage).topicRead.find(x => x.topic.id === this.topic.id) as { res: Res }).res.date,
-            limit: this.limit
-          });
-      });
-      this.isReadNew = true;
-    } else {
-      //読んだことないなら最新レス
-      await this.findNew();
-    }
-
-    let readTopic = (await this.ud.storage).topicRead.find(x => x.topic.id === this.topic.id);
-    if (readTopic !== undefined) {
-      readTopic.count = this.topic.resCount;
-    } else {
-      if (this.reses[0] !== undefined) {
-        (await this.ud.storage).topicRead.push({ topic: this.topic, res: this.reses[0], count: this.topic.resCount });
+    this.udListener = this.user.addUserDataListener(async (ud, isChange) => {
+      this.ud = ud;
+      if (ud !== null && ud.storage.topicRead.has(this.topic.id)) {
+        //読んだことあるなら続きから
+        await this.lock(async () => {
+          this.reses = Immutable.List(await this.api.findRes(ud.auth,
+            {
+              topic: this.topic.id,
+              type: "before",
+              equal: true,
+              date: (await this.api.findResOne(ud.auth, { id: (ud.storage.topicRead.get(this.topic.id).res) })).date,
+              limit: this.limit
+            }));
+        });
+        this.isReadNew = true;
+      } else {
+        //読んだことないなら最新レス
+        await this.findNew();
       }
-    }
+
+      if (ud !== null && isChange) {
+        this.user.setUserData({
+          auth: ud.auth,
+          token: ud.token,
+          storage: ud.storage.setTopicReadCount(this.topic.id, this.topic.resCount),
+          profiles: ud.profiles
+        });
+      }
+    });
 
     this.zone.runOutsideAngular(() => {
       this.intervalID = setInterval(() => {
@@ -192,16 +192,16 @@ export class TopicComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   private async findNew() {
     await this.lock(async () => {
-      this.reses = await this.api.findResNew(await this.ud.authOrNull,
+      this.reses = Immutable.List(await this.api.findResNew(this.ud ? this.ud.auth : null,
         {
           topic: this.topic.id,
           limit: this.limit
-        });
+        }));
     });
   }
 
   async readNew() {
-    if (this.reses.length === 0) {
+    if (this.reses.size === 0) {
       this.findNew();
     } else {
       await this.lock(async () => {
@@ -212,15 +212,15 @@ export class TopicComponent implements OnInit, OnDestroy, AfterViewChecked {
           rcY = rc.elementRef.nativeElement.getBoundingClientRect().top as number;
         }
 
-        this.reses = (await this.api.findRes(await this.ud.authOrNull,
+        this.reses = Immutable.List((await this.api.findRes(this.ud ? this.ud.auth : null,
           {
             topic: this.topic.id,
             type: "after",
             equal: false,
-            date: this.reses[0].date,
+            date: this.reses.first().date,
             limit: this.limit
           }
-        )).concat(this.reses);
+        )).concat(this.reses.toArray()));
 
         if (rc.elementRef) {
           setTimeout(() => {
@@ -232,36 +232,37 @@ export class TopicComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   async readOld() {
-    if (this.reses.length === 0) {
+    if (this.reses.size === 0) {
       this.findNew();
     } else {
       await this.lock(async () => {
-        this.reses = this.reses.concat(await this.api.findRes(await this.ud.authOrNull,
+        this.reses = Immutable.List(this.reses.toArray().concat(await this.api.findRes(this.ud ? this.ud.auth : null,
           {
             topic: this.topic.id,
             type: "before",
             equal: false,
-            date: this.reses[this.reses.length - 1].date,
+            date: this.reses.last().date,
             limit: this.limit
           }
-        ));
+        )));
       });
     }
   }
 
-  async favo() {
-    let storage = await this.ud.storage;
-    if (storage.isFavo(this.topic)) {
-      //削除
-      storage.topicFav = storage.topicFav.filter(x => x.id !== this.topic.id);
-    } else {
-      storage.topicFav.push(this.topic);
-    }
-    this.isFavo = storage.isFavo(this.topic);
+  favo() {
+    let tf = this.ud.storage.topicFavo;
+    let favo = tf.has(this.topic.id) ? tf.delete(this.topic.id) : tf.add(this.topic.id);
+
+    this.user.setUserData({
+      auth: this.ud.auth,
+      token: this.ud.token,
+      profiles: this.ud.profiles,
+      storage: this.ud.storage.setFavo(favo)
+    });
   }
 
   async scroll() {
-    if (await this.ud.isToken) {
+    if (this.ud) {
       //最短距離のレスID
       var res: Res;
       {
@@ -282,13 +283,12 @@ export class TopicComponent implements OnInit, OnDestroy, AfterViewChecked {
       }
 
       //セット
-      if ((await this.ud.storage).isRead(this.topic)) {
-        let val = ((await this.ud.storage).topicRead.find(x => x.topic.id === this.topic.id));
-        val.res = res;
-        val.count = this.topic.resCount;
-      } else {
-        (await this.ud.storage).topicRead.push({ topic: this.topic, res: res, count: this.topic.resCount });
-      }
+      this.user.setUserData({
+        auth: this.ud.auth,
+        token: this.ud.token,
+        profiles: this.ud.profiles,
+        storage: this.ud.storage.setTopicReadRes(this.topic.id, res.id)
+      });
     }
   }
 }

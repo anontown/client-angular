@@ -1,24 +1,34 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnDestroy, OnInit } from '@angular/core';
 import {
   Topic
 } from 'anontown';
-import { UserDataService } from '../services';
+import { UserService, IUserData, IUserDataListener } from '../services';
 
 
 @Component({
   selector: 'at-topic-data',
-  templateUrl:'./topic-data.component.html'
+  templateUrl: './topic-data.component.html'
 })
-export class TopicDataComponent {
+export class TopicDataComponent implements OnInit, OnDestroy {
   @Input()
   topic: Topic;
 
   @Output()
   update = new EventEmitter<Topic>();
 
-  private ud: UserDataService;
-  constructor(ud: UserDataService) {
-    this.ud = ud;
+  ud: IUserData;
+  private udListener: IUserDataListener;
+  constructor(private user: UserService) {
+  }
+
+  ngOnInit() {
+    this.udListener = this.user.addUserDataListener(ud => {
+      this.ud = ud;
+    });
+  }
+
+  ngOnDestroy() {
+    this.user.removeUserDataListener(this.udListener);
   }
 
   private isEdit = false;

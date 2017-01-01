@@ -1,9 +1,9 @@
-<div *ngIf="ud.isToken|async">
+<div *ngIf="ud">
   <at-user-profile-add></at-user-profile-add>
   <div>
     <at-user-profile-edit *ngFor="let p of ud.profiles|async" [profile]="p"></at-user-profile-edit>
   </div>
 </div>
-<md-card *ngIf="ud.notToken|async">
+<md-card *ngIf="!ud">
   ログインしてください。
 </md-card>

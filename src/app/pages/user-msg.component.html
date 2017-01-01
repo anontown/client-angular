@@ -1,4 +1,4 @@
-<div *ngIf="ud.isToken|async">
+<div *ngIf="ud">
   <div>
     <button (click)="readNew()" md-raised-button>最新</button>
   </div>
@@ -12,6 +12,6 @@
     <button (click)="readOld()" md-raised-button>前</button>
   </div>
 </div>
-<md-card *ngIf="ud.notToken|async">
+<md-card *ngIf="!ud">
   ログインしてください。
 </md-card>

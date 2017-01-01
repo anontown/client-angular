@@ -1,6 +1,6 @@
-<div *ngIf="ud.isToken|async">
+<div *ngIf="ud">
     <at-topic-list-item *ngFor="let t of favo" [topic]="t"></at-topic-list-item>
 </div>
-<md-card *ngIf="ud.notToken|async">
+<md-card *ngIf="ud">
     ログインしないと表示出来ません。
 </md-card>

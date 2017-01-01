@@ -13,7 +13,7 @@
     </div>
     <div>
       総レス数 {{topic.resCount}}
-      <span *ngIf="ud.isToken|async">新着 {{newRes}}</span>
+      <span *ngIf="newRes!==null">新着 {{newRes}}</span>
     </div>
   </md-card-content>
 </md-card>

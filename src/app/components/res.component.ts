@@ -6,7 +6,8 @@ import {
   EventEmitter,
   Output,
   ChangeDetectionStrategy,
-  ChangeDetectorRef
+  ChangeDetectorRef,
+  OnDestroy
 } from '@angular/core';
 
 import * as Immutable from 'immutable';
@@ -14,11 +15,11 @@ import * as Immutable from 'immutable';
 
 import {
   AtApiService,
-  Res
+  Res,
 } from 'anontown';
 
 
-import { UserDataService } from '../services';
+import { UserService, IUserDataListener, IUserData } from '../services';
 import { MdDialog } from '@angular/material';
 
 import { ProfileComponent, ResWriteComponent } from '../dialogs';
@@ -29,7 +30,7 @@ import { ProfileComponent, ResWriteComponent } from '../dialogs';
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./res.component.scss']
 })
-export class ResComponent implements OnInit {
+export class ResComponent implements OnInit, OnDestroy {
   @Input()
   res: Res;
 
@@ -41,22 +42,37 @@ export class ResComponent implements OnInit {
   @Output()
   update = new EventEmitter<Res>();
 
-  private isSelf: boolean;
+  isSelf: boolean;
 
-  constructor(private ud: UserDataService,
+  constructor(private user: UserService,
     private api: AtApiService,
     private dialog: MdDialog,
     public elementRef: ElementRef,
     private cd: ChangeDetectorRef) {
   }
 
-  async ngOnInit() {
-    this.isSelf = (await this.ud.isToken) && (await this.ud.token).user === this.res.user;
-    this.cd.markForCheck();
+  ud: IUserData;
+  private udListener: IUserDataListener;
+
+
+  ngOnInit() {
+    this.udListener = this.user.addUserDataListener(data => {
+      this.ud = data;
+      if (data !== null) {
+        this.isSelf = data.token.user === this.res.user;
+      } else {
+        this.isSelf = false;
+      }
+    });
+
+  }
+
+  ngOnDestroy() {
+    this.user.removeUserDataListener(this.udListener);
   }
 
   childrenUpdate(res: Res) {
-    this.children[this.children.findIndex((r) => r.id === res.id)] = res;
+    this.children.set(this.children.findIndex((r) => r.id === res.id), res);
     this.cd.markForCheck();
   }
 
@@ -75,7 +91,7 @@ export class ResComponent implements OnInit {
     if (this.children.size !== 0) {
       this.children = Immutable.List<Res>();
     } else {
-      this.children = Immutable.List(await this.api.findResHash(await this.ud.authOrNull, {
+      this.children = Immutable.List(await this.api.findResHash(this.ud.auth, {
         topic: this.res.topic,
         hash: this.res.hash
       }));
@@ -87,7 +103,7 @@ export class ResComponent implements OnInit {
     if (this.children.size !== 0) {
       this.children = Immutable.List<Res>();
     } else {
-      this.children = Immutable.List([await this.api.findResOne(await this.ud.authOrNull, {
+      this.children = Immutable.List([await this.api.findResOne(this.ud.auth, {
         id: this.res.reply as string
       })]);
     }
@@ -98,7 +114,7 @@ export class ResComponent implements OnInit {
     if (this.children.size !== 0) {
       this.children = Immutable.List<Res>();
     } else {
-      this.children = Immutable.List(await this.api.findResReply(await this.ud.authOrNull, {
+      this.children = Immutable.List(await this.api.findResReply(this.ud.auth, {
         topic: this.res.topic,
         reply: this.res.id
       }));
@@ -107,25 +123,25 @@ export class ResComponent implements OnInit {
   }
 
   async uv() {
-    this.update.emit(await this.api.uvRes(await this.ud.auth, {
+    this.update.emit(await this.api.uvRes(this.ud.auth, {
       id: this.res.id
     }));
   }
 
   async dv() {
-    this.update.emit(await this.api.dvRes(await this.ud.auth, {
+    this.update.emit(await this.api.dvRes(this.ud.auth, {
       id: this.res.id
     }));
   }
 
   async del() {
-    this.update.emit(await this.api.delRes(await this.ud.auth, {
+    this.update.emit(await this.api.delRes(this.ud.auth, {
       id: this.res.id
     }));
   }
 
   async profileOpen() {
-    this.dialog.open(ProfileComponent).componentInstance.profile = await this.api.findProfileOne(await this.ud.authOrNull, {
+    this.dialog.open(ProfileComponent).componentInstance.profile = await this.api.findProfileOne(this.ud ? this.ud.auth : null, {
       id: this.res.profile as string
     });
   }

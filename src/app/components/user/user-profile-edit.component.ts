@@ -1,16 +1,16 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, Output, EventEmitter } from '@angular/core';
 import {
     AtApiService,
     Profile,
-    AtError
+    AtError,
 } from 'anontown';
-import { UserDataService } from '../../../services';
+import { UserService, IUserDataListener, IUserData } from '../../services';
 
 @Component({
     selector: 'at-user-profile-edit',
     templateUrl: './user-profile-edit.component.html'
 })
-export class UserProfileEditComponent extends OnInit {
+export class UserProfileEditComponent implements OnInit, OnDestroy {
     @Input()
     private profile: Profile;
 
@@ -20,19 +20,31 @@ export class UserProfileEditComponent extends OnInit {
     private text = "";
     private errorMsg: string | null = null;
 
-    constructor(private ud: UserDataService,
+    constructor(private user: UserService,
         private api: AtApiService) {
-        super();
     }
+
+    ud: IUserData = null;
+    udListener: IUserDataListener;
+
+    @Output()
+    update = new EventEmitter<Profile>();
 
     ngOnInit() {
         this.name = this.profile.name;
         this.text = this.profile.text;
+        this.udListener = this.user.addUserDataListener((ud) => {
+            this.ud = ud;
+        })
+    }
+
+    ngOnDestroy() {
+        this.user.removeUserDataListener(this.udListener);
     }
 
     ok() {
         (async () => {
-            let profile = await this.api.updateProfile(await this.ud.auth, {
+            let profile = await this.api.updateProfile(this.ud.auth, {
                 id: this.profile.id,
                 name: this.name,
                 text: this.text
@@ -40,10 +52,7 @@ export class UserProfileEditComponent extends OnInit {
             this.errorMsg = null;
 
             //プロフィール更新
-            let profiles = await this.ud.profiles;
-            profiles[profiles.indexOf(this.profile)] = profile;
-            this.profile = profile;
-            this.ngOnInit();
+            this.update.emit(profile);
         })().catch(e => {
             if (e instanceof AtError) {
                 this.errorMsg = e.message;

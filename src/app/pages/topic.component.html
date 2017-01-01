@@ -1,6 +1,6 @@
-<div class="fab-main">
-  <button md-mini-fab *ngIf="ud.isToken|async" (click)="favo()">
-        <md-icon>{{isFavo?'star':'star_border'}}</md-icon>
+<div *ngIf="topic" class="fab-main">
+  <button md-mini-fab *ngIf="ud" (click)="favo()">
+        <md-icon>{{ud.storage.topicFavo.has(topic.id)?'star':'star_border'}}</md-icon>
     </button>
   <button md-mini-fab (click)="detail()">
         <md-icon>keyboard_arrow_up</md-icon>
@@ -8,7 +8,7 @@
   <button md-mini-fab (click)="autoScrollMenu()">
         <md-icon>play_circle_outline</md-icon>
         </button>
-  <button md-fab *ngIf="ud.isToken|async" (click)="writeMenu()">
+  <button md-fab *ngIf="ud" (click)="writeMenu()">
         <md-icon>edit</md-icon>
     </button>
 </div>

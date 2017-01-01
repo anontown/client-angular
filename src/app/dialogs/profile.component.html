@@ -1,13 +1,11 @@
 <md-dialog-content *ngIf="profile">
-    <dl class="dl-horizontal">
+    <dl>
         <dt>ID</dt>
         <dd>{{profile.id}}</dd>
         <dt>名前</dt>
         <dd>{{profile.name}}</dd>
         <dd>
-            <div class="panel panel-default">
-                <div [innerHTML]="profile.mdtext" class="panel-body"></div>
-            </div>
+            <div [innerHTML]="profile.mdtext"></div>
         </dd>
     </dl>
 </md-dialog-content>

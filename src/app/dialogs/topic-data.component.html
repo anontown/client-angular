@@ -1,7 +1,7 @@
 <md-dialog-content>
   <h1>{{topic.title}}</h1>
   <div>
-    <dl class="dl-horizontal">
+    <dl>
       <dt>作成</dt>
       <dd>{{topic.date|date:"y/MM/dd(EEE) HH:mm:ss"}}</dd>
       <dt>更新</dt>
@@ -10,9 +10,7 @@
       <dd><a [routerLink]="['/topic/search']" [queryParams]="{title:'',category:topic.category.join('/')}">{{topic.category.join('/')}}</a></dd>
       <dt>本文</dt>
       <dd>
-        <div class="panel panel-default">
-          <div [innerHTML]="topic.mdtext" class="panel-body"></div>
-        </div>
+        <div [innerHTML]="topic.mdtext"></div>
       </dd>
       <dt>編集履歴</dt>
       <dd>
@@ -22,8 +20,8 @@
       </dd>
     </dl>
   </div>
-  <button md-icon-button *ngIf="ud.isToken|async" (click)="edit()">
+  <button md-icon-button *ngIf="ud" (click)="edit()">
       <md-icon>edit</md-icon>
     </button>
-  <at-topic-edit *ngIf="isEdit&&(ud.isToken|async)" [topic]="topic" (update)="update.emit($event)"></at-topic-edit>
+  <at-topic-edit *ngIf="isEdit&&ud" [topic]="topic" (update)="update.emit($event)"></at-topic-edit>
 </md-dialog-content>

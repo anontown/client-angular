@@ -1,62 +1,74 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import {
     Res,
     AtApiService,
 } from 'anontown';
-import { UserDataService } from '../services';
+import { UserService, IUserData, IUserDataListener } from '../services';
+import * as Immutable from 'immutable';
 
 @Component({
     selector: 'at-user-notice',
     templateUrl: './user-notice.component.html'
 })
-export class UserNoticeComponent implements OnInit {
-    private reses: Res[] = [];
+export class UserNoticeComponent implements OnInit, OnDestroy {
+    private reses = Immutable.List<Res>();
     private limit = 50;
 
     constructor(
-        private ud: UserDataService,
+        private user: UserService,
         private api: AtApiService) {
     }
 
+    ud: IUserData;
+    private udListener: IUserDataListener;
     ngOnInit() {
-        this.findNew();
+        this.udListener = this.user.addUserDataListener(ud => {
+            this.ud = ud;
+            if (ud !== null) {
+                this.findNew();
+            }
+        });
+    }
+
+    ngOnDestroy() {
+        this.user.removeUserDataListener(this.udListener);
     }
 
     updateRes(res: Res) {
-        this.reses[this.reses.findIndex((r) => r.id === res.id)] = res;
+        this.reses.set(this.reses.findIndex((r) => r.id === res.id), res);
     }
 
     private async findNew() {
-        this.reses = await this.api.findResNoticeNew(await this.ud.auth, {
+        this.reses = Immutable.List(await this.api.findResNoticeNew(this.ud.auth, {
             limit: this.limit
-        })
+        }));
     }
 
     async readNew() {
-        if (this.reses.length === 0) {
+        if (this.reses.size === 0) {
             this.findNew();
         } else {
-            this.reses = (await this.api.findResNotice(await this.ud.auth,
+            this.reses = Immutable.List((await this.api.findResNotice(this.ud.auth,
                 {
                     type: "after",
                     equal: false,
-                    date: this.reses[0].date,
+                    date: this.reses.first().date,
                     limit: this.limit
-                })).concat(this.reses);
+                })).concat(this.reses.toArray()));
         }
     }
 
     async readOld() {
-        if (this.reses.length === 0) {
+        if (this.reses.size === 0) {
             this.findNew();
         } else {
-            this.reses = this.reses.concat(await this.api.findResNotice(await this.ud.auth,
+            this.reses = Immutable.List(this.reses.toArray().concat(await this.api.findResNotice(this.ud.auth,
                 {
                     type: "before",
                     equal: false,
-                    date: this.reses[this.reses.length - 1].date,
+                    date: this.reses.last().date,
                     limit: this.limit
-                }));
+                })));
         }
     }
 }

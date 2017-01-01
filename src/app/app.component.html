@@ -5,19 +5,19 @@
 </md-menu>
 
 <nav md-tab-nav-bar class="tab-nav">
-  <a md-tab-link [routerLink]="['/favo']" *ngIf="ud.isToken|async">
+  <a md-tab-link [routerLink]="['/favo']" *ngIf="ud">
     <md-icon>star</md-icon>
   </a>
   <a md-tab-link [routerLink]="['/topic/search']" [queryParams]="{title:'',category:''}">
     <md-icon>search</md-icon>
   </a>
-  <a md-tab-link [routerLink]="['/user/notice']" *ngIf="ud.isToken|async">
+  <a md-tab-link [routerLink]="['/user/notice']" *ngIf="ud">
     <md-icon>notifications</md-icon>
   </a>
-  <a md-tab-link href="javascript:void(0);" *ngIf="ud.isToken|async" [mdMenuTriggerFor]="menu">
+  <a md-tab-link href="javascript:void(0);" *ngIf="ud" [mdMenuTriggerFor]="menu">
     <md-icon>more_vert</md-icon>
   </a>
-  <a md-tab-link href="javascript:void(0);" *ngIf="ud.notToken|async" (click)="login()">
+  <a md-tab-link href="javascript:void(0);" *ngIf="!ud" (click)="login()">
     ログイン/登録
   </a>
 </nav>

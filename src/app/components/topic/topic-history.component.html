@@ -5,16 +5,14 @@
     </button> {{history.date|date:"y/MM/dd(EEE) HH:mm:ss"}}
     <a href="javascript:void(0);" (click)="hashClick()">HASH:{{history.hash}}</a>
   </div>
-  <dl *ngIf="isDetail" class="dl-horizontal">
+  <dl *ngIf="isDetail">
     <dt>タイトル</dt>
     <dd>{{history.title}}</dd>
     <dt>カテゴリ</dt>
     <dd><a [routerLink]="['/topic/search']" [queryParams]="{title:'',category:history.category.join('/')}">{{history.category.join('/')}}</a></dd>
     <dt>本文</dt>
     <dd>
-      <div class="panel panel-default">
-        <div [innerHTML]="history.mdtext" class="panel-body"></div>
-      </div>
+      <div [innerHTML]="history.mdtext"></div>
     </dd>
   </dl>
   <div *ngIf="hashReses.length!==0">
