@@ -37,12 +37,8 @@ export class Storage {
         return new Storage(topicFavo, topicRead);
     }
 
-    setTopicReadCount(topic: string, count: number): Storage {
-        return this.copy({ topicRead: this.topicRead.set(topic, { res: this.topicRead.get(topic).res, count }) });
-    }
-
-    setTopicReadRes(topic: string, res: string): Storage {
-        return this.copy({ topicRead: this.topicRead.set(topic, { count: this.topicRead.get(topic).count, res }) });
+    setTopicRead(topic: string, res: string, count: number): Storage {
+        return this.copy({ topicRead: this.topicRead.set(topic, { res, count }) });
     }
 
     setFavo(topicFavo: Immutable.Set<string>): Storage {

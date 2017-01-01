@@ -155,12 +155,7 @@ export class TopicComponent implements OnInit, OnDestroy, AfterViewChecked {
       }
 
       if (ud !== null && isChange) {
-        this.user.setUserData({
-          auth: ud.auth,
-          token: ud.token,
-          storage: ud.storage.setTopicReadCount(this.topic.id, this.topic.resCount),
-          profiles: ud.profiles
-        });
+        await this.scroll();
       }
     });
 
@@ -287,7 +282,7 @@ export class TopicComponent implements OnInit, OnDestroy, AfterViewChecked {
         auth: this.ud.auth,
         token: this.ud.token,
         profiles: this.ud.profiles,
-        storage: this.ud.storage.setTopicReadRes(this.topic.id, res.id)
+        storage: this.ud.storage.setTopicRead(this.topic.id, res.id, this.topic.resCount)
       });
     }
   }
