@@ -1,4 +1,4 @@
-<md-card [ngClass]="{'res':true,'res-pop':isPop}">
+<md-card [ngClass]="{'res-pop':isPop}">
   <md-card-header [ngClass]="{'res-self':isSelf}">
     <md-card-title>
       <a (click)="reply()" href="javascript:void(0);">{{res.name}}</a>
@@ -10,16 +10,18 @@
     </md-card-subtitle>
   </md-card-header>
   <md-card-content>
-    <button *ngIf="res.reply!==null" (click)="sendReplyClick()" md-icon-button>
-      <md-icon>send</md-icon>
-    </button>
-    <button (click)="receiveReplyClick()" *ngIf="res.replyCount!==0" md-icon-button>
-      <md-icon>reply</md-icon>
-      {{res.replyCount}}
-    </button>
+    <span class="action">
+      <button *ngIf="res.reply!==null" (click)="sendReplyClick()" md-icon-button>
+        <md-icon>send</md-icon>
+      </button>
+      <button (click)="receiveReplyClick()" *ngIf="res.replyCount!==0" md-icon-button>
+        <md-icon>reply</md-icon>
+        {{res.replyCount}}
+      </button>
+    </span>
     <div [innerHTML]="res.mdtext" class="aa"></div>
   </md-card-content>
-  <md-card-actions class="res-footer">
+  <md-card-actions class="res-footer action">
     <span *ngIf="!isSelf&&ud&&!res.isVote">
       <button (click)="uv()" md-icon-button>
         <md-icon>thumb_up</md-icon>

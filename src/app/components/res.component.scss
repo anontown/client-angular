@@ -1,8 +1,3 @@
-.res{
-  margin-top: 2px;
-  margin-bottom: 2px;
-}
-
 .res-pop{
   background-color: #ffffcc;
 }
@@ -14,4 +9,28 @@
 .vote{
   margin: 6px;
   vertical-align: middle;
+}
+
+.action{
+  $icon-button-size:12px;
+  $icon-size:8px;
+
+  font-size: $icon-size !important;
+  line-height: $icon-size !important;
+
+  [md-icon-button] {
+    width: $icon-button-size !important;
+    height: $icon-button-size !important;
+    line-height: $icon-button-size !important;
+  }
+
+  md-icon{
+    font-size: $icon-size !important;
+    line-height: $icon-size !important;
+    display: inline !important;
+  }
+}
+
+md-card-content>div{
+  margin:2px;
 }
