@@ -8,7 +8,7 @@ import {
   AfterViewChecked,
   ChangeDetectionStrategy
 } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
+import 'rxjs';
 import * as socketio from 'socket.io-client';
 import { MdDialog } from '@angular/material';
 import {
@@ -108,7 +108,6 @@ export class TopicComponent implements OnInit, OnDestroy, AfterViewChecked {
 
 
   private socket: SocketIOClient.Socket;
-  private scrollObs: Subscription;
 
   //次のビュー更新で最新レスを読み込むか
   private isReadNew = false;
@@ -123,9 +122,37 @@ export class TopicComponent implements OnInit, OnDestroy, AfterViewChecked {
   private udListener: IUserDataListener;
 
   ngOnDestroy() {
+    if (this.ud) {
+      //最短距離のレスID
+      var res: Res;
+      {
+        let getTop = (rc: ResComponent) => rc.elementRef.nativeElement.getBoundingClientRect().top as number;
+        //最短
+        let rc: ResComponent | null = null;
+        this.resE.forEach(x => {
+          if (rc === null) {
+            rc = x;
+          } else if (Math.abs(getTop(rc)) > Math.abs(getTop(x))) {
+            rc = x;
+          }
+        });
+        if (rc === null) {
+          return;
+        }
+        res = (rc as ResComponent).res;
+      }
+
+      //セット
+      this.user.setUserData({
+        auth: this.ud.auth,
+        token: this.ud.token,
+        profiles: this.ud.profiles,
+        storage: this.ud.storage.setTopicRead(this.topic.id, res.id, this.topic.resCount)
+      });
+    }
+
     clearInterval(this.intervalID);
     this.socket.close();
-    this.scrollObs.unsubscribe();
     this.user.removeUserDataListener(this.udListener);
   }
 
@@ -136,7 +163,7 @@ export class TopicComponent implements OnInit, OnDestroy, AfterViewChecked {
     });
     this.topic = await this.api.findTopicOne({ id });
 
-    this.udListener = this.user.addUserDataListener(async (ud, isChange) => {
+    this.udListener = this.user.addUserDataListener(async ud => {
       this.ud = ud;
       if (ud !== null && ud.storage.topicRead.has(this.topic.id)) {
         //読んだことあるなら続きから
@@ -155,10 +182,6 @@ export class TopicComponent implements OnInit, OnDestroy, AfterViewChecked {
         //読んだことないなら最新レス
         await this.findNew();
       }
-
-      if (ud !== null && isChange) {
-        await this.scroll();
-      }
     });
 
     this.zone.runOutsideAngular(() => {
@@ -167,12 +190,6 @@ export class TopicComponent implements OnInit, OnDestroy, AfterViewChecked {
           document.body.scrollTop -= this.autoScrollSpeed;
         }
       }, 200);
-
-      this.scrollObs = Observable.fromEvent(document, "scroll")
-        .throttleTime(300)
-        .subscribe(() => {
-          this.scroll();
-        });
     });
 
 
@@ -256,36 +273,5 @@ export class TopicComponent implements OnInit, OnDestroy, AfterViewChecked {
       profiles: this.ud.profiles,
       storage: this.ud.storage.setFavo(favo)
     });
-  }
-
-  async scroll() {
-    if (this.ud) {
-      //最短距離のレスID
-      var res: Res;
-      {
-        let getTop = (rc: ResComponent) => rc.elementRef.nativeElement.getBoundingClientRect().top as number;
-        //最短
-        let rc: ResComponent | null = null;
-        this.resE.forEach(x => {
-          if (rc === null) {
-            rc = x;
-          } else if (Math.abs(getTop(rc)) > Math.abs(getTop(x))) {
-            rc = x;
-          }
-        });
-        if (rc === null) {
-          return;
-        }
-        res = (rc as ResComponent).res;
-      }
-
-      //セット
-      this.user.setUserData({
-        auth: this.ud.auth,
-        token: this.ud.token,
-        profiles: this.ud.profiles,
-        storage: this.ud.storage.setTopicRead(this.topic.id, res.id, this.topic.resCount)
-      });
-    }
   }
 }
