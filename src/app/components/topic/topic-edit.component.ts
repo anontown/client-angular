@@ -32,7 +32,7 @@ export class TopicEditComponent implements OnInit, OnDestroy {
     private text = "";
     private errorMsg: string | null = null;
 
-    ud: IUserData = null;
+    ud: IUserData;
     private udListener: IUserDataListener;
 
     constructor(private user: UserService,

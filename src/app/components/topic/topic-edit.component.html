@@ -1,4 +1,4 @@
-<form (ngSubmit)="ok()" *ngIf="ud">
+<form (ngSubmit)="ok()" *ngIf="ud!==null&&ud!==undefined">
   <div *ngIf="errorMsg!==null">
     <md-icon>error</md-icon> {{errorMsg}}
   </div>

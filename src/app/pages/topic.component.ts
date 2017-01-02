@@ -163,8 +163,13 @@ export class TopicComponent implements OnInit, OnDestroy, AfterViewChecked {
     });
     this.topic = await this.api.findTopicOne({ id });
 
+    let isInit = false;
     this.udListener = this.user.addUserDataListener(async ud => {
       this.ud = ud;
+      if (isInit) {
+        return;
+      }
+      isInit = true;
       if (ud !== null && ud.storage.topicRead.has(this.topic.id)) {
         //読んだことあるなら続きから
         await this.lock(async () => {

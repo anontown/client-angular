@@ -1,4 +1,4 @@
-<md-card>
+<md-card *ngIf="ud!==undefined">
   <form (ngSubmit)="search()">
     <div>
       <md-input-container>
@@ -16,7 +16,7 @@
   </form>
 </md-card>
 <div>
-  <button md-icon-button [routerLink]="['/topic/write']" *ngIf="ud">
+  <button md-icon-button [routerLink]="['/topic/write']" *ngIf="ud!==null">
     <md-icon>edit</md-icon>
   </button>
   <button md-icon-button (click)="update()">

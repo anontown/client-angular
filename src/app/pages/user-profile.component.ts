@@ -11,7 +11,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
     constructor(private user: UserService) {
     }
 
-    ud: IUserData = null;
+    ud: IUserData;
     private udListener: IUserDataListener;
 
     ngOnInit() {

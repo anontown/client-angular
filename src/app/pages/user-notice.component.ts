@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy,ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import {
     Res,
     AtApiService,
@@ -23,8 +23,13 @@ export class UserNoticeComponent implements OnInit, OnDestroy {
     ud: IUserData;
     private udListener: IUserDataListener;
     ngOnInit() {
+        let isInit = false;
         this.udListener = this.user.addUserDataListener(ud => {
             this.ud = ud;
+            if (isInit) {
+                return;
+            }
+            isInit = true;
             if (ud !== null) {
                 this.findNew();
             }

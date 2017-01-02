@@ -24,7 +24,7 @@ export class UserProfileAddComponent implements OnInit, OnDestroy {
     private text = "";
     private errorMsg: string | null = null;
 
-    ud: IUserData = null;
+    ud: IUserData;
     udListener: IUserDataListener;
 
     @Output()

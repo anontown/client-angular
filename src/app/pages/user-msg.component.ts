@@ -20,7 +20,7 @@ export class UserMsgComponent implements OnInit, OnDestroy {
         private api: AtApiService) {
     }
 
-    ud: IUserData = null;
+    ud: IUserData;
     private udListener: IUserDataListener;
 
     ngOnInit() {

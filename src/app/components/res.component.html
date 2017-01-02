@@ -21,8 +21,8 @@
     </span>
     <div [innerHTML]="res.mdtext" class="aa"></div>
   </md-card-content>
-  <md-card-actions class="res-footer action">
-    <span *ngIf="!isSelf&&ud&&!res.isVote">
+  <md-card-actions class="res-footer action" *ngIf="ud!==undefined">
+    <span *ngIf="!isSelf&&ud!==null&&!res.isVote">
       <button (click)="uv()" md-icon-button>
         <md-icon>thumb_up</md-icon>
       </button>
@@ -31,7 +31,7 @@
         <md-icon>thumb_down</md-icon>
       </button>
     </span>
-    <span *ngIf="isSelf||!ud||res.isVote">
+    <span *ngIf="isSelf||ud===null||res.isVote">
       <md-icon class="vote">thumbs_up_down</md-icon> {{res.vote}}
     </span>
     <button *ngIf="isSelf&&res.deleteFlag==='active'" (click)="del()" md-icon-button>

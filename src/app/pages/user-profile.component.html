@@ -1,9 +1,9 @@
-<div *ngIf="ud">
+<div *ngIf="ud!==null&&ud!==undefined">
   <at-user-profile-add></at-user-profile-add>
   <div>
     <at-user-profile-edit *ngFor="let p of ud.profiles" [profile]="p"></at-user-profile-edit>
   </div>
 </div>
-<md-card *ngIf="!ud">
+<md-card *ngIf="ud===null&&ud!==undefined">
   ログインしてください。
 </md-card>

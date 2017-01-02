@@ -23,7 +23,7 @@ export class TopicWriteComponent implements OnInit, OnDestroy {
         private router: Router) {
     }
 
-    ud: IUserData = null;
+    ud: IUserData;
     private udListener: IUserDataListener;
 
     ngOnInit() {

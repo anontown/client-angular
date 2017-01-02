@@ -30,7 +30,7 @@ export class ResWriteComponent implements OnInit, OnDestroy {
     @Output()
     write = new EventEmitter<Res>();
 
-    ud: IUserData = null;
+    ud: IUserData;
     private udListener: IUserDataListener;
 
     ngOnInit() {

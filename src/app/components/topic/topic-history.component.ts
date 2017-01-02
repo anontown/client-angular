@@ -38,7 +38,7 @@ export class TopicHistoryComponent implements OnInit, OnDestroy {
 
     }
 
-    ud: IUserData = null;
+    ud: IUserData;
     private udListener: IUserDataListener;
 
     ngOnInit() {

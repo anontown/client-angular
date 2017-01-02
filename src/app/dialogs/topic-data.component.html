@@ -1,4 +1,4 @@
-<md-dialog-content>
+<md-dialog-content *ngIf="ud!==undefined">
   <h1>{{topic.title}}</h1>
   <div>
     <dl>
@@ -20,8 +20,8 @@
       </dd>
     </dl>
   </div>
-  <button md-icon-button *ngIf="ud" (click)="edit()">
+  <button md-icon-button *ngIf="ud!==null" (click)="edit()">
       <md-icon>edit</md-icon>
     </button>
-  <at-topic-edit *ngIf="isEdit&&ud" [topic]="topic" (update)="update.emit($event)"></at-topic-edit>
+  <at-topic-edit *ngIf="isEdit&&ud!==null" [topic]="topic" (update)="update.emit($event)"></at-topic-edit>
 </md-dialog-content>

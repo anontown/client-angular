@@ -1,4 +1,4 @@
-<md-card *ngIf="ud">
+<md-card *ngIf="ud!==null&&ud!==undefined">
   <form (ngSubmit)="write()">
     <div *ngIf="errorMsg!==null">
       <md-icon>error</md-icon> {{errorMsg}}
@@ -20,6 +20,6 @@
     </div>
   </form>
 </md-card>
-<md-card *ngIf="!ud">
+<md-card *ngIf="ud===null">
   ログインしないと書き込めません
 </md-card>

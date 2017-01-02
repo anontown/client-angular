@@ -18,7 +18,7 @@ export class UserFavoTopicComponent implements OnInit, OnDestroy {
     }
 
     favo: Immutable.List<Topic>;
-    ud: IUserData = null;
+    ud: IUserData;
     private udListener: IUserDataListener;
 
     ngOnInit() {

@@ -32,7 +32,7 @@ export class UserProfileEditComponent implements OnInit, OnDestroy {
         private api: AtApiService) {
     }
 
-    ud: IUserData = null;
+    ud: IUserData;
     udListener: IUserDataListener;
 
     @Output()

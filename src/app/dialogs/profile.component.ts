@@ -15,7 +15,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   @Input()
   profile: Profile;
 
-  ud: IUserData = null;
+  ud: IUserData;
   private udListener: IUserDataListener;
 
   constructor(private user: UserService) {
