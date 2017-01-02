@@ -1,8 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input,ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
     selector: 'topic-auto-scroll-menu',
-    templateUrl: './topic-auto-scroll-menu.component.html'
+    templateUrl: './topic-auto-scroll-menu.component.html',
+    changeDetection: ChangeDetectionStrategy.Default
 })
 export class TopicAutoScrollMenuComponent implements OnInit {
     @Input()

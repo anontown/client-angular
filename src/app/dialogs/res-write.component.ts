@@ -5,7 +5,8 @@ import {
     EventEmitter,
     NgZone,
     OnInit,
-    OnDestroy
+    OnDestroy,
+    ChangeDetectionStrategy
 } from '@angular/core';
 import {
     AtApiService,
@@ -18,7 +19,8 @@ import { UserService, IUserData, IUserDataListener } from '../services';
 
 @Component({
     selector: 'at-res-write',
-    templateUrl: './res-write.component.html'
+    templateUrl: './res-write.component.html',
+    changeDetection: ChangeDetectionStrategy.Default
 })
 export class ResWriteComponent implements OnInit, OnDestroy {
     private name = "";

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy,ChangeDetectionStrategy } from '@angular/core';
 import {
     Msg,
     AtApiService,
@@ -8,7 +8,8 @@ import * as Immutable from 'immutable';
 
 @Component({
     selector: 'at-user-msg',
-    templateUrl: './user-msg.component.html'
+    templateUrl: './user-msg.component.html',
+    changeDetection: ChangeDetectionStrategy.Default
 })
 export class UserMsgComponent implements OnInit, OnDestroy {
     private msgs = Immutable.List<Msg>();

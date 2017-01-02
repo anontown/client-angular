@@ -5,7 +5,8 @@ import {
   QueryList,
   OnDestroy,
   NgZone,
-  AfterViewChecked
+  AfterViewChecked,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import * as socketio from 'socket.io-client';
@@ -29,7 +30,8 @@ import * as Immutable from 'immutable';
 @Component({
   selector: 'at-topic',
   templateUrl: './topic.component.html',
-  styleUrls: ['./topic.component.scss']
+  styleUrls: ['./topic.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Default
 })
 export class TopicComponent implements OnInit, OnDestroy, AfterViewChecked {
   topic: Topic;
@@ -203,7 +205,7 @@ export class TopicComponent implements OnInit, OnDestroy, AfterViewChecked {
         //一番上のレスと座標を取得
         let rc = this.resE.first;
         let rcY: number;
-        if (rc.elementRef) {
+        if (rc && rc.elementRef) {
           rcY = rc.elementRef.nativeElement.getBoundingClientRect().top as number;
         }
 
@@ -217,7 +219,7 @@ export class TopicComponent implements OnInit, OnDestroy, AfterViewChecked {
           }
         )).concat(this.reses.toArray()));
 
-        if (rc.elementRef) {
+        if (rc && rc.elementRef) {
           setTimeout(() => {
             document.body.scrollTop += rc.elementRef.nativeElement.getBoundingClientRect().top - rcY
           }, 0);

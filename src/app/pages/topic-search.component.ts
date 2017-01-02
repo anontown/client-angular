@@ -1,16 +1,24 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import {
   Topic,
   AtApiService
 } from 'anontown';
 
-import { ActivatedRoute, Router } from '@angular/router';
+import {
+  ActivatedRoute,
+  Router
+} from '@angular/router';
 import * as Immutable from 'immutable';
-import { IUserData, IUserDataListener, UserService } from '../services';
+import {
+  IUserData,
+  IUserDataListener,
+  UserService
+} from '../services';
 
 @Component({
   selector: 'at-topic-search',
-  templateUrl: './topic-search.component.html'
+  templateUrl: './topic-search.component.html',
+  changeDetection: ChangeDetectionStrategy.Default
 })
 export class TopicSearchComponent implements OnInit, OnDestroy {
   private topics = Immutable.List<Topic>();

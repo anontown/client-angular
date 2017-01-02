@@ -3,7 +3,8 @@ import {
     OnInit,
     OnDestroy,
     EventEmitter,
-    Output
+    Output,
+    ChangeDetectionStrategy
 } from '@angular/core';
 import {
     AtApiService,
@@ -15,7 +16,8 @@ import { UserService, IUserDataListener, IUserData } from '../../services';
 
 @Component({
     selector: 'at-user-profile-add',
-    templateUrl: './user-profile-add.component.html'
+    templateUrl: './user-profile-add.component.html',
+    changeDetection: ChangeDetectionStrategy.Default
 })
 export class UserProfileAddComponent implements OnInit, OnDestroy {
     private name = "";

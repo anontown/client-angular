@@ -1,4 +1,12 @@
-import { Component, OnInit, Input, EventEmitter, Output, OnDestroy } from '@angular/core';
+import {
+    Component,
+    OnInit,
+    Input,
+    EventEmitter,
+    Output,
+    OnDestroy,
+    ChangeDetectionStrategy,
+} from '@angular/core';
 import {
     AtApiService,
     Topic,
@@ -9,7 +17,8 @@ import { UserService, IUserDataListener, IUserData } from '../../services';
 
 @Component({
     selector: 'at-topic-edit',
-    templateUrl: './topic-edit.component.html'
+    templateUrl: './topic-edit.component.html',
+    changeDetection: ChangeDetectionStrategy.Default
 })
 export class TopicEditComponent implements OnInit, OnDestroy {
     @Input()

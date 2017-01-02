@@ -1,13 +1,23 @@
-import { Component, Input, Output, EventEmitter, OnDestroy, OnInit } from '@angular/core';
+import { Component,
+   Input,
+    Output, 
+    EventEmitter, 
+    OnDestroy, 
+    OnInit ,
+  ChangeDetectionStrategy} from '@angular/core';
 import {
   Topic
 } from 'anontown';
-import { UserService, IUserData, IUserDataListener } from '../services';
+import { UserService, 
+  IUserData,
+   IUserDataListener
+   } from '../services';
 
 
 @Component({
   selector: 'at-topic-data',
-  templateUrl: './topic-data.component.html'
+  templateUrl: './topic-data.component.html',
+    changeDetection: ChangeDetectionStrategy.Default
 })
 export class TopicDataComponent implements OnInit, OnDestroy {
   @Input()

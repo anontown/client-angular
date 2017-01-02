@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { AtApiService } from 'anontown';
 import { UserService } from '../services';
 import { Config } from '../config';
@@ -6,7 +6,8 @@ import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'at-index',
-  templateUrl: './index.component.html'
+  templateUrl: './index.component.html',
+  changeDetection: ChangeDetectionStrategy.Default
 })
 export class IndexComponent implements OnInit {
   userURL = Config.userURL;

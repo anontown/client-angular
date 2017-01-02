@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy,ChangeDetectionStrategy } from '@angular/core';
 import {
     Res,
     AtApiService,
@@ -8,7 +8,8 @@ import * as Immutable from 'immutable';
 
 @Component({
     selector: 'at-user-notice',
-    templateUrl: './user-notice.component.html'
+    templateUrl: './user-notice.component.html',
+    changeDetection: ChangeDetectionStrategy.Default
 })
 export class UserNoticeComponent implements OnInit, OnDestroy {
     private reses = Immutable.List<Res>();

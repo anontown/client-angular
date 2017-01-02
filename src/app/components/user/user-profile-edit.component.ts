@@ -1,4 +1,11 @@
-import { Component, OnInit, Input, OnDestroy, Output, EventEmitter } from '@angular/core';
+import {
+    Component,
+    OnInit,
+    Input,
+    OnDestroy,
+    Output,
+    EventEmitter, ChangeDetectionStrategy
+} from '@angular/core';
 import {
     AtApiService,
     Profile,
@@ -8,7 +15,8 @@ import { UserService, IUserDataListener, IUserData } from '../../services';
 
 @Component({
     selector: 'at-user-profile-edit',
-    templateUrl: './user-profile-edit.component.html'
+    templateUrl: './user-profile-edit.component.html',
+    changeDetection: ChangeDetectionStrategy.Default
 })
 export class UserProfileEditComponent implements OnInit, OnDestroy {
     @Input()

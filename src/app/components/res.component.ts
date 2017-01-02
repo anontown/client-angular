@@ -48,7 +48,7 @@ export class ResComponent implements OnInit, OnDestroy {
     private api: AtApiService,
     private dialog: MdDialog,
     public elementRef: ElementRef,
-    private cd: ChangeDetectorRef) {
+    private cdr: ChangeDetectorRef) {
   }
 
   ud: IUserData;
@@ -63,6 +63,7 @@ export class ResComponent implements OnInit, OnDestroy {
       } else {
         this.isSelf = false;
       }
+      this.cdr.markForCheck();
     });
 
   }
@@ -73,7 +74,7 @@ export class ResComponent implements OnInit, OnDestroy {
 
   childrenUpdate(res: Res) {
     this.children.set(this.children.findIndex((r) => r.id === res.id), res);
-    this.cd.markForCheck();
+    this.cdr.markForCheck();
   }
 
 
@@ -96,7 +97,7 @@ export class ResComponent implements OnInit, OnDestroy {
         hash: this.res.hash
       }));
     }
-    this.cd.markForCheck();
+    this.cdr.markForCheck();
   }
 
   async sendReplyClick() {
@@ -107,7 +108,7 @@ export class ResComponent implements OnInit, OnDestroy {
         id: this.res.reply as string
       })]);
     }
-    this.cd.markForCheck();
+    this.cdr.markForCheck();
   }
 
   async receiveReplyClick() {
@@ -119,7 +120,7 @@ export class ResComponent implements OnInit, OnDestroy {
         reply: this.res.id
       }));
     }
-    this.cd.markForCheck();
+    this.cdr.markForCheck();
   }
 
   async uv() {

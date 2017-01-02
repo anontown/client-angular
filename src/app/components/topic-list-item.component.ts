@@ -1,17 +1,26 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  OnDestroy,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef
+} from '@angular/core';
 import { Topic } from 'anontown';
 import { UserService, IUserDataListener, IUserData } from '../services';
 
 @Component({
   selector: 'at-topic-list-item',
   templateUrl: './topic-list-item.component.html',
-  styleUrls: ['./topic-list-item.component.scss']
+  styleUrls: ['./topic-list-item.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TopicListItemComponent implements OnInit, OnDestroy {
   @Input()
   topic: Topic;
 
-  constructor(private user: UserService) {
+  constructor(private user: UserService,
+    private cdr: ChangeDetectorRef) {
 
   }
 
@@ -27,6 +36,7 @@ export class TopicListItemComponent implements OnInit, OnDestroy {
       } else {
         this.newRes = null;
       }
+      this.cdr.markForCheck();
     });
   }
 

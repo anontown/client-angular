@@ -1,4 +1,10 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import {
+    Component,
+    Input,
+    OnInit,
+    OnDestroy,
+    ChangeDetectionStrategy
+} from '@angular/core';
 import { AtApiService, Topic, Res, History } from 'anontown';
 import {
     UserService,
@@ -9,7 +15,8 @@ import * as Immutable from 'immutable';
 
 @Component({
     selector: 'at-topic-history',
-    templateUrl: './topic-history.component.html'
+    templateUrl: './topic-history.component.html',
+    changeDetection: ChangeDetectionStrategy.Default
 })
 export class TopicHistoryComponent implements OnInit, OnDestroy {
     @Input()

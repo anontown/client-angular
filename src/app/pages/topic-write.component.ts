@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import {
     AtApiService,
     AtError
@@ -9,7 +9,8 @@ import { Router } from '@angular/router';
 
 @Component({
     selector: 'at-topic-write',
-    templateUrl: './topic-write.component.html'
+    templateUrl: './topic-write.component.html',
+    changeDetection: ChangeDetectionStrategy.Default
 })
 export class TopicWriteComponent implements OnInit, OnDestroy {
     private title = "";
