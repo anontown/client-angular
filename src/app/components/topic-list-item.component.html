@@ -1,6 +1,7 @@
 <md-card *ngIf="ud!==undefined">
   <md-card-header>
     <md-card-title>
+      <md-icon *ngIf="newRes!==null&&newRes!==0">fiber_new</md-icon>
       <a [routerLink]="['/topic',topic.id]">{{topic.title}}</a>
     </md-card-title>
     <md-card-subtitle>
