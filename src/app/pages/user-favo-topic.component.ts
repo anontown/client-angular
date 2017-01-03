@@ -24,7 +24,8 @@ export class UserFavoTopicComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.udListener = this.user.addUserDataListener(async ud => {
             if (ud !== null) {
-                this.favo = Immutable.List(await this.api.findTopicIn({ ids: ud.storage.topicFavo.toArray() }));
+                this.favo = Immutable.List(await this.api.findTopicIn({ ids: ud.storage.topicFavo.toArray()}))
+                    .sort((a,b)=>a.update>b.update ? -1 : a.update<b.update ? 1 : 0).toList();
                 this.ud = ud;
             } else {
                 this.ud = null;
