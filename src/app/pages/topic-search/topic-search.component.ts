@@ -23,11 +23,11 @@ import {
 export class TopicSearchComponent implements OnInit, OnDestroy {
   private topics = Immutable.List<Topic>();
 
-  private category = "";
-  private title = "";
+  private category = '';
+  private title = '';
   private page = 0;
   private limit = 100;
-  //最後の取得件数
+  // 最後の取得件数
   private count = 0;
 
   private udListener: IUserDataListener;
@@ -41,7 +41,7 @@ export class TopicSearchComponent implements OnInit, OnDestroy {
 
   search() {
     this.page = 0;
-    this.router.navigate(["/topic/search"], { queryParams: { title: this.title, category: this.category } });
+    this.router.navigate(['/topic/search'], { queryParams: { title: this.title, category: this.category } });
   }
 
   update() {
@@ -54,7 +54,7 @@ export class TopicSearchComponent implements OnInit, OnDestroy {
   async more() {
     let t = await this.api.findTopic({
       title: this.title,
-      category: this.category.length === 0 ? [] : this.category.split("/"),
+      category: this.category.length === 0 ? [] : this.category.split('/'),
       skip: this.page * this.limit,
       limit: this.limit
     });
@@ -70,8 +70,8 @@ export class TopicSearchComponent implements OnInit, OnDestroy {
     });
 
     this.route.queryParams.forEach((params) => {
-      this.title = params["title"];
-      this.category = params["category"];
+      this.title = params['title'];
+      this.category = params['category'];
       this.topics = Immutable.List<Topic>();
       this.page = 0;
       this.count = 0;
@@ -81,9 +81,5 @@ export class TopicSearchComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.user.removeUserDataListener(this.udListener);
-  }
-
-  linkClick(topic: Topic) {
-    this.router.navigate(["/topic", topic.id]);
   }
 }

@@ -24,9 +24,8 @@ export class UserFavoTopicComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.udListener = this.user.addUserDataListener(async ud => {
             if (ud !== null) {
-                this.favo = Immutable.List(await this.api.findTopicIn({ ids: ud.storage.topicFavo.toArray()}))
-                    .sort((a,b)=>a.update>b.update ? -1 : a.update<b.update ? 1 : 0).toList();
                 this.ud = ud;
+                await this.update();
             } else {
                 this.ud = null;
                 this.favo = null;
@@ -40,5 +39,10 @@ export class UserFavoTopicComponent implements OnInit, OnDestroy {
 
     linkClick(id: number) {
         this.router.navigate(['/topic', id])
+    }
+
+    private async update() {
+        this.favo = Immutable.List(await this.api.findTopicIn({ ids: this.ud.storage.topicFavo.toArray() }))
+            .sort((a, b) => a.update > b.update ? -1 : a.update < b.update ? 1 : 0).toList();
     }
 }

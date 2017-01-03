@@ -1,6 +1,9 @@
 <div *ngIf="ud!==null&&ud!==undefined">
-    <app-topic-list-item *ngFor="let t of favo" [topic]="t"></app-topic-list-item>
+  <button md-icon-button (click)="update()">
+        <md-icon>refresh</md-icon>
+    </button>
+  <app-topic-list-item *ngFor="let t of favo" [topic]="t"></app-topic-list-item>
 </div>
 <md-card *ngIf="ud===null&&ud!==undefined">
-    ログインしないと表示出来ません。
+  ログインしないと表示出来ません。
 </md-card>
