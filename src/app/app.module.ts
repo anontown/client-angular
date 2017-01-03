@@ -27,7 +27,8 @@ import {
     TopicDataComponent,
     ResWriteComponent,
     ProfileComponent,
-    TopicAutoScrollMenuComponent
+    TopicAutoScrollMenuComponent,
+    ButtonDialogComponent
 } from './dialogs';
 
 import { AppComponent } from './app.component';
@@ -111,7 +112,8 @@ AtApiService.serverURL = Config.serverURL;
         UserMsgComponent,
         UserFavoTopicComponent,
         TopicAutoScrollMenuComponent,
-        TopicListItemComponent
+        TopicListItemComponent,
+        ButtonDialogComponent
     ],
     //エントリ
     bootstrap: [AppComponent],
@@ -123,7 +125,8 @@ AtApiService.serverURL = Config.serverURL;
         ProfileComponent,
         ResWriteComponent,
         TopicDataComponent,
-        TopicAutoScrollMenuComponent
+        TopicAutoScrollMenuComponent,
+        ButtonDialogComponent
     ]
 
 })
