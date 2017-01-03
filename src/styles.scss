@@ -31,11 +31,15 @@ img{
 }
 
 
-md-card,md-card-header,md-card-content,md-card-actions{
+md-card,md-card-header,md-card-content,md-card-actions,md-card-title,md-card-subtitle{
   margin: 2px !important;
   padding: 2px !important;
 }
 
-/*md-card,md-card-header,md-card-content,md-card-actions{
-  padding: 0px;
-}*/
+md-card-header,md-card-title,md-card-subtitle {
+  height: auto !important;
+}
+
+md-card-header>div{
+  height: auto !important;
+}
