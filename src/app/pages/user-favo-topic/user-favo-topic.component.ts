@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
-import { UserService, IUserData, IUserDataListener } from '../services';
+import { UserService, IUserData, IUserDataListener } from '../../services';
 
 import { Router } from '@angular/router';
 import { Topic, AtApiService } from 'anontown';
@@ -8,7 +8,7 @@ import * as Immutable from 'immutable';
 
 @Component({
     selector: 'app-user-favo-topic',
-    templateUrl: './user-favo.component.html',
+    templateUrl: './user-favo-topic.component.html',
     changeDetection: ChangeDetectionStrategy.Default
 })
 export class UserFavoTopicComponent implements OnInit, OnDestroy {

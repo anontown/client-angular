@@ -15,7 +15,7 @@ import {
     AtError
 } from 'anontown';
 
-import { UserService, IUserData, IUserDataListener } from '../services';
+import { UserService, IUserData, IUserDataListener } from '../../services';
 
 @Component({
     selector: 'app-res-write',

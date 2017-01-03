@@ -13,7 +13,7 @@ import {
   IUserData,
   IUserDataListener,
   UserService
-} from '../services';
+} from '../../services';
 
 @Component({
   selector: 'app-topic-search',

@@ -19,10 +19,10 @@ import {
 } from 'anontown';
 
 
-import { UserService, IUserDataListener, IUserData } from '../services';
+import { UserService, IUserDataListener, IUserData } from '../../services';
 import { MdDialog } from '@angular/material';
 
-import { ProfileComponent, ResWriteComponent } from '../dialogs';
+import { ProfileComponent, ResWriteComponent } from '../../dialogs';
 
 @Component({
   selector: 'app-res',

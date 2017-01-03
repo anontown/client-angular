@@ -16,15 +16,15 @@ import {
   AtApiService,
   Res,
 } from 'anontown';
-import { Config } from '../config';
-import { UserService, IUserData, IUserDataListener } from '../services';
+import { Config } from '../../config';
+import { UserService, IUserData, IUserDataListener } from '../../services';
 import {
   TopicDataComponent,
   TopicAutoScrollMenuComponent,
   ResWriteComponent
-} from '../dialogs';
+} from '../../dialogs';
 import { ActivatedRoute, Params } from '@angular/router';
-import { ResComponent } from '../components/res.component';
+import { ResComponent } from '../../components';
 import * as Immutable from 'immutable';
 
 @Component({

@@ -11,7 +11,7 @@ import {
 import { UserService, 
   IUserData,
    IUserDataListener
-   } from '../services';
+   } from '../../services';
 
 
 @Component({

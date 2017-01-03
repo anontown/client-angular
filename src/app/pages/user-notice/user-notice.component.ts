@@ -3,7 +3,7 @@ import {
     Res,
     AtApiService,
 } from 'anontown';
-import { UserService, IUserData, IUserDataListener } from '../services';
+import { UserService, IUserData, IUserDataListener } from '../../services';
 import * as Immutable from 'immutable';
 
 @Component({

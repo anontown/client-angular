@@ -3,7 +3,7 @@ import {
     AtApiService,
     AtError
 } from 'anontown';
-import { UserService, IUserData, IUserDataListener } from '../services';
+import { UserService, IUserData, IUserDataListener } from '../../services';
 import { Router } from '@angular/router';
 
 

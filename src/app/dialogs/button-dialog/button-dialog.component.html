@@ -1,4 +1,4 @@
 <div md-dialog-content>{{message}}</div>
 <div md-dialog-actions>
-  <button *ngfor="let action of actions" md-button (click)="dialogRef.close(action)">action</button>
+  <button *ngFor="let action of actions" md-button (click)="dialogRef.close(action)">action</button>
 </div>

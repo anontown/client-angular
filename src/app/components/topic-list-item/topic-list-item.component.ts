@@ -7,7 +7,7 @@ import {
   ChangeDetectorRef
 } from '@angular/core';
 import { Topic } from 'anontown';
-import { UserService, IUserDataListener, IUserData } from '../services';
+import { UserService, IUserDataListener, IUserData } from '../../services';
 
 @Component({
   selector: 'app-topic-list-item',

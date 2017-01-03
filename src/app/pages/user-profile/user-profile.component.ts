@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy,ChangeDetectionStrategy } from '@angular/core';
 
-import { UserService, IUserData, IUserDataListener } from '../services';
+import { UserService, IUserData, IUserDataListener } from '../../services';
 
 @Component({
     selector: 'app-user-profile',

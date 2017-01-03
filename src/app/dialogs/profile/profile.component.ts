@@ -4,7 +4,7 @@ import { Component,
     OnDestroy ,
   ChangeDetectionStrategy} from '@angular/core';
 import { Profile } from 'anontown';
-import { IUserDataListener, UserService, IUserData } from '../services'
+import { IUserDataListener, UserService, IUserData } from '../../services'
 
 @Component({
   selector: 'app-profile',
