@@ -7,7 +7,7 @@ import { Profile } from 'anontown';
 import { IUserDataListener, UserService, IUserData } from '../services'
 
 @Component({
-  selector: 'at-profile',
+  selector: 'app-profile',
   templateUrl: './profile.component.html',
     changeDetection: ChangeDetectionStrategy.Default
 })

@@ -28,7 +28,7 @@ import { ResComponent } from '../components/res.component';
 import * as Immutable from 'immutable';
 
 @Component({
-  selector: 'at-topic',
+  selector: 'app-topic',
   templateUrl: './topic.component.html',
   styleUrls: ['./topic.component.scss'],
   changeDetection: ChangeDetectionStrategy.Default

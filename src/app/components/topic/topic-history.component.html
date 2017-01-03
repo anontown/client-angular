@@ -16,6 +16,6 @@
     </dd>
   </dl>
   <div *ngIf="hashReses.size!==0">
-    <at-res *ngFor="let r of hashReses" [res]="r" (update)="updateRes($event)"></at-res>
+    <app-res *ngFor="let r of hashReses" [res]="r" (update)="updateRes($event)"></app-res>
   </div>
 </div>

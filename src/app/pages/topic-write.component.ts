@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 
 
 @Component({
-    selector: 'at-topic-write',
+    selector: 'app-topic-write',
     templateUrl: './topic-write.component.html',
     changeDetection: ChangeDetectionStrategy.Default
 })

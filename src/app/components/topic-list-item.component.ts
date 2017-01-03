@@ -10,7 +10,7 @@ import { Topic } from 'anontown';
 import { UserService, IUserDataListener, IUserData } from '../services';
 
 @Component({
-  selector: 'at-topic-list-item',
+  selector: 'app-topic-list-item',
   templateUrl: './topic-list-item.component.html',
   styleUrls: ['./topic-list-item.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

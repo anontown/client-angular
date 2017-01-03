@@ -14,7 +14,7 @@ import {
 import { UserService, IUserDataListener, IUserData } from '../../services';
 
 @Component({
-    selector: 'at-user-profile-edit',
+    selector: 'app-user-profile-edit',
     templateUrl: './user-profile-edit.component.html',
     changeDetection: ChangeDetectionStrategy.Default
 })

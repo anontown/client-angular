@@ -16,7 +16,7 @@ import {
 } from '../services';
 
 @Component({
-  selector: 'at-topic-search',
+  selector: 'app-topic-search',
   templateUrl: './topic-search.component.html',
   changeDetection: ChangeDetectionStrategy.Default
 })

@@ -18,7 +18,7 @@
     <button (click)="readNew()" md-raised-button>最新</button>
   </div>
   <div>
-    <at-res #resE *ngFor="let r of reses" [res]="r" (update)="updateRes($event)"></at-res>
+    <app-res #resE *ngFor="let r of reses" [res]="r" (update)="updateRes($event)"></app-res>
   </div>
   <div>
     <button (click)="readOld()" md-raised-button>前</button>

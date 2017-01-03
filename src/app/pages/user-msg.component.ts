@@ -7,7 +7,7 @@ import { UserService, IUserData, IUserDataListener } from '../services';
 import * as Immutable from 'immutable';
 
 @Component({
-    selector: 'at-user-msg',
+    selector: 'app-user-msg',
     templateUrl: './user-msg.component.html',
     changeDetection: ChangeDetectionStrategy.Default
 })

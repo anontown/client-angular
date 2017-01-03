@@ -7,7 +7,7 @@ import { UserService, IUserData, IUserDataListener } from '../services';
 import * as Immutable from 'immutable';
 
 @Component({
-    selector: 'at-user-notice',
+    selector: 'app-user-notice',
     templateUrl: './user-notice.component.html',
     changeDetection: ChangeDetectionStrategy.Default
 })

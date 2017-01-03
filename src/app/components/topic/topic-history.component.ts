@@ -14,7 +14,7 @@ import {
 import * as Immutable from 'immutable';
 
 @Component({
-    selector: 'at-topic-history',
+    selector: 'app-topic-history',
     templateUrl: './topic-history.component.html',
     changeDetection: ChangeDetectionStrategy.Default
 })

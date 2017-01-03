@@ -25,7 +25,7 @@ import { MdDialog } from '@angular/material';
 import { ProfileComponent, ResWriteComponent } from '../dialogs';
 
 @Component({
-  selector: 'at-res',
+  selector: 'app-res',
   templateUrl: './res.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./res.component.scss']

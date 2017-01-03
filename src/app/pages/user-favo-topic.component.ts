@@ -7,7 +7,7 @@ import { Topic, AtApiService } from 'anontown';
 import * as Immutable from 'immutable';
 
 @Component({
-    selector: 'at-user-favo-topic',
+    selector: 'app-user-favo-topic',
     templateUrl: './user-favo.component.html',
     changeDetection: ChangeDetectionStrategy.Default
 })

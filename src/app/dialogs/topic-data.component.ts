@@ -15,7 +15,7 @@ import { UserService,
 
 
 @Component({
-  selector: 'at-topic-data',
+  selector: 'app-topic-data',
   templateUrl: './topic-data.component.html',
     changeDetection: ChangeDetectionStrategy.Default
 })

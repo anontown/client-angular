@@ -1,5 +1,5 @@
 <div *ngIf="ud!==null&&ud!==undefined">
-    <at-topic-list-item *ngFor="let t of favo" [topic]="t"></at-topic-list-item>
+    <app-topic-list-item *ngFor="let t of favo" [topic]="t"></app-topic-list-item>
 </div>
 <md-card *ngIf="ud===null&&ud!==undefined">
     ログインしないと表示出来ません。

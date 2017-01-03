@@ -18,7 +18,7 @@ import {
 import { UserService, IUserData, IUserDataListener } from '../services';
 
 @Component({
-    selector: 'at-res-write',
+    selector: 'app-res-write',
     templateUrl: './res-write.component.html',
     changeDetection: ChangeDetectionStrategy.Default
 })

@@ -3,7 +3,7 @@ import { Component, OnInit, OnDestroy,ChangeDetectionStrategy } from '@angular/c
 import { UserService, IUserData, IUserDataListener } from '../services';
 
 @Component({
-    selector: 'at-user-profile',
+    selector: 'app-user-profile',
     templateUrl: './user-profile.component.html',
     changeDetection: ChangeDetectionStrategy.Default
 })

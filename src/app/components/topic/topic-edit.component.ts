@@ -16,7 +16,7 @@ import { UserService, IUserDataListener, IUserData } from '../../services';
 
 
 @Component({
-    selector: 'at-topic-edit',
+    selector: 'app-topic-edit',
     templateUrl: './topic-edit.component.html',
     changeDetection: ChangeDetectionStrategy.Default
 })

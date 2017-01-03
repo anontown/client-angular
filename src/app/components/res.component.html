@@ -39,6 +39,6 @@
     </button>
   </md-card-actions>
   <div *ngIf="children.size!==0">
-    <at-res *ngFor="let c of children" [res]="c" (update)="childrenUpdate($event)" [isPop]="true"></at-res>
+    <app-res *ngFor="let c of children" [res]="c" (update)="childrenUpdate($event)" [isPop]="true"></app-res>
   </div>
 </md-card>

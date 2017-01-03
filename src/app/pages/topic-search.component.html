@@ -24,7 +24,7 @@
   </button>
 </div>
 <div>
-  <at-topic-list-item *ngFor="let t of topics" [topic]="t"></at-topic-list-item>
+  <app-topic-list-item *ngFor="let t of topics" [topic]="t"></app-topic-list-item>
 </div>
 <div *ngIf="count===limit">
   <button (click)="more()" md-raised-button>もっと</button>
