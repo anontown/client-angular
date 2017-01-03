@@ -13,6 +13,7 @@
     </button>
 </div>
 <div *ngIf="topic" class="container">
+  <h1>{{topic.title}}</h1>
   <div>
     <button (click)="readNew()" md-raised-button>最新</button>
   </div>
