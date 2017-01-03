@@ -8,7 +8,7 @@ import { MdDialogRef } from '@angular/material';
 })
 export class ButtonDialogComponent implements OnInit {
   message: string;
-  actions: string[];
+  actions: { data: any, text: string }[];
 
 
   constructor(public dialogRef: MdDialogRef<ButtonDialogComponent>) { }

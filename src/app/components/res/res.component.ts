@@ -22,7 +22,7 @@ import {
 import { UserService, IUserDataListener, IUserData } from '../../services';
 import { MdDialog } from '@angular/material';
 
-import { ProfileComponent, ResWriteComponent } from '../../dialogs';
+import { ProfileComponent, ResWriteComponent, ButtonDialogComponent } from '../../dialogs';
 
 @Component({
   selector: 'app-res',
@@ -130,15 +130,32 @@ export class ResComponent implements OnInit, OnDestroy {
   }
 
   async dv() {
-    this.update.emit(await this.api.dvRes(this.ud.auth, {
-      id: this.res.id
-    }));
+    let dialogRef = this.dialog.open(ButtonDialogComponent);
+    let com = dialogRef.componentInstance;
+    com.message = "低評価して良いですか？";
+    com.actions = [{ data: true, text: "はい" }, { data: false, text: "いいえ" }];
+
+    let result: boolean = await dialogRef.afterClosed().toPromise();
+    if (result) {
+      this.update.emit(await this.api.dvRes(this.ud.auth, {
+        id: this.res.id
+      }));
+    }
   }
 
   async del() {
-    this.update.emit(await this.api.delRes(this.ud.auth, {
-      id: this.res.id
-    }));
+    let dialogRef = this.dialog.open(ButtonDialogComponent);
+    let com = dialogRef.componentInstance;
+    com.message = "削除して良いですか？";
+    com.actions = [{ data: true, text: "はい" }, { data: false, text: "いいえ" }];
+
+    let result: boolean = await dialogRef.afterClosed().toPromise();
+
+    if (result) {
+      this.update.emit(await this.api.delRes(this.ud.auth, {
+        id: this.res.id
+      }));
+    }
   }
 
   async profileOpen() {
