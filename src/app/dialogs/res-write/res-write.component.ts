@@ -52,7 +52,7 @@ export class ResWriteComponent implements OnInit, OnDestroy {
 
     key(e: any) {
         this.zone.runOutsideAngular(() => {
-            if (e.shiftKey && e.keyCode == 13) {
+            if (e.shiftKey && e.keyCode === 13) {
                 this.zone.run(() => {
                     this.ok();
                 });

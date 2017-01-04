@@ -13,8 +13,7 @@
         <input md-input placeholder="カテゴリ" [(ngModel)]="category" name="category">
       </md-input-container>
     </div>
-    <md-textarea [(ngModel)]="text" name="text"></md-textarea>
-    <div [innerHTML]="text|md"></div>
+    <app-md-editor [(ngModel)]="text" name="text"></app-md-editor>
     <div>
       <button type="submit" md-raised-button>書き込む</button>
     </div>

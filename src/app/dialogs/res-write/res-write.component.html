@@ -17,10 +17,9 @@
       </md-select>
     </div>
     <div>
-      <button md-raised-button (click)="aa()">AA</button>
+      <button md-raised-button type="button" (click)="aa()">AA</button>
     </div>
-    <md-textarea controls [(ngModel)]="text" name="text" (keypress)="key($event)"></md-textarea>
-    <div [innerHTML]="text|md"></div>
+    <app-md-editor [(ngModel)]="text" name="text" (keypress)="key($event)"></app-md-editor>
     <div>
       <button type="submit" md-raised-button>書き込む</button>
     </div>

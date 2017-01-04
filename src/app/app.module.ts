@@ -20,7 +20,8 @@ import {
     UserProfileAddComponent,
     ResComponent,
     TopicEditComponent,
-    TopicListItemComponent
+    TopicListItemComponent,
+    MdEditorComponent
 } from './components';
 
 import {
@@ -113,7 +114,8 @@ AtApiService.serverURL = Config.serverURL;
         UserFavoTopicComponent,
         TopicAutoScrollMenuComponent,
         TopicListItemComponent,
-        ButtonDialogComponent
+        ButtonDialogComponent,
+        MdEditorComponent
     ],
     //エントリ
     bootstrap: [AppComponent],

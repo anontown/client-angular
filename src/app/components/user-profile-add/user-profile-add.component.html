@@ -8,8 +8,7 @@
         <input md-input placeholder="名前" [(ngModel)]="name" name="name">
       </md-input-container>
     </div>
-    <md-textarea [(ngModel)]="text" name="text"></md-textarea>
-    <div [innerHTML]="text|md"></div>
+    <app-md-editor [(ngModel)]="text" name="text"></app-md-editor>
     <div>
       <button type="submit" md-raised-button>OK</button>
     </div>
