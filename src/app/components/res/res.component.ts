@@ -92,7 +92,7 @@ export class ResComponent implements OnInit, OnDestroy {
     if (this.children.size !== 0) {
       this.children = Immutable.List<Res>();
     } else {
-      this.children = Immutable.List(await this.api.findResHash(this.ud.auth, {
+      this.children = Immutable.List(await this.api.findResHash(this.ud !== null ? this.ud.auth : null, {
         topic: this.res.topic,
         hash: this.res.hash
       }));
@@ -104,7 +104,7 @@ export class ResComponent implements OnInit, OnDestroy {
     if (this.children.size !== 0) {
       this.children = Immutable.List<Res>();
     } else {
-      this.children = Immutable.List([await this.api.findResOne(this.ud.auth, {
+      this.children = Immutable.List([await this.api.findResOne(this.ud !== null ? this.ud.auth : null, {
         id: this.res.reply as string
       })]);
     }
@@ -115,7 +115,7 @@ export class ResComponent implements OnInit, OnDestroy {
     if (this.children.size !== 0) {
       this.children = Immutable.List<Res>();
     } else {
-      this.children = Immutable.List(await this.api.findResReply(this.ud.auth, {
+      this.children = Immutable.List(await this.api.findResReply(this.ud !== null ? this.ud.auth : null, {
         topic: this.res.topic,
         reply: this.res.id
       }));
