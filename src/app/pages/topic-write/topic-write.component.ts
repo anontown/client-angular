@@ -1,7 +1,8 @@
 import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import {
     AtApiService,
-    AtError
+    AtError,
+    TopicType
 } from 'anontown';
 import { UserService, IUserData, IUserDataListener } from '../../services';
 import { Router } from '@angular/router';
@@ -16,6 +17,7 @@ export class TopicWriteComponent implements OnInit, OnDestroy {
     private title = "";
     private category = "";
     private text = "";
+    private type: TopicType = "normal";
     private errorMsg: string | null = null;
 
     constructor(private user: UserService,
@@ -41,7 +43,8 @@ export class TopicWriteComponent implements OnInit, OnDestroy {
             let topic = await this.api.createTopic(this.ud.auth, {
                 title: this.title,
                 category: this.category.length === 0 ? [] : this.category.split("/"),
-                text: this.text
+                text: this.text,
+                type: this.type
             });
             this.errorMsg = null;
             this.router.navigate(["topic", topic.id]);

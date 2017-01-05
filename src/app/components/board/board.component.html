@@ -1,0 +1,8 @@
+<li *ngIf="board">
+  <a [routerLink]="['/topic/search']" [queryParams]="{title:'',category:board.category.join('/')}">
+    {{board.topic?board.topic.title:cate}}
+  </a>
+  <ul>
+    <app-board *ngFor="let b of board.children" [board]="b[1]"></app-board>
+  </ul>
+</li>

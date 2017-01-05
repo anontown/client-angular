@@ -11,6 +11,9 @@
   <a md-tab-link [routerLink]="['/topic/search']" [queryParams]="{title:'',category:''}">
     <md-icon>search</md-icon>
   </a>
+  <a md-tab-link [routerLink]="['/boards']">
+    板
+  </a>
   <a md-tab-link [routerLink]="['/user/notice']" *ngIf="ud!==null">
     <md-icon>notifications</md-icon>
   </a>

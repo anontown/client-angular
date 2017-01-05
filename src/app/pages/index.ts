@@ -6,3 +6,4 @@ export * from './user-favo-topic/user-favo-topic.component';
 export * from './user-msg/user-msg.component';
 export * from './user-notice/user-notice.component';
 export * from './user-profile/user-profile.component';
+export * from './boards/boards.component';

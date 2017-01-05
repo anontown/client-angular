@@ -4,6 +4,16 @@
       <md-icon>error</md-icon> {{errorMsg}}
     </div>
     <div>
+      <md-select placeholder="種別" [(ngModel)]="type" name="type">
+        <md-option [value]="'normal'">
+          通常
+        </md-option>
+        <md-option [value]="'board'">
+          板
+        </md-option>
+      </md-select>
+    </div>
+    <div>
       <md-input-container>
         <input md-input placeholder="タイトル" [(ngModel)]="title" name="title">
       </md-input-container>

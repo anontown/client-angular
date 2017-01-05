@@ -10,6 +10,7 @@ import {
 } from './pipes';
 import {
     UserService,
+    BoardService
 } from './services';
 import 'hammerjs';
 
@@ -21,7 +22,8 @@ import {
     ResComponent,
     TopicEditComponent,
     TopicListItemComponent,
-    MdEditorComponent
+    MdEditorComponent,
+    BoardComponent
 } from './components';
 
 import {
@@ -42,9 +44,11 @@ import {
     UserFavoTopicComponent,
     UserMsgComponent,
     UserNoticeComponent,
-    UserProfileComponent
+    UserProfileComponent,
+    BoardsComponent
 } from './pages';
 import { Config } from './config';
+
 
 AtApiService.serverURL = Config.serverURL;
 @NgModule({
@@ -88,6 +92,10 @@ AtApiService.serverURL = Config.serverURL;
                 path: 'favo',
                 component: UserFavoTopicComponent
             },
+            {
+                path: 'boards',
+                component: BoardsComponent
+            },
         ])
     ],
     declarations: [
@@ -115,12 +123,15 @@ AtApiService.serverURL = Config.serverURL;
         TopicAutoScrollMenuComponent,
         TopicListItemComponent,
         ButtonDialogComponent,
-        MdEditorComponent
+        MdEditorComponent,
+        BoardComponent,
+        BoardsComponent
     ],
     //エントリ
     bootstrap: [AppComponent],
     providers: [
-        UserService
+        UserService,
+        BoardService
     ],
     entryComponents: [
         //モーダルで使うコンポーネント

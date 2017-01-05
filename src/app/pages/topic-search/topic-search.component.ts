@@ -12,7 +12,8 @@ import * as Immutable from 'immutable';
 import {
   IUserData,
   IUserDataListener,
-  UserService
+  UserService,
+  BoardService
 } from '../../services';
 
 @Component({
@@ -22,7 +23,7 @@ import {
 })
 export class TopicSearchComponent implements OnInit, OnDestroy {
   private topics = Immutable.List<Topic>();
-
+  private board: Topic = null;
   private category = '';
   private title = '';
   private page = 0;
@@ -35,7 +36,8 @@ export class TopicSearchComponent implements OnInit, OnDestroy {
   constructor(private api: AtApiService,
     private route: ActivatedRoute,
     private router: Router,
-    private user: UserService) {
+    private user: UserService,
+    private bs: BoardService) {
 
   }
 
@@ -77,6 +79,13 @@ export class TopicSearchComponent implements OnInit, OnDestroy {
       this.count = 0;
       this.more();
     });
+
+    if (this.bs.topics) {
+      let b = this.bs.topics.find(t => t.category.join("/") === this.category);
+      if (b) {
+        this.board = b;
+      }
+    }
   }
 
   ngOnDestroy() {

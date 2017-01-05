@@ -15,6 +15,10 @@
     </div>
   </form>
 </md-card>
+<md-card *ngIf="board">
+  <h1><a [routerLink]="['/topic',board.id]">{{board.title}}</a></h1>
+  <div [innerHTML]="board.mdtext"></div>
+</md-card>
 <div>
   <button md-icon-button [routerLink]="['/topic/write']" *ngIf="ud!==null">
     <md-icon>edit</md-icon>
