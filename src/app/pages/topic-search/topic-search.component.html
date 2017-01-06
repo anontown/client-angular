@@ -1,4 +1,7 @@
 <md-card *ngIf="ud!==undefined">
+  <button md-icon-button *ngIf="ud!==null" (click)="favo()">
+    <md-icon>{{ud.storage.boardFavo.has(category)?'star':'star_border'}}</md-icon>
+  </button>
   <form (ngSubmit)="search()">
     <div>
       <md-input-container>
@@ -15,7 +18,7 @@
     </div>
   </form>
 </md-card>
-<md-card *ngIf="board">
+<md-card *ngIf="board" class="board">
   <h1><a [routerLink]="['/topic',board.id]">{{board.title}}</a></h1>
   <div [innerHTML]="board.mdtext"></div>
 </md-card>

@@ -19,6 +19,7 @@ import {
 @Component({
   selector: 'app-topic-search',
   templateUrl: './topic-search.component.html',
+  styleUrls: ['./topic-search.component.scss'],
   changeDetection: ChangeDetectionStrategy.Default
 })
 export class TopicSearchComponent implements OnInit, OnDestroy {
@@ -90,5 +91,17 @@ export class TopicSearchComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.user.removeUserDataListener(this.udListener);
+  }
+
+  favo() {
+    let bf = this.ud.storage.boardFavo;
+    let favo = bf.has(this.category) ? bf.delete(this.category) : bf.add(this.category);
+
+    this.user.setUserData({
+      auth: this.ud.auth,
+      token: this.ud.token,
+      profiles: this.ud.profiles,
+      storage: this.ud.storage.setBoardFavo(favo)
+    });
   }
 }

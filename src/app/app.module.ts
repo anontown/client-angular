@@ -41,7 +41,7 @@ import {
     TopicComponent,
     TopicSearchComponent,
     TopicWriteComponent,
-    UserFavoTopicComponent,
+    FavoComponent,
     UserMsgComponent,
     UserNoticeComponent,
     UserProfileComponent,
@@ -90,7 +90,7 @@ AtApiService.serverURL = Config.serverURL;
             },
             {
                 path: 'favo',
-                component: UserFavoTopicComponent
+                component: FavoComponent
             },
             {
                 path: 'boards',
@@ -119,7 +119,7 @@ AtApiService.serverURL = Config.serverURL;
         UserNoticeComponent,
         UserMsgComponent,
         UserMsgComponent,
-        UserFavoTopicComponent,
+        FavoComponent,
         TopicAutoScrollMenuComponent,
         TopicListItemComponent,
         ButtonDialogComponent,

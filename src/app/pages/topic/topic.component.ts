@@ -276,7 +276,7 @@ export class TopicComponent implements OnInit, OnDestroy, AfterViewChecked {
       auth: this.ud.auth,
       token: this.ud.token,
       profiles: this.ud.profiles,
-      storage: this.ud.storage.setFavo(favo)
+      storage: this.ud.storage.setTopicFavo(favo)
     });
   }
 }

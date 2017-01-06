@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
-import { UserService, IUserData, IUserDataListener } from '../../services';
+import { UserService, IUserData, IUserDataListener, BoardService } from '../../services';
 
 import { Router } from '@angular/router';
 import { Topic, AtApiService } from 'anontown';
@@ -7,17 +7,18 @@ import { Topic, AtApiService } from 'anontown';
 import * as Immutable from 'immutable';
 
 @Component({
-    selector: 'app-user-favo-topic',
-    templateUrl: './user-favo-topic.component.html',
+    selector: 'app-favo',
+    templateUrl: './favo.component.html',
     changeDetection: ChangeDetectionStrategy.Default
 })
-export class UserFavoTopicComponent implements OnInit, OnDestroy {
+export class FavoComponent implements OnInit, OnDestroy {
     constructor(private user: UserService,
         private router: Router,
-        private api: AtApiService) {
+        private api: AtApiService,
+        public board: BoardService) {
     }
 
-    favo: Immutable.List<Topic>;
+    tfavo: Immutable.List<Topic>;
     ud: IUserData;
     private udListener: IUserDataListener;
 
@@ -28,7 +29,7 @@ export class UserFavoTopicComponent implements OnInit, OnDestroy {
                 await this.update();
             } else {
                 this.ud = null;
-                this.favo = null;
+                this.tfavo = null;
             }
         });
     }
@@ -41,8 +42,17 @@ export class UserFavoTopicComponent implements OnInit, OnDestroy {
         this.router.navigate(['/topic', id])
     }
 
+    getName(c: string) {
+        let topic = this.board.topics.find(x => x.category.join("/") === c);
+        if (topic) {
+            return topic.title;
+        } else {
+            return c.length === 0 ? "/" : c;
+        }
+    }
+
     private async update() {
-        this.favo = Immutable.List(await this.api.findTopicIn({ ids: this.ud.storage.topicFavo.toArray() }))
+        this.tfavo = Immutable.List(await this.api.findTopicIn({ ids: this.ud.storage.topicFavo.toArray() }))
             .sort((a, b) => a.update > b.update ? -1 : a.update < b.update ? 1 : 0).toList();
     }
 }

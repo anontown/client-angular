@@ -22,8 +22,15 @@ interface StorageJSON3 {
     topicRead: { [key: string]: { res: string, count: number } };
 }
 
+interface StorageJSON4 {
+    ver: '4',
+    topicFavo: string[],
+    boardFavo: string[],
+    topicRead: { [key: string]: { res: string, count: number } };
+}
+
 export class Storage {
-    static VER: '3' = '3';
+    static VER: '4' = '4';
 
     static fromJSON(jsonText: string): Storage {
         if (jsonText.length !== 0) {
@@ -41,15 +48,20 @@ export class Storage {
                         }
                     case '3':
                         {
-                            let obj = JsonObj as StorageJSON3;
-                            return new Storage(Immutable.Set(obj.topicFavo), Immutable.Map(obj.topicRead));
+                            JsonObj = this.convert3To4(JsonObj as StorageJSON3);
+                            break;
+                        }
+                    case '4':
+                        {
+                            let obj = JsonObj as StorageJSON4;
+                            return new Storage(Immutable.Set(obj.topicFavo), Immutable.Set(obj.boardFavo), Immutable.Map(obj.topicRead));
                         }
                     default:
-                        return new Storage(Immutable.Set<any>(), Immutable.Map<any, any>());
+                        return new Storage(Immutable.Set<any>(), Immutable.Set<any>(), Immutable.Map<any, any>());
                 }
             }
         } else {
-            return new Storage(Immutable.Set<any>(), Immutable.Map<any, any>());
+            return new Storage(Immutable.Set<any>(), Immutable.Set<any>(), Immutable.Map<any, any>());
         }
     }
 
@@ -77,13 +89,24 @@ export class Storage {
         };
     }
 
+    private static convert3To4(val: StorageJSON3): StorageJSON4 {
+        return {
+            ver: "4",
+            boardFavo: [],
+            topicFavo: val.topicFavo,
+            topicRead: val.topicRead
+        };
+    }
 
+    readonly boardFavo: Immutable.Set<string>;
     readonly topicFavo: Immutable.Set<string>;
     readonly topicRead: Immutable.Map<string, { res: string, count: number }>;
 
     private constructor(topicFavo: Immutable.Set<string>,
+        boardFavo: Immutable.Set<string>,
         topicRead: Immutable.Map<string, { res: string, count: number }>) {
         this.topicFavo = topicFavo;
+        this.boardFavo = boardFavo;
         this.topicRead = topicRead;
     }
 
@@ -91,15 +114,20 @@ export class Storage {
         return this.copy({ topicRead: this.topicRead.set(topic, { res, count }) });
     }
 
-    setFavo(topicFavo: Immutable.Set<string>): Storage {
+    setTopicFavo(topicFavo: Immutable.Set<string>): Storage {
         return this.copy({ topicFavo });
+    }
+
+    setBoardFavo(boardFavo: Immutable.Set<string>): Storage {
+        return this.copy({ boardFavo });
     }
 
 
     toJSON(): string {
-        let j: StorageJSON3 = {
+        let j: StorageJSON4 = {
             ver: Storage.VER,
-            topicFavo: this.topicFavo.map(x => x).toArray(),
+            boardFavo: this.boardFavo.toArray(),
+            topicFavo: this.topicFavo.toArray(),
             topicRead: this.topicRead.toObject()
         };
 
@@ -107,8 +135,8 @@ export class Storage {
     }
 
 
-    private copy({topicFavo = this.topicFavo, topicRead = this.topicRead}:
-        { topicFavo?: Immutable.Set<string>, topicRead?: Immutable.Map<string, { res: string, count: number }> }): Storage {
-        return new Storage(topicFavo, topicRead);
+    private copy({topicFavo = this.topicFavo, boardFavo = this.boardFavo, topicRead = this.topicRead}:
+        { topicFavo?: Immutable.Set<string>, boardFavo?: Immutable.Set<string>, topicRead?: Immutable.Map<string, { res: string, count: number }> }): Storage {
+        return new Storage(topicFavo, boardFavo, topicRead);
     }
 }

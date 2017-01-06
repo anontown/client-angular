@@ -1,0 +1,24 @@
+<div *ngIf="ud!==null&&ud!==undefined">
+  <md-tab-group>
+    <md-tab label="トピック">
+      <button md-icon-button (click)="update()">
+        <md-icon>refresh</md-icon>
+      </button>
+      <app-topic-list-item *ngFor="let t of tfavo" [topic]="t"></app-topic-list-item>
+    </md-tab>
+    <md-tab label="板">
+      <md-card>
+        <md-list>
+          <md-list-item *ngFor="let b of ud.storage.boardFavo">
+            <a [routerLink]="['/topic/search']" [queryParams]="{title:'',category:b}">
+              {{getName(b)}}
+            </a>
+          </md-list-item>
+        </md-list>
+      </md-card>
+    </md-tab>
+  </md-tab-group>
+</div>
+<md-card *ngIf="ud===null&&ud!==undefined">
+  ログインしないと表示出来ません。
+</md-card>

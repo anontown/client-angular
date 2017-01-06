@@ -13,7 +13,7 @@
     </button>
 </div>
 <div *ngIf="topic" class="container">
-  <h1>{{topic.title}}</h1>
+  <h1 [ngClass]="{'board-title':topic.type==='board',title:true}">{{topic.title}}</h1>
   <div>
     <button (click)="readNew()" md-raised-button>最新</button>
   </div>
