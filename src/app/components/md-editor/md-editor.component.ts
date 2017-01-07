@@ -8,13 +8,16 @@ import {
   forwardRef
 } from '@angular/core';
 
+import { MdPipe } from '../../pipes';
+
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { MdTabChangeEvent } from '@angular/material';
 
 @Component({
   selector: 'app-md-editor',
   templateUrl: './md-editor.component.html',
   styleUrls: ['./md-editor.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -34,13 +37,21 @@ export class MdEditorComponent implements OnInit, ControlValueAccessor {
   label = 'switch';
 
   @Input('value')
-  _value = "";
+  _value = '';
+
+  mdValue = '';
 
   onChange = (_value: string) => { };
   onTouched = () => { };
 
   get value() {
     return this._value;
+  }
+
+  tabChange(event: MdTabChangeEvent) {
+    if (event.index === 1) {
+      this.mdValue = new MdPipe().transform(this._value);
+    }
   }
 
   set value(val) {

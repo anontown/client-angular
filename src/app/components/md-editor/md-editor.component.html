@@ -1,8 +1,8 @@
-<md-tab-group>
+<md-tab-group (selectChange)="tabChange($event)">
   <md-tab label="Edit">
     <md-textarea class="edit" controls [(ngModel)]="value"></md-textarea>
   </md-tab>
   <md-tab label="Preview">
-    <div class="preview" [innerHTML]="value|md"></div>
+    <div class="preview" [innerHTML]="mdValue"></div>
   </md-tab>
 </md-tab-group>
