@@ -43,3 +43,9 @@ md-card-header,md-card-title,md-card-subtitle {
 md-card-header>div{
   height: auto !important;
 }
+
+pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow: auto;
+}
