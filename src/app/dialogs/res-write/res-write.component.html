@@ -17,13 +17,14 @@
       </md-select>
     </div>
     <div>
-      <button md-raised-button type="button" (click)="aa()">AA</button>
+      <md-slide-toggle name="markdown" [(ngModel)]="markdown">Markdown</md-slide-toggle>
     </div>
-    <app-md-editor [(ngModel)]="text" name="text" (keypress)="key($event)"></app-md-editor>
-    <div>
-      <button type="submit" md-raised-button>書き込む</button>
-    </div>
-  </form>
+    <app-md-editor *ngIf="markdown" [(ngModel)]="text" name="text" (keypress)="key($event)"></app-md-editor>
+    <md-textarea *ngIf="!markdown" [(ngModel)]="text" name="text" (keypress)="key($event)" style="width:100%;"></md-textarea>
+<div>
+  <button type="submit" md-raised-button>書き込む</button>
+</div>
+</form>
 </md-dialog-content>
 <md-dialog-content *ngIf="ud===null">
   ログインしないと書き込めません

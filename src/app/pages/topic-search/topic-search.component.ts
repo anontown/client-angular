@@ -72,21 +72,21 @@ export class TopicSearchComponent implements OnInit, OnDestroy {
       this.ud = ud;
     });
 
-    this.route.queryParams.forEach((params) => {
+    this.route.queryParams.forEach(async (params) => {
       this.title = params['title'];
       this.category = params['category'];
       this.topics = Immutable.List<Topic>();
       this.page = 0;
       this.count = 0;
-      this.more();
-    });
+      await this.more();
 
-    if (this.bs.topics) {
-      let b = this.bs.topics.find(t => t.category.join("/") === this.category);
-      if (b) {
-        this.board = b;
+      if (this.bs.topics) {
+        let b = this.bs.topics.find(t => t.category.join("/") === this.category);
+        if (b) {
+          this.board = b;
+        }
       }
-    }
+    });
   }
 
   ngOnDestroy() {

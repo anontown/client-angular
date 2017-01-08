@@ -33,9 +33,6 @@ export class MdEditorComponent implements OnInit, ControlValueAccessor {
   ngOnInit() {
   }
 
-  @Input()
-  label = 'switch';
-
   @Input('value')
   _value = '';
 
