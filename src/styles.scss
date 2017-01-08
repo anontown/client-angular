@@ -17,10 +17,17 @@ body{
   max-height: 100%;
 }
 
-.aa code{
+.aa,.aa code{
   font-family:'ＭＳ Ｐゴシック','ＭＳＰゴシック','MSPゴシック','MS Pゴシック';
-  font-size:16px;
-  line-height:18px;
+  font-size:12px;
+  line-height:14px;
+}
+
+.aa pre{
+  //折り返し
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow: auto;
 }
 
 img{
@@ -42,10 +49,4 @@ md-card-header,md-card-title,md-card-subtitle {
 
 md-card-header>div{
   height: auto !important;
-}
-
-pre {
-    white-space: pre-wrap;
-    word-wrap: break-word;
-    overflow: auto;
 }
