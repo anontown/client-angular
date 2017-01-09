@@ -33,7 +33,7 @@ export class ResWriteComponent implements OnInit, OnDestroy {
   ud: IUserData;
   private udListener: IUserDataListener;
 
-  markdown = false;
+  markdown = true;
 
   ngOnInit() {
     this.udListener = this.user.addUserDataListener(ud => {
