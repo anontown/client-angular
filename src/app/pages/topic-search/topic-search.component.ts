@@ -84,6 +84,8 @@ export class TopicSearchComponent implements OnInit, OnDestroy {
         let b = this.bs.topics.find(t => t.category.join("/") === this.category);
         if (b) {
           this.board = b;
+        } else {
+          this.board = null;
         }
       }
     });
