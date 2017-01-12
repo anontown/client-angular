@@ -125,9 +125,9 @@ AtApiService.serverURL = Config.serverURL;
         ButtonDialogComponent,
         MdEditorComponent,
         BoardComponent,
-        BoardsComponent
+        BoardsComponent,
     ],
-    //エントリ
+    // エントリ
     bootstrap: [AppComponent],
     providers: [
         UserService,

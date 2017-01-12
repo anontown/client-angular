@@ -1,43 +1,40 @@
 <md-card [ngClass]="{'res-pop':isPop}">
-  <md-card-header [ngClass]="{'res-self':isSelf,'res-reply':res.isReply&&!isSelf}">
-    <md-card-title>
-      <a (click)="reply()" href="javascript:void(0);">{{res.name}}</a>
-      <a *ngIf="res.profile!==null" (click)="profileOpen()" href="javascript:void(0);">[プロフィール]</a>
-    </md-card-title>
-    <md-card-subtitle>
-      <span>{{res.date|date:"y/MM/dd(EEE) HH:mm:ss"}}</span>
-      <a href="javascript:void(0);" (click)="hashClick()">HASH:{{res.hash}}</a>
-    </md-card-subtitle>
-  </md-card-header>
-  <md-card-content>
+  <div [ngClass]="{'res-self':isSelf,'res-reply':res.isReply&&!isSelf,header:true}">
+    <a (click)="reply()" href="javascript:void(0);">{{res.name}}</a>
+    <a *ngIf="res.profile!==null" (click)="profileOpen()" href="javascript:void(0);">[プロフィール]</a>
+
+    <span>{{res.date|date:"y/MM/dd(EEE) HH:mm:ss"}}</span>
+    <a href="javascript:void(0);" (click)="hashClick()">HASH:{{res.hash}}</a>
+  </div>
+  <div>
     <span class="action">
-      <button *ngIf="res.reply!==null" (click)="sendReplyClick()" md-icon-button>
-        <md-icon>send</md-icon>
-      </button>
-      <button (click)="receiveReplyClick()" *ngIf="res.replyCount!==0" md-icon-button>
-        <md-icon>reply</md-icon>
-        {{res.replyCount}}
-      </button>
-    </span>
+        <button *ngIf="res.reply!==null" (click)="sendReplyClick()" md-icon-button>
+          <md-icon>send</md-icon>
+        </button>
+        <button (click)="receiveReplyClick()" *ngIf="res.replyCount!==0" md-icon-button>
+          <md-icon>reply</md-icon>
+          {{res.replyCount}}
+        </button>
+      </span>
     <div [innerHTML]="res.mdtext" class="aa"></div>
-  </md-card-content>
-  <md-card-actions class="res-footer action" *ngIf="ud!==undefined">
+  </div>
+  <div class="res-footer action" *ngIf="ud!==undefined">
     <span *ngIf="!isSelf&&ud!==null&&!res.isVote">
-      <button (click)="uv()" md-icon-button>
-        <md-icon>thumb_up</md-icon>
-      </button>
-      <span> {{res.vote}}</span>
+        <button (click)="uv()" md-icon-button>
+          <md-icon>thumb_up</md-icon>
+        </button>
+        <span> {{res.vote}}</span>
     <button (click)="dv()" md-icon-button>
-        <md-icon>thumb_down</md-icon>
-      </button>
+          <md-icon>thumb_down</md-icon>
+        </button>
     </span>
     <span *ngIf="isSelf||ud===null||res.isVote">
-      <md-icon class="vote">thumbs_up_down</md-icon> {{res.vote}}
-    </span>
+        <md-icon class="vote">thumbs_up_down</md-icon> {{res.vote}}
+      </span>
     <button *ngIf="isSelf&&res.deleteFlag==='active'" (click)="del()" md-icon-button>
-      <md-icon>delete</md-icon>
-    </button>
-  </md-card-actions>
+        <md-icon>delete</md-icon>
+      </button>
+  </div>
   <div *ngIf="children.size!==0">
     <app-res *ngFor="let c of children" [res]="c" (update)="childrenUpdate($event)" [isPop]="true"></app-res>
   </div>

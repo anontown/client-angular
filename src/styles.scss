@@ -1,6 +1,4 @@
 /* You can add global styles to this file, and also import other style files */
-@import '~@angular/material/core/theming/prebuilt/deeppurple-amber.css';
-
 body{
   padding-bottom: 20px;
     padding-top: 64px;
@@ -37,20 +35,6 @@ img{
   max-height:60vw;
 }
 
-
-md-card,md-card-header,md-card-content,md-card-actions,md-card-title,md-card-subtitle{
-  margin: 2px !important;
-  padding: 2px !important;
-}
-
-md-card-header,md-card-title,md-card-subtitle {
-  height: auto !important;
-}
-
-md-card-header>div{
-  height: auto !important;
-}
-
 body{
-  background-color: #eeeeee;
+  background-color: #ddffdd;
 }

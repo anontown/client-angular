@@ -9,6 +9,7 @@ import * as Immutable from 'immutable';
 @Component({
     selector: 'app-favo',
     templateUrl: './favo.component.html',
+    styleUrls: ['./favo-component.scss'],
     changeDetection: ChangeDetectionStrategy.Default
 })
 export class FavoComponent implements OnInit, OnDestroy {
