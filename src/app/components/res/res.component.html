@@ -4,7 +4,7 @@
     <a *ngIf="res.profile!==null" (click)="profileOpen()" href="javascript:void(0);">[プロフィール]</a>
 
     <span>{{res.date|date:"y/MM/dd(EEE) HH:mm:ss"}}</span>
-    <a href="javascript:void(0);" (click)="hashClick()">HASH:{{res.hash}}</a>
+    <a href="javascript:void(0);" (click)="hashClick()">HASH:{{res.hash.substr(0,6)}}...</a>
   </div>
   <div>
     <span class="action">
