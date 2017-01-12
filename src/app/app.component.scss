@@ -10,3 +10,15 @@
 md-icon{
   line-height:48px;
 }
+
+[md-tab-nav-bar]{
+  display: table;
+  table-layout: fixed;
+  text-align: center;
+  width: 100%;
+}
+
+[md-tab-link]{
+  display: table-cell;
+  vertical-align: middle;
+}
