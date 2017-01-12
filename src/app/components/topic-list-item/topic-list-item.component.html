@@ -1,14 +1,12 @@
 <md-card *ngIf="ud!==undefined">
-  <md-card-header>
-    <md-card-title>
-      <md-icon *ngIf="newRes!==null&&newRes!==0">fiber_new</md-icon>
-      <a [routerLink]="['/topic',topic.id]">{{topic.title}}</a>
-    </md-card-title>
-    <md-card-subtitle>
+  <div>
+    <md-icon *ngIf="newRes!==null&&newRes!==0">fiber_new</md-icon>
+    <a [routerLink]="['/topic',topic.id]">{{topic.title}}</a>
+  </div>
+  <div class="data">
+    <div class="category">
       {{topic.category.join('/')}}
-    </md-card-subtitle>
-  </md-card-header>
-  <md-card-content>
+    </div>
     <div>
       作成 {{topic.date|date:"y/MM/dd(EEE) HH:mm:ss"}} 更新 {{topic.update|date:"y/MM/dd(EEE) HH:mm:ss"}}
     </div>
@@ -16,5 +14,5 @@
       総レス数 {{topic.resCount}}
       <span *ngIf="newRes!==null">新着 {{newRes}}</span>
     </div>
-  </md-card-content>
+  </div>
 </md-card>
