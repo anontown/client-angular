@@ -16,8 +16,8 @@
 }
 
 .action{
-  $icon-button-size:12px;
-  $icon-size:8px;
+  $icon-button-size:16px;
+  $icon-size:12px;
 
   font-size: $icon-size !important;
   line-height: $icon-size !important;
@@ -33,6 +33,8 @@
     line-height: $icon-size !important;
     display: inline !important;
   }
+
+  color: #666;
 }
 
 app-res:first{
