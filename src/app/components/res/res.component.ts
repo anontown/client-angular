@@ -42,6 +42,8 @@ export class ResComponent implements OnInit, OnDestroy {
   @Output()
   update = new EventEmitter<Res>();
 
+  childrenMsg: string = null;
+
   isSelf: boolean;
 
   constructor(private user: UserService,
@@ -73,7 +75,7 @@ export class ResComponent implements OnInit, OnDestroy {
   }
 
   childrenUpdate(res: Res) {
-    this.children.set(this.children.findIndex((r) => r.id === res.id), res);
+    this.children = this.children.set(this.children.findIndex((r) => r.id === res.id), res);
     this.cdr.markForCheck();
   }
 
@@ -91,11 +93,13 @@ export class ResComponent implements OnInit, OnDestroy {
   async hashClick() {
     if (this.children.size !== 0) {
       this.children = Immutable.List<Res>();
+      this.childrenMsg = null;
     } else {
       this.children = Immutable.List(await this.api.findResHash(this.ud !== null ? this.ud.auth : null, {
         topic: this.res.topic,
         hash: this.res.hash
       }));
+      this.childrenMsg = "抽出 HASH:" + this.res.hash;
     }
     this.cdr.markForCheck();
   }
@@ -108,6 +112,7 @@ export class ResComponent implements OnInit, OnDestroy {
         id: this.res.reply as string
       })]);
     }
+    this.childrenMsg = null;
     this.cdr.markForCheck();
   }
 
@@ -120,6 +125,7 @@ export class ResComponent implements OnInit, OnDestroy {
         reply: this.res.id
       }));
     }
+    this.childrenMsg = null;
     this.cdr.markForCheck();
   }
 
