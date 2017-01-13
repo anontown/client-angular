@@ -22,6 +22,7 @@ import * as Immutable from 'immutable';
 @Component({
   selector: 'app-topic-data',
   templateUrl: './topic-data.component.html',
+  styleUrls: ['./topic-data.component.scss'],
   changeDetection: ChangeDetectionStrategy.Default
 })
 export class TopicDataComponent implements OnInit, OnDestroy {
@@ -53,5 +54,10 @@ export class TopicDataComponent implements OnInit, OnDestroy {
   private isEdit = false;
   edit() {
     this.isEdit = !this.isEdit;
+  }
+
+  isDetail = false;
+  detail() {
+    this.isDetail = !this.isDetail;
   }
 }

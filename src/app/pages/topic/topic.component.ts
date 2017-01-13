@@ -19,7 +19,6 @@ import {
 import { Config } from '../../config';
 import { UserService, IUserData, IUserDataListener } from '../../services';
 import {
-  TopicDataComponent,
   TopicAutoScrollMenuComponent,
   ResWriteComponent
 } from '../../dialogs';
@@ -97,13 +96,8 @@ export class TopicComponent implements OnInit, OnDestroy, AfterViewChecked {
     })
   }
 
-  detail() {
-    let com = this.dialog.open(TopicDataComponent).componentInstance;
-    com.topic = this.topic;
-    com.update.subscribe((topic: Topic) => {
-      this.topic = topic;
-      com.topic = topic;
-    });
+  update(topic: Topic) {
+    this.topic = topic;
   }
 
 

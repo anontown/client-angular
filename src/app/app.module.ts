@@ -23,11 +23,11 @@ import {
     TopicEditComponent,
     TopicListItemComponent,
     MdEditorComponent,
-    BoardComponent
+    BoardComponent,
+    TopicDataComponent
 } from './components';
 
 import {
-    TopicDataComponent,
     ResWriteComponent,
     ProfileComponent,
     TopicAutoScrollMenuComponent,
@@ -137,7 +137,6 @@ AtApiService.serverURL = Config.serverURL;
         //モーダルで使うコンポーネント
         ProfileComponent,
         ResWriteComponent,
-        TopicDataComponent,
         TopicAutoScrollMenuComponent,
         ButtonDialogComponent
     ]
