@@ -20,7 +20,7 @@
       <md-slide-toggle name="markdown" [(ngModel)]="markdown">Markdown</md-slide-toggle>
     </div>
     <app-md-editor *ngIf="markdown" [(ngModel)]="text" name="text" (keypress)="key($event)"></app-md-editor>
-    <md-textarea *ngIf="!markdown" [(ngModel)]="text" name="text" (keypress)="key($event)" style="width:100%;"></md-textarea>
+    <md-textarea *ngIf="!markdown" [(ngModel)]="text" name="text" (keypress)="key($event)" style="width:100%;" [rows]="5"></md-textarea>
 <div>
   <button type="submit" md-raised-button>書き込む</button>
 </div>
