@@ -27,6 +27,7 @@ export class ResWriteComponent implements OnInit, OnDestroy {
   private text = "";
   private profile: string | null = null;
   private errorMsg: string | null = null;
+  private age = true;
   @Output()
   write = new EventEmitter<Res>();
 
@@ -81,7 +82,8 @@ export class ResWriteComponent implements OnInit, OnDestroy {
         name: this.name,
         text: text,
         reply: this.reply !== null ? this.reply.id : null,
-        profile: this.profile
+        profile: this.profile,
+        age: this.age
       });
 
       this.text = "";
