@@ -1,6 +1,6 @@
 <md-card *ngIf="ud!==undefined">
   <md-card-header>
-    <md-card-title>●{{profile.id}}</md-card-title>
+    <md-card-title>●{{profile.sn}}</md-card-title>
   </md-card-header>
   <md-card-actions>
     <button md-icon-button (click)="edit()">
@@ -11,6 +11,11 @@
   <form *ngIf="isEdit" (ngSubmit)="ok()">
     <div *ngIf="errorMsg!==null">
       <md-icon>error</md-icon> {{errorMsg}}
+    </div>
+    <div>
+      <md-input-container>
+        <input md-input placeholder="ID" [(ngModel)]="sn" name="sn">
+      </md-input-container>
     </div>
     <div>
       <md-input-container>

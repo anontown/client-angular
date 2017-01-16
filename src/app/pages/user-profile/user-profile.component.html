@@ -1,7 +1,7 @@
 <div *ngIf="ud!==null&&ud!==undefined">
-  <app-user-profile-add></app-user-profile-add>
+  <app-user-profile-add (add)="add($event)"></app-user-profile-add>
   <div>
-    <app-user-profile-edit *ngFor="let p of ud.profiles" [profile]="p"></app-user-profile-edit>
+    <app-user-profile-edit *ngFor="let p of ud.profiles" [profile]="p" (update)="update($event)"></app-user-profile-edit>
   </div>
 </div>
 <md-card *ngIf="ud===null&&ud!==undefined">

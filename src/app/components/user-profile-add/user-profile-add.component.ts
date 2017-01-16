@@ -22,6 +22,7 @@ import { UserService, IUserDataListener, IUserData } from '../../services';
 export class UserProfileAddComponent implements OnInit, OnDestroy {
     private name = "";
     private text = "";
+    sn = "";
     private errorMsg: string | null = null;
 
     ud: IUserData;
@@ -47,9 +48,11 @@ export class UserProfileAddComponent implements OnInit, OnDestroy {
         (async () => {
             let p = await this.api.createProfile(this.ud.auth, {
                 name: this.name,
-                text: this.text
+                text: this.text,
+                sn: this.sn
             });
 
+            this.sn = "";
             this.name = "";
             this.text = "";
             this.add.emit(p);

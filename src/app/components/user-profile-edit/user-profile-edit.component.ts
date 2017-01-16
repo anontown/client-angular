@@ -26,6 +26,7 @@ export class UserProfileEditComponent implements OnInit, OnDestroy {
 
     private name = "";
     private text = "";
+    sn = "";
     private errorMsg: string | null = null;
 
     constructor(private user: UserService,
@@ -39,6 +40,7 @@ export class UserProfileEditComponent implements OnInit, OnDestroy {
     update = new EventEmitter<Profile>();
 
     ngOnInit() {
+        this.sn = this.profile.sn;
         this.name = this.profile.name;
         this.text = this.profile.text;
         this.udListener = this.user.addUserDataListener((ud) => {
@@ -55,7 +57,8 @@ export class UserProfileEditComponent implements OnInit, OnDestroy {
             let profile = await this.api.updateProfile(this.ud.auth, {
                 id: this.profile.id,
                 name: this.name,
-                text: this.text
+                text: this.text,
+                sn: this.sn
             });
             this.errorMsg = null;
 
