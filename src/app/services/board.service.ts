@@ -3,8 +3,8 @@ import { AtApiService, Topic } from 'anontown';
 import * as Immutable from 'immutable';
 @Injectable()
 export class BoardService {
-    board: Board;
-    topics: Topic[];
+    board: Board = new Board([]);
+    topics: Topic[] = [];
 
 
     constructor(private api: AtApiService) {
