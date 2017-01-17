@@ -130,22 +130,48 @@ export class ResComponent implements OnInit, OnDestroy {
   }
 
   async uv() {
-    this.update.emit(await this.api.uvRes(this.ud.auth, {
-      id: this.res.id
-    }));
+    switch(this.res.voteFlag){
+      case "uv":
+        this.update.emit(await this.api.cvRes(this.ud.auth, {
+          id: this.res.id
+        }));
+        break;
+      case "dv":
+        await this.api.cvRes(this.ud.auth, {
+          id: this.res.id
+        });
+        this.update.emit(await this.api.uvRes(this.ud.auth, {
+          id: this.res.id
+        }));
+        break;
+      case "not":
+        this.update.emit(await this.api.uvRes(this.ud.auth, {
+          id: this.res.id
+        }));
+        break;
+    }
   }
 
   async dv() {
-    let dialogRef = this.dialog.open(ButtonDialogComponent);
-    let com = dialogRef.componentInstance;
-    com.message = "低評価して良いですか？";
-    com.actions = [{ data: true, text: "はい" }, { data: false, text: "いいえ" }];
-
-    let result: boolean = await dialogRef.afterClosed().toPromise();
-    if (result) {
-      this.update.emit(await this.api.dvRes(this.ud.auth, {
-        id: this.res.id
-      }));
+    switch(this.res.voteFlag){
+      case "dv":
+        this.update.emit(await this.api.cvRes(this.ud.auth, {
+          id: this.res.id
+        }));
+        break;
+      case "uv":
+        await this.api.cvRes(this.ud.auth, {
+          id: this.res.id
+        });
+        this.update.emit(await this.api.dvRes(this.ud.auth, {
+          id: this.res.id
+        }));
+        break;
+      case "not":
+        this.update.emit(await this.api.dvRes(this.ud.auth, {
+          id: this.res.id
+        }));
+        break;
     }
   }
 
