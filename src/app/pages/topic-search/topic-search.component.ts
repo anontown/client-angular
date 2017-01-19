@@ -86,14 +86,9 @@ export class TopicSearchComponent implements OnInit, OnDestroy {
   }
 
   favo() {
-    let bf = this.user.ud.storage.boardFavo;
-    let favo = bf.has(this.category) ? bf.delete(this.category) : bf.add(this.category);
-
-    this.user.setUserData({
-      auth: this.user.ud.auth,
-      token: this.user.ud.token,
-      profiles: this.user.ud.profiles,
-      storage: this.user.ud.storage.setBoardFavo(favo)
-    });
+    let storage = this.user.ud.storage;
+    let bf = storage.boardFavo;
+    storage.topicFavo = bf.has(this.category) ? bf.delete(this.category) : bf.add(this.category);
+    this.user.updateUserData();
   }
 }

@@ -136,12 +136,12 @@ export class TopicComponent implements OnInit, OnDestroy, AfterViewChecked {
       }
 
       //セット
-      this.user.setUserData({
-        auth: this.user.ud.auth,
-        token: this.user.ud.token,
-        profiles: this.user.ud.profiles,
-        storage: this.user.ud.storage.setTopicRead(this.topic.id, res.id, this.topic.resCount)
-      });
+      let storage = this.user.ud.storage;
+      storage.topicRead = storage.topicRead.set(this.topic.id, {
+        res: res.id,
+        count: this.topic.resCount
+      })
+      this.user.updateUserData();
     }
 
     clearInterval(this.intervalID);
@@ -262,14 +262,9 @@ export class TopicComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   favo() {
-    let tf = this.user.ud.storage.topicFavo;
-    let favo = tf.has(this.topic.id) ? tf.delete(this.topic.id) : tf.add(this.topic.id);
-
-    this.user.setUserData({
-      auth: this.user.ud.auth,
-      token: this.user.ud.token,
-      profiles: this.user.ud.profiles,
-      storage: this.user.ud.storage.setTopicFavo(favo)
-    });
+    let storage = this.user.ud.storage;
+    let tf = storage.topicFavo;
+    storage.topicFavo = tf.has(this.topic.id) ? tf.delete(this.topic.id) : tf.add(this.topic.id);
+    this.user.updateUserData();
   }
 }

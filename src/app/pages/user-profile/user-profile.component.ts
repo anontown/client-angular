@@ -3,35 +3,27 @@ import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/
 import { UserService } from '../../services';
 import { Profile } from 'anontown';
 @Component({
-    selector: 'app-user-profile',
-    templateUrl: './user-profile.component.html',
-    changeDetection: ChangeDetectionStrategy.Default
+  selector: 'app-user-profile',
+  templateUrl: './user-profile.component.html',
+  changeDetection: ChangeDetectionStrategy.Default
 })
 export class UserProfileComponent implements OnInit, OnDestroy {
-    constructor(private user: UserService) {
-    }
+  constructor(private user: UserService) {
+  }
 
-    ngOnInit() {
-    }
+  ngOnInit() {
+  }
 
-    ngOnDestroy() {
-    }
+  ngOnDestroy() {
+  }
 
-    update(pr: Profile) {
-        this.user.setUserData({
-            auth: this.user.ud.auth,
-            token: this.user.ud.token,
-            storage: this.user.ud.storage,
-            profiles: this.user.ud.profiles.set(this.user.ud.profiles.findIndex(p => p.id === pr.id), pr)
-        })
-    }
+  update(pr: Profile) {
+    this.user.ud.profiles = this.user.ud.profiles.set(this.user.ud.profiles.findIndex(p => p.id === pr.id), pr);
+    this.user.updateUserData();
+  }
 
-    add(p: Profile) {
-        this.user.setUserData({
-            auth: this.user.ud.auth,
-            token: this.user.ud.token,
-            storage: this.user.ud.storage,
-            profiles: this.user.ud.profiles.push(p)
-        })
-    }
+  add(p: Profile) {
+    this.user.ud.profiles = this.user.ud.profiles.push(p);
+    this.user.updateUserData();
+  }
 }

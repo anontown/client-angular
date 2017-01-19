@@ -98,9 +98,9 @@ export class Storage {
         };
     }
 
-    readonly boardFavo: Immutable.Set<string>;
-    readonly topicFavo: Immutable.Set<string>;
-    readonly topicRead: Immutable.Map<string, { res: string, count: number }>;
+    boardFavo: Immutable.Set<string>;
+    topicFavo: Immutable.Set<string>;
+    topicRead: Immutable.Map<string, { res: string, count: number }>;
 
     private constructor(topicFavo: Immutable.Set<string>,
         boardFavo: Immutable.Set<string>,
@@ -108,18 +108,6 @@ export class Storage {
         this.topicFavo = topicFavo;
         this.boardFavo = boardFavo;
         this.topicRead = topicRead;
-    }
-
-    setTopicRead(topic: string, res: string, count: number): Storage {
-        return this.copy({ topicRead: this.topicRead.set(topic, { res, count }) });
-    }
-
-    setTopicFavo(topicFavo: Immutable.Set<string>): Storage {
-        return this.copy({ topicFavo });
-    }
-
-    setBoardFavo(boardFavo: Immutable.Set<string>): Storage {
-        return this.copy({ boardFavo });
     }
 
 
@@ -132,11 +120,5 @@ export class Storage {
         };
 
         return JSON.stringify(j);
-    }
-
-
-    private copy({topicFavo = this.topicFavo, boardFavo = this.boardFavo, topicRead = this.topicRead}:
-        { topicFavo?: Immutable.Set<string>, boardFavo?: Immutable.Set<string>, topicRead?: Immutable.Map<string, { res: string, count: number }> }): Storage {
-        return new Storage(topicFavo, boardFavo, topicRead);
     }
 }
