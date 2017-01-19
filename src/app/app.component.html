@@ -5,7 +5,7 @@
 </md-menu>
 
 <nav md-tab-nav-bar class="tab-nav">
-  <a md-tab-link [routerLink]="['/favo']" *ngIf="ud!==null">
+  <a md-tab-link [routerLink]="['/favo']" *ngIf="user.ud!==null">
     <md-icon>star</md-icon>
   </a>
   <a md-tab-link [routerLink]="['/topic/search']" [queryParams]="{title:'',category:''}">
@@ -14,13 +14,13 @@
   <a md-tab-link [routerLink]="['/boards']">
     板
   </a>
-  <a md-tab-link [routerLink]="['/user/notice']" *ngIf="ud!==null">
+  <a md-tab-link [routerLink]="['/user/notice']" *ngIf="user.ud!==null">
     <md-icon>notifications</md-icon>
   </a>
-  <a md-tab-link href="javascript:void(0);" *ngIf="ud!==null" [mdMenuTriggerFor]="menu">
+  <a md-tab-link href="javascript:void(0);" *ngIf="user.ud!==null" [mdMenuTriggerFor]="menu">
     <md-icon>more_vert</md-icon>
   </a>
-  <a md-tab-link href="javascript:void(0);" *ngIf="ud===null" (click)="login()">
+  <a md-tab-link href="javascript:void(0);" *ngIf="user.ud===null" (click)="login()">
     ログイン/登録
   </a>
 </nav>

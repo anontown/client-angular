@@ -1,4 +1,4 @@
-<md-card *ngIf="ud!==undefined">
+<md-card *ngIf="user.ud!==undefined">
   <div>
     <md-icon *ngIf="newRes!==null&&newRes!==0">fiber_new</md-icon>
     <a [routerLink]="['/topic',topic.id]">{{topic.title}}</a>

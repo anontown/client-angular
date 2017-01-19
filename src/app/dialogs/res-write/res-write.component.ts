@@ -15,7 +15,7 @@ import {
   AtError
 } from 'anontown';
 
-import { UserService, IUserData, IUserDataListener } from '../../services';
+import { UserService } from '../../services';
 
 @Component({
   selector: 'app-res-write',
@@ -31,22 +31,15 @@ export class ResWriteComponent implements OnInit, OnDestroy {
   @Output()
   write = new EventEmitter<Res>();
 
-  ud: IUserData;
-  private udListener: IUserDataListener;
-
   markdown = true;
 
   ngOnInit() {
-    this.udListener = this.user.addUserDataListener(ud => {
-      this.ud = ud;
-    });
   }
 
   ngOnDestroy() {
-    this.user.removeUserDataListener(this.udListener);
   }
 
-  constructor(private user: UserService,
+  constructor(public user: UserService,
     private api: AtApiService,
     private zone: NgZone) {
   }
@@ -77,7 +70,7 @@ export class ResWriteComponent implements OnInit, OnDestroy {
       } else {
         text = this.text;
       }
-      let res = await this.api.createRes(this.ud.auth, {
+      let res = await this.api.createRes(this.user.ud.auth, {
         topic: typeof this.topic === "string" ? this.topic : this.topic.id,
         name: this.name,
         text: text,

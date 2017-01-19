@@ -11,7 +11,7 @@ import {
     AtError,
     Profile
 } from 'anontown';
-import { UserService, IUserDataListener, IUserData } from '../../services';
+import { UserService} from '../../services';
 
 
 @Component({
@@ -25,28 +25,21 @@ export class UserProfileAddComponent implements OnInit, OnDestroy {
     sn = "";
     private errorMsg: string | null = null;
 
-    ud: IUserData;
-    udListener: IUserDataListener;
-
     @Output()
     add = new EventEmitter<Profile>();
 
-    constructor(private user: UserService, private api: AtApiService) {
+    constructor(public user: UserService, private api: AtApiService) {
     }
 
     ngOnInit() {
-        this.udListener = this.user.addUserDataListener((ud) => {
-            this.ud = ud;
-        });
     }
 
     ngOnDestroy() {
-        this.user.removeUserDataListener(this.udListener);
     }
 
     ok() {
         (async () => {
-            let p = await this.api.createProfile(this.ud.auth, {
+            let p = await this.api.createProfile(this.user.ud.auth, {
                 name: this.name,
                 text: this.text,
                 sn: this.sn

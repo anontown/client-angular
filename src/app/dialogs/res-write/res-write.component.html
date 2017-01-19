@@ -1,4 +1,4 @@
-<md-dialog-content *ngIf="ud!==null&&ud!==undefined">
+<md-dialog-content *ngIf="user.ud!==null&&user.ud!==undefined">
   <form (ngSubmit)="ok()">
     <div *ngIf="errorMsg!==null">
       <md-icon>error</md-icon> {{errorMsg}}
@@ -12,7 +12,7 @@
         <md-option [value]="null" selected>
           なし
         </md-option>
-        <md-option *ngFor="let p of ud.profiles" [value]="p.id">
+        <md-option *ngFor="let p of user.ud.profiles" [value]="p.id">
           ●{{p.sn}} {{p.name}}
         </md-option>
       </md-select>
@@ -27,6 +27,6 @@
 </div>
 </form>
 </md-dialog-content>
-<md-dialog-content *ngIf="ud===null">
+<md-dialog-content *ngIf="user.ud===null">
   ログインしないと書き込めません
 </md-dialog-content>

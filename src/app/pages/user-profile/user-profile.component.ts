@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 
-import { UserService, IUserData, IUserDataListener } from '../../services';
+import { UserService } from '../../services';
 import { Profile } from 'anontown';
 @Component({
     selector: 'app-user-profile',
@@ -11,34 +11,27 @@ export class UserProfileComponent implements OnInit, OnDestroy {
     constructor(private user: UserService) {
     }
 
-    ud: IUserData;
-    private udListener: IUserDataListener;
-
     ngOnInit() {
-        this.udListener = this.user.addUserDataListener(ud => {
-            this.ud = ud;
-        });
     }
 
     ngOnDestroy() {
-        this.user.removeUserDataListener(this.udListener);
     }
 
     update(pr: Profile) {
         this.user.setUserData({
-            auth: this.ud.auth,
-            token: this.ud.token,
-            storage: this.ud.storage,
-            profiles: this.ud.profiles.set(this.ud.profiles.findIndex(p => p.id === pr.id), pr)
+            auth: this.user.ud.auth,
+            token: this.user.ud.token,
+            storage: this.user.ud.storage,
+            profiles: this.user.ud.profiles.set(this.user.ud.profiles.findIndex(p => p.id === pr.id), pr)
         })
     }
 
     add(p: Profile) {
         this.user.setUserData({
-            auth: this.ud.auth,
-            token: this.ud.token,
-            storage: this.ud.storage,
-            profiles: this.ud.profiles.push(p)
+            auth: this.user.ud.auth,
+            token: this.user.ud.token,
+            storage: this.user.ud.storage,
+            profiles: this.user.ud.profiles.push(p)
         })
     }
 }

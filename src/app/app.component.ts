@@ -5,7 +5,7 @@ import {
   OnDestroy
 } from '@angular/core';
 import { AtApiService, IAuthToken } from 'anontown';
-import { UserService, IUserData, IUserDataListener } from './services';
+import { UserService } from './services';
 import { Config } from './config';
 import { Router } from '@angular/router';
 
@@ -15,9 +15,6 @@ import { Router } from '@angular/router';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit, OnDestroy {
-  ud: IUserData;
-  private udListener: IUserDataListener;
-
   constructor(private user: UserService,
     private api: AtApiService,
     public router: Router) {
@@ -60,14 +57,9 @@ export class AppComponent implements OnInit, OnDestroy {
         this.user.setUserData(null);
       });
     });
-
-    this.udListener = this.user.addUserDataListener(ud => {
-      this.ud = ud;
-    });
   }
 
   ngOnDestroy() {
-    this.user.removeUserDataListener(this.udListener);
   }
 
   login() {
@@ -86,9 +78,9 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   async save() {
-    if (this.ud !== null) {
-      this.api.setTokenStorage(this.ud.auth, {
-        value: this.ud.storage.toJSON()
+    if (this.user.ud !== null) {
+      this.api.setTokenStorage(this.user.ud.auth, {
+        value: this.user.ud.storage.toJSON()
       });
     }
   }

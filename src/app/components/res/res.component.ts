@@ -19,7 +19,7 @@ import {
 } from 'anontown';
 
 
-import { UserService, IUserDataListener, IUserData } from '../../services';
+import { UserService, IUserDataListener } from '../../services';
 import { MdDialog } from '@angular/material';
 
 import { ProfileComponent, ResWriteComponent, ButtonDialogComponent } from '../../dialogs';
@@ -53,15 +53,14 @@ export class ResComponent implements OnInit, OnDestroy {
     private cdr: ChangeDetectorRef) {
   }
 
-  ud: IUserData;
   private udListener: IUserDataListener;
 
 
   ngOnInit() {
-    this.udListener = this.user.addUserDataListener(data => {
-      this.ud = data;
-      if (data !== null) {
-        this.isSelf = data.token.user === this.res.user;
+    this.udListener = this.user.addUserDataListener(() => {
+      let ud = this.user.ud;
+      if (ud !== null) {
+        this.isSelf = ud.token.user === this.res.user;
       } else {
         this.isSelf = false;
       }
@@ -95,7 +94,7 @@ export class ResComponent implements OnInit, OnDestroy {
       this.children = Immutable.List<Res>();
       this.childrenMsg = null;
     } else {
-      this.children = Immutable.List(await this.api.findResHash(this.ud !== null ? this.ud.auth : null, {
+      this.children = Immutable.List(await this.api.findResHash(this.user.ud !== null ? this.user.ud.auth : null, {
         topic: this.res.topic,
         hash: this.res.hash
       }));
@@ -108,7 +107,7 @@ export class ResComponent implements OnInit, OnDestroy {
     if (this.children.size !== 0) {
       this.children = Immutable.List<Res>();
     } else {
-      this.children = Immutable.List([await this.api.findResOne(this.ud !== null ? this.ud.auth : null, {
+      this.children = Immutable.List([await this.api.findResOne(this.user.ud !== null ? this.user.ud.auth : null, {
         id: this.res.reply as string
       })]);
     }
@@ -120,7 +119,7 @@ export class ResComponent implements OnInit, OnDestroy {
     if (this.children.size !== 0) {
       this.children = Immutable.List<Res>();
     } else {
-      this.children = Immutable.List(await this.api.findResReply(this.ud !== null ? this.ud.auth : null, {
+      this.children = Immutable.List(await this.api.findResReply(this.user.ud !== null ? this.user.ud.auth : null, {
         topic: this.res.topic,
         reply: this.res.id
       }));
@@ -130,22 +129,22 @@ export class ResComponent implements OnInit, OnDestroy {
   }
 
   async uv() {
-    switch(this.res.voteFlag){
+    switch (this.res.voteFlag) {
       case "uv":
-        this.update.emit(await this.api.cvRes(this.ud.auth, {
+        this.update.emit(await this.api.cvRes(this.user.ud.auth, {
           id: this.res.id
         }));
         break;
       case "dv":
-        await this.api.cvRes(this.ud.auth, {
+        await this.api.cvRes(this.user.ud.auth, {
           id: this.res.id
         });
-        this.update.emit(await this.api.uvRes(this.ud.auth, {
+        this.update.emit(await this.api.uvRes(this.user.ud.auth, {
           id: this.res.id
         }));
         break;
       case "not":
-        this.update.emit(await this.api.uvRes(this.ud.auth, {
+        this.update.emit(await this.api.uvRes(this.user.ud.auth, {
           id: this.res.id
         }));
         break;
@@ -153,22 +152,22 @@ export class ResComponent implements OnInit, OnDestroy {
   }
 
   async dv() {
-    switch(this.res.voteFlag){
+    switch (this.res.voteFlag) {
       case "dv":
-        this.update.emit(await this.api.cvRes(this.ud.auth, {
+        this.update.emit(await this.api.cvRes(this.user.ud.auth, {
           id: this.res.id
         }));
         break;
       case "uv":
-        await this.api.cvRes(this.ud.auth, {
+        await this.api.cvRes(this.user.ud.auth, {
           id: this.res.id
         });
-        this.update.emit(await this.api.dvRes(this.ud.auth, {
+        this.update.emit(await this.api.dvRes(this.user.ud.auth, {
           id: this.res.id
         }));
         break;
       case "not":
-        this.update.emit(await this.api.dvRes(this.ud.auth, {
+        this.update.emit(await this.api.dvRes(this.user.ud.auth, {
           id: this.res.id
         }));
         break;
@@ -184,14 +183,14 @@ export class ResComponent implements OnInit, OnDestroy {
     let result: boolean = await dialogRef.afterClosed().toPromise();
 
     if (result) {
-      this.update.emit(await this.api.delRes(this.ud.auth, {
+      this.update.emit(await this.api.delRes(this.user.ud.auth, {
         id: this.res.id
       }));
     }
   }
 
   async profileOpen() {
-    this.dialog.open(ProfileComponent).componentInstance.profile = await this.api.findProfileOne(this.ud ? this.ud.auth : null, {
+    this.dialog.open(ProfileComponent).componentInstance.profile = await this.api.findProfileOne(this.user.ud ? this.user.ud.auth : null, {
       id: this.res.profile as string
     });
   }

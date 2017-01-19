@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
-import { UserService, IUserData, IUserDataListener, BoardService } from '../../services';
+import { UserService, IUserDataListener, BoardService } from '../../services';
 
 import { Router } from '@angular/router';
 import { Topic, AtApiService } from 'anontown';
@@ -20,16 +20,14 @@ export class FavoComponent implements OnInit, OnDestroy {
     }
 
     tfavo: Immutable.List<Topic>;
-    ud: IUserData;
     private udListener: IUserDataListener;
 
     ngOnInit() {
-        this.udListener = this.user.addUserDataListener(async ud => {
+        this.udListener = this.user.addUserDataListener(async () => {
+            let ud=this.user.ud;
             if (ud !== null) {
-                this.ud = ud;
                 await this.update();
             } else {
-                this.ud = null;
                 this.tfavo = null;
             }
         });
@@ -53,7 +51,7 @@ export class FavoComponent implements OnInit, OnDestroy {
     }
 
     private async update() {
-        this.tfavo = Immutable.List(await this.api.findTopicIn({ ids: this.ud.storage.topicFavo.toArray() }))
+        this.tfavo = Immutable.List(await this.api.findTopicIn({ ids: this.user.ud.storage.topicFavo.toArray() }))
             .sort((a, b) => a.update > b.update ? -1 : a.update < b.update ? 1 : 0).toList();
     }
 }

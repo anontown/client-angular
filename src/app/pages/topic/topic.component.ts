@@ -17,7 +17,7 @@ import {
   Res,
 } from 'anontown';
 import { Config } from '../../config';
-import { UserService, IUserData, IUserDataListener } from '../../services';
+import { UserService, IUserDataListener } from '../../services';
 import {
   TopicAutoScrollMenuComponent,
   ResWriteComponent
@@ -112,11 +112,10 @@ export class TopicComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
   }
 
-  ud: IUserData;
   private udListener: IUserDataListener;
 
   ngOnDestroy() {
-    if (this.ud) {
+    if (this.user.ud) {
       //最短距離のレスID
       var res: Res;
       {
@@ -138,10 +137,10 @@ export class TopicComponent implements OnInit, OnDestroy, AfterViewChecked {
 
       //セット
       this.user.setUserData({
-        auth: this.ud.auth,
-        token: this.ud.token,
-        profiles: this.ud.profiles,
-        storage: this.ud.storage.setTopicRead(this.topic.id, res.id, this.topic.resCount)
+        auth: this.user.ud.auth,
+        token: this.user.ud.token,
+        profiles: this.user.ud.profiles,
+        storage: this.user.ud.storage.setTopicRead(this.topic.id, res.id, this.topic.resCount)
       });
     }
 
@@ -158,8 +157,8 @@ export class TopicComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.topic = await this.api.findTopicOne({ id });
 
     let isInit = false;
-    this.udListener = this.user.addUserDataListener(async ud => {
-      this.ud = ud;
+    this.udListener = this.user.addUserDataListener(async () => {
+      let ud = this.user.ud;
       if (isInit) {
         return;
       }
@@ -205,7 +204,7 @@ export class TopicComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   private async findNew() {
     await this.lock(async () => {
-      this.reses = Immutable.List(await this.api.findResNew(this.ud ? this.ud.auth : null,
+      this.reses = Immutable.List(await this.api.findResNew(this.user.ud ? this.user.ud.auth : null,
         {
           topic: this.topic.id,
           limit: this.limit
@@ -225,7 +224,7 @@ export class TopicComponent implements OnInit, OnDestroy, AfterViewChecked {
           rcY = rc.elementRef.nativeElement.getBoundingClientRect().top as number;
         }
 
-        this.reses = Immutable.List((await this.api.findRes(this.ud ? this.ud.auth : null,
+        this.reses = Immutable.List((await this.api.findRes(this.user.ud ? this.user.ud.auth : null,
           {
             topic: this.topic.id,
             type: "after",
@@ -249,7 +248,7 @@ export class TopicComponent implements OnInit, OnDestroy, AfterViewChecked {
       this.findNew();
     } else {
       await this.lock(async () => {
-        this.reses = Immutable.List(this.reses.toArray().concat(await this.api.findRes(this.ud ? this.ud.auth : null,
+        this.reses = Immutable.List(this.reses.toArray().concat(await this.api.findRes(this.user.ud ? this.user.ud.auth : null,
           {
             topic: this.topic.id,
             type: "before",
@@ -263,14 +262,14 @@ export class TopicComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   favo() {
-    let tf = this.ud.storage.topicFavo;
+    let tf = this.user.ud.storage.topicFavo;
     let favo = tf.has(this.topic.id) ? tf.delete(this.topic.id) : tf.add(this.topic.id);
 
     this.user.setUserData({
-      auth: this.ud.auth,
-      token: this.ud.token,
-      profiles: this.ud.profiles,
-      storage: this.ud.storage.setTopicFavo(favo)
+      auth: this.user.ud.auth,
+      token: this.user.ud.token,
+      profiles: this.user.ud.profiles,
+      storage: this.user.ud.storage.setTopicFavo(favo)
     });
   }
 }

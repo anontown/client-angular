@@ -7,9 +7,7 @@ import {
 } from '@angular/core';
 import { AtApiService, Topic, Res, History } from 'anontown';
 import {
-    UserService,
-    IUserDataListener,
-    IUserData
+    UserService
 } from '../../services';
 import * as Immutable from 'immutable';
 
@@ -34,21 +32,14 @@ export class TopicHistoryComponent implements OnInit, OnDestroy {
     }
 
     constructor(private api: AtApiService,
-        private user: UserService) {
+        public user: UserService) {
 
     }
 
-    ud: IUserData;
-    private udListener: IUserDataListener;
-
     ngOnInit() {
-        this.udListener = this.user.addUserDataListener(ud => {
-            this.ud = ud;
-        });
     }
 
     ngOnDestroy() {
-        this.user.removeUserDataListener(this.udListener);
     }
 
     updateRes(res: Res) {
@@ -59,7 +50,7 @@ export class TopicHistoryComponent implements OnInit, OnDestroy {
         if (this.hashReses.size !== 0) {
             this.hashReses = Immutable.List<Res>();
         } else {
-            this.hashReses = Immutable.List(await this.api.findResHash(this.ud.auth, {
+            this.hashReses = Immutable.List(await this.api.findResHash(this.user.ud.auth, {
                 topic: this.topic.id,
                 hash: this.history.hash
             }));

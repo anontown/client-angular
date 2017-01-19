@@ -3,7 +3,7 @@ import {
     Res,
     AtApiService,
 } from 'anontown';
-import { UserService, IUserData, IUserDataListener } from '../../services';
+import { UserService, IUserDataListener } from '../../services';
 import * as Immutable from 'immutable';
 
 @Component({
@@ -20,17 +20,15 @@ export class UserNoticeComponent implements OnInit, OnDestroy {
         private api: AtApiService) {
     }
 
-    ud: IUserData;
     private udListener: IUserDataListener;
     ngOnInit() {
         let isInit = false;
-        this.udListener = this.user.addUserDataListener(ud => {
-            this.ud = ud;
+        this.udListener = this.user.addUserDataListener(() => {
             if (isInit) {
                 return;
             }
             isInit = true;
-            if (ud !== null) {
+            if (this.user.ud !== null) {
                 this.findNew();
             }
         });
@@ -45,7 +43,7 @@ export class UserNoticeComponent implements OnInit, OnDestroy {
     }
 
     private async findNew() {
-        this.reses = Immutable.List(await this.api.findResNoticeNew(this.ud.auth, {
+        this.reses = Immutable.List(await this.api.findResNoticeNew(this.user.ud.auth, {
             limit: this.limit
         }));
     }
@@ -54,7 +52,7 @@ export class UserNoticeComponent implements OnInit, OnDestroy {
         if (this.reses.size === 0) {
             this.findNew();
         } else {
-            this.reses = Immutable.List((await this.api.findResNotice(this.ud.auth,
+            this.reses = Immutable.List((await this.api.findResNotice(this.user.ud.auth,
                 {
                     type: "after",
                     equal: false,
@@ -68,7 +66,7 @@ export class UserNoticeComponent implements OnInit, OnDestroy {
         if (this.reses.size === 0) {
             this.findNew();
         } else {
-            this.reses = Immutable.List(this.reses.toArray().concat(await this.api.findResNotice(this.ud.auth,
+            this.reses = Immutable.List(this.reses.toArray().concat(await this.api.findResNotice(this.user.ud.auth,
                 {
                     type: "before",
                     equal: false,

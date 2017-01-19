@@ -1,4 +1,4 @@
-<md-card *ngIf="ud!==undefined" class="contents">
+<md-card *ngIf="user.ud!==undefined" class="contents">
   <h1>{{topic.title}}</h1>
   <button md-icon-button (click)="detail()">
     <md-icon>{{isDetail?'keyboard_arrow_up':'keyboard_arrow_down'}}</md-icon>
@@ -23,8 +23,8 @@
       </dd>
     </dl>
   </div>
-  <button md-icon-button *ngIf="ud!==null" (click)="edit()">
+  <button md-icon-button *ngIf="user.ud!==null" (click)="edit()">
       <md-icon>edit</md-icon>
     </button>
-  <app-topic-edit *ngIf="isEdit&&ud!==null" [topic]="topic" (update)="update.emit($event)"></app-topic-edit>
+  <app-topic-edit *ngIf="isEdit&&user.ud!==null" [topic]="topic" (update)="update.emit($event)"></app-topic-edit>
 </md-card>

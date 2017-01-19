@@ -1,5 +1,5 @@
-<md-card *ngIf="ud!==undefined">
-  <form *ngIf="ud!==null" (ngSubmit)="ok()">
+<md-card *ngIf="user.ud!==undefined">
+  <form *ngIf="user.ud!==null" (ngSubmit)="ok()">
     <div *ngIf="errorMsg!==null">
       <md-icon>error</md-icon> {{errorMsg}}
     </div>
@@ -18,7 +18,7 @@
       <button type="submit" md-raised-button>OK</button>
     </div>
   </form>
-  <div *ngIf="ud===null">
+  <div *ngIf="user.ud===null">
     ログインしないとプロフィール管理は出来ません
   </div>
 </md-card>

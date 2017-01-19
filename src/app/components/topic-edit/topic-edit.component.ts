@@ -12,7 +12,7 @@ import {
     Topic,
     AtError
 } from 'anontown';
-import { UserService, IUserDataListener, IUserData } from '../../services';
+import { UserService} from '../../services';
 
 
 @Component({
@@ -32,9 +32,6 @@ export class TopicEditComponent implements OnInit, OnDestroy {
     private text = "";
     private errorMsg: string | null = null;
 
-    ud: IUserData;
-    private udListener: IUserDataListener;
-
     constructor(private user: UserService,
         private api: AtApiService) {
     }
@@ -43,18 +40,14 @@ export class TopicEditComponent implements OnInit, OnDestroy {
         this.title = this.topic.title;
         this.category = this.topic.category.join("/");
         this.text = this.topic.text;
-        this.udListener = this.user.addUserDataListener(ud => {
-            this.ud = ud;
-        });
     }
 
     ngOnDestroy() {
-        this.user.removeUserDataListener(this.udListener);
     }
 
     ok() {
         (async () => {
-            let topic = await this.api.updateTopic(this.ud.auth, {
+            let topic = await this.api.updateTopic(this.user.ud.auth, {
                 id: this.topic.id,
                 title: this.title,
                 category: this.category.length === 0 ? [] : this.category.split("/"),

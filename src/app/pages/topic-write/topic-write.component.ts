@@ -4,7 +4,7 @@ import {
     AtError,
     TopicType
 } from 'anontown';
-import { UserService, IUserData, IUserDataListener } from '../../services';
+import { UserService} from '../../services';
 import { Router } from '@angular/router';
 
 
@@ -20,27 +20,20 @@ export class TopicWriteComponent implements OnInit, OnDestroy {
     private type: TopicType = "normal";
     private errorMsg: string | null = null;
 
-    constructor(private user: UserService,
+    constructor(public user: UserService,
         private api: AtApiService,
         private router: Router) {
     }
 
-    ud: IUserData;
-    private udListener: IUserDataListener;
-
     ngOnInit() {
-        this.udListener = this.user.addUserDataListener(ud => {
-            this.ud = ud;
-        });
     }
 
     ngOnDestroy() {
-        this.user.removeUserDataListener(this.udListener);
     }
 
     write() {
         (async () => {
-            let topic = await this.api.createTopic(this.ud.auth, {
+            let topic = await this.api.createTopic(this.user.ud.auth, {
                 title: this.title,
                 category: this.category.length === 0 ? [] : this.category.split("/"),
                 text: this.text,

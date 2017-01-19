@@ -11,7 +11,7 @@ import * as Immutable from 'immutable';
 
 @Injectable()
 export class UserService {
-    private ud: IUserData;
+    ud: IUserData;
     private udListener = new Set<IUserDataListener>();
 
     constructor(private api: AtApiService) {
@@ -20,7 +20,7 @@ export class UserService {
     addUserDataListener(call: IUserDataListener): IUserDataListener {
         this.udListener.add(call);
         if (this.ud !== undefined) {
-            call(this.ud, true);
+            call();
         }
         return call;
     }
@@ -31,7 +31,7 @@ export class UserService {
 
     setUserData(ud: IUserData) {
         this.ud = ud;
-        this.udListener.forEach(f => f(ud, (ud ? ud.auth.id : null) !== (this.ud ? this.ud.auth.id : null)));
+        this.udListener.forEach(f => f());
     }
 
     async login(token: Token) {
@@ -54,7 +54,7 @@ export class UserService {
 }
 
 export interface IUserDataListener {
-    (data: IUserData, isChange: boolean): void
+    (): void
 }
 
 export interface IUserData {

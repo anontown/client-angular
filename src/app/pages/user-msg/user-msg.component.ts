@@ -3,7 +3,7 @@ import {
     Msg,
     AtApiService,
 } from 'anontown';
-import { UserService, IUserData, IUserDataListener } from '../../services';
+import { UserService, IUserDataListener } from '../../services';
 import * as Immutable from 'immutable';
 
 @Component({
@@ -20,13 +20,11 @@ export class UserMsgComponent implements OnInit, OnDestroy {
         private api: AtApiService) {
     }
 
-    ud: IUserData;
     private udListener: IUserDataListener;
 
     ngOnInit() {
-        this.user.addUserDataListener(ud => {
-            this.ud = ud;
-            if (ud !== null) {
+        this.user.addUserDataListener(() => {
+            if (this.user.ud !== null) {
                 this.findNew();
             }
         })
@@ -37,7 +35,7 @@ export class UserMsgComponent implements OnInit, OnDestroy {
     }
 
     private async findNew() {
-        this.msgs = Immutable.List(await this.api.findMsgNew(this.ud.auth,
+        this.msgs = Immutable.List(await this.api.findMsgNew(this.user.ud.auth,
             {
                 limit: this.limit
             }));
@@ -47,7 +45,7 @@ export class UserMsgComponent implements OnInit, OnDestroy {
         if (this.msgs.size === 0) {
             this.findNew();
         } else {
-            this.msgs = Immutable.List((await this.api.findMsg(this.ud.auth,
+            this.msgs = Immutable.List((await this.api.findMsg(this.user.ud.auth,
                 {
                     type: "after",
                     equal: false,
@@ -61,7 +59,7 @@ export class UserMsgComponent implements OnInit, OnDestroy {
         if (this.msgs.size === 0) {
             this.findNew();
         } else {
-            this.msgs = Immutable.List(this.msgs.toArray().concat(await this.api.findMsg(this.ud.auth,
+            this.msgs = Immutable.List(this.msgs.toArray().concat(await this.api.findMsg(this.user.ud.auth,
                 {
                     type: "before",
                     equal: false,

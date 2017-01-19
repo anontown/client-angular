@@ -11,7 +11,7 @@ import {
     Profile,
     AtError,
 } from 'anontown';
-import { UserService, IUserDataListener, IUserData } from '../../services';
+import { UserService } from '../../services';
 
 @Component({
     selector: 'app-user-profile-edit',
@@ -33,9 +33,6 @@ export class UserProfileEditComponent implements OnInit, OnDestroy {
         private api: AtApiService) {
     }
 
-    ud: IUserData;
-    udListener: IUserDataListener;
-
     @Output()
     update = new EventEmitter<Profile>();
 
@@ -43,18 +40,14 @@ export class UserProfileEditComponent implements OnInit, OnDestroy {
         this.sn = this.profile.sn;
         this.name = this.profile.name;
         this.text = this.profile.text;
-        this.udListener = this.user.addUserDataListener((ud) => {
-            this.ud = ud;
-        })
     }
 
     ngOnDestroy() {
-        this.user.removeUserDataListener(this.udListener);
     }
 
     ok() {
         (async () => {
-            let profile = await this.api.updateProfile(this.ud.auth, {
+            let profile = await this.api.updateProfile(this.user.ud.auth, {
                 id: this.profile.id,
                 name: this.name,
                 text: this.text,

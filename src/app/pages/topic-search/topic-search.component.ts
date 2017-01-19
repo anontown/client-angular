@@ -10,8 +10,6 @@ import {
 } from '@angular/router';
 import * as Immutable from 'immutable';
 import {
-  IUserData,
-  IUserDataListener,
   UserService,
   BoardService
 } from '../../services';
@@ -31,9 +29,6 @@ export class TopicSearchComponent implements OnInit, OnDestroy {
   private limit = 100;
   // 最後の取得件数
   private count = 0;
-
-  private udListener: IUserDataListener;
-  ud: IUserData;
   constructor(private api: AtApiService,
     private route: ActivatedRoute,
     private router: Router,
@@ -68,10 +63,6 @@ export class TopicSearchComponent implements OnInit, OnDestroy {
 
 
   ngOnInit() {
-    this.udListener = this.user.addUserDataListener(ud => {
-      this.ud = ud;
-    });
-
     this.route.queryParams.forEach(async (params) => {
       this.title = params['title'];
       this.category = params['category'];
@@ -92,18 +83,17 @@ export class TopicSearchComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.user.removeUserDataListener(this.udListener);
   }
 
   favo() {
-    let bf = this.ud.storage.boardFavo;
+    let bf = this.user.ud.storage.boardFavo;
     let favo = bf.has(this.category) ? bf.delete(this.category) : bf.add(this.category);
 
     this.user.setUserData({
-      auth: this.ud.auth,
-      token: this.ud.token,
-      profiles: this.ud.profiles,
-      storage: this.ud.storage.setBoardFavo(favo)
+      auth: this.user.ud.auth,
+      token: this.user.ud.token,
+      profiles: this.user.ud.profiles,
+      storage: this.user.ud.storage.setBoardFavo(favo)
     });
   }
 }

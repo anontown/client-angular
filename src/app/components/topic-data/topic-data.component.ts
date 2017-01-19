@@ -13,9 +13,7 @@ import {
   AtApiService
 } from 'anontown';
 import {
-  UserService,
-  IUserData,
-  IUserDataListener
+  UserService
 } from '../../services';
 import * as Immutable from 'immutable';
 
@@ -33,22 +31,14 @@ export class TopicDataComponent implements OnInit, OnDestroy {
   update = new EventEmitter<Topic>();
 
   histories: Immutable.List<History>;
-
-  ud: IUserData;
-  private udListener: IUserDataListener;
-  constructor(private user: UserService, private api: AtApiService) {
+  constructor(public user: UserService, private api: AtApiService) {
   }
 
   async ngOnInit() {
     this.histories = Immutable.List(await this.api.findHistoryAll({ topic: this.topic.id }));
-
-    this.udListener = this.user.addUserDataListener(ud => {
-      this.ud = ud;
-    });
   }
 
   ngOnDestroy() {
-    this.user.removeUserDataListener(this.udListener);
   }
 
   private isEdit = false;
