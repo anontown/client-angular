@@ -6,7 +6,8 @@ import { MaterialModule } from '@angular/material';
 import { AnontownModule, AtApiService } from 'anontown';
 import {
     MdPipe,
-    MapPipe
+    MapPipe,
+    AtDatePipe
 } from './pipes';
 import {
     UserService,
@@ -101,6 +102,7 @@ AtApiService.serverURL = Config.serverURL;
     declarations: [
         MdPipe,
         MapPipe,
+        AtDatePipe,
 
         AppComponent,
         TopicHistoryComponent,

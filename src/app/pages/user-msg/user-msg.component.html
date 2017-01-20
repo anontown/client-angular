@@ -5,7 +5,7 @@
   <div>
     <md-card *ngFor="let m of msgs">
       <md-card-content [innerHTML]="m.mdtext"></md-card-content>
-      <md-card-footer>{{m.date|date:"y/MM/dd(EEE) HH:mm:ss"}}</md-card-footer>
+      <md-card-footer>{{m.date|atDate}}</md-card-footer>
     </md-card>
   </div>
   <div>

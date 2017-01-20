@@ -2,7 +2,7 @@
   <div>
     <button md-icon-button (click)="detail()">
       <md-icon>{{isDetail?'arrow_drop_up':'arrow_drop_down'}}</md-icon>
-    </button> {{history.date|date:"y/MM/dd(EEE) HH:mm:ss"}}
+    </button> {{history.date|atDate}}
     <a href="javascript:void(0);" (click)="hashClick()">HASH:{{history.hash}}</a>
   </div>
   <dl *ngIf="isDetail">

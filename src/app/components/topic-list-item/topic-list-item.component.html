@@ -8,7 +8,7 @@
       {{topic.category.join('/')}}
     </div>
     <div>
-      作成 {{topic.date|date:"y/MM/dd(EEE) HH:mm:ss"}} 更新 {{topic.update|date:"y/MM/dd(EEE) HH:mm:ss"}}
+      作成 {{topic.date|atDate}} 更新 {{topic.update|atDate}}
     </div>
     <div>
       総レス数 {{topic.resCount}}

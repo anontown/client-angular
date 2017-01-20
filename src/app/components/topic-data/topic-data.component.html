@@ -6,9 +6,9 @@
   <div *ngIf="isDetail">
     <dl>
       <dt>作成</dt>
-      <dd>{{topic.date|date:"y/MM/dd(EEE) HH:mm:ss"}}</dd>
+      <dd>{{topic.date|atDate}}</dd>
       <dt>更新</dt>
-      <dd>{{topic.update|date:"y/MM/dd(EEE) HH:mm:ss"}}</dd>
+      <dd>{{topic.update|atDate}}</dd>
       <dt>カテゴリ</dt>
       <dd><a [routerLink]="['/topic/search']" [queryParams]="{title:'',category:topic.category.join('/')}">{{topic.category.join('/')}}</a></dd>
       <dt>本文</dt>
