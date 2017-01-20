@@ -5,7 +5,7 @@
     </div>
     <div>
       <md-input-container>
-        <input md-input placeholder="名前" [(ngModel)]="name" name="name">
+        <input md-input placeholder="名前" [(ngModel)]="name" name="name" (focus)="focus()">
       </md-input-container>
       <md-checkbox [(ngModel)]="age" name="age">age</md-checkbox>
       <md-select placeholder="プロフ" [(ngModel)]="profile" name="profile">
@@ -20,8 +20,8 @@
     <div>
       <md-slide-toggle name="markdown" [(ngModel)]="markdown">Markdown</md-slide-toggle>
     </div>
-    <app-md-editor *ngIf="markdown" [(ngModel)]="text" name="text" (keypress)="key($event)"></app-md-editor>
-    <md-textarea *ngIf="!markdown" [(ngModel)]="text" name="text" (keypress)="key($event)" style="width:100%;" [rows]="5"></md-textarea>
+    <app-md-editor *ngIf="markdown" [(ngModel)]="text" name="text" (keypress)="key($event)" (focus)="focus()"></app-md-editor>
+    <md-textarea *ngIf="!markdown" [(ngModel)]="text" name="text" (keypress)="key($event)" style="width:100%;" [rows]="5" (focus)="focus()"></md-textarea>
 <div>
   <button type="submit" md-raised-button>書き込む</button>
 </div>
