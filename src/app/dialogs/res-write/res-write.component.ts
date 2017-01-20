@@ -91,8 +91,4 @@ export class ResWriteComponent implements OnInit, OnDestroy {
       }
     });
   }
-
-  focus() {
-    window.scrollBy(0, 1);
-  }
 }

@@ -22,3 +22,17 @@ md-icon{
   display: table-cell;
   vertical-align: middle;
 }
+
+#contents{
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow-y: scroll;
+
+  margin: 8px;
+  
+  padding-bottom: 20px;
+  padding-top: 64px;
+}

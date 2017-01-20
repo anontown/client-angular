@@ -1,6 +1,6 @@
 <md-tab-group (selectChange)="tabChange($event)">
   <md-tab label="Edit">
-    <md-textarea class="edit" controls [(ngModel)]="value" [rows]="5" (focus)="focus($event)"></md-textarea>
+    <md-textarea class="edit" controls [(ngModel)]="value" [rows]="5"></md-textarea>
   </md-tab>
   <md-tab label="Preview">
     <div class="preview" [innerHTML]="mdValue"></div>

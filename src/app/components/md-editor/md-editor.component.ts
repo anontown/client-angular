@@ -3,8 +3,6 @@ import {
   OnInit,
   ChangeDetectionStrategy,
   Input,
-  Output,
-  EventEmitter,
   forwardRef
 } from '@angular/core';
 
@@ -27,12 +25,6 @@ import { MdTabChangeEvent } from '@angular/material';
   ]
 })
 export class MdEditorComponent implements OnInit, ControlValueAccessor {
-  @Output("focus")
-  focusEvent = new EventEmitter();
-
-  focus(e: any) {
-    this.focusEvent.emit(e);
-  }
 
 
   constructor() { }

@@ -8,7 +8,7 @@ import {
   AfterViewChecked,
   ChangeDetectionStrategy
 } from '@angular/core';
-import 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import * as socketio from 'socket.io-client';
 import { MdDialog } from '@angular/material';
 import {
@@ -115,35 +115,7 @@ export class TopicComponent implements OnInit, OnDestroy, AfterViewChecked {
   private udListener: IUserDataListener;
 
   ngOnDestroy() {
-    if (this.user.ud) {
-      //最短距離のレスID
-      var res: Res;
-      {
-        let getTop = (rc: ResComponent) => rc.elementRef.nativeElement.getBoundingClientRect().top as number;
-        //最短
-        let rc: ResComponent | null = null;
-        this.resE.forEach(x => {
-          if (rc === null) {
-            rc = x;
-          } else if (Math.abs(getTop(rc)) > Math.abs(getTop(x))) {
-            rc = x;
-          }
-        });
-        if (rc === null) {
-          return;
-        }
-        res = (rc as ResComponent).res;
-      }
-
-      //セット
-      let storage = this.user.ud.storage;
-      storage.topicRead = storage.topicRead.set(this.topic.id, {
-        res: res.id,
-        count: this.topic.resCount
-      })
-      this.user.updateUserData();
-    }
-
+    this.scrollObs.unsubscribe();
     clearInterval(this.intervalID);
     this.socket.close();
     this.user.removeUserDataListener(this.udListener);
@@ -185,9 +157,42 @@ export class TopicComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.zone.runOutsideAngular(() => {
       this.intervalID = setInterval(() => {
         if (this.isAutoScroll) {
-          document.body.scrollTop -= this.autoScrollSpeed;
+          document.getElementById("contents").scrollTop -= this.autoScrollSpeed;
         }
       }, 200);
+
+      this.scrollObs = Observable.fromEvent(document.getElementById("contents"), "scroll")
+        .throttleTime(1000)
+        .subscribe(() => {
+          if (this.user.ud) {
+            //最短距離のレスID
+            var res: Res;
+            {
+              let getTop = (rc: ResComponent) => rc.elementRef.nativeElement.getBoundingClientRect().top;
+              //最短
+              let rc: ResComponent | null = null;
+              this.resE.forEach(x => {
+                if (rc === null) {
+                  rc = x;
+                } else if (Math.abs(getTop(rc)) > Math.abs(getTop(x))) {
+                  rc = x;
+                }
+              });
+              if (rc === null) {
+                return;
+              }
+              res = (rc as ResComponent).res;
+            }
+
+            //セット
+            let storage = this.user.ud.storage;
+            storage.topicRead = storage.topicRead.set(this.topic.id, {
+              res: res.id,
+              count: this.topic.resCount
+            })
+            this.user.updateUserData();
+          }
+        });
     });
 
 
@@ -201,6 +206,8 @@ export class TopicComponent implements OnInit, OnDestroy, AfterViewChecked {
       }
     });
   }
+
+  private scrollObs: Subscription;
 
   private async findNew() {
     await this.lock(async () => {
@@ -236,7 +243,7 @@ export class TopicComponent implements OnInit, OnDestroy, AfterViewChecked {
 
         if (rc && rc.elementRef) {
           setTimeout(() => {
-            document.body.scrollTop += rc.elementRef.nativeElement.getBoundingClientRect().top - rcY
+            document.getElementById("contents").scrollTop += rc.elementRef.nativeElement.getBoundingClientRect().top - rcY
           }, 0);
         }
       });
