@@ -1,5 +1,8 @@
 <md-card *ngIf="user.ud!==undefined">
   <div>
+    <md-icon *ngIf="!topic.active">not_interested</md-icon>
+    <md-icon *ngIf="topic.type==='one'">looks_one</md-icon>
+    <md-icon *ngIf="topic.type==='board'">featured_play_list</md-icon>
     <md-icon *ngIf="newRes!==null&&newRes!==0">fiber_new</md-icon>
     <a [routerLink]="['/topic',topic.id]">{{topic.title}}</a>
   </div>

@@ -1,5 +1,6 @@
 <md-card *ngIf="user.ud!==undefined" class="contents">
-  <h1>{{topic.title}}</h1>
+  <h1>
+    <md-icon *ngIf="topic.type==='one'">looks_one</md-icon>{{topic.title}}</h1>
   <button md-icon-button (click)="detail()">
     <md-icon>{{isDetail?'keyboard_arrow_up':'keyboard_arrow_down'}}</md-icon>
   </button>
@@ -15,15 +16,17 @@
       <dd>
         <div [innerHTML]="topic.mdtext"></div>
       </dd>
-      <dt>編集履歴</dt>
-      <dd>
-        <div class="panel-group">
-          <app-topic-history *ngFor="let h of histories" [history]="h" [topic]="topic"></app-topic-history>
-        </div>
-      </dd>
+      <ng-container *ngIf="topic.type!=='one'">
+        <dt>編集履歴</dt>
+        <dd>
+          <div class="panel-group">
+            <app-topic-history *ngFor="let h of histories" [history]="h" [topic]="topic"></app-topic-history>
+          </div>
+        </dd>
+      </ng-container>
     </dl>
   </div>
-  <button md-icon-button *ngIf="user.ud!==null" (click)="edit()">
+  <button md-icon-button *ngIf="user.ud!==null&&topic.type!=='one'" (click)="edit()">
       <md-icon>edit</md-icon>
     </button>
   <app-topic-edit *ngIf="isEdit&&user.ud!==null" [topic]="topic" (update)="update.emit($event)"></app-topic-edit>

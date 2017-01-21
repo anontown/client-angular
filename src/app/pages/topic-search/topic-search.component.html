@@ -14,6 +14,9 @@
       </md-input-container>
     </div>
     <div>
+      <md-checkbox [(ngModel)]="activeOnly" name="activeOnly">過去ログも</md-checkbox>
+    </div>
+    <div>
       <button type="submit" md-raised-button>検索</button>
     </div>
   </form>

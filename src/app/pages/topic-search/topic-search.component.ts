@@ -37,6 +37,8 @@ export class TopicSearchComponent implements OnInit, OnDestroy {
 
   }
 
+  activeOnly = false;
+
   search() {
     this.page = 0;
     this.router.navigate(['/topic/search'], { queryParams: { title: this.title, category: this.category } });
@@ -54,7 +56,8 @@ export class TopicSearchComponent implements OnInit, OnDestroy {
       title: this.title,
       category: this.category.length === 0 ? [] : this.category.split('/'),
       skip: this.page * this.limit,
-      limit: this.limit
+      limit: this.limit,
+      activeOnly: this.activeOnly
     });
     this.count = t.length;
     this.topics = Immutable.List(this.topics.toArray().concat(t));
