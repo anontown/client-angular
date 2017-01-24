@@ -1,25 +1,22 @@
 <md-card *ngIf="user.ud!==undefined">
   <button md-icon-button *ngIf="user.ud!==null" (click)="favo()">
-    <md-icon>{{user.ud.storage.boardFavo.has(category)?'star':'star_border'}}</md-icon>
+    <md-icon>{{isFavo?'star':'star_border'}}</md-icon>
   </button>
-  <form (ngSubmit)="search()">
+  <div>
     <div>
       <md-input-container>
-        <input md-input placeholder="カテゴリ" [(ngModel)]="category" name="category">
+        <input md-input placeholder="カテゴリ" [(ngModel)]="form.category" name="category" (input)="formChangeObs.next()">
       </md-input-container>
     </div>
     <div>
       <md-input-container>
-        <input md-input placeholder="タイトル" [(ngModel)]="title" name="title">
+        <input md-input placeholder="タイトル" [(ngModel)]="form.title" name="title" (input)="formChangeObs.next()">
       </md-input-container>
     </div>
     <div>
-      <md-checkbox [(ngModel)]="activeOnly" name="activeOnly">過去ログも</md-checkbox>
+      <md-checkbox [(ngModel)]="form.dead" name="dead" (change)="formChangeObs.next()">過去ログも</md-checkbox>
     </div>
-    <div>
-      <button type="submit" md-raised-button>検索</button>
-    </div>
-  </form>
+  </div>
 </md-card>
 <md-card *ngIf="board" class="board">
   <h1><a [routerLink]="['/topic',board.id]">{{board.title}}</a></h1>

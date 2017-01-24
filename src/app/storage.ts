@@ -29,8 +29,16 @@ interface StorageJSON4 {
     topicRead: { [key: string]: { res: string, count: number } };
 }
 
+interface StorageJSON5 {
+    //バグでtopicFavoが壊れたのでリセットする用
+    ver: '5',
+    topicFavo: string[],
+    boardFavo: string[],
+    topicRead: { [key: string]: { res: string, count: number } };
+}
+
 export class Storage {
-    static VER: '4' = '4';
+    static VER: '5' = '5';
 
     static fromJSON(jsonText: string): Storage {
         if (jsonText.length !== 0) {
@@ -53,7 +61,12 @@ export class Storage {
                         }
                     case '4':
                         {
-                            let obj = JsonObj as StorageJSON4;
+                            JsonObj = this.convert4To5(JsonObj as StorageJSON4);
+                            break;
+                        }
+                    case '5':
+                        {
+                            let obj = JsonObj as StorageJSON5;
                             return new Storage(Immutable.Set(obj.topicFavo), Immutable.Set(obj.boardFavo), Immutable.Map(obj.topicRead));
                         }
                     default:
@@ -98,6 +111,15 @@ export class Storage {
         };
     }
 
+    private static convert4To5(val: StorageJSON4): StorageJSON5 {
+        return {
+            ver: "5",
+            boardFavo: val.boardFavo,
+            topicFavo: [],
+            topicRead: val.topicRead
+        };
+    }
+
     boardFavo: Immutable.Set<string>;
     topicFavo: Immutable.Set<string>;
     topicRead: Immutable.Map<string, { res: string, count: number }>;
@@ -112,7 +134,7 @@ export class Storage {
 
 
     toJSON(): string {
-        let j: StorageJSON4 = {
+        let j: StorageJSON5 = {
             ver: Storage.VER,
             boardFavo: this.boardFavo.toArray(),
             topicFavo: this.topicFavo.toArray(),

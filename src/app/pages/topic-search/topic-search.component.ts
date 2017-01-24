@@ -3,7 +3,7 @@ import {
   Topic,
   AtApiService
 } from 'anontown';
-
+import {Subject} from 'rxjs';
 import {
   ActivatedRoute,
   Router
@@ -21,14 +21,29 @@ import {
   changeDetection: ChangeDetectionStrategy.Default
 })
 export class TopicSearchComponent implements OnInit, OnDestroy {
+  // 検索結果
   private topics = Immutable.List<Topic>();
+  private count = 0;
+
+  // カテゴリの板があれば表示
   private board: Topic = null;
+
+  // 現在の検索条件
   private category = '';
   private title = '';
   private page = 0;
-  private limit = 100;
-  // 最後の取得件数
-  private count = 0;
+  private dead = false;
+
+  // 設定
+  private readonly limit = 100;
+
+  // フォームデータ
+  form={
+    category:'',
+    title:'',
+    dead:false
+  };
+
   constructor(private api: AtApiService,
     private route: ActivatedRoute,
     private router: Router,
@@ -37,18 +52,14 @@ export class TopicSearchComponent implements OnInit, OnDestroy {
 
   }
 
-  activeOnly = false;
+  // フォーム変更イベント
+  formChangeObs=new Subject<void>();
 
-  search() {
-    this.page = 0;
-    this.router.navigate(['/topic/search'], { queryParams: { title: this.title, category: this.category } });
-  }
-
-  update() {
+  async update() {
     this.topics = Immutable.List<Topic>();
     this.page = 0;
     this.count = 0;
-    this.more();
+    await this.more();
   }
 
   async more() {
@@ -57,7 +68,7 @@ export class TopicSearchComponent implements OnInit, OnDestroy {
       category: this.category.length === 0 ? [] : this.category.split('/'),
       skip: this.page * this.limit,
       limit: this.limit,
-      activeOnly: this.activeOnly
+      activeOnly: !this.dead
     });
     this.count = t.length;
     this.topics = Immutable.List(this.topics.toArray().concat(t));
@@ -66,13 +77,17 @@ export class TopicSearchComponent implements OnInit, OnDestroy {
 
 
   ngOnInit() {
+    this.formChangeObs
+      .debounceTime(500)
+      .subscribe(()=>{
+        this.router.navigate(['/topic/search'], { queryParams: { title: this.form.title, category: this.form.category,dead:this.form.dead } });
+      });
+
     this.route.queryParams.forEach(async (params) => {
-      this.title = params['title'];
-      this.category = params['category'];
-      this.topics = Immutable.List<Topic>();
-      this.page = 0;
-      this.count = 0;
-      await this.more();
+      this.title = params['title']?params['title']:'';
+      this.category = params['category']?params['category']:'';
+      this.dead = params['dead']==="true";
+      await this.update();
 
       if (this.bs.topics) {
         let b = this.bs.topics.find(t => t.category.join("/") === this.category);
@@ -91,7 +106,11 @@ export class TopicSearchComponent implements OnInit, OnDestroy {
   favo() {
     let storage = this.user.ud.storage;
     let bf = storage.boardFavo;
-    storage.topicFavo = bf.has(this.category) ? bf.delete(this.category) : bf.add(this.category);
+    storage.boardFavo = bf.has(this.category) ? bf.delete(this.category) : bf.add(this.category);
     this.user.updateUserData();
+  }
+
+  get isFavo():boolean{
+    return this.user.ud.storage.boardFavo.has(this.category);
   }
 }
