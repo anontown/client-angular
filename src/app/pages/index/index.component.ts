@@ -14,5 +14,6 @@ export class IndexComponent implements OnInit {
   }
 
   ngOnInit() {
+    document.title="Anontown";
   }
 }

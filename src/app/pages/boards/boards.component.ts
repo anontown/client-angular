@@ -10,6 +10,7 @@ export class BoardsComponent implements OnInit {
   constructor(public bs: BoardService) { }
 
   ngOnInit() {
+    document.title="板一覧";
   }
 
 }

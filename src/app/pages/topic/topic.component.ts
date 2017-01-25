@@ -136,6 +136,7 @@ export class TopicComponent implements OnInit, OnDestroy, AfterViewChecked {
 
     try{
       this.topic = await this.api.findTopicOne({ id });
+      document.title=this.topic.title;
     }catch(_e){
       this.snackBar.open("トピック取得に失敗");
     }

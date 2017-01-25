@@ -25,11 +25,12 @@ export class UserMsgComponent implements OnInit, OnDestroy {
     private udListener: IUserDataListener;
 
     ngOnInit() {
+        document.title="お知らせ"
         this.user.addUserDataListener(() => {
             if (this.user.ud !== null) {
                 this.findNew();
             }
-        })
+        });
     }
 
     ngOnDestroy() {

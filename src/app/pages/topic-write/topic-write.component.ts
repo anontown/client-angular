@@ -26,6 +26,7 @@ export class TopicWriteComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        document.title="トピック作成"
     }
 
     ngOnDestroy() {

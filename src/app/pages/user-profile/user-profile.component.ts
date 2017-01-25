@@ -12,6 +12,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    document.title="プロフィール管理"
   }
 
   ngOnDestroy() {

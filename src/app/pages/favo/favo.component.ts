@@ -5,7 +5,6 @@ import { Router } from '@angular/router';
 import { Topic, AtApiService } from 'anontown';
 import {MdSnackBar} from '@angular/material';
 import * as Immutable from 'immutable';
-
 @Component({
     selector: 'app-favo',
     templateUrl: './favo.component.html',
@@ -24,6 +23,7 @@ export class FavoComponent implements OnInit, OnDestroy {
     private udListener: IUserDataListener;
 
     ngOnInit() {
+        document.title="お気に入り";
         this.udListener = this.user.addUserDataListener(async () => {
             let ud=this.user.ud;
             if (ud !== null) {

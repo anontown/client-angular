@@ -99,9 +99,13 @@ export class TopicSearchComponent implements OnInit, OnDestroy {
         let b = this.bs.topics.find(t => t.category.join("/") === this.category);
         if (b) {
           this.board = b;
+          document.title=b.title;
         } else {
           this.board = null;
+          document.title="検索";
         }
+      }else{
+        document.title="検索";
       }
     });
   }

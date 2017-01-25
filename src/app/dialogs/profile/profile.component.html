@@ -1,11 +1,5 @@
 <md-dialog-content *ngIf="profile&&user.ud!==undefined">
-    <dl>
-        <dt>ID</dt>
-        <dd>{{profile.sn}}</dd>
-        <dt>名前</dt>
-        <dd>{{profile.name}}</dd>
-        <dd>
-            <div [innerHTML]="profile.mdtext"></div>
-        </dd>
-    </dl>
+    {{profile.name}}●{{profile.sn}}
+    <hr>
+    <div [innerHTML]="profile.mdtext"></div>
 </md-dialog-content>

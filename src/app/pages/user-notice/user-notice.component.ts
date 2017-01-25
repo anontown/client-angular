@@ -24,6 +24,7 @@ export class UserNoticeComponent implements OnInit, OnDestroy {
 
     private udListener: IUserDataListener;
     ngOnInit() {
+        document.title="通知"
         let isInit = false;
         this.udListener = this.user.addUserDataListener(() => {
             if (isInit) {
