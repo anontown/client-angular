@@ -45,8 +45,8 @@ export class UserProfileEditComponent implements OnInit, OnDestroy {
     ngOnDestroy() {
     }
 
-    ok() {
-        (async () => {
+    async ok() {
+        try{
             let profile = await this.api.updateProfile(this.user.ud.auth, {
                 id: this.profile.id,
                 name: this.name,
@@ -57,13 +57,13 @@ export class UserProfileEditComponent implements OnInit, OnDestroy {
 
             //プロフィール更新
             this.update.emit(profile);
-        })().catch(e => {
+        }catch(e){
             if (e instanceof AtError) {
                 this.errorMsg = e.message;
             } else {
                 throw e;
             }
-        });
+        }
     }
 
     edit() {

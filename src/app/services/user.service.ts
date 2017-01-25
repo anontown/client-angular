@@ -7,6 +7,7 @@ import {
 } from 'anontown';
 import { Storage } from '../storage';
 import * as Immutable from 'immutable';
+import {MdSnackBar} from '@angular/material';
 
 
 @Injectable()
@@ -14,7 +15,8 @@ export class UserService {
   ud: IUserData;
   private udListener = new Set<IUserDataListener>();
 
-  constructor(private api: AtApiService) {
+  constructor(private api: AtApiService,
+    public snackBar: MdSnackBar) {
   }
 
   addUserDataListener(call: IUserDataListener): IUserDataListener {
@@ -39,21 +41,25 @@ export class UserService {
   }
 
   async login(token: Token) {
-    let auth: IAuthToken = {
-      id: token.id,
-      key: token.key
-    };
+    try{
+      let auth: IAuthToken = {
+        id: token.id,
+        key: token.key
+      };
 
-    let storage = Storage.fromJSON(await this.api.getTokenStorage(auth));
+      let storage = Storage.fromJSON(await this.api.getTokenStorage(auth));
 
-    let profiles = Immutable.List(await this.api.findProfileAll(auth));
+      let profiles = Immutable.List(await this.api.findProfileAll(auth));
 
-    this.setUserData({
-      auth,
-      token,
-      storage,
-      profiles
-    });
+      this.setUserData({
+        auth,
+        token,
+        storage,
+        profiles
+      });
+    }catch(_e){
+      this.snackBar.open("ログイン取得に失敗");
+    }
   }
 }
 

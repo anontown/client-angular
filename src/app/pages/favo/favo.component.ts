@@ -3,7 +3,7 @@ import { UserService, IUserDataListener, BoardService } from '../../services';
 
 import { Router } from '@angular/router';
 import { Topic, AtApiService } from 'anontown';
-
+import {MdSnackBar} from '@angular/material';
 import * as Immutable from 'immutable';
 
 @Component({
@@ -16,7 +16,8 @@ export class FavoComponent implements OnInit, OnDestroy {
     constructor(private user: UserService,
         private router: Router,
         private api: AtApiService,
-        public board: BoardService) {
+        public board: BoardService,
+        public snackBar: MdSnackBar) {
     }
 
     tfavo: Immutable.List<Topic>;
@@ -51,7 +52,11 @@ export class FavoComponent implements OnInit, OnDestroy {
     }
 
     private async update() {
-        this.tfavo = Immutable.List(await this.api.findTopicIn({ ids: this.user.ud.storage.topicFavo.toArray() }))
-            .sort((a, b) => a.update > b.update ? -1 : a.update < b.update ? 1 : 0).toList();
+        try{
+            this.tfavo = Immutable.List(await this.api.findTopicIn({ ids: this.user.ud.storage.topicFavo.toArray() }))
+                .sort((a, b) => a.update > b.update ? -1 : a.update < b.update ? 1 : 0).toList();
+        }catch(_e){
+            this.snackBar.open("トピック取得に失敗");
+        }
     }
 }

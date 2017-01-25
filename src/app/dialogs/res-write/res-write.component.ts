@@ -62,8 +62,8 @@ export class ResWriteComponent implements OnInit, OnDestroy {
   @Input()
   reply: Res | null = null;
 
-  ok() {
-    (async () => {
+  async ok() {
+    try{
       let text: string;
       if (this.text.length !== 0 && !this.markdown) {
         text = this.text.split(/\r\n|\r|\n/).map(s => "    " + s).join("\n");
@@ -83,12 +83,12 @@ export class ResWriteComponent implements OnInit, OnDestroy {
       this.reply = null;
       this.errorMsg = null;
       this.write.emit(res);
-    })().catch(e => {
+    }catch(e) {
       if (e instanceof AtError) {
         this.errorMsg = e.message;
       } else {
         throw e;
       }
-    });
+    }
   }
 }

@@ -45,8 +45,8 @@ export class TopicEditComponent implements OnInit, OnDestroy {
     ngOnDestroy() {
     }
 
-    ok() {
-        (async () => {
+    async ok() {
+        try{
             let topic = await this.api.updateTopic(this.user.ud.auth, {
                 id: this.topic.id,
                 title: this.title,
@@ -55,12 +55,12 @@ export class TopicEditComponent implements OnInit, OnDestroy {
             });
             this.errorMsg = null;
             this.update.emit(topic);
-        })().catch(e => {
+        }catch(e){
             if (e instanceof AtError) {
                 this.errorMsg = e.message;
             } else {
                 throw e;
             }
-        });
+        }
     }
 } 

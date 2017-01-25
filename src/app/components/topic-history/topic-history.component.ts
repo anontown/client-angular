@@ -10,6 +10,7 @@ import {
     UserService
 } from '../../services';
 import * as Immutable from 'immutable';
+import {MdSnackBar} from '@angular/material';
 
 @Component({
     selector: 'app-topic-history',
@@ -32,7 +33,8 @@ export class TopicHistoryComponent implements OnInit, OnDestroy {
     }
 
     constructor(private api: AtApiService,
-        public user: UserService) {
+        public user: UserService,
+        public snackBar: MdSnackBar) {
 
     }
 
@@ -47,14 +49,18 @@ export class TopicHistoryComponent implements OnInit, OnDestroy {
     }
 
     async hashClick() {
-        if (this.hashReses.size !== 0) {
-            this.hashReses = Immutable.List<Res>();
-        } else {
-            this.hashReses = Immutable.List(await this.api.findResHash(this.user.ud.auth, {
-                topic: this.topic.id,
-                hash: this.history.hash
-            }));
+        try{
+            if (this.hashReses.size !== 0) {
+                this.hashReses = Immutable.List<Res>();
+            } else {
+                this.hashReses = Immutable.List(await this.api.findResHash(this.user.ud.auth, {
+                    topic: this.topic.id,
+                    hash: this.history.hash
+                }));
 
+            }
+        }catch(_e){
+        this.snackBar.open("レス取得に失敗");
         }
     }
 }

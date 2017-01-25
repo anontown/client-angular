@@ -8,6 +8,7 @@ import { AtApiService, IAuthToken } from 'anontown';
 import { UserService } from './services';
 import { Config } from './config';
 import { Router } from '@angular/router';
+import {MdSnackBar} from '@angular/material';
 
 @Component({
   selector: 'app-root',
@@ -17,14 +18,15 @@ import { Router } from '@angular/router';
 export class AppComponent implements OnInit, OnDestroy {
   constructor(private user: UserService,
     private api: AtApiService,
-    public router: Router) {
+    public router: Router,
+    public snackBar: MdSnackBar) {
     setInterval(() => this.save(), 30 * 1000);
   }
 
   async ngOnInit() {
     // トークンリクエスト
     this.router.events.take(1).subscribe(async e => {
-      await (async () => {
+      try{
         let params = this.router.parseUrl(e.url).queryParams;
         let id = params['id'];
         let key = params['key'];
@@ -39,12 +41,12 @@ export class AppComponent implements OnInit, OnDestroy {
             key: token.key
           }));
         }
-      })().catch(_e => {
-        // トークンリクエスト→トークンの変換失敗
-      });
+      }catch(_e){
+        this.snackBar.open("トークン取得に失敗");
+      }
 
       // 認証
-      await (async () => {
+      try{
         let json = localStorage.getItem('token');
         if (json) {
           let auth: IAuthToken = JSON.parse(json);
@@ -53,9 +55,10 @@ export class AppComponent implements OnInit, OnDestroy {
         } else {
           this.user.setUserData(null);
         }
-      })().catch(_e => {
+      }catch(_e){
+        this.snackBar.open("認証に失敗");
         this.user.setUserData(null);
-      });
+      }
     });
   }
 
@@ -79,9 +82,13 @@ export class AppComponent implements OnInit, OnDestroy {
 
   async save() {
     if (this.user.ud !== null) {
-      this.api.setTokenStorage(this.user.ud.auth, {
-        value: this.user.ud.storage.toJSON()
-      });
+      try{
+        await this.api.setTokenStorage(this.user.ud.auth, {
+          value: this.user.ud.storage.toJSON()
+        });
+      }catch(_e){
+        this.snackBar.open("お気に入りなどのデータ保存に失敗");
+      }
     }
   }
 }

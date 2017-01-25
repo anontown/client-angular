@@ -31,8 +31,8 @@ export class TopicWriteComponent implements OnInit, OnDestroy {
     ngOnDestroy() {
     }
 
-    write() {
-        (async () => {
+    async write() {
+        try{
             let topic = await this.api.createTopic(this.user.ud.auth, {
                 title: this.title,
                 category: this.category.length === 0 ? [] : this.category.split("/"),
@@ -41,13 +41,13 @@ export class TopicWriteComponent implements OnInit, OnDestroy {
             });
             this.errorMsg = null;
             this.router.navigate(["topic", topic.id]);
-        })().catch(e => {
+        }catch(e){
             if (e instanceof AtError) {
                 this.errorMsg = e.message;
             } else {
                 throw e;
             }
-        });
+        }
     }
 }
 

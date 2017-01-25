@@ -37,8 +37,8 @@ export class UserProfileAddComponent implements OnInit, OnDestroy {
     ngOnDestroy() {
     }
 
-    ok() {
-        (async () => {
+    async ok() {
+        try{
             let p = await this.api.createProfile(this.user.ud.auth, {
                 name: this.name,
                 text: this.text,
@@ -49,13 +49,13 @@ export class UserProfileAddComponent implements OnInit, OnDestroy {
             this.name = "";
             this.text = "";
             this.add.emit(p);
-        })().catch(e => {
+        }catch(e){
             if (e instanceof AtError) {
                 this.errorMsg = e.message;
             } else {
                 throw e;
             }
-        });
+        }
 
     }
 }

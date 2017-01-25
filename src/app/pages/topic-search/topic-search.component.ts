@@ -13,6 +13,7 @@ import {
   UserService,
   BoardService
 } from '../../services';
+import {MdSnackBar} from '@angular/material';
 
 @Component({
   selector: 'app-topic-search',
@@ -48,7 +49,8 @@ export class TopicSearchComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private user: UserService,
-    private bs: BoardService) {
+    private bs: BoardService,
+    public snackBar: MdSnackBar) {
 
   }
 
@@ -63,16 +65,20 @@ export class TopicSearchComponent implements OnInit, OnDestroy {
   }
 
   async more() {
-    let t = await this.api.findTopic({
-      title: this.title,
-      category: this.category.length === 0 ? [] : this.category.split('/'),
-      skip: this.page * this.limit,
-      limit: this.limit,
-      activeOnly: !this.dead
-    });
-    this.count = t.length;
-    this.topics = Immutable.List(this.topics.toArray().concat(t));
-    this.page++;
+    try{
+      let t = await this.api.findTopic({
+        title: this.title,
+        category: this.category.length === 0 ? [] : this.category.split('/'),
+        skip: this.page * this.limit,
+        limit: this.limit,
+        activeOnly: !this.dead
+      });
+      this.count = t.length;
+      this.topics = Immutable.List(this.topics.toArray().concat(t));
+      this.page++;
+    }catch(_e){
+      this.snackBar.open("トピック取得に失敗");
+    }
   }
 
 

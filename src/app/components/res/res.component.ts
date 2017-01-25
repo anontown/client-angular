@@ -23,6 +23,7 @@ import { UserService, IUserDataListener } from '../../services';
 import { MdDialog } from '@angular/material';
 
 import { ProfileComponent, ResWriteComponent, ButtonDialogComponent } from '../../dialogs';
+import {MdSnackBar} from '@angular/material';
 
 @Component({
   selector: 'app-res',
@@ -50,7 +51,8 @@ export class ResComponent implements OnInit, OnDestroy {
     private api: AtApiService,
     private dialog: MdDialog,
     public elementRef: ElementRef,
-    private cdr: ChangeDetectorRef) {
+    private cdr: ChangeDetectorRef,
+    public snackBar: MdSnackBar) {
   }
 
   private udListener: IUserDataListener;
@@ -90,108 +92,137 @@ export class ResComponent implements OnInit, OnDestroy {
   }
 
   async hashClick() {
-    if (this.children.size !== 0) {
-      this.children = Immutable.List<Res>();
-      this.childrenMsg = null;
-    } else {
-      this.children = Immutable.List(await this.api.findResHash(this.user.ud !== null ? this.user.ud.auth : null, {
-        topic: this.res.topic,
-        hash: this.res.hash
-      }));
-      this.childrenMsg = "抽出 HASH:" + this.res.hash;
+    try{
+      if (this.children.size !== 0) {
+        this.children = Immutable.List<Res>();
+        this.childrenMsg = null;
+      } else {
+        this.children = Immutable.List(await this.api.findResHash(this.user.ud !== null ? this.user.ud.auth : null, {
+          topic: this.res.topic,
+          hash: this.res.hash
+        }));
+        this.childrenMsg = "抽出 HASH:" + this.res.hash;
+      }
+      this.cdr.markForCheck();
+    }catch(_e){
+      this.snackBar.open("レス取得に失敗");
     }
-    this.cdr.markForCheck();
   }
 
   async sendReplyClick() {
-    if (this.children.size !== 0) {
-      this.children = Immutable.List<Res>();
-    } else {
-      this.children = Immutable.List([await this.api.findResOne(this.user.ud !== null ? this.user.ud.auth : null, {
-        id: this.res.reply as string
-      })]);
+    try{
+      if (this.children.size !== 0) {
+        this.children = Immutable.List<Res>();
+      } else {
+        this.children = Immutable.List([await this.api.findResOne(this.user.ud !== null ? this.user.ud.auth : null, {
+          id: this.res.reply as string
+        })]);
+      }
+      this.childrenMsg = null;
+      this.cdr.markForCheck();
+    }catch(_e){
+      this.snackBar.open("レス取得に失敗");
     }
-    this.childrenMsg = null;
-    this.cdr.markForCheck();
   }
 
   async receiveReplyClick() {
-    if (this.children.size !== 0) {
-      this.children = Immutable.List<Res>();
-    } else {
-      this.children = Immutable.List(await this.api.findResReply(this.user.ud !== null ? this.user.ud.auth : null, {
-        topic: this.res.topic,
-        reply: this.res.id
-      }));
+    try{
+      if (this.children.size !== 0) {
+        this.children = Immutable.List<Res>();
+      } else {
+        this.children = Immutable.List(await this.api.findResReply(this.user.ud !== null ? this.user.ud.auth : null, {
+          topic: this.res.topic,
+          reply: this.res.id
+        }));
+      }
+      this.childrenMsg = null;
+      this.cdr.markForCheck();
+    }catch(_e){
+      this.snackBar.open("レス取得に失敗");
     }
-    this.childrenMsg = null;
-    this.cdr.markForCheck();
   }
 
   async uv() {
-    switch (this.res.voteFlag) {
-      case "uv":
-        this.update.emit(await this.api.cvRes(this.user.ud.auth, {
-          id: this.res.id
-        }));
-        break;
-      case "dv":
-        await this.api.cvRes(this.user.ud.auth, {
-          id: this.res.id
-        });
-        this.update.emit(await this.api.uvRes(this.user.ud.auth, {
-          id: this.res.id
-        }));
-        break;
-      case "not":
-        this.update.emit(await this.api.uvRes(this.user.ud.auth, {
-          id: this.res.id
-        }));
-        break;
+    try{
+      switch (this.res.voteFlag) {
+        case "uv":
+          this.update.emit(await this.api.cvRes(this.user.ud.auth, {
+            id: this.res.id
+          }));
+          break;
+        case "dv":
+          await this.api.cvRes(this.user.ud.auth, {
+            id: this.res.id
+          });
+          this.update.emit(await this.api.uvRes(this.user.ud.auth, {
+            id: this.res.id
+          }));
+          break;
+        case "not":
+          this.update.emit(await this.api.uvRes(this.user.ud.auth, {
+            id: this.res.id
+          }));
+          break;
+      }
+    }catch(_e){
+      this.snackBar.open("投票に失敗");
     }
   }
 
   async dv() {
-    switch (this.res.voteFlag) {
-      case "dv":
-        this.update.emit(await this.api.cvRes(this.user.ud.auth, {
-          id: this.res.id
-        }));
-        break;
-      case "uv":
-        await this.api.cvRes(this.user.ud.auth, {
-          id: this.res.id
-        });
-        this.update.emit(await this.api.dvRes(this.user.ud.auth, {
-          id: this.res.id
-        }));
-        break;
-      case "not":
-        this.update.emit(await this.api.dvRes(this.user.ud.auth, {
-          id: this.res.id
-        }));
-        break;
+    try{
+      switch (this.res.voteFlag) {
+        case "dv":
+          this.update.emit(await this.api.cvRes(this.user.ud.auth, {
+            id: this.res.id
+          }));
+          break;
+        case "uv":
+          await this.api.cvRes(this.user.ud.auth, {
+            id: this.res.id
+          });
+          this.update.emit(await this.api.dvRes(this.user.ud.auth, {
+            id: this.res.id
+          }));
+          break;
+        case "not":
+          this.update.emit(await this.api.dvRes(this.user.ud.auth, {
+            id: this.res.id
+          }));
+          break;
+      }
+    }catch(_e){
+      this.snackBar.open("レス取得に失敗");
     }
   }
 
   async del() {
-    let dialogRef = this.dialog.open(ButtonDialogComponent);
-    let com = dialogRef.componentInstance;
-    com.message = "削除して良いですか？";
-    com.actions = [{ data: true, text: "はい" }, { data: false, text: "いいえ" }];
+    try{
+      let dialogRef = this.dialog.open(ButtonDialogComponent);
+      let com = dialogRef.componentInstance;
+      com.message = "削除して良いですか？";
+      com.actions = [{ data: true, text: "はい" }, { data: false, text: "いいえ" }];
 
-    let result: boolean = await dialogRef.afterClosed().toPromise();
+      let result: boolean = await dialogRef.afterClosed().toPromise();
 
-    if (result) {
-      this.update.emit(await this.api.delRes(this.user.ud.auth, {
-        id: this.res.id
-      }));
+      if (result) {
+        this.update.emit(await this.api.delRes(this.user.ud.auth, {
+          id: this.res.id
+        }));
+      }
+    }catch(_e){
+      this.snackBar.open("レス削除に失敗");
     }
   }
+  
 
   async profileOpen() {
-    this.dialog.open(ProfileComponent).componentInstance.profile = await this.api.findProfileOne(this.user.ud ? this.user.ud.auth : null, {
-      id: this.res.profile as string
-    });
+    try{
+      this.dialog.open(ProfileComponent).componentInstance.profile = await this.api.findProfileOne(this.user.ud ? this.user.ud.auth : null, {
+        id: this.res.profile as string
+      });
+    }catch(_e){
+      this.snackBar.open("プロフ取得に失敗");
+    }
   }
 }

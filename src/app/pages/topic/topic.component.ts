@@ -25,6 +25,7 @@ import {
 import { ActivatedRoute, Params } from '@angular/router';
 import { ResComponent } from '../../components';
 import * as Immutable from 'immutable';
+import {MdSnackBar} from '@angular/material';
 
 @Component({
   selector: 'app-topic',
@@ -45,7 +46,8 @@ export class TopicComponent implements OnInit, OnDestroy, AfterViewChecked {
     private api: AtApiService,
     private route: ActivatedRoute,
     private zone: NgZone,
-    private dialog: MdDialog) {
+    private dialog: MdDialog,
+    public snackBar: MdSnackBar) {
   }
 
   private intervalID: any;
@@ -57,13 +59,18 @@ export class TopicComponent implements OnInit, OnDestroy, AfterViewChecked {
       return;
     }
     this.isLock = true;
-    await call()
-      .catch(e => {
-        this.isLock = false;
-        throw e;
-      });
+    try{
+      await call();
+    }catch(e){
+      this.isLock = false;
+      throw e;
+    }
     //レス数が変わっているはずなので更新
-    this.topic = await this.api.findTopicOne({ id: this.topic.id });
+    try{
+      this.topic = await this.api.findTopicOne({ id: this.topic.id });
+    }catch(_e){
+      this.snackBar.open("トピック取得に失敗");
+    }
     this.isLock = false;
   }
 
@@ -126,7 +133,12 @@ export class TopicComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.route.params.forEach((params: Params) => {
       id = params["id"];
     });
-    this.topic = await this.api.findTopicOne({ id });
+
+    try{
+      this.topic = await this.api.findTopicOne({ id });
+    }catch(_e){
+      this.snackBar.open("トピック取得に失敗");
+    }
 
     let isInit = false;
     this.udListener = this.user.addUserDataListener(async () => {
@@ -137,20 +149,28 @@ export class TopicComponent implements OnInit, OnDestroy, AfterViewChecked {
       isInit = true;
       if (ud !== null && ud.storage.topicRead.has(this.topic.id)) {
         //読んだことあるなら続きから
-        await this.lock(async () => {
-          this.reses = Immutable.List(await this.api.findRes(ud.auth,
-            {
-              topic: this.topic.id,
-              type: "before",
-              equal: true,
-              date: (await this.api.findResOne(ud.auth, { id: (ud.storage.topicRead.get(this.topic.id).res) })).date,
-              limit: this.limit
-            }));
-        });
+        try{
+          await this.lock(async () => {
+            this.reses = Immutable.List(await this.api.findRes(ud.auth,
+              {
+                topic: this.topic.id,
+                type: "before",
+                equal: true,
+                date: (await this.api.findResOne(ud.auth, { id: (ud.storage.topicRead.get(this.topic.id).res) })).date,
+                limit: this.limit
+              }));
+          });
+        }catch(_e){
+          this.snackBar.open("レス取得に失敗");
+        }
         this.isReadNew = true;
       } else {
         //読んだことないなら最新レス
-        await this.findNew();
+        try{
+          await this.findNew();
+        }catch(_e){
+          this.snackBar.open("レス取得に失敗");
+        }
       }
     });
 
@@ -210,61 +230,73 @@ export class TopicComponent implements OnInit, OnDestroy, AfterViewChecked {
   private scrollObs: Subscription;
 
   private async findNew() {
-    await this.lock(async () => {
-      this.reses = Immutable.List(await this.api.findResNew(this.user.ud ? this.user.ud.auth : null,
-        {
-          topic: this.topic.id,
-          limit: this.limit
-        }));
-    });
+    try{
+      await this.lock(async () => {
+        this.reses = Immutable.List(await this.api.findResNew(this.user.ud ? this.user.ud.auth : null,
+          {
+            topic: this.topic.id,
+            limit: this.limit
+          }));
+      });
+    }catch(_e){
+      this.snackBar.open("レス取得に失敗");
+    }
   }
 
   async readNew() {
-    if (this.reses.size === 0) {
-      this.findNew();
-    } else {
-      await this.lock(async () => {
-        //一番上のレスと座標を取得
-        let rc = this.resE.first;
-        let rcY: number;
-        if (rc && rc.elementRef) {
-          rcY = rc.elementRef.nativeElement.getBoundingClientRect().top as number;
-        }
-
-        this.reses = Immutable.List((await this.api.findRes(this.user.ud ? this.user.ud.auth : null,
-          {
-            topic: this.topic.id,
-            type: "after",
-            equal: false,
-            date: this.reses.first().date,
-            limit: this.limit
+    try{
+      if (this.reses.size === 0) {
+        this.findNew();
+      } else {
+        await this.lock(async () => {
+          //一番上のレスと座標を取得
+          let rc = this.resE.first;
+          let rcY: number;
+          if (rc && rc.elementRef) {
+            rcY = rc.elementRef.nativeElement.getBoundingClientRect().top as number;
           }
-        )).concat(this.reses.toArray()));
 
-        if (rc && rc.elementRef) {
-          setTimeout(() => {
-            document.getElementById("contents").scrollTop += rc.elementRef.nativeElement.getBoundingClientRect().top - rcY
-          }, 0);
-        }
-      });
+          this.reses = Immutable.List((await this.api.findRes(this.user.ud ? this.user.ud.auth : null,
+            {
+              topic: this.topic.id,
+              type: "after",
+              equal: false,
+              date: this.reses.first().date,
+              limit: this.limit
+            }
+          )).concat(this.reses.toArray()));
+
+          if (rc && rc.elementRef) {
+            setTimeout(() => {
+              document.getElementById("contents").scrollTop += rc.elementRef.nativeElement.getBoundingClientRect().top - rcY
+            }, 0);
+          }
+        });
+      }
+    }catch(_e){
+      this.snackBar.open("レス取得に失敗");
     }
   }
 
   async readOld() {
-    if (this.reses.size === 0) {
-      this.findNew();
-    } else {
-      await this.lock(async () => {
-        this.reses = Immutable.List(this.reses.toArray().concat(await this.api.findRes(this.user.ud ? this.user.ud.auth : null,
-          {
-            topic: this.topic.id,
-            type: "before",
-            equal: false,
-            date: this.reses.last().date,
-            limit: this.limit
-          }
-        )));
-      });
+    try{
+      if (this.reses.size === 0) {
+        this.findNew();
+      } else {
+        await this.lock(async () => {
+          this.reses = Immutable.List(this.reses.toArray().concat(await this.api.findRes(this.user.ud ? this.user.ud.auth : null,
+            {
+              topic: this.topic.id,
+              type: "before",
+              equal: false,
+              date: this.reses.last().date,
+              limit: this.limit
+            }
+          )));
+        });
+      }
+    }catch(_e){
+      this.snackBar.open("レス取得に失敗");
     }
   }
 
