@@ -1,0 +1,21 @@
+<md-card>
+  <div>
+    <div>
+      R:<md-slider [(ngModel)]="color.r" [min]="0" [max]="255" [step]="1"></md-slider>
+    </div>
+    <div>
+      G:<md-slider [(ngModel)]="color.g" [min]="0" [max]="255" [step]="1"></md-slider>
+    </div>
+    <div>
+      B:<md-slider [(ngModel)]="color.b" [min]="0" [max]="255" [step]="1"></md-slider>
+    </div>
+  </div>
+  <canvas
+    #canvas
+    [width]="w"
+    [height]="h"
+    (mousedown)="mousedown($event)"
+    (mouseup)="mouseup($event)"
+    (mousemove)="mousemove($event)"></canvas>
+  <button type="button" md-button (click)="clickOK()">OK</button>
+</md-card>

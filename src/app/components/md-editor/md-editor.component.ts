@@ -56,7 +56,7 @@ export class MdEditorComponent implements OnInit, ControlValueAccessor {
     if(el.files.length!==0){
       let formData = new FormData();
       formData.append('image', el.files[0]);
-      this.imgur(formData);
+      await this.imgur(formData);
     }
   }
 
@@ -97,4 +97,8 @@ export class MdEditorComponent implements OnInit, ControlValueAccessor {
     }
   }
 
+  isOekaki=false;
+  oekaki(){
+    this.isOekaki=!this.isOekaki;
+  }
 }
