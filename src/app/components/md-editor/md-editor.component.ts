@@ -3,11 +3,14 @@ import {
   OnInit,
   ChangeDetectionStrategy,
   Input,
-  forwardRef
+  forwardRef,
+  ViewChild,
+  ElementRef,
+  ChangeDetectorRef
 } from '@angular/core';
-
+import {MdSnackBar} from '@angular/material';
+import { Http,Headers } from '@angular/http';
 import { MdPipe } from '../../pipes';
-
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MdTabChangeEvent } from '@angular/material';
 
@@ -15,7 +18,7 @@ import { MdTabChangeEvent } from '@angular/material';
   selector: 'app-md-editor',
   templateUrl: './md-editor.component.html',
   styleUrls: ['./md-editor.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.Default,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -27,7 +30,9 @@ import { MdTabChangeEvent } from '@angular/material';
 export class MdEditorComponent implements OnInit, ControlValueAccessor {
 
 
-  constructor() { }
+  constructor(private http:Http,
+  public cdr: ChangeDetectorRef,
+  public snackBar: MdSnackBar) { }
 
   ngOnInit() {
   }
@@ -42,6 +47,28 @@ export class MdEditorComponent implements OnInit, ControlValueAccessor {
 
   get value() {
     return this._value;
+  }
+
+  @ViewChild('img')
+  img:ElementRef;
+  async upload(){
+    let el:HTMLInputElement=this.img.nativeElement;
+    if(el.files.length!==0){
+      let formData = new FormData();
+      formData.append('image', el.files[0]);
+      this.imgur(formData);
+    }
+  }
+
+  private async imgur(blob:Blob|FormData){
+    try{
+        let result=await this.http.post("https://api.imgur.com/3/image",blob,{
+          headers:new Headers({Authorization:'Client-ID 042fd78266ccaaf'}) 
+        }).toPromise();
+        this.value+=`![](${JSON.parse(result.text()).data.link})`;
+      }catch(e){
+        this.snackBar.open("画像投稿に失敗");
+      }
   }
 
   tabChange(event: MdTabChangeEvent) {

@@ -1,3 +1,9 @@
+<div>
+  <input type="file" #img>
+  <button md-icon-button type="button" (click)="upload()">
+    <md-icon>file_upload</md-icon>
+  </button>
+</div>
 <md-tab-group (selectChange)="tabChange($event)">
   <md-tab label="Edit">
     <md-textarea class="edit" controls [(ngModel)]="value" [rows]="5"></md-textarea>

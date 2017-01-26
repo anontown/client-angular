@@ -25,7 +25,8 @@ import {
     TopicListItemComponent,
     MdEditorComponent,
     BoardComponent,
-    TopicDataComponent
+    TopicDataComponent,
+    OekakiComponent
 } from './components';
 
 import {
@@ -128,6 +129,7 @@ AtApiService.serverURL = Config.serverURL;
         MdEditorComponent,
         BoardComponent,
         BoardsComponent,
+        OekakiComponent
     ],
     // エントリ
     bootstrap: [AppComponent],
