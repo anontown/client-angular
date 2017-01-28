@@ -8,16 +8,12 @@ export class HtmlPipe implements PipeTransform {
         let $=cheerio.load(value);
 
         $("img").attr("src",(_i:number,src:string)=>getHttpsUrl(src));
-        $("a").map((_i,el)=>{
+        $("a").each((_i,el)=>{
             let href=(<{[key:string]:string}>el.attribs)["href"];
             if((href.indexOf("http://")===0||href.indexOf("https://")===0)&&
                 href.indexOf("https://anontown.com")!==0){
                     //外部リンク
                     (<{[key:string]:string}>el.attribs)["target"]="_blank";
-                    return el;
-                }else{
-                    //内部リンク
-                    return el;
                 }
         })
 
