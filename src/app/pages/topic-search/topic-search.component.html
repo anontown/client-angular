@@ -20,7 +20,7 @@
 </md-card>
 <md-card *ngIf="board" class="board">
   <h1><a [routerLink]="['/topic',board.id]">{{board.title}}</a></h1>
-  <div [innerHTML]="board.mdtext"></div>
+  <div [innerHTML]="board.mdtext|html"></div>
 </md-card>
 <div>
   <button md-icon-button [routerLink]="['/topic/write']" *ngIf="user.ud!==null">

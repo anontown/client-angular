@@ -14,7 +14,7 @@
       <dd><a [routerLink]="['/topic/search']" [queryParams]="{title:'',category:topic.category.join('/')}">{{topic.category.join('/')}}</a></dd>
       <dt>本文</dt>
       <dd>
-        <div [innerHTML]="topic.mdtext"></div>
+        <div [innerHTML]="topic.mdtext|html"></div>
       </dd>
       <ng-container *ngIf="topic.type!=='one'">
         <dt>編集履歴</dt>

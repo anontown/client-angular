@@ -7,7 +7,8 @@ import { AnontownModule, AtApiService } from 'anontown';
 import {
     MdPipe,
     MapPipe,
-    AtDatePipe
+    AtDatePipe,
+    HtmlPipe
 } from './pipes';
 import {
     UserService,
@@ -104,6 +105,7 @@ AtApiService.serverURL = Config.serverURL;
         MdPipe,
         MapPipe,
         AtDatePipe,
+        HtmlPipe,
 
         AppComponent,
         TopicHistoryComponent,

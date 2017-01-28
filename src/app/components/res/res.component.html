@@ -18,7 +18,7 @@
         {{res.replyCount}}
       </button>
     </span>
-    <div [innerHTML]="res.mdtext" class="aa"></div>
+    <div [innerHTML]="res.mdtext|html" class="aa"></div>
   </div>
   <div class="res-footer action" *ngIf="user.ud!==undefined">
     <span *ngIf="!isSelf&&user.ud!==null&&res.voteFlag!==null">

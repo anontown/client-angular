@@ -11,6 +11,6 @@
     <md-textarea class="edit" controls [(ngModel)]="value" [rows]="5"></md-textarea>
   </md-tab>
   <md-tab label="Preview">
-    <div class="preview" [innerHTML]="mdValue"></div>
+    <div class="preview" [innerHTML]="mdValue|html"></div>
   </md-tab>
 </md-tab-group>
