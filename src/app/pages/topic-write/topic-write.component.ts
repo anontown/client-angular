@@ -15,7 +15,7 @@ import { Router } from '@angular/router';
 })
 export class TopicWriteComponent implements OnInit, OnDestroy {
     private title = "";
-    private category = "";
+    private tags = "";
     private text = "";
     private type: TopicType = "normal";
     private errorMsg: string | null = null;
@@ -36,7 +36,7 @@ export class TopicWriteComponent implements OnInit, OnDestroy {
         try{
             let topic = await this.api.createTopic(this.user.ud.auth, {
                 title: this.title,
-                category: this.category.length === 0 ? [] : this.category.split("/"),
+                tags: this.tags.length === 0 ? [] : this.tags.split(/[\s　\,]+/),
                 text: this.text,
                 type: this.type
             });

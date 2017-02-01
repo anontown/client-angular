@@ -5,7 +5,7 @@
   <div>
     <div>
       <md-input-container>
-        <input md-input placeholder="カテゴリ" [(ngModel)]="form.category" name="category" (input)="formChangeObs.next()">
+        <input md-input placeholder="タグ" [(ngModel)]="form.tags" name="tags" (input)="formChangeObs.next()">
       </md-input-container>
     </div>
     <div>
@@ -17,10 +17,6 @@
       <md-checkbox [(ngModel)]="form.dead" name="dead" (change)="formChangeObs.next()">過去ログも</md-checkbox>
     </div>
   </div>
-</md-card>
-<md-card *ngIf="board" class="board">
-  <h1><a [routerLink]="['/topic',board.id]">{{board.title}}</a></h1>
-  <div [innerHTML]="board.mdtext|html"></div>
 </md-card>
 <div>
   <button md-icon-button [routerLink]="['/topic/write']" *ngIf="user.ud!==null">

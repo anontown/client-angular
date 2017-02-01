@@ -10,8 +10,7 @@ import {
 } from '@angular/router';
 import * as Immutable from 'immutable';
 import {
-  UserService,
-  BoardService
+  UserService
 } from '../../services';
 import {MdSnackBar} from '@angular/material';
 
@@ -26,11 +25,8 @@ export class TopicSearchComponent implements OnInit, OnDestroy {
   private topics = Immutable.List<Topic>();
   private count = 0;
 
-  // カテゴリの板があれば表示
-  private board: Topic = null;
-
   // 現在の検索条件
-  private category = '';
+  private tags = '';
   private title = '';
   private page = 0;
   private dead = false;
@@ -40,7 +36,7 @@ export class TopicSearchComponent implements OnInit, OnDestroy {
 
   // フォームデータ
   form={
-    category:'',
+    tags:'',
     title:'',
     dead:false
   };
@@ -49,7 +45,6 @@ export class TopicSearchComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private user: UserService,
-    private bs: BoardService,
     public snackBar: MdSnackBar) {
 
   }
@@ -64,11 +59,15 @@ export class TopicSearchComponent implements OnInit, OnDestroy {
     await this.more();
   }
 
+  private get tagArray():string[]{
+    return this.tags.length === 0 ? [] :this.tags.split(/[\s　\,]+/);
+  }
+
   async more() {
     try{
       let t = await this.api.findTopic({
         title: this.title,
-        category: this.category.length === 0 ? [] : this.category.split('/'),
+        tags: this.tagArray,
         skip: this.page * this.limit,
         limit: this.limit,
         activeOnly: !this.dead
@@ -86,27 +85,15 @@ export class TopicSearchComponent implements OnInit, OnDestroy {
     this.formChangeObs
       .debounceTime(500)
       .subscribe(()=>{
-        this.router.navigate(['/topic/search'], { queryParams: { title: this.form.title, category: this.form.category,dead:this.form.dead } });
+        this.router.navigate(['/topic/search'], { queryParams: { title: this.form.title, tags: this.form.tags,dead:this.form.dead } });
       });
 
     this.route.queryParams.forEach(async (params) => {
-      this.title = params['title']?params['title']:'';
-      this.category = params['category']?params['category']:'';
-      this.dead = params['dead']==="true";
+      document.title="検索";
+      this.form.title=this.title = params['title']?params['title']:'';
+      this.form.tags=this.tags = params['tags']?params['tags']:'';
+      this.form.dead=this.dead = params['dead']==="true";
       await this.update();
-
-      if (this.bs.topics) {
-        let b = this.bs.topics.find(t => t.category.join("/") === this.category);
-        if (b) {
-          this.board = b;
-          document.title=b.title;
-        } else {
-          this.board = null;
-          document.title="検索";
-        }
-      }else{
-        document.title="検索";
-      }
     });
   }
 
@@ -115,12 +102,13 @@ export class TopicSearchComponent implements OnInit, OnDestroy {
 
   favo() {
     let storage = this.user.ud.storage;
-    let bf = storage.boardFavo;
-    storage.boardFavo = bf.has(this.category) ? bf.delete(this.category) : bf.add(this.category);
+    let tf = storage.tagsFavo;
+    let tags=Immutable.Set(this.tagArray);
+    storage.tagsFavo = tf.has(tags) ? tf.delete(tags) : tf.add(tags);
     this.user.updateUserData();
   }
 
   get isFavo():boolean{
-    return this.user.ud.storage.boardFavo.has(this.category);
+    return this.user.ud.storage.tagsFavo.has(Immutable.Set(this.tagArray));
   }
 }

@@ -12,7 +12,6 @@ import {
 } from './pipes';
 import {
     UserService,
-    BoardService
 } from './services';
 import 'hammerjs';
 
@@ -25,7 +24,6 @@ import {
     TopicEditComponent,
     TopicListItemComponent,
     MdEditorComponent,
-    BoardComponent,
     TopicDataComponent,
     OekakiComponent
 } from './components';
@@ -48,7 +46,7 @@ import {
     UserMsgComponent,
     UserNoticeComponent,
     UserProfileComponent,
-    BoardsComponent
+    TagsComponent
 } from './pages';
 import { Config } from './config';
 
@@ -96,9 +94,9 @@ AtApiService.serverURL = Config.serverURL;
                 component: FavoComponent
             },
             {
-                path: 'boards',
-                component: BoardsComponent
-            },
+                path: 'tags',
+                component: TagsComponent
+            }
         ])
     ],
     declarations: [
@@ -129,15 +127,13 @@ AtApiService.serverURL = Config.serverURL;
         TopicListItemComponent,
         ButtonDialogComponent,
         MdEditorComponent,
-        BoardComponent,
-        BoardsComponent,
-        OekakiComponent
+        OekakiComponent,
+        TagsComponent
     ],
     // エントリ
     bootstrap: [AppComponent],
     providers: [
         UserService,
-        BoardService
     ],
     entryComponents: [
         //モーダルで使うコンポーネント

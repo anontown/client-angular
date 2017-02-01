@@ -37,8 +37,15 @@ interface StorageJSON5 {
     topicRead: { [key: string]: { res: string, count: number } };
 }
 
+interface StorageJSON6 {
+    ver: '6',
+    topicFavo: string[],
+    tagsFavo: string[][],
+    topicRead: { [key: string]: { res: string, count: number } };
+}
+
 export class Storage {
-    static VER: '5' = '5';
+    static VER: '6' = '6';
 
     static fromJSON(jsonText: string): Storage {
         if (jsonText.length !== 0) {
@@ -66,8 +73,15 @@ export class Storage {
                         }
                     case '5':
                         {
-                            let obj = JsonObj as StorageJSON5;
-                            return new Storage(Immutable.Set(obj.topicFavo), Immutable.Set(obj.boardFavo), Immutable.Map(obj.topicRead));
+                            JsonObj = this.convert5To6(JsonObj as StorageJSON5);
+                            break;
+                        }
+                    case '6':
+                        {
+                            let obj = JsonObj as StorageJSON6;
+                            return new Storage(Immutable.Set(obj.topicFavo),
+                                Immutable.Set(obj.tagsFavo.map(x=>Immutable.Set(x))),
+                                Immutable.Map(obj.topicRead));
                         }
                     default:
                         return new Storage(Immutable.Set<any>(), Immutable.Set<any>(), Immutable.Map<any, any>());
@@ -120,23 +134,32 @@ export class Storage {
         };
     }
 
-    boardFavo: Immutable.Set<string>;
+    private static convert5To6(val: StorageJSON5): StorageJSON6 {
+        return {
+            ver: "6",
+            tagsFavo: val.boardFavo.map(x=>x.split('/')),
+            topicFavo: [],
+            topicRead: val.topicRead
+        };
+    }
+
+    tagsFavo: Immutable.Set<Immutable.Set<string>>;
     topicFavo: Immutable.Set<string>;
     topicRead: Immutable.Map<string, { res: string, count: number }>;
 
     private constructor(topicFavo: Immutable.Set<string>,
-        boardFavo: Immutable.Set<string>,
+        tagsFavo: Immutable.Set<Immutable.Set<string>>,
         topicRead: Immutable.Map<string, { res: string, count: number }>) {
         this.topicFavo = topicFavo;
-        this.boardFavo = boardFavo;
+        this.tagsFavo = tagsFavo;
         this.topicRead = topicRead;
     }
 
 
     toJSON(): string {
-        let j: StorageJSON5 = {
+        let j: StorageJSON6 = {
             ver: Storage.VER,
-            boardFavo: this.boardFavo.toArray(),
+            tagsFavo: this.tagsFavo.toArray().map(x=>x.toArray()),
             topicFavo: this.topicFavo.toArray(),
             topicRead: this.topicRead.toObject()
         };

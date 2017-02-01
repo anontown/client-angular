@@ -1,0 +1,9 @@
+<md-card>
+  <ul>
+    <li *ngFor="let t of tags">
+      <a [routerLink]="['/topic/search']" [queryParams]="{tags:t.name}">
+        {{t.name}}({{t.count}})
+      </a>
+    </li>
+  </ul>
+</md-card>

@@ -6,4 +6,4 @@ export * from './favo/favo.component';
 export * from './user-msg/user-msg.component';
 export * from './user-notice/user-notice.component';
 export * from './user-profile/user-profile.component';
-export * from './boards/boards.component';
+export * from './tags/tags.component';

@@ -9,10 +9,13 @@
     <md-tab label="板">
       <md-card>
         <md-list>
-          <md-list-item *ngFor="let b of user.ud.storage.boardFavo">
-            <a [routerLink]="['/topic/search']" [queryParams]="{title:'',category:b}">
-              {{getName(b)}}
+          <md-list-item *ngFor="let t of user.ud.storage.tagsFavo">
+            <a [routerLink]="['/topic/search']" [queryParams]="{tags:t.join(' ')}">
+              {{t.size!==0?t.join(','):'(なし)'}}
             </a>
+            <button (click)="delTags(t)" md-icon-button>
+              <md-icon>delete</md-icon>
+            </button>
           </md-list-item>
         </md-list>
       </md-card>

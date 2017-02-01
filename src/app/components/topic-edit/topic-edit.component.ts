@@ -28,7 +28,7 @@ export class TopicEditComponent implements OnInit, OnDestroy {
     update = new EventEmitter<Topic>();
 
     private title = "";
-    private category = "";
+    private tags = "";
     private text = "";
     private errorMsg: string | null = null;
 
@@ -38,7 +38,7 @@ export class TopicEditComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.title = this.topic.title;
-        this.category = this.topic.category.join("/");
+        this.tags = this.topic.tags.join(" ");
         this.text = this.topic.text;
     }
 
@@ -50,7 +50,7 @@ export class TopicEditComponent implements OnInit, OnDestroy {
             let topic = await this.api.updateTopic(this.user.ud.auth, {
                 id: this.topic.id,
                 title: this.title,
-                category: this.category.length === 0 ? [] : this.category.split("/"),
+                tags: this.tags.length === 0 ? [] : this.tags.split(/[\s　\,]+/),
                 text: this.text
             });
             this.errorMsg = null;

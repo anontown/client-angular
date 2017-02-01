@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
-import { UserService, IUserDataListener, BoardService } from '../../services';
+import { UserService, IUserDataListener } from '../../services';
 
 import { Router } from '@angular/router';
 import { Topic, AtApiService } from 'anontown';
@@ -15,7 +15,6 @@ export class FavoComponent implements OnInit, OnDestroy {
     constructor(private user: UserService,
         private router: Router,
         private api: AtApiService,
-        public board: BoardService,
         public snackBar: MdSnackBar) {
     }
 
@@ -42,15 +41,6 @@ export class FavoComponent implements OnInit, OnDestroy {
         this.router.navigate(['/topic', id])
     }
 
-    getName(c: string) {
-        let topic = this.board.topics.find(x => x.category.join("/") === c);
-        if (topic) {
-            return topic.title;
-        } else {
-            return c.length === 0 ? "/" : c;
-        }
-    }
-
     private async update() {
         try{
             this.tfavo = Immutable.List(await this.api.findTopicIn({ ids: this.user.ud.storage.topicFavo.toArray() }))
@@ -58,5 +48,11 @@ export class FavoComponent implements OnInit, OnDestroy {
         }catch(_e){
             this.snackBar.open("トピック取得に失敗");
         }
+    }
+
+    delTags(val:Immutable.Set<string>){
+        let storage = this.user.ud.storage;
+        storage.tagsFavo = storage.tagsFavo.delete(val);
+        this.user.updateUserData();
     }
 }
