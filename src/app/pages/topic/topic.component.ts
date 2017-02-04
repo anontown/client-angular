@@ -25,7 +25,7 @@ import {
 import { ActivatedRoute, Params } from '@angular/router';
 import { ResComponent } from '../../components';
 import * as Immutable from 'immutable';
-import {MdSnackBar} from '@angular/material';
+import { MdSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-topic',
@@ -59,16 +59,16 @@ export class TopicComponent implements OnInit, OnDestroy, AfterViewChecked {
       return;
     }
     this.isLock = true;
-    try{
+    try {
       await call();
-    }catch(e){
+    } catch (e) {
       this.isLock = false;
       throw e;
     }
     //レス数が変わっているはずなので更新
-    try{
+    try {
       this.topic = await this.api.findTopicOne({ id: this.topic.id });
-    }catch(_e){
+    } catch (_e) {
       this.snackBar.open("トピック取得に失敗");
     }
     this.isLock = false;
@@ -122,6 +122,7 @@ export class TopicComponent implements OnInit, OnDestroy, AfterViewChecked {
   private udListener: IUserDataListener;
 
   ngOnDestroy() {
+    this.scrollSave();
     this.scrollObs.unsubscribe();
     clearInterval(this.intervalID);
     this.socket.close();
@@ -134,10 +135,10 @@ export class TopicComponent implements OnInit, OnDestroy, AfterViewChecked {
       id = params["id"];
     });
 
-    try{
+    try {
       this.topic = await this.api.findTopicOne({ id });
-      document.title=this.topic.title;
-    }catch(_e){
+      document.title = this.topic.title;
+    } catch (_e) {
       this.snackBar.open("トピック取得に失敗");
     }
 
@@ -150,7 +151,7 @@ export class TopicComponent implements OnInit, OnDestroy, AfterViewChecked {
       isInit = true;
       if (ud !== null && ud.storage.topicRead.has(this.topic.id)) {
         //読んだことあるなら続きから
-        try{
+        try {
           await this.lock(async () => {
             this.reses = Immutable.List(await this.api.findRes(ud.auth,
               {
@@ -161,15 +162,15 @@ export class TopicComponent implements OnInit, OnDestroy, AfterViewChecked {
                 limit: this.limit
               }));
           });
-        }catch(_e){
+        } catch (_e) {
           this.snackBar.open("レス取得に失敗");
         }
         this.isReadNew = true;
       } else {
         //読んだことないなら最新レス
-        try{
+        try {
           await this.findNew();
-        }catch(_e){
+        } catch (_e) {
           this.snackBar.open("レス取得に失敗");
         }
       }
@@ -185,38 +186,9 @@ export class TopicComponent implements OnInit, OnDestroy, AfterViewChecked {
       this.scrollObs = Observable.fromEvent(document.getElementById("contents"), "scroll")
         .throttleTime(1000)
         .subscribe(() => {
-          if (this.user.ud) {
-            //最短距離のレスID
-            var res: Res;
-            {
-              let getTop = (rc: ResComponent) => rc.elementRef.nativeElement.getBoundingClientRect().top;
-              //最短
-              let rc: ResComponent | null = null;
-              this.resE.forEach(x => {
-                if (rc === null) {
-                  rc = x;
-                } else if (Math.abs(getTop(rc)) > Math.abs(getTop(x))) {
-                  rc = x;
-                }
-              });
-              if (rc === null) {
-                return;
-              }
-              res = (rc as ResComponent).res;
-            }
-
-            //セット
-            let storage = this.user.ud.storage;
-            storage.topicRead = storage.topicRead.set(this.topic.id, {
-              res: res.id,
-              count: this.topic.resCount
-            })
-            this.user.updateUserData();
-          }
+          this.scrollSave();
         });
     });
-
-
 
     //自動更新
     this.socket = socketio.connect(Config.serverURL, { forceNew: true });
@@ -228,10 +200,41 @@ export class TopicComponent implements OnInit, OnDestroy, AfterViewChecked {
     });
   }
 
+  private scrollSave(){
+      if (this.user.ud) {
+        //最短距離のレスID
+        var res: Res;
+        {
+          let getTop = (rc: ResComponent) => rc.elementRef.nativeElement.getBoundingClientRect().top;
+          //最短
+          let rc: ResComponent | null = null;
+          this.resE.forEach(x => {
+            if (rc === null) {
+              rc = x;
+            } else if (Math.abs(getTop(rc)) > Math.abs(getTop(x))) {
+              rc = x;
+            }
+          });
+          if (rc === null) {
+            return;
+          }
+          res = (rc as ResComponent).res;
+        }
+
+        //セット
+        let storage = this.user.ud.storage;
+        storage.topicRead = storage.topicRead.set(this.topic.id, {
+          res: res.id,
+          count: this.topic.resCount
+        })
+        this.user.updateUserData();
+      }
+    }
+
   private scrollObs: Subscription;
 
   private async findNew() {
-    try{
+    try {
       await this.lock(async () => {
         this.reses = Immutable.List(await this.api.findResNew(this.user.ud ? this.user.ud.auth : null,
           {
@@ -239,13 +242,13 @@ export class TopicComponent implements OnInit, OnDestroy, AfterViewChecked {
             limit: this.limit
           }));
       });
-    }catch(_e){
+    } catch (_e) {
       this.snackBar.open("レス取得に失敗");
     }
   }
 
   async readNew() {
-    try{
+    try {
       if (this.reses.size === 0) {
         this.findNew();
       } else {
@@ -274,13 +277,13 @@ export class TopicComponent implements OnInit, OnDestroy, AfterViewChecked {
           }
         });
       }
-    }catch(_e){
+    } catch (_e) {
       this.snackBar.open("レス取得に失敗");
     }
   }
 
   async readOld() {
-    try{
+    try {
       if (this.reses.size === 0) {
         this.findNew();
       } else {
@@ -296,7 +299,7 @@ export class TopicComponent implements OnInit, OnDestroy, AfterViewChecked {
           )));
         });
       }
-    }catch(_e){
+    } catch (_e) {
       this.snackBar.open("レス取得に失敗");
     }
   }
