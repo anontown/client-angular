@@ -38,15 +38,15 @@ import {
 import { AppComponent } from './app.component';
 
 import {
-    IndexComponent,
-    TopicComponent,
-    TopicSearchComponent,
-    TopicWriteComponent,
-    FavoComponent,
-    UserMsgComponent,
-    UserNoticeComponent,
-    UserProfileComponent,
-    TagsComponent
+    IndexPageComponent,
+    TopicPageComponent,
+    TopicSearchPageComponent,
+    TopicWritePageComponent,
+    FavoPageComponent,
+    UserMsgPageComponent,
+    UserNoticePageComponent,
+    UserProfilePageComponent,
+    TagsPageComponent
 } from './pages';
 import { Config } from './config';
 
@@ -63,39 +63,39 @@ AtApiService.serverURL = Config.serverURL;
         RouterModule.forRoot([
             {
                 path: '',
-                component: IndexComponent
+                component: IndexPageComponent
             },
             {
                 path: 'topic/search',
-                component: TopicSearchComponent
+                component: TopicSearchPageComponent
             },
             {
                 path: 'topic/write',
-                component: TopicWriteComponent
+                component: TopicWritePageComponent
             },
             {
                 path: 'topic/:id',
-                component: TopicComponent
+                component: TopicPageComponent
             },
             {
                 path: 'user/profile',
-                component: UserProfileComponent
+                component: UserProfilePageComponent
             },
             {
                 path: 'user/notice',
-                component: UserNoticeComponent
+                component: UserNoticePageComponent
             },
             {
                 path: 'user/msg',
-                component: UserMsgComponent
+                component: UserMsgPageComponent
             },
             {
                 path: 'favo',
-                component: FavoComponent
+                component: FavoPageComponent
             },
             {
                 path: 'tags',
-                component: TagsComponent
+                component: TagsPageComponent
             }
         ])
     ],
@@ -114,21 +114,21 @@ AtApiService.serverURL = Config.serverURL;
         ResComponent,
         TopicDataComponent,
         TopicEditComponent,
-        TopicSearchComponent,
-        TopicWriteComponent,
-        TopicComponent,
-        IndexComponent,
-        UserProfileComponent,
-        UserNoticeComponent,
-        UserMsgComponent,
-        UserMsgComponent,
-        FavoComponent,
+        TopicSearchPageComponent,
+        TopicWritePageComponent,
+        TopicPageComponent,
+        IndexPageComponent,
+        UserProfilePageComponent,
+        UserNoticePageComponent,
+        UserMsgPageComponent,
+        UserMsgPageComponent,
+        FavoPageComponent,
         TopicAutoScrollMenuDialogComponent,
         TopicListItemComponent,
         ButtonDialogComponent,
         MdEditorComponent,
         OekakiComponent,
-        TagsComponent
+        TagsPageComponent
     ],
     // エントリ
     bootstrap: [AppComponent],

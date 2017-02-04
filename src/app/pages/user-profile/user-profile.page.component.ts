@@ -3,10 +3,10 @@ import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/
 import { UserService } from '../../services';
 import { Profile } from 'anontown';
 @Component({
-  templateUrl: './user-profile.component.html',
+  templateUrl: './user-profile.page.component.html',
   changeDetection: ChangeDetectionStrategy.Default
 })
-export class UserProfileComponent implements OnInit, OnDestroy {
+export class UserProfilePageComponent implements OnInit, OnDestroy {
   constructor(private user: UserService) {
   }
 

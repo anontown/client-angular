@@ -15,11 +15,11 @@ import {
 import {MdSnackBar} from '@angular/material';
 
 @Component({
-  templateUrl: './topic-search.component.html',
-  styleUrls: ['./topic-search.component.scss'],
+  templateUrl: './topic-search.page.component.html',
+  styleUrls: ['./topic-search.page.component.scss'],
   changeDetection: ChangeDetectionStrategy.Default
 })
-export class TopicSearchComponent implements OnInit, OnDestroy {
+export class TopicSearchPageComponent implements OnInit, OnDestroy {
   // 検索結果
   private topics = Immutable.List<Topic>();
   private count = 0;

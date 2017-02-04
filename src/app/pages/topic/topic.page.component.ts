@@ -28,11 +28,11 @@ import * as Immutable from 'immutable';
 import { MdSnackBar } from '@angular/material';
 
 @Component({
-  templateUrl: './topic.component.html',
-  styleUrls: ['./topic.component.scss'],
+  templateUrl: './topic.page.component.html',
+  styleUrls: ['./topic.page.component.scss'],
   changeDetection: ChangeDetectionStrategy.Default
 })
-export class TopicComponent implements OnInit, OnDestroy, AfterViewChecked {
+export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
   topic: Topic;
 
   @ViewChildren('resE') resE: QueryList<ResComponent>;

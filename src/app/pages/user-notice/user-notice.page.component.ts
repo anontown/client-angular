@@ -8,10 +8,10 @@ import * as Immutable from 'immutable';
 import {MdSnackBar} from '@angular/material';
 
 @Component({
-    templateUrl: './user-notice.component.html',
+    templateUrl: './user-notice.page.component.html',
     changeDetection: ChangeDetectionStrategy.Default
 })
-export class UserNoticeComponent implements OnInit, OnDestroy {
+export class UserNoticePageComponent implements OnInit, OnDestroy {
     private reses = Immutable.List<Res>();
     private limit = 50;
 

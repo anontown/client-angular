@@ -9,10 +9,10 @@ import { Router } from '@angular/router';
 
 
 @Component({
-    templateUrl: './topic-write.component.html',
+    templateUrl: './topic-write.page.component.html',
     changeDetection: ChangeDetectionStrategy.Default
 })
-export class TopicWriteComponent implements OnInit, OnDestroy {
+export class TopicWritePageComponent implements OnInit, OnDestroy {
     private title = "";
     private tags = "";
     private text = "";

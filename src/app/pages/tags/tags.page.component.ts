@@ -3,10 +3,10 @@ import { AtApiService } from 'anontown';
 import {MdSnackBar} from '@angular/material';
 
 @Component({
-  templateUrl: './tags.component.html',
-  styleUrls: ['./tags.component.scss']
+  templateUrl: './tags.page.component.html',
+  styleUrls: ['./tags.page.component.scss']
 })
-export class TagsComponent implements OnInit {
+export class TagsPageComponent implements OnInit {
 
   constructor(private api:AtApiService,
     public snackBar: MdSnackBar) { }

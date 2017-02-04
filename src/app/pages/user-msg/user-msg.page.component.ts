@@ -8,10 +8,10 @@ import * as Immutable from 'immutable';
 import {MdSnackBar} from '@angular/material';
 
 @Component({
-    templateUrl: './user-msg.component.html',
+    templateUrl: './user-msg.page.component.html',
     changeDetection: ChangeDetectionStrategy.Default
 })
-export class UserMsgComponent implements OnInit, OnDestroy {
+export class UserMsgPageComponent implements OnInit, OnDestroy {
     private msgs = Immutable.List<Msg>();
     private limit = 50;
 

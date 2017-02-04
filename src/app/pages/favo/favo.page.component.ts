@@ -6,11 +6,11 @@ import { Topic, AtApiService } from 'anontown';
 import {MdSnackBar} from '@angular/material';
 import * as Immutable from 'immutable';
 @Component({
-    templateUrl: './favo.component.html',
-    styleUrls: ['./favo-component.scss'],
+    templateUrl: './favo.page.component.html',
+    styleUrls: ['./favo.page.component.scss'],
     changeDetection: ChangeDetectionStrategy.Default
 })
-export class FavoComponent implements OnInit, OnDestroy {
+export class FavoPageComponent implements OnInit, OnDestroy {
     constructor(private user: UserService,
         private router: Router,
         private api: AtApiService,
