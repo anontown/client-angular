@@ -8,7 +8,6 @@ import * as Immutable from 'immutable';
 import {MdSnackBar} from '@angular/material';
 
 @Component({
-    selector: 'app-user-msg',
     templateUrl: './user-msg.component.html',
     changeDetection: ChangeDetectionStrategy.Default
 })

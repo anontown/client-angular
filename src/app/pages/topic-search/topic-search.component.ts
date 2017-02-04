@@ -15,7 +15,6 @@ import {
 import {MdSnackBar} from '@angular/material';
 
 @Component({
-  selector: 'app-topic-search',
   templateUrl: './topic-search.component.html',
   styleUrls: ['./topic-search.component.scss'],
   changeDetection: ChangeDetectionStrategy.Default

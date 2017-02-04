@@ -3,7 +3,6 @@ import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/
 import { UserService } from '../../services';
 import { Profile } from 'anontown';
 @Component({
-  selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
   changeDetection: ChangeDetectionStrategy.Default
 })

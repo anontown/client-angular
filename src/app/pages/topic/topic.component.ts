@@ -19,8 +19,8 @@ import {
 import { Config } from '../../config';
 import { UserService, IUserDataListener } from '../../services';
 import {
-  TopicAutoScrollMenuComponent,
-  ResWriteComponent
+  TopicAutoScrollMenuDialogComponent,
+  ResWriteDialogComponent
 } from '../../dialogs';
 import { ActivatedRoute, Params } from '@angular/router';
 import { ResComponent } from '../../components';
@@ -28,7 +28,6 @@ import * as Immutable from 'immutable';
 import { MdSnackBar } from '@angular/material';
 
 @Component({
-  selector: 'app-topic',
   templateUrl: './topic.component.html',
   styleUrls: ['./topic.component.scss'],
   changeDetection: ChangeDetectionStrategy.Default
@@ -84,7 +83,7 @@ export class TopicComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.isAutoScroll = !this.isAutoScroll;
   }
   async autoScrollMenu() {
-    let dialog = this.dialog.open(TopicAutoScrollMenuComponent);
+    let dialog = this.dialog.open(TopicAutoScrollMenuDialogComponent);
     let con = dialog.componentInstance;
     con.autoScrollSpeed = this.autoScrollSpeed;
     con.isAutoScroll = this.isAutoScroll;
@@ -94,7 +93,7 @@ export class TopicComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   writeMenu() {
-    let dialog = this.dialog.open(ResWriteComponent);
+    let dialog = this.dialog.open(ResWriteDialogComponent);
     let com = dialog.componentInstance;
     com.topic = this.topic;
     com.reply = null;
@@ -179,11 +178,11 @@ export class TopicComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.zone.runOutsideAngular(() => {
       this.intervalID = setInterval(() => {
         if (this.isAutoScroll) {
-          document.getElementById("contents").scrollTop -= this.autoScrollSpeed;
+          document.body.scrollTop -= this.autoScrollSpeed;
         }
       }, 200);
 
-      this.scrollObs = Observable.fromEvent(document.getElementById("contents"), "scroll")
+      this.scrollObs = Observable.fromEvent(document.body, "scroll")
         .throttleTime(1000)
         .subscribe(() => {
           this.scrollSave();
@@ -272,7 +271,7 @@ export class TopicComponent implements OnInit, OnDestroy, AfterViewChecked {
 
           if (rc && rc.elementRef) {
             setTimeout(() => {
-              document.getElementById("contents").scrollTop += rc.elementRef.nativeElement.getBoundingClientRect().top - rcY
+              document.body.scrollTop += rc.elementRef.nativeElement.getBoundingClientRect().top - rcY
             }, 0);
           }
         });

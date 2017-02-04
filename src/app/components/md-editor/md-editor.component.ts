@@ -6,7 +6,9 @@ import {
   forwardRef,
   ViewChild,
   ElementRef,
-  ChangeDetectorRef
+  ChangeDetectorRef, 
+  Output,
+  EventEmitter
 } from '@angular/core';
 import {MdSnackBar} from '@angular/material';
 import { Http,Headers } from '@angular/http';
@@ -28,7 +30,11 @@ import { MdTabChangeEvent } from '@angular/material';
   ]
 })
 export class MdEditorComponent implements OnInit, ControlValueAccessor {
+  @Output()
+  tefocus=new EventEmitter();
 
+  @Output()
+  teblur=new EventEmitter();
 
   constructor(private http:Http,
   public cdr: ChangeDetectorRef,

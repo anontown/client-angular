@@ -29,9 +29,9 @@ import {
 } from './components';
 
 import {
-    ResWriteComponent,
-    ProfileComponent,
-    TopicAutoScrollMenuComponent,
+    ResWriteDialogComponent, 
+    ProfileDialogComponent,
+    TopicAutoScrollMenuDialogComponent,
     ButtonDialogComponent
 } from './dialogs';
 
@@ -107,10 +107,10 @@ AtApiService.serverURL = Config.serverURL;
 
         AppComponent,
         TopicHistoryComponent,
-        ProfileComponent,
+        ProfileDialogComponent,
         UserProfileAddComponent,
         UserProfileEditComponent,
-        ResWriteComponent,
+        ResWriteDialogComponent,
         ResComponent,
         TopicDataComponent,
         TopicEditComponent,
@@ -123,7 +123,7 @@ AtApiService.serverURL = Config.serverURL;
         UserMsgComponent,
         UserMsgComponent,
         FavoComponent,
-        TopicAutoScrollMenuComponent,
+        TopicAutoScrollMenuDialogComponent,
         TopicListItemComponent,
         ButtonDialogComponent,
         MdEditorComponent,
@@ -137,9 +137,9 @@ AtApiService.serverURL = Config.serverURL;
     ],
     entryComponents: [
         //モーダルで使うコンポーネント
-        ProfileComponent,
-        ResWriteComponent,
-        TopicAutoScrollMenuComponent,
+        ProfileDialogComponent,
+        ResWriteDialogComponent,
+        TopicAutoScrollMenuDialogComponent,
         ButtonDialogComponent
     ]
 

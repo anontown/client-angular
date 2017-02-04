@@ -8,7 +8,14 @@
 <app-oekaki *ngIf="isOekaki" (ok)="imgur($event)"></app-oekaki>
 <md-tab-group (selectChange)="tabChange($event)">
   <md-tab label="Edit">
-    <md-textarea class="edit" controls [(ngModel)]="value" [rows]="5"></md-textarea>
+    <md-textarea
+      (blur)="teblur.emit($event)"
+      (focus)="tefocus.emit($event)"
+      class="edit"
+      controls 
+      [(ngModel)]="value" 
+      [rows]="5">
+    </md-textarea>
   </md-tab>
   <md-tab label="Preview">
     <div class="preview" [innerHTML]="mdValue|html"></div>

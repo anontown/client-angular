@@ -3,7 +3,6 @@ import { AtApiService } from 'anontown';
 import {MdSnackBar} from '@angular/material';
 
 @Component({
-  selector: 'app-tags',
   templateUrl: './tags.component.html',
   styleUrls: ['./tags.component.scss']
 })

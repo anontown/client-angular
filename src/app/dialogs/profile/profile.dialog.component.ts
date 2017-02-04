@@ -9,11 +9,10 @@ import { Profile } from 'anontown';
 import { UserService } from '../../services'
 
 @Component({
-  selector: 'app-profile',
-  templateUrl: './profile.component.html',
+  templateUrl: './profile.dialog.component.html',
   changeDetection: ChangeDetectionStrategy.Default
 })
-export class ProfileComponent implements OnInit, OnDestroy {
+export class ProfileDialogComponent implements OnInit, OnDestroy {
   @Input()
   profile: Profile;
 

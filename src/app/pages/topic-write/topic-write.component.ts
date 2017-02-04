@@ -9,7 +9,6 @@ import { Router } from '@angular/router';
 
 
 @Component({
-    selector: 'app-topic-write',
     templateUrl: './topic-write.component.html',
     changeDetection: ChangeDetectionStrategy.Default
 })

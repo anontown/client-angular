@@ -6,7 +6,6 @@ import { Topic, AtApiService } from 'anontown';
 import {MdSnackBar} from '@angular/material';
 import * as Immutable from 'immutable';
 @Component({
-    selector: 'app-favo',
     templateUrl: './favo.component.html',
     styleUrls: ['./favo-component.scss'],
     changeDetection: ChangeDetectionStrategy.Default

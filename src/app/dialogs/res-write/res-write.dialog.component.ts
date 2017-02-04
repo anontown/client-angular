@@ -6,7 +6,7 @@ import {
   NgZone,
   OnInit,
   OnDestroy,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
 } from '@angular/core';
 import {
   AtApiService,
@@ -18,11 +18,10 @@ import {
 import { UserService } from '../../services';
 
 @Component({
-  selector: 'app-res-write',
-  templateUrl: './res-write.component.html',
+  templateUrl: './res-write.dialog.component.html',
   changeDetection: ChangeDetectionStrategy.Default
 })
-export class ResWriteComponent implements OnInit, OnDestroy {
+export class ResWriteDialogComponent implements OnInit, OnDestroy {
   private name = "";
   private text = "";
   private profile: string | null = null;

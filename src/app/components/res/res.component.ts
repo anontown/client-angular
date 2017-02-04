@@ -22,7 +22,7 @@ import {
 import { UserService, IUserDataListener } from '../../services';
 import { MdDialog } from '@angular/material';
 
-import { ProfileComponent, ResWriteComponent, ButtonDialogComponent } from '../../dialogs';
+import { ProfileDialogComponent, ResWriteDialogComponent, ButtonDialogComponent } from '../../dialogs';
 import {MdSnackBar} from '@angular/material';
 
 @Component({
@@ -82,7 +82,7 @@ export class ResComponent implements OnInit, OnDestroy {
 
 
   reply() {
-    let dialog = this.dialog.open(ResWriteComponent);
+    let dialog = this.dialog.open(ResWriteDialogComponent);
     let com = dialog.componentInstance;
     com.topic = this.res.topic;
     com.reply = this.res;
@@ -218,7 +218,7 @@ export class ResComponent implements OnInit, OnDestroy {
 
   async profileOpen() {
     try{
-      this.dialog.open(ProfileComponent).componentInstance.profile = await this.api.findProfileOne(this.user.ud ? this.user.ud.auth : null, {
+      this.dialog.open(ProfileDialogComponent).componentInstance.profile = await this.api.findProfileOne(this.user.ud ? this.user.ud.auth : null, {
         id: this.res.profile as string
       });
     }catch(_e){
