@@ -25,7 +25,8 @@ import {
     TopicListItemComponent,
     MdEditorComponent,
     TopicDataComponent,
-    OekakiComponent
+    OekakiComponent,
+    ResWriteComponent
 } from './components';
 
 import {
@@ -46,7 +47,8 @@ import {
     UserMsgPageComponent,
     UserNoticePageComponent,
     UserProfilePageComponent,
-    TagsPageComponent
+    TagsPageComponent,
+    ResWritePageComponent
 } from './pages';
 import { Config } from './config';
 
@@ -72,6 +74,10 @@ AtApiService.serverURL = Config.serverURL;
             {
                 path: 'topic/write',
                 component: TopicWritePageComponent
+            },
+            {
+                path: 'topic/:id/write',
+                component: ResWritePageComponent
             },
             {
                 path: 'topic/:id',
@@ -106,6 +112,8 @@ AtApiService.serverURL = Config.serverURL;
         HtmlPipe,
 
         AppComponent,
+        ResWritePageComponent,
+        ResWriteComponent,
         TopicHistoryComponent,
         ProfileDialogComponent,
         UserProfileAddComponent,

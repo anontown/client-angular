@@ -25,6 +25,8 @@ import { MdDialog } from '@angular/material';
 import { ProfileDialogComponent, ResWriteDialogComponent, ButtonDialogComponent } from '../../dialogs';
 import {MdSnackBar} from '@angular/material';
 
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-res',
   templateUrl: './res.component.html',
@@ -52,10 +54,13 @@ export class ResComponent implements OnInit, OnDestroy {
     private dialog: MdDialog,
     public elementRef: ElementRef,
     private cdr: ChangeDetectorRef,
-    public snackBar: MdSnackBar) {
+    public snackBar: MdSnackBar,
+    private router:Router) {
   }
 
   private udListener: IUserDataListener;
+
+  private isIOS=navigator.userAgent.match(/iPhone|iPad/);
 
 
   ngOnInit() {
@@ -82,13 +87,14 @@ export class ResComponent implements OnInit, OnDestroy {
 
 
   reply() {
-    let dialog = this.dialog.open(ResWriteDialogComponent);
-    let com = dialog.componentInstance;
-    com.topic = this.res.topic;
-    com.reply = this.res;
-    com.write.subscribe(() => {
-      dialog.close();
-    });
+    if(!this.isIOS){
+      let dialog = this.dialog.open(ResWriteDialogComponent);
+      let com = dialog.componentInstance;
+      com.topic = this.res.topic;
+      com.reply = this.res;
+    }else{
+      this.router.navigate(['topic',this.res.topic,'write'], { queryParams: { reply:this.res.id } });
+    }
   }
 
   async hashClick() {

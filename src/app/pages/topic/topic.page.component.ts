@@ -22,7 +22,7 @@ import {
   TopicAutoScrollMenuDialogComponent,
   ResWriteDialogComponent
 } from '../../dialogs';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute,Router } from '@angular/router';
 import { ResComponent } from '../../components';
 import * as Immutable from 'immutable';
 import { MdSnackBar } from '@angular/material';
@@ -46,8 +46,11 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
     private route: ActivatedRoute,
     private zone: NgZone,
     private dialog: MdDialog,
-    public snackBar: MdSnackBar) {
+    public snackBar: MdSnackBar,
+    private router:Router) {
   }
+
+  private isIOS=navigator.userAgent.match(/iPhone|iPad/);
 
   private intervalID: any;
 
@@ -93,13 +96,14 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   writeMenu() {
-    let dialog = this.dialog.open(ResWriteDialogComponent);
-    let com = dialog.componentInstance;
-    com.topic = this.topic;
-    com.reply = null;
-    com.write.subscribe(() => {
-      dialog.close();
-    })
+    if(!this.isIOS){
+      let dialog = this.dialog.open(ResWriteDialogComponent);
+      let com = dialog.componentInstance;
+      com.topic = this.topic;
+      com.reply = null;
+    }else{
+      this.router.navigate(['topic',this.topic.id,'write']);
+    }
   }
 
   update(topic: Topic) {
@@ -130,7 +134,7 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   async ngOnInit() {
     let id: string = "";
-    this.route.params.forEach((params: Params) => {
+    this.route.params.forEach((params) => {
       id = params["id"];
     });
 

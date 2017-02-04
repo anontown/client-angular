@@ -7,3 +7,4 @@ export * from './topic-history/topic-history.component';
 export * from './md-editor/md-editor.component';
 export * from './topic-data/topic-data.component';
 export * from './oekaki/oekaki.component';
+export * from './res-write/res-write.component';
