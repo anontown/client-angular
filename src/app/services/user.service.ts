@@ -47,7 +47,14 @@ export class UserService {
         key: token.key
       };
 
-      let storage = Storage.fromJSON(await this.api.getTokenStorage(auth));
+      let storageStr="";
+      try{
+        storageStr=await this.api.getTokenStorage(auth,{name:"main"});
+      }catch(_e){
+        storageStr="";
+      }
+
+      let storage = Storage.fromJSON(storageStr);
 
       let profiles = Immutable.List(await this.api.findProfileAll(auth));
 

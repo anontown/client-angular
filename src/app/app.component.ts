@@ -84,6 +84,7 @@ export class AppComponent implements OnInit, OnDestroy {
     if (this.user.ud !== null) {
       try{
         await this.api.setTokenStorage(this.user.ud.auth, {
+          name:"main",
           value: this.user.ud.storage.toJSON()
         });
       }catch(_e){
