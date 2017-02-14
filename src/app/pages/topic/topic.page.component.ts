@@ -17,12 +17,12 @@ import {
   Res,
 } from 'anontown';
 import { Config } from '../../config';
-import { UserService, IUserDataListener } from '../../services';
+import { UserService, IUserDataListener, ResponsiveService } from '../../services';
 import {
   TopicAutoScrollMenuDialogComponent,
   ResWriteDialogComponent
 } from '../../dialogs';
-import { ActivatedRoute,Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ResComponent } from '../../components';
 import * as Immutable from 'immutable';
 import { MdSnackBar } from '@angular/material';
@@ -40,6 +40,10 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
   private reses = Immutable.List<Res>();
   private limit = 50;
 
+  //全レス読んだか
+  private isReadAllNew = false;
+  private isReadAllOld = false;
+
   constructor(
     private user: UserService,
     private api: AtApiService,
@@ -47,10 +51,11 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
     private zone: NgZone,
     private dialog: MdDialog,
     public snackBar: MdSnackBar,
-    private router:Router) {
+    private router: Router,
+    public rs: ResponsiveService) {
   }
 
-  private isIOS=navigator.userAgent.match(/iPhone|iPad/);
+  private isIOS = navigator.userAgent.match(/iPhone|iPad/);
 
   private intervalID: any;
 
@@ -96,13 +101,13 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   writeMenu() {
-    if(!this.isIOS){
+    if (!this.isIOS) {
       let dialog = this.dialog.open(ResWriteDialogComponent);
       let com = dialog.componentInstance;
       com.topic = this.topic;
       com.reply = null;
-    }else{
-      this.router.navigate(['topic',this.topic.id,'write']);
+    } else {
+      this.router.navigate(['topic', this.topic.id, 'write']);
     }
   }
 
@@ -124,9 +129,11 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   private udListener: IUserDataListener;
 
+  private isDestroy=false;
   ngOnDestroy() {
-    this.scrollSave();
-    this.scrollObs.unsubscribe();
+    this.isDestroy=true;
+    this.obs.forEach(x => x.unsubscribe);
+    this.storageSave(null);
     clearInterval(this.intervalID);
     this.socket.close();
     this.user.removeUserDataListener(this.udListener);
@@ -156,14 +163,18 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
         //読んだことあるなら続きから
         try {
           await this.lock(async () => {
-            this.reses = Immutable.List(await this.api.findRes(ud.auth,
+            let reses = await this.api.findRes(ud.auth,
               {
                 topic: this.topic.id,
                 type: "before",
                 equal: true,
                 date: (await this.api.findResOne(ud.auth, { id: (ud.storage.topicRead.get(this.topic.id).res) })).date,
                 limit: this.limit
-              }));
+              })
+            if (reses.length !== this.limit) {
+              this.isReadAllOld = true;
+            }
+            this.reses = Immutable.List(reses);
           });
         } catch (_e) {
           this.snackBar.open("レス取得に失敗");
@@ -186,64 +197,97 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
         }
       }, 200);
 
-      this.scrollObs = Observable.fromEvent(document.body, "scroll")
+      this.obs.push(Observable.fromEvent(window, "scroll")
         .throttleTime(1000)
         .subscribe(() => {
+          if(this.isDestroy){
+            return;
+          }
           this.scrollSave();
-        });
+        }));
+
+      this.obs.push(Observable.fromEvent(window, "scroll")
+        .map(() => window.scrollY)
+        .filter(x => x + 10 >= document.body.clientHeight - window.innerHeight)
+        .debounceTime(500)
+        .subscribe(() => {
+          this.readOld();
+        }));
     });
+
+    this.obs.push(Observable.fromEvent(window, "scroll")
+      .map(() => window.scrollY)
+      .filter(x => x <= 10)
+      .debounceTime(500)
+      .subscribe(() => {
+        this.readNew();
+      }));
 
     //自動更新
     this.socket = socketio.connect(Config.serverURL, { forceNew: true });
     this.socket.emit("topic-join", this.topic.id);
     this.socket.on("topic", (msg: string) => {
       if (msg === this.topic.id) {
+        this.isReadAllNew = false;
         this.readNew();
       }
     });
   }
 
-  private scrollSave(){
-      if (this.user.ud) {
-        //最短距離のレスID
-        var res: Res;
-        {
-          let getTop = (rc: ResComponent) => rc.elementRef.nativeElement.getBoundingClientRect().top;
-          //最短
-          let rc: ResComponent | null = null;
-          this.resE.forEach(x => {
-            if (rc === null) {
-              rc = x;
-            } else if (Math.abs(getTop(rc)) > Math.abs(getTop(x))) {
-              rc = x;
-            }
-          });
+  private scrollSave() {
+    if (this.user.ud) {
+      //最短距離のレスID
+      var res: Res;
+      {
+        let getTop = (rc: ResComponent) => rc.elementRef.nativeElement.getBoundingClientRect().top;
+        //最短
+        let rc: ResComponent | null = null;
+        this.resE.forEach(x => {
           if (rc === null) {
-            return;
+            rc = x;
+          } else if (Math.abs(getTop(rc)) > Math.abs(getTop(x))) {
+            rc = x;
           }
-          res = (rc as ResComponent).res;
+        });
+        if (rc === null) {
+          return;
         }
-
-        //セット
-        let storage = this.user.ud.storage;
-        storage.topicRead = storage.topicRead.set(this.topic.id, {
-          res: res.id,
-          count: this.topic.resCount
-        })
-        this.user.updateUserData();
+        res = (rc as ResComponent).res;
       }
+      //セット
+      this.storageSave(res.id);
     }
+  }
 
-  private scrollObs: Subscription;
+  storageSave(res:string){
+    if (!this.user.ud) {
+      return;
+    }
+    if(res===null){
+      res=this.user.ud.storage.topicRead.get(this.topic.id).res;
+    }
+    let storage = this.user.ud.storage;
+    storage.topicRead = storage.topicRead.set(this.topic.id, {
+      res: res,
+      count: this.topic.resCount
+    })
+    this.user.updateUserData();
+  }
+
+  private obs: Subscription[] = [];
 
   private async findNew() {
     try {
       await this.lock(async () => {
-        this.reses = Immutable.List(await this.api.findResNew(this.user.ud ? this.user.ud.auth : null,
+        let reses = await this.api.findResNew(this.user.ud ? this.user.ud.auth : null,
           {
             topic: this.topic.id,
             limit: this.limit
-          }));
+          });
+        if (reses.length !== this.limit) {
+          this.isReadAllNew = true;
+        }
+        this.reses = Immutable.List(reses);
       });
     } catch (_e) {
       this.snackBar.open("レス取得に失敗");
@@ -251,6 +295,9 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   async readNew() {
+    if (this.isReadAllNew) {
+      return;
+    }
     try {
       if (this.reses.size === 0) {
         this.findNew();
@@ -263,7 +310,7 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
             rcY = rc.elementRef.nativeElement.getBoundingClientRect().top as number;
           }
 
-          this.reses = Immutable.List((await this.api.findRes(this.user.ud ? this.user.ud.auth : null,
+          let reses = await this.api.findRes(this.user.ud ? this.user.ud.auth : null,
             {
               topic: this.topic.id,
               type: "after",
@@ -271,7 +318,11 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
               date: this.reses.first().date,
               limit: this.limit
             }
-          )).concat(this.reses.toArray()));
+          );
+          if (reses.length !== this.limit) {
+            this.isReadAllNew = true;
+          }
+          this.reses = Immutable.List(reses.concat(this.reses.toArray()));
 
           if (rc && rc.elementRef) {
             setTimeout(() => {
@@ -286,12 +337,15 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   async readOld() {
+    if (this.isReadAllOld) {
+      return;
+    }
     try {
       if (this.reses.size === 0) {
         this.findNew();
       } else {
         await this.lock(async () => {
-          this.reses = Immutable.List(this.reses.toArray().concat(await this.api.findRes(this.user.ud ? this.user.ud.auth : null,
+          let reses = await this.api.findRes(this.user.ud ? this.user.ud.auth : null,
             {
               topic: this.topic.id,
               type: "before",
@@ -299,7 +353,11 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
               date: this.reses.last().date,
               limit: this.limit
             }
-          )));
+          );
+          if (reses.length !== this.limit) {
+            this.isReadAllOld = true;
+          }
+          this.reses = Immutable.List(this.reses.toArray().concat(reses));
         });
       }
     } catch (_e) {

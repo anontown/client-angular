@@ -12,6 +12,7 @@ import {
 } from './pipes';
 import {
     UserService,
+    ResponsiveService
 } from './services';
 import 'hammerjs';
 
@@ -142,6 +143,7 @@ AtApiService.serverURL = Config.serverURL;
     bootstrap: [AppComponent],
     providers: [
         UserService,
+        ResponsiveService
     ],
     entryComponents: [
         //モーダルで使うコンポーネント

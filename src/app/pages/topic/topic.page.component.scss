@@ -25,3 +25,18 @@
 .title{
     font-size:36px;
 }
+
+.contents{
+    display: table;
+    width: 100%;
+}
+
+.sidebar-contents{
+    display: table-cell;
+    width: 30%;
+}
+
+.main-contents{
+    display: table-cell;
+    width: 70%;
+}
