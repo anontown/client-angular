@@ -1,20 +1,19 @@
-<div *ngIf="topic&&user.ud!==undefined" class="fab-main">
+<div *ngIf="topic&&user.ud.getValue()!==undefined" class="fab-main">
   <button md-mini-fab *ngIf="user.ud!==null" (click)="favo()">
-        <md-icon>{{user.ud.storage.topicFavo.has(topic.id)?'star':'star_border'}}</md-icon>
+        <md-icon>{{isFavo?'star':'star_border'}}</md-icon>
     </button>
   <button md-mini-fab (click)="autoScrollMenu()">
         <md-icon>play_circle_outline</md-icon>
         </button>
-  <button md-fab *ngIf="user.ud!==null&&topic.active" (click)="writeMenu()">
+  <button md-fab *ngIf="user.ud.getValue()!==null&&topic.active" (click)="writeMenu()">
         <md-icon>edit</md-icon>
     </button>
 </div>
 <div *ngIf="topic" [ngClass]="{contents:(rs.size|async)==='lg'}">
   <div class="sidebar-contents" *ngIf="(rs.size|async)==='lg'">
-    <md-card>aaaaaaaa</md-card>
   </div>
   <div [ngClass]="{'main-contents':(rs.size|async)==='lg'}" class="main-column">
-    <app-topic-data (update)="update($event)" [topic]="topic" *ngIf="(rs.size|async)==='sm'"></app-topic-data>
+    <app-topic-data (update)="update($event)" [topic]="topic"></app-topic-data>
     <app-res #resE *ngFor="let r of reses" [res]="r" (update)="updateRes($event)"></app-res>
   </div>
 </div>

@@ -3,9 +3,11 @@ import {
     Res,
     AtApiService,
 } from 'anontown';
-import { UserService, IUserDataListener } from '../../services';
+import { UserService } from '../../services';
 import * as Immutable from 'immutable';
 import {MdSnackBar} from '@angular/material';
+import { Subscription } from 'rxjs';
+
 
 @Component({
     templateUrl: './user-notice.page.component.html',
@@ -21,23 +23,23 @@ export class UserNoticePageComponent implements OnInit, OnDestroy {
         public snackBar: MdSnackBar) {
     }
 
-    private udListener: IUserDataListener;
+    private subscription: Subscription;
     ngOnInit() {
         document.title="通知"
         let isInit = false;
-        this.udListener = this.user.addUserDataListener(() => {
+        this.subscription = this.user.ud.subscribe((ud) => {
             if (isInit) {
                 return;
             }
             isInit = true;
-            if (this.user.ud !== null) {
+            if (ud !== null) {
                 this.findNew();
             }
         });
     }
 
     ngOnDestroy() {
-        this.user.removeUserDataListener(this.udListener);
+        this.subscription.unsubscribe();
     }
 
     updateRes(res: Res) {
@@ -45,8 +47,9 @@ export class UserNoticePageComponent implements OnInit, OnDestroy {
     }
 
     private async findNew() {
+        let ud=this.user.ud.getValue();
         try{
-            this.reses = Immutable.List(await this.api.findResNoticeNew(this.user.ud.auth, {
+            this.reses = Immutable.List(await this.api.findResNoticeNew(ud.auth, {
                 limit: this.limit
             }));
         }catch(_e){
@@ -55,11 +58,12 @@ export class UserNoticePageComponent implements OnInit, OnDestroy {
     }
 
     async readNew() {
+        let ud=this.user.ud.getValue();
         try{
             if (this.reses.size === 0) {
                 this.findNew();
             } else {
-                this.reses = Immutable.List((await this.api.findResNotice(this.user.ud.auth,
+                this.reses = Immutable.List((await this.api.findResNotice(ud.auth,
                     {
                         type: "after",
                         equal: false,
@@ -73,11 +77,12 @@ export class UserNoticePageComponent implements OnInit, OnDestroy {
     }
 
     async readOld() {
+        let ud=this.user.ud.getValue();
         try{
             if (this.reses.size === 0) {
                 this.findNew();
             } else {
-                this.reses = Immutable.List(this.reses.toArray().concat(await this.api.findResNotice(this.user.ud.auth,
+                this.reses = Immutable.List(this.reses.toArray().concat(await this.api.findResNotice(ud.auth,
                     {
                         type: "before",
                         equal: false,

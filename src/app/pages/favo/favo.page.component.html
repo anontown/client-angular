@@ -1,4 +1,4 @@
-<div *ngIf="user.ud!==null&&user.ud!==undefined">
+<div *ngIf="user.ud.getValue()!==null&&user.ud.getValue()!==undefined">
   <md-tab-group>
     <md-tab label="トピック">
       <button md-icon-button (click)="update()">
@@ -9,7 +9,7 @@
     <md-tab label="板">
       <md-card>
         <md-list>
-          <md-list-item *ngFor="let t of user.ud.storage.tagsFavo">
+          <md-list-item *ngFor="let t of user.ud.getValue().storage.tagsFavo">
             <a [routerLink]="['/topic/search']" [queryParams]="{tags:t.join(' ')}">
               {{t.size!==0?t.join(','):'(なし)'}}
             </a>
@@ -22,6 +22,6 @@
     </md-tab>
   </md-tab-group>
 </div>
-<md-card *ngIf="user.ud===null&&user.ud!==undefined">
+<md-card *ngIf="user.ud.getValue()===null&&user.ud.getValue()!==undefined">
   ログインしないと表示出来ません。
 </md-card>

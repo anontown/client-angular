@@ -46,8 +46,9 @@ export class UserProfileEditComponent implements OnInit, OnDestroy {
     }
 
     async ok() {
+        let ud=this.user.ud.getValue();
         try{
-            let profile = await this.api.updateProfile(this.user.ud.auth, {
+            let profile = await this.api.updateProfile(ud.auth, {
                 id: this.profile.id,
                 name: this.name,
                 text: this.text,

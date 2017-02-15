@@ -32,8 +32,9 @@ export class TopicWritePageComponent implements OnInit, OnDestroy {
     }
 
     async write() {
+        let ud=this.user.ud.getValue();
         try{
-            let topic = await this.api.createTopic(this.user.ud.auth, {
+            let topic = await this.api.createTopic(ud.auth, {
                 title: this.title,
                 tags: this.tags.length === 0 ? [] : this.tags.split(/[\s　\,]+/),
                 text: this.text,

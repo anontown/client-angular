@@ -17,6 +17,7 @@ import {
 
 import { UserService } from '../../services';
 
+
 @Component({
   selector: 'app-res-write',
   templateUrl: './res-write.component.html',
@@ -33,6 +34,7 @@ export class ResWriteComponent implements OnInit, OnDestroy {
   write = new EventEmitter<Res>();
 
   markdown = true;
+
 
   ngOnInit() {
   }
@@ -64,6 +66,7 @@ export class ResWriteComponent implements OnInit, OnDestroy {
   reply: Res | string | null = null;
 
   async ok() {
+    let ud=this.user.ud.getValue();
     try {
       let text: string;
       if (this.text.length !== 0 && !this.markdown) {
@@ -71,7 +74,7 @@ export class ResWriteComponent implements OnInit, OnDestroy {
       } else {
         text = this.text;
       }
-      let res = await this.api.createRes(this.user.ud.auth, {
+      let res = await this.api.createRes(ud.auth, {
         topic: typeof this.topic === "string" ? this.topic : this.topic.id,
         name: this.name,
         text: text,

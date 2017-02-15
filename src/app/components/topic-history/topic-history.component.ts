@@ -49,11 +49,12 @@ export class TopicHistoryComponent implements OnInit, OnDestroy {
     }
 
     async hashClick() {
+        let ud=this.user.ud.getValue();
         try{
             if (this.hashReses.size !== 0) {
                 this.hashReses = Immutable.List<Res>();
             } else {
-                this.hashReses = Immutable.List(await this.api.findResHash(this.user.ud.auth, {
+                this.hashReses = Immutable.List(await this.api.findResHash(ud.auth, {
                     topic: this.topic.id,
                     hash: this.history.hash
                 }));

@@ -6,7 +6,8 @@ import {
   OnDestroy,
   NgZone,
   AfterViewChecked,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
+  ChangeDetectorRef
 } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import * as socketio from 'socket.io-client';
@@ -17,7 +18,7 @@ import {
   Res,
 } from 'anontown';
 import { Config } from '../../config';
-import { UserService, IUserDataListener, ResponsiveService } from '../../services';
+import { UserService, ResponsiveService } from '../../services';
 import {
   TopicAutoScrollMenuDialogComponent,
   ResWriteDialogComponent
@@ -52,6 +53,7 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
     private dialog: MdDialog,
     public snackBar: MdSnackBar,
     private router: Router,
+    private cdr: ChangeDetectorRef,
     public rs: ResponsiveService) {
   }
 
@@ -127,16 +129,14 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
   }
 
-  private udListener: IUserDataListener;
 
   private isDestroy=false;
   ngOnDestroy() {
     this.isDestroy=true;
-    this.obs.forEach(x => x.unsubscribe);
+    this.subscriptions.forEach(x => x.unsubscribe);
     this.storageSave(null);
     clearInterval(this.intervalID);
     this.socket.close();
-    this.user.removeUserDataListener(this.udListener);
   }
 
   async ngOnInit() {
@@ -153,8 +153,7 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
 
     let isInit = false;
-    this.udListener = this.user.addUserDataListener(async () => {
-      let ud = this.user.ud;
+    this.subscriptions.push(this.user.ud.subscribe(async (ud) => {
       if (isInit) {
         return;
       }
@@ -188,7 +187,7 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
           this.snackBar.open("レス取得に失敗");
         }
       }
-    });
+    }));
 
     this.zone.runOutsideAngular(() => {
       this.intervalID = setInterval(() => {
@@ -197,7 +196,7 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
         }
       }, 200);
 
-      this.obs.push(Observable.fromEvent(window, "scroll")
+      this.subscriptions.push(Observable.fromEvent(window, "scroll")
         .throttleTime(1000)
         .subscribe(() => {
           if(this.isDestroy){
@@ -206,7 +205,7 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
           this.scrollSave();
         }));
 
-      this.obs.push(Observable.fromEvent(window, "scroll")
+      this.subscriptions.push(Observable.fromEvent(window, "scroll")
         .map(() => window.scrollY)
         .filter(x => x + 10 >= document.body.clientHeight - window.innerHeight)
         .debounceTime(500)
@@ -215,7 +214,7 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
         }));
     });
 
-    this.obs.push(Observable.fromEvent(window, "scroll")
+    this.subscriptions.push(Observable.fromEvent(window, "scroll")
       .map(() => window.scrollY)
       .filter(x => x <= 10)
       .debounceTime(500)
@@ -235,7 +234,7 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   private scrollSave() {
-    if (this.user.ud) {
+    if (this.user.ud.getValue()) {
       //最短距離のレスID
       var res: Res;
       {
@@ -260,26 +259,28 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   storageSave(res:string){
-    if (!this.user.ud) {
+    let ud=this.user.ud.getValue();
+    if (!ud) {
       return;
     }
     if(res===null){
-      res=this.user.ud.storage.topicRead.get(this.topic.id).res;
+      res=ud.storage.topicRead.get(this.topic.id).res;
     }
-    let storage = this.user.ud.storage;
+    let storage = ud.storage;
     storage.topicRead = storage.topicRead.set(this.topic.id, {
       res: res,
       count: this.topic.resCount
     })
-    this.user.updateUserData();
+    this.user.ud.next(ud);
   }
 
-  private obs: Subscription[] = [];
+  private subscriptions: Subscription[] = [];
 
   private async findNew() {
+    let ud=this.user.ud.getValue();
     try {
       await this.lock(async () => {
-        let reses = await this.api.findResNew(this.user.ud ? this.user.ud.auth : null,
+        let reses = await this.api.findResNew(ud ? ud.auth : null,
           {
             topic: this.topic.id,
             limit: this.limit
@@ -295,6 +296,7 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   async readNew() {
+    let ud=this.user.ud.getValue();
     if (this.isReadAllNew) {
       return;
     }
@@ -310,7 +312,7 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
             rcY = rc.elementRef.nativeElement.getBoundingClientRect().top as number;
           }
 
-          let reses = await this.api.findRes(this.user.ud ? this.user.ud.auth : null,
+          let reses = await this.api.findRes(ud ? ud.auth : null,
             {
               topic: this.topic.id,
               type: "after",
@@ -331,12 +333,14 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
           }
         });
       }
+      this.cdr.markForCheck();
     } catch (_e) {
       this.snackBar.open("レス取得に失敗");
     }
   }
 
   async readOld() {
+    let ud=this.user.ud.getValue();
     if (this.isReadAllOld) {
       return;
     }
@@ -345,7 +349,7 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
         this.findNew();
       } else {
         await this.lock(async () => {
-          let reses = await this.api.findRes(this.user.ud ? this.user.ud.auth : null,
+          let reses = await this.api.findRes(ud ? ud.auth : null,
             {
               topic: this.topic.id,
               type: "before",
@@ -360,15 +364,21 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
           this.reses = Immutable.List(this.reses.toArray().concat(reses));
         });
       }
+      this.cdr.markForCheck();
     } catch (_e) {
       this.snackBar.open("レス取得に失敗");
     }
   }
 
-  favo() {
-    let storage = this.user.ud.storage;
+  async favo() {
+    let ud=this.user.ud.getValue();
+    let storage = ud.storage;
     let tf = storage.topicFavo;
-    storage.topicFavo = tf.has(this.topic.id) ? tf.delete(this.topic.id) : tf.add(this.topic.id);
-    this.user.updateUserData();
+    storage.topicFavo = this.isFavo ? tf.delete(this.topic.id) : tf.add(this.topic.id);
+    this.user.ud.next(ud);
+  }
+
+  get isFavo():boolean{
+    return this.user.ud.getValue().storage.topicFavo.has(this.topic.id)
   }
 }

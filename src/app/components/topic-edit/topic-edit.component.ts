@@ -46,8 +46,9 @@ export class TopicEditComponent implements OnInit, OnDestroy {
     }
 
     async ok() {
+        let ud=this.user.ud.getValue();
         try{
-            let topic = await this.api.updateTopic(this.user.ud.auth, {
+            let topic = await this.api.updateTopic(ud.auth, {
                 id: this.topic.id,
                 title: this.title,
                 tags: this.tags.length === 0 ? [] : this.tags.split(/[\s　\,]+/),

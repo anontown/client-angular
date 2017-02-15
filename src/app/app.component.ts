@@ -53,11 +53,11 @@ export class AppComponent implements OnInit, OnDestroy {
           let token = await this.api.findTokenOne(auth);
           await this.user.login(token);
         } else {
-          this.user.setUserData(null);
+          this.user.ud.next(null);
         }
       }catch(_e){
         this.snackBar.open("認証に失敗");
-        this.user.setUserData(null);
+        this.user.ud.next(null);
       }
     });
   }
@@ -70,7 +70,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   logout() {
-    this.user.setUserData(null);
+    this.user.ud.next(null);
     localStorage.removeItem('token');
   }
 
@@ -81,11 +81,12 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   async save() {
-    if (this.user.ud !== null) {
+    let ud=this.user.ud.getValue();
+    if (ud !== null) {
       try{
-        await this.api.setTokenStorage(this.user.ud.auth, {
+        await this.api.setTokenStorage(ud.auth, {
           name:"main",
-          value: this.user.ud.storage.toJSON()
+          value: ud.storage.toJSON()
         });
       }catch(_e){
         this.snackBar.open("お気に入りなどのデータ保存に失敗");

@@ -20,8 +20,8 @@
     </span>
     <div [innerHTML]="res.mdtext|html" class="aa"></div>
   </div>
-  <div class="res-footer action" *ngIf="user.ud!==undefined">
-    <span *ngIf="!isSelf&&user.ud!==null&&res.voteFlag!==null">
+  <div class="res-footer action" *ngIf="user.ud.getValue()!==undefined">
+    <span *ngIf="!isSelf&&user.ud.getValue()!==null&&res.voteFlag!==null">
       <button (click)="uv()" md-icon-button>
         <md-icon [ngClass]="{'is-vote':res.voteFlag==='uv'}">thumb_up</md-icon>
       </button>
@@ -30,7 +30,7 @@
         <md-icon [ngClass]="{'is-vote':res.voteFlag==='dv'}">thumb_down</md-icon>
       </button>
     </span>
-    <span *ngIf="isSelf||user.ud===null||res.voteFlag===null">
+    <span *ngIf="isSelf||user.ud.getValue()===null||res.voteFlag===null">
       <md-icon class="vote">thumbs_up_down</md-icon> {{res.uv-res.dv}}
     </span>
     <button *ngIf="isSelf&&res.deleteFlag==='active'" (click)="del()" md-icon-button>

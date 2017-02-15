@@ -1,4 +1,4 @@
-<md-card *ngIf="user.ud!==undefined">
+<md-card *ngIf="user.ud.getValue()!==undefined">
   <div>
     <md-icon *ngIf="!topic.active">not_interested</md-icon>
     <md-icon *ngIf="topic.type==='one'">looks_one</md-icon>

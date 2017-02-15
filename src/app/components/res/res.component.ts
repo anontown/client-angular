@@ -10,6 +10,8 @@ import {
   OnDestroy
 } from '@angular/core';
 
+import { Subscription } from 'rxjs';
+
 import * as Immutable from 'immutable';
 
 
@@ -19,7 +21,7 @@ import {
 } from 'anontown';
 
 
-import { UserService, IUserDataListener } from '../../services';
+import { UserService } from '../../services';
 import { MdDialog } from '@angular/material';
 
 import { ProfileDialogComponent, ResWriteDialogComponent, ButtonDialogComponent } from '../../dialogs';
@@ -58,14 +60,13 @@ export class ResComponent implements OnInit, OnDestroy {
     private router:Router) {
   }
 
-  private udListener: IUserDataListener;
+  private subscription: Subscription;
 
   private isIOS=navigator.userAgent.match(/iPhone|iPad/);
 
 
   ngOnInit() {
-    this.udListener = this.user.addUserDataListener(() => {
-      let ud = this.user.ud;
+    this.subscription = this.user.ud.subscribe((ud) => {
       if (ud !== null) {
         this.isSelf = ud.token.user === this.res.user;
       } else {
@@ -77,7 +78,7 @@ export class ResComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.user.removeUserDataListener(this.udListener);
+    this.subscription.unsubscribe();
   }
 
   childrenUpdate(res: Res) {
@@ -98,12 +99,13 @@ export class ResComponent implements OnInit, OnDestroy {
   }
 
   async hashClick() {
+    let ud=this.user.ud.getValue();
     try{
       if (this.children.size !== 0) {
         this.children = Immutable.List<Res>();
         this.childrenMsg = null;
       } else {
-        this.children = Immutable.List(await this.api.findResHash(this.user.ud !== null ? this.user.ud.auth : null, {
+        this.children = Immutable.List(await this.api.findResHash(ud !== null ? ud.auth : null, {
           topic: this.res.topic,
           hash: this.res.hash
         }));
@@ -116,11 +118,12 @@ export class ResComponent implements OnInit, OnDestroy {
   }
 
   async sendReplyClick() {
+    let ud=this.user.ud.getValue();
     try{
       if (this.children.size !== 0) {
         this.children = Immutable.List<Res>();
       } else {
-        this.children = Immutable.List([await this.api.findResOne(this.user.ud !== null ? this.user.ud.auth : null, {
+        this.children = Immutable.List([await this.api.findResOne(ud !== null ? ud.auth : null, {
           id: this.res.reply as string
         })]);
       }
@@ -132,11 +135,12 @@ export class ResComponent implements OnInit, OnDestroy {
   }
 
   async receiveReplyClick() {
+    let ud=this.user.ud.getValue();
     try{
       if (this.children.size !== 0) {
         this.children = Immutable.List<Res>();
       } else {
-        this.children = Immutable.List(await this.api.findResReply(this.user.ud !== null ? this.user.ud.auth : null, {
+        this.children = Immutable.List(await this.api.findResReply(ud !== null ? ud.auth : null, {
           topic: this.res.topic,
           reply: this.res.id
         }));
@@ -149,23 +153,24 @@ export class ResComponent implements OnInit, OnDestroy {
   }
 
   async uv() {
+    let ud=this.user.ud.getValue();
     try{
       switch (this.res.voteFlag) {
         case "uv":
-          this.update.emit(await this.api.cvRes(this.user.ud.auth, {
+          this.update.emit(await this.api.cvRes(ud.auth, {
             id: this.res.id
           }));
           break;
         case "dv":
-          await this.api.cvRes(this.user.ud.auth, {
+          await this.api.cvRes(ud.auth, {
             id: this.res.id
           });
-          this.update.emit(await this.api.uvRes(this.user.ud.auth, {
+          this.update.emit(await this.api.uvRes(ud.auth, {
             id: this.res.id
           }));
           break;
         case "not":
-          this.update.emit(await this.api.uvRes(this.user.ud.auth, {
+          this.update.emit(await this.api.uvRes(ud.auth, {
             id: this.res.id
           }));
           break;
@@ -176,23 +181,24 @@ export class ResComponent implements OnInit, OnDestroy {
   }
 
   async dv() {
+    let ud=this.user.ud.getValue();
     try{
       switch (this.res.voteFlag) {
         case "dv":
-          this.update.emit(await this.api.cvRes(this.user.ud.auth, {
+          this.update.emit(await this.api.cvRes(ud.auth, {
             id: this.res.id
           }));
           break;
         case "uv":
-          await this.api.cvRes(this.user.ud.auth, {
+          await this.api.cvRes(ud.auth, {
             id: this.res.id
           });
-          this.update.emit(await this.api.dvRes(this.user.ud.auth, {
+          this.update.emit(await this.api.dvRes(ud.auth, {
             id: this.res.id
           }));
           break;
         case "not":
-          this.update.emit(await this.api.dvRes(this.user.ud.auth, {
+          this.update.emit(await this.api.dvRes(ud.auth, {
             id: this.res.id
           }));
           break;
@@ -203,6 +209,7 @@ export class ResComponent implements OnInit, OnDestroy {
   }
 
   async del() {
+    let ud=this.user.ud.getValue();
     try{
       let dialogRef = this.dialog.open(ButtonDialogComponent);
       let com = dialogRef.componentInstance;
@@ -212,7 +219,7 @@ export class ResComponent implements OnInit, OnDestroy {
       let result: boolean = await dialogRef.afterClosed().toPromise();
 
       if (result) {
-        this.update.emit(await this.api.delRes(this.user.ud.auth, {
+        this.update.emit(await this.api.delRes(ud.auth, {
           id: this.res.id
         }));
       }
@@ -223,8 +230,9 @@ export class ResComponent implements OnInit, OnDestroy {
   
 
   async profileOpen() {
+    let ud=this.user.ud.getValue();
     try{
-      this.dialog.open(ProfileDialogComponent).componentInstance.profile = await this.api.findProfileOne(this.user.ud ? this.user.ud.auth : null, {
+      this.dialog.open(ProfileDialogComponent).componentInstance.profile = await this.api.findProfileOne(ud ? ud.auth : null, {
         id: this.res.profile as string
       });
     }catch(_e){

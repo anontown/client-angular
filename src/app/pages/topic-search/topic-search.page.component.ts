@@ -99,15 +99,17 @@ export class TopicSearchPageComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
   }
 
-  favo() {
-    let storage = this.user.ud.storage;
+  async favo() {
+    let ud=this.user.ud.getValue();
+    let storage = ud.storage;
     let tf = storage.tagsFavo;
     let tags = Immutable.Set(this.tagArray);
     storage.tagsFavo = tf.has(tags) ? tf.delete(tags) : tf.add(tags);
-    this.user.updateUserData();
+    this.user.ud.next(ud);
   }
 
   get isFavo(): boolean {
-    return this.user.ud.storage.tagsFavo.has(Immutable.Set(this.tagArray));
+    let ud=this.user.ud.getValue();
+    return ud.storage.tagsFavo.has(Immutable.Set(this.tagArray));
   }
 }

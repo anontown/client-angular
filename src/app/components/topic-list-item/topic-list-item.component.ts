@@ -7,7 +7,8 @@ import {
   ChangeDetectorRef
 } from '@angular/core';
 import { Topic } from 'anontown';
-import { UserService, IUserDataListener } from '../../services';
+import { UserService } from '../../services';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-topic-list-item',
@@ -24,12 +25,11 @@ export class TopicListItemComponent implements OnInit, OnDestroy {
 
   }
 
-  private udListener: IUserDataListener;
+  private subscription: Subscription;
   newRes: number;
 
   ngOnInit() {
-    this.udListener = this.user.addUserDataListener(() => {
-      let ud = this.user.ud;
+    this.subscription = this.user.ud.subscribe((ud) => {
       if (ud && ud.storage.topicRead.has(this.topic.id)) {
         this.newRes = this.topic.resCount - ud.storage.topicRead.get(this.topic.id).count;
       } else {
@@ -40,6 +40,6 @@ export class TopicListItemComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.user.removeUserDataListener(this.udListener);
+    this.subscription.unsubscribe();
   }
 }

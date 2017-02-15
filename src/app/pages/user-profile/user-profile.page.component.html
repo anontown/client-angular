@@ -1,9 +1,9 @@
-<div *ngIf="user.ud!==null&&user.ud!==undefined">
+<div *ngIf="user.ud.getValue()!==null&&user.ud.getValue()!==undefined">
   <app-user-profile-add (add)="add($event)"></app-user-profile-add>
   <div>
-    <app-user-profile-edit *ngFor="let p of user.ud.profiles" [profile]="p" (update)="update($event)"></app-user-profile-edit>
+    <app-user-profile-edit *ngFor="let p of user.ud.getValue().profiles" [profile]="p" (update)="update($event)"></app-user-profile-edit>
   </div>
 </div>
-<md-card *ngIf="user.ud===null&&user.ud!==undefined">
+<md-card *ngIf="user.ud.getValue()===null&&user.ud.getValue()!==undefined">
   ログインしてください。
 </md-card>

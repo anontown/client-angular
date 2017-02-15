@@ -18,12 +18,14 @@ export class UserProfilePageComponent implements OnInit, OnDestroy {
   }
 
   update(pr: Profile) {
-    this.user.ud.profiles = this.user.ud.profiles.set(this.user.ud.profiles.findIndex(p => p.id === pr.id), pr);
-    this.user.updateUserData();
+    let ud=this.user.ud.getValue();
+    ud.profiles = ud.profiles.set(ud.profiles.findIndex(p => p.id === pr.id), pr);
+    this.user.ud.next(ud);
   }
 
   add(p: Profile) {
-    this.user.ud.profiles = this.user.ud.profiles.push(p);
-    this.user.updateUserData();
+    let ud=this.user.ud.getValue();
+    ud.profiles = ud.profiles.push(p);
+    this.user.ud.next(ud);
   }
 }

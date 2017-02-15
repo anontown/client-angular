@@ -1,4 +1,4 @@
-<md-dialog-content *ngIf="profile&&user.ud!==undefined">
+<md-dialog-content *ngIf="profile&&user.ud.getValue()!==undefined">
     {{profile.name}}●{{profile.sn}}
     <hr>
     <div [innerHTML]="profile.mdtext|html"></div>

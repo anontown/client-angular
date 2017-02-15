@@ -3,9 +3,11 @@ import {
     Msg,
     AtApiService,
 } from 'anontown';
-import { UserService, IUserDataListener } from '../../services';
+import { UserService } from '../../services';
 import * as Immutable from 'immutable';
 import {MdSnackBar} from '@angular/material';
+import { Subscription } from 'rxjs';
+
 
 @Component({
     templateUrl: './user-msg.page.component.html',
@@ -21,24 +23,25 @@ export class UserMsgPageComponent implements OnInit, OnDestroy {
         public snackBar: MdSnackBar) {
     }
 
-    private udListener: IUserDataListener;
+    private subscription: Subscription;
 
     ngOnInit() {
         document.title="お知らせ"
-        this.user.addUserDataListener(() => {
-            if (this.user.ud !== null) {
+        this.subscription=this.user.ud.subscribe((ud) => {
+            if (ud !== null) {
                 this.findNew();
             }
         });
     }
 
     ngOnDestroy() {
-        this.user.removeUserDataListener(this.udListener);
+        this.subscription.unsubscribe();
     }
 
     private async findNew() {
+        let ud=this.user.ud.getValue();
         try{
-            this.msgs = Immutable.List(await this.api.findMsgNew(this.user.ud.auth,
+            this.msgs = Immutable.List(await this.api.findMsgNew(ud.auth,
                 {
                     limit: this.limit
                 }));
@@ -48,11 +51,12 @@ export class UserMsgPageComponent implements OnInit, OnDestroy {
     }
 
     async readNew() {
+        let ud=this.user.ud.getValue();
         try{
             if (this.msgs.size === 0) {
                 this.findNew();
             } else {
-                this.msgs = Immutable.List((await this.api.findMsg(this.user.ud.auth,
+                this.msgs = Immutable.List((await this.api.findMsg(ud.auth,
                     {
                         type: "after",
                         equal: false,
@@ -66,11 +70,12 @@ export class UserMsgPageComponent implements OnInit, OnDestroy {
     }
 
     async readOld() {
+        let ud=this.user.ud.getValue();
         try{
             if (this.msgs.size === 0) {
                 this.findNew();
             } else {
-                this.msgs = Immutable.List(this.msgs.toArray().concat(await this.api.findMsg(this.user.ud.auth,
+                this.msgs = Immutable.List(this.msgs.toArray().concat(await this.api.findMsg(ud.auth,
                     {
                         type: "before",
                         equal: false,

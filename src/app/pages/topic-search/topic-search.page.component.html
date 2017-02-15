@@ -1,5 +1,5 @@
-<md-card *ngIf="user.ud!==undefined">
-  <button md-icon-button *ngIf="user.ud!==null" (click)="favo()">
+<md-card *ngIf="user.ud.getValue()!==undefined">
+  <button md-icon-button *ngIf="user.ud.getValue()!==null" (click)="favo()">
     <md-icon>{{isFavo?'star':'star_border'}}</md-icon>
   </button>
   <div>
@@ -19,7 +19,7 @@
   </div>
 </md-card>
 <div>
-  <button md-icon-button [routerLink]="['/topic/write']" *ngIf="user.ud!==null">
+  <button md-icon-button [routerLink]="['/topic/write']" *ngIf="user.ud.getValue()!==null">
     <md-icon>edit</md-icon>
   </button>
   <button md-icon-button (click)="update()">
