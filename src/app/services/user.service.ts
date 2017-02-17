@@ -8,7 +8,7 @@ import {
 import { Storage } from '../storage';
 import * as Immutable from 'immutable';
 import {MdSnackBar} from '@angular/material';
-import { Behavior2Subject } from './Behavior2Subject';
+import { Behavior2Subject } from './behavior2subject';
 
 
 @Injectable()
