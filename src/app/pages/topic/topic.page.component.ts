@@ -18,7 +18,7 @@ import {
   AtApiService,
   Res,
 } from 'anontown';
-import { InfiniteScrollDirective,IInfiniteScrollElement } from '../../directives';
+import { InfiniteScrollDirective, IInfiniteScrollElement } from '../../directives';
 import { Config } from '../../config';
 import { UserService, ResponsiveService } from '../../services';
 import {
@@ -136,12 +136,12 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   async ngOnInit() {
-    let first=true;
+    let first = true;
     this.route.params.forEach(async (params) => {
-      if(!first){
+      if (!first) {
         this.ngOnDestroy();
       }
-      first=false;
+      first = false;
 
       let id = params["id"];
       try {
@@ -228,7 +228,14 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
       return;
     }
     if (res === null) {
-      res = ud.storage.topicRead.get(this.topic.id).res;
+      if (ud.storage.topicRead.has(this.topic.id)) {
+        res = ud.storage.topicRead.get(this.topic.id).res;
+      } else {
+        if (this.reses.size === 0) {
+          return;
+        }
+        res = this.reses.first().id;
+      }
     }
     let storage = ud.storage;
     storage.topicRead = storage.topicRead.set(this.topic.id, {
