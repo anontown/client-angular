@@ -28,7 +28,8 @@ import {
     TopicDataComponent,
     OekakiComponent,
     ResWriteComponent,
-    TopicFavoComponent
+    TopicFavoComponent,
+    TagFavoComponent
 } from './components';
 
 import {
@@ -153,7 +154,8 @@ AtApiService.serverURL = Config.serverURL;
         OekakiComponent,
         TagsPageComponent,
         TopicFavoComponent,
-        NotFoundComponent
+        NotFoundComponent,
+        TagFavoComponent
     ],
     // エントリ
     bootstrap: [AppComponent],

@@ -3,19 +3,8 @@
     <md-tab label="トピック">
       <app-topic-favo></app-topic-favo>
     </md-tab>
-    <md-tab label="板">
-      <md-card>
-        <md-list>
-          <md-list-item *ngFor="let t of user.ud.getValue().storage.tagsFavo">
-            <a [routerLink]="['/topic/search']" [queryParams]="{tags:t.join(' ')}">
-              {{t.size!==0?t.join(','):'(なし)'}}
-            </a>
-            <button (click)="delTags(t)" md-icon-button>
-              <md-icon>delete</md-icon>
-            </button>
-          </md-list-item>
-        </md-list>
-      </md-card>
+    <md-tab label="タグ">
+      <app-tag-favo></app-tag-favo>
     </md-tab>
   </md-tab-group>
 </div>

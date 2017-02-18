@@ -4,10 +4,7 @@ import {
     OnDestroy,
     ChangeDetectionStrategy
 } from '@angular/core';
-import { UserService, } from '../../services';
-
-import { MdSnackBar } from '@angular/material';
-import * as Immutable from 'immutable';
+import { UserService } from '../../services';
 
 @Component({
     templateUrl: './favo.page.component.html',
@@ -15,8 +12,7 @@ import * as Immutable from 'immutable';
     changeDetection: ChangeDetectionStrategy.Default
 })
 export class FavoPageComponent implements OnInit, OnDestroy {
-    constructor(private user: UserService,
-        public snackBar: MdSnackBar) {
+    constructor(public user: UserService) {
     }
 
     ngOnInit() {
@@ -24,12 +20,5 @@ export class FavoPageComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-    }
-
-    async delTags(val: Immutable.Set<string>) {
-        let ud = this.user.ud.getValue();
-        let storage = ud.storage;
-        storage.tagsFavo = storage.tagsFavo.delete(val);
-        this.user.ud.next(ud);
     }
 }

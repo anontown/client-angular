@@ -9,3 +9,4 @@ export * from './topic-data/topic-data.component';
 export * from './oekaki/oekaki.component';
 export * from './res-write/res-write.component';
 export * from './topic-favo/topic-favo.component';
+export * from './tag-favo/tag-favo.component';
