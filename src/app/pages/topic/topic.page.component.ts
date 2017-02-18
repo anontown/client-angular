@@ -18,7 +18,7 @@ import {
   AtApiService,
   Res,
 } from 'anontown';
-import { InfiniteScrollDirective } from '../../directives';
+import { InfiniteScrollDirective,IInfiniteScrollElement } from '../../directives';
 import { Config } from '../../config';
 import { UserService, ResponsiveService } from '../../services';
 import {
@@ -210,11 +210,11 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
     });
   }
 
-  scrollSave(el: Element) {
-    if (el === null || !this.user.ud.getValue()) {
+  scrollSave(iel: IInfiniteScrollElement) {
+    if (iel === null || !this.user.ud.getValue()) {
       return;
     }
-    let rc = this.resE.find(x => x.elementRef.nativeElement === el);
+    let rc = this.resE.find(x => x.elementRef.nativeElement === iel.el);
     if (!rc) {
       return;
     }

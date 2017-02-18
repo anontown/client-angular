@@ -10,6 +10,11 @@ import {
 
 import { Observable, Subscription } from 'rxjs';
 
+export interface IInfiniteScrollElement {
+  el: HTMLElement;
+  offsetTop: number;
+}
+
 @Directive({
   selector: '[appInfiniteScroll]',
   exportAs: "infiniteScroll"
@@ -27,18 +32,17 @@ export class InfiniteScrollDirective implements OnInit, OnDestroy {
   @Input()
   wait = 500;
 
-
-  setTopElement(el: HTMLElement):Promise<void> {
+  setTopElement(iel:IInfiniteScrollElement ): Promise<void> {
     return new Promise<void>((resolve => {
       setTimeout(() => {
-        el.scrollIntoView();
+        document.body.scrollTop += iel.el.offsetTop - iel.offsetTop;
         resolve();
       }, 0)
     }));
   }
 
-  getTopElement(): Promise<HTMLElement> {
-    return new Promise<HTMLElement>((resolve => {
+  getTopElement(): Promise<IInfiniteScrollElement> {
+    return new Promise<IInfiniteScrollElement>((resolve => {
       setTimeout(() => {
         //最短距離のエレメント
         let minEl: HTMLElement = null;
@@ -52,13 +56,13 @@ export class InfiniteScrollDirective implements OnInit, OnDestroy {
             }
           });
 
-        resolve(minEl);
+        resolve({ el: minEl, offsetTop: minEl.offsetTop });
       }, 0);
     }));
   }
 
   @Output()
-  topElementChange = new EventEmitter<Element>();
+  topElementChange = new EventEmitter<IInfiniteScrollElement>();
 
   private subscriptions: Subscription[] = [];
 
