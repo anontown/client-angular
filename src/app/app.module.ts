@@ -55,6 +55,8 @@ import {
 } from './pages';
 import { Config } from './config';
 
+import { InfiniteScrollDirective } from './directives';
+
 
 AtApiService.serverURL = Config.serverURL;
 @NgModule({
@@ -121,6 +123,8 @@ AtApiService.serverURL = Config.serverURL;
         MapPipe,
         AtDatePipe,
         HtmlPipe,
+
+        InfiniteScrollDirective,
 
         AppComponent,
         ResWritePageComponent,
