@@ -10,7 +10,7 @@ import {
   ChangeDetectorRef,
   ViewChild
 } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Subscription, Subject } from 'rxjs';
 import * as socketio from 'socket.io-client';
 import { MdDialog } from '@angular/material';
 import {
@@ -123,13 +123,9 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   private socket: SocketIOClient.Socket;
 
-  // 次のビュー更新で最新レスを読み込むか
-  private isReadNew = false;
+  afterViewChecked = new Subject<void>();
   ngAfterViewChecked() {
-    if (this.isReadNew) {
-      this.readNew();
-      this.isReadNew = false;
-    }
+    this.afterViewChecked.next();
   }
 
   ngOnDestroy() {
@@ -175,7 +171,9 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
           } catch (_e) {
             this.snackBar.open("レス取得に失敗");
           }
-          this.isReadNew = true;
+          this.afterViewChecked
+            .take(1)
+            .subscribe(() => this.readNew());
         } else {
           //読んだことないなら最新レス
           try {
