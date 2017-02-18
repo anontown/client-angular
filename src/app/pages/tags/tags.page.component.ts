@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AtApiService } from 'anontown';
 import { MdSnackBar } from '@angular/material';
+import { Router } from '@angular/router';
 
 @Component({
   templateUrl: './tags.page.component.html',
@@ -9,7 +10,8 @@ import { MdSnackBar } from '@angular/material';
 export class TagsPageComponent implements OnInit {
 
   constructor(private api: AtApiService,
-    public snackBar: MdSnackBar) { }
+    public snackBar: MdSnackBar,
+    private router: Router) { }
 
   tags: { name: string, count: number }[];
 
@@ -20,6 +22,10 @@ export class TagsPageComponent implements OnInit {
     } catch (_e) {
       this.snackBar.open("タグ一覧取得に失敗")
     }
+  }
+
+  click(name: string) {
+    this.router.navigate(['/topic/search'], { queryParams: { tags: name } });
   }
 
 }
