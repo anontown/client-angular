@@ -27,7 +27,8 @@ import {
     MdEditorComponent,
     TopicDataComponent,
     OekakiComponent,
-    ResWriteComponent
+    ResWriteComponent,
+    TopicFavoComponent
 } from './components';
 
 import {
@@ -137,7 +138,8 @@ AtApiService.serverURL = Config.serverURL;
         ButtonDialogComponent,
         MdEditorComponent,
         OekakiComponent,
-        TagsPageComponent
+        TagsPageComponent,
+        TopicFavoComponent
     ],
     // エントリ
     bootstrap: [AppComponent],

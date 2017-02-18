@@ -6,6 +6,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef
 } from '@angular/core';
+import { Router } from '@angular/router';
 import { Topic } from 'anontown';
 import { UserService } from '../../services';
 import { Subscription } from 'rxjs';
@@ -20,8 +21,12 @@ export class TopicListItemComponent implements OnInit, OnDestroy {
   @Input()
   topic: Topic;
 
+  @Input()
+  simple=false;
+
   constructor(private user: UserService,
-    private cdr: ChangeDetectorRef) {
+    private cdr: ChangeDetectorRef,
+    private router:Router) {
 
   }
 
@@ -41,5 +46,9 @@ export class TopicListItemComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+  }
+
+  click(){
+    this.router.navigate(['/topic',this.topic.id]);
   }
 }

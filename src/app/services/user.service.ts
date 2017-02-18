@@ -44,7 +44,7 @@ export class UserService {
         profiles
       });
     }catch(_e){
-      this.snackBar.open("ログイン取得に失敗");
+      this.snackBar.open("ログインに失敗");
     }
   }
 }

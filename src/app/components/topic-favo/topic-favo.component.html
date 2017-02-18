@@ -1,0 +1,9 @@
+<div *ngIf="user.ud.getValue()!==null&&user.ud.getValue()!==undefined">
+    <button md-icon-button (click)="update()">
+      <md-icon>refresh</md-icon>
+    </button>
+    <app-topic-list-item *ngFor="let t of tfavo" [topic]="t" [simple]="simple"></app-topic-list-item>
+</div>
+<md-card *ngIf="user.ud.getValue()===null&&user.ud.getValue()!==undefined">
+  ログインしないと表示出来ません。
+</md-card>

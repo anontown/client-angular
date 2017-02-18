@@ -41,7 +41,7 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
   private reses = Immutable.List<Res>();
   private limit = 50;
 
-  //全レス読んだか
+  // 全レス読んだか
   private isReadAllNew = false;
   private isReadAllOld = false;
 
@@ -61,7 +61,7 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   private intervalID: any;
 
-  //他のレスを取得している間はロック
+  // 他のレスを取得している間はロック
   private isLock = false;
   private async lock(call: () => Promise<void>) {
     if (this.isLock) {
@@ -74,11 +74,11 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
       this.isLock = false;
       throw e;
     }
-    //レス数が変わっているはずなので更新
+    // レス数が変わっているはずなので更新
     try {
       this.topic = await this.api.findTopicOne({ id: this.topic.id });
     } catch (_e) {
-      this.snackBar.open("トピック取得に失敗");
+      this.snackBar.open('トピック取得に失敗');
     }
     this.isLock = false;
   }
@@ -120,7 +120,7 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   private socket: SocketIOClient.Socket;
 
-  //次のビュー更新で最新レスを読み込むか
+  // 次のビュー更新で最新レスを読み込むか
   private isReadNew = false;
   ngAfterViewChecked() {
     if (this.isReadNew) {
@@ -140,7 +140,7 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   async ngOnInit() {
-    let id: string = "";
+    let id = "";
     this.route.params.forEach((params) => {
       id = params["id"];
     });

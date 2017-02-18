@@ -1,10 +1,7 @@
 <div *ngIf="user.ud.getValue()!==null&&user.ud.getValue()!==undefined">
   <md-tab-group>
     <md-tab label="トピック">
-      <button md-icon-button (click)="update()">
-        <md-icon>refresh</md-icon>
-      </button>
-      <app-topic-list-item *ngFor="let t of tfavo" [topic]="t"></app-topic-list-item>
+      <app-topic-favo></app-topic-favo>
     </md-tab>
     <md-tab label="板">
       <md-card>

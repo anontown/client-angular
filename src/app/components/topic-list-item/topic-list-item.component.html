@@ -1,11 +1,11 @@
-<md-card *ngIf="user.ud.getValue()!==undefined">
+<md-card *ngIf="user.ud.getValue()!==undefined" (click)="click()" class="contents">
   <div>
     <md-icon *ngIf="!topic.active">not_interested</md-icon>
     <md-icon *ngIf="topic.type==='one'">looks_one</md-icon>
     <md-icon *ngIf="newRes!==null&&newRes!==0">fiber_new</md-icon>
-    <a [routerLink]="['/topic',topic.id]">{{topic.title}}</a>
+    <strong>{{topic.title}}</strong>
   </div>
-  <div class="data">
+  <div class="data" *ngIf="!simple">
     <div class="tags">
       {{topic.tags.join(',')}}
     </div>
