@@ -12,7 +12,7 @@ import { Observable, Subscription } from 'rxjs';
 
 @Directive({
   selector: '[appInfiniteScroll]',
-  exportAs:"infiniteScroll"
+  exportAs: "infiniteScroll"
 })
 export class InfiniteScrollDirective implements OnInit, OnDestroy {
   @Output()
@@ -31,7 +31,7 @@ export class InfiniteScrollDirective implements OnInit, OnDestroy {
   setTopElement(el: HTMLElement):Promise<void> {
     return new Promise<void>((resolve => {
       setTimeout(() => {
-        document.body.scrollTop = el.offsetTop;
+        el.scrollIntoView();
         resolve();
       }, 0)
     }));
@@ -83,7 +83,7 @@ export class InfiniteScrollDirective implements OnInit, OnDestroy {
 
     this.subscriptions.push(Observable.fromEvent(window, "scroll")
       .debounceTime(this.wait)
-      .subscribe(async() => {
+      .subscribe(async () => {
         this.topElementChange.emit(await this.getTopElement());
       }));
   }

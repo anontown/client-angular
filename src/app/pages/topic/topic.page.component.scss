@@ -29,6 +29,7 @@
 .contents{
     display: table;
     width: 100%;
+    table-layout: fixed;
 }
 
 .sidebar-contents{
@@ -39,6 +40,6 @@
 
 .main-contents{
     display: table-cell;
-    width: 70%;
+    width:70%;
     padding-left: 4px;
 }

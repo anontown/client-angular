@@ -136,7 +136,13 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   async ngOnInit() {
+    let first=true;
     this.route.params.forEach(async (params) => {
+      if(!first){
+        this.ngOnDestroy();
+      }
+      first=false;
+
       let id = params["id"];
       try {
         this.topic = await this.api.findTopicOne({ id });
