@@ -45,6 +45,9 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
   private isReadAllNew = false;
   private isReadAllOld = false;
 
+  private isIOS = navigator.userAgent.match(/iPhone|iPad/);
+  private intervalID: any;
+
   constructor(
     private user: UserService,
     private api: AtApiService,
@@ -57,9 +60,7 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
     public rs: ResponsiveService) {
   }
 
-  private isIOS = navigator.userAgent.match(/iPhone|iPad/);
-
-  private intervalID: any;
+  
 
   // 他のレスを取得している間はロック
   private isLock = false;
@@ -129,107 +130,99 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
   }
 
-
-  private isDestroy=false;
   ngOnDestroy() {
-    this.isDestroy=true;
-    this.subscriptions.forEach(x => x.unsubscribe);
+    this.subscriptions.forEach(x => x.unsubscribe());
     this.storageSave(null);
     clearInterval(this.intervalID);
     this.socket.close();
   }
 
   async ngOnInit() {
-    let id = "";
-    this.route.params.forEach((params) => {
-      id = params["id"];
-    });
-
-    try {
-      this.topic = await this.api.findTopicOne({ id });
-      document.title = this.topic.title;
-    } catch (_e) {
-      this.snackBar.open("トピック取得に失敗");
-    }
-
-    let isInit = false;
-    this.subscriptions.push(this.user.ud.subscribe(async (ud) => {
-      if (isInit) {
-        return;
+    this.route.params.forEach(async (params) => {
+      let id = params["id"];
+      try {
+        this.topic = await this.api.findTopicOne({ id });
+        document.title = this.topic.title;
+      } catch (_e) {
+        this.snackBar.open("トピック取得に失敗");
       }
-      isInit = true;
-      if (ud !== null && ud.storage.topicRead.has(this.topic.id)) {
-        //読んだことあるなら続きから
-        try {
-          await this.lock(async () => {
-            let reses = await this.api.findRes(ud.auth,
-              {
-                topic: this.topic.id,
-                type: "before",
-                equal: true,
-                date: (await this.api.findResOne(ud.auth, { id: (ud.storage.topicRead.get(this.topic.id).res) })).date,
-                limit: this.limit
-              })
-            if (reses.length !== this.limit) {
-              this.isReadAllOld = true;
-            }
-            this.reses = Immutable.List(reses);
-          });
-        } catch (_e) {
-          this.snackBar.open("レス取得に失敗");
-        }
-        this.isReadNew = true;
-      } else {
-        //読んだことないなら最新レス
-        try {
-          await this.findNew();
-        } catch (_e) {
-          this.snackBar.open("レス取得に失敗");
-        }
-      }
-    }));
 
-    this.zone.runOutsideAngular(() => {
-      this.intervalID = setInterval(() => {
-        if (this.isAutoScroll) {
-          document.body.scrollTop -= this.autoScrollSpeed;
+      let isInit = false;
+      this.subscriptions.push(this.user.ud.subscribe(async (ud) => {
+        if (isInit) {
+          return;
         }
-      }, 200);
-
-      this.subscriptions.push(Observable.fromEvent(window, "scroll")
-        .throttleTime(1000)
-        .subscribe(() => {
-          if(this.isDestroy){
-            return;
+        isInit = true;
+        if (ud !== null && ud.storage.topicRead.has(this.topic.id)) {
+          //読んだことあるなら続きから
+          try {
+            await this.lock(async () => {
+              let reses = await this.api.findRes(ud.auth,
+                {
+                  topic: this.topic.id,
+                  type: "before",
+                  equal: true,
+                  date: (await this.api.findResOne(ud.auth, { id: (ud.storage.topicRead.get(this.topic.id).res) })).date,
+                  limit: this.limit
+                })
+              if (reses.length !== this.limit) {
+                this.isReadAllOld = true;
+              }
+              this.reses = Immutable.List(reses);
+            });
+          } catch (_e) {
+            this.snackBar.open("レス取得に失敗");
           }
-          this.scrollSave();
-        }));
+          this.isReadNew = true;
+        } else {
+          //読んだことないなら最新レス
+          try {
+            await this.findNew();
+          } catch (_e) {
+            this.snackBar.open("レス取得に失敗");
+          }
+        }
+      }));
+
+      this.zone.runOutsideAngular(() => {
+        this.intervalID = setInterval(() => {
+          if (this.isAutoScroll) {
+            document.body.scrollTop -= this.autoScrollSpeed;
+          }
+        }, 200);
+
+        this.subscriptions.push(Observable.fromEvent(window, "scroll")
+          .throttleTime(1000)
+          .subscribe(() => {
+            this.scrollSave();
+          }));
+
+        this.subscriptions.push(Observable.fromEvent(window, "scroll")
+          .map(() => window.scrollY)
+          .filter(x => x + 10 >= document.body.clientHeight - window.innerHeight)
+          .debounceTime(500)
+          .subscribe(() => {
+            this.readOld();
+          }));
+      });
 
       this.subscriptions.push(Observable.fromEvent(window, "scroll")
         .map(() => window.scrollY)
-        .filter(x => x + 10 >= document.body.clientHeight - window.innerHeight)
+        .filter(x => x <= 10)
         .debounceTime(500)
         .subscribe(() => {
-          this.readOld();
+          this.readNew();
         }));
-    });
 
-    this.subscriptions.push(Observable.fromEvent(window, "scroll")
-      .map(() => window.scrollY)
-      .filter(x => x <= 10)
-      .debounceTime(500)
-      .subscribe(() => {
-        this.readNew();
-      }));
-
-    //自動更新
-    this.socket = socketio.connect(Config.serverURL, { forceNew: true });
-    this.socket.emit("topic-join", this.topic.id);
-    this.socket.on("topic", (msg: string) => {
-      if (msg === this.topic.id) {
-        this.isReadAllNew = false;
-        this.readNew();
-      }
+      //自動更新
+      this.socket = socketio.connect(Config.serverURL, { forceNew: true });
+      this.socket.emit("topic-join", this.topic.id);
+      this.socket.on("topic", (msg: string) => {
+        if (msg === this.topic.id) {
+          this.isReadAllNew = false;
+          this.readNew();
+        }
+      });
     });
   }
 
@@ -258,13 +251,13 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
   }
 
-  storageSave(res:string){
-    let ud=this.user.ud.getValue();
+  storageSave(res: string) {
+    let ud = this.user.ud.getValue();
     if (!ud) {
       return;
     }
-    if(res===null){
-      res=ud.storage.topicRead.get(this.topic.id).res;
+    if (res === null) {
+      res = ud.storage.topicRead.get(this.topic.id).res;
     }
     let storage = ud.storage;
     storage.topicRead = storage.topicRead.set(this.topic.id, {
@@ -277,7 +270,7 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
   private subscriptions: Subscription[] = [];
 
   private async findNew() {
-    let ud=this.user.ud.getValue();
+    let ud = this.user.ud.getValue();
     try {
       await this.lock(async () => {
         let reses = await this.api.findResNew(ud ? ud.auth : null,
@@ -296,7 +289,7 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   async readNew() {
-    let ud=this.user.ud.getValue();
+    let ud = this.user.ud.getValue();
     if (this.isReadAllNew) {
       return;
     }
@@ -340,7 +333,7 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   async readOld() {
-    let ud=this.user.ud.getValue();
+    let ud = this.user.ud.getValue();
     if (this.isReadAllOld) {
       return;
     }
@@ -371,14 +364,14 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   async favo() {
-    let ud=this.user.ud.getValue();
+    let ud = this.user.ud.getValue();
     let storage = ud.storage;
     let tf = storage.topicFavo;
     storage.topicFavo = this.isFavo ? tf.delete(this.topic.id) : tf.add(this.topic.id);
     this.user.ud.next(ud);
   }
 
-  get isFavo():boolean{
+  get isFavo(): boolean {
     return this.user.ud.getValue().storage.topicFavo.has(this.topic.id)
   }
 }

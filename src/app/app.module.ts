@@ -32,7 +32,7 @@ import {
 } from './components';
 
 import {
-    ResWriteDialogComponent, 
+    ResWriteDialogComponent,
     ProfileDialogComponent,
     TopicAutoScrollMenuDialogComponent,
     ButtonDialogComponent
@@ -50,7 +50,8 @@ import {
     UserNoticePageComponent,
     UserProfilePageComponent,
     TagsPageComponent,
-    ResWritePageComponent
+    ResWritePageComponent,
+    NotFoundComponent
 } from './pages';
 import { Config } from './config';
 
@@ -104,6 +105,14 @@ AtApiService.serverURL = Config.serverURL;
             {
                 path: 'tags',
                 component: TagsPageComponent
+            },
+            {
+                path: '404',
+                component: NotFoundComponent
+            },
+            {
+                path: '**',
+                redirectTo: '/404'
             }
         ])
     ],
@@ -139,7 +148,8 @@ AtApiService.serverURL = Config.serverURL;
         MdEditorComponent,
         OekakiComponent,
         TagsPageComponent,
-        TopicFavoComponent
+        TopicFavoComponent,
+        NotFoundComponent
     ],
     // エントリ
     bootstrap: [AppComponent],
