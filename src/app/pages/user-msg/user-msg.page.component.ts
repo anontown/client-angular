@@ -1,16 +1,17 @@
-import { Component, OnInit, OnDestroy,ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import {
     Msg,
     AtApiService,
 } from 'anontown';
 import { UserService } from '../../services';
 import * as Immutable from 'immutable';
-import {MdSnackBar} from '@angular/material';
+import { MdSnackBar } from '@angular/material';
 import { Subscription } from 'rxjs';
 
 
 @Component({
     templateUrl: './user-msg.page.component.html',
+    styleUrls: ['./user-msg.page.component.scss'],
     changeDetection: ChangeDetectionStrategy.Default
 })
 export class UserMsgPageComponent implements OnInit, OnDestroy {
@@ -26,8 +27,8 @@ export class UserMsgPageComponent implements OnInit, OnDestroy {
     private subscription: Subscription;
 
     ngOnInit() {
-        document.title="お知らせ"
-        this.subscription=this.user.ud.subscribe((ud) => {
+        document.title = "お知らせ"
+        this.subscription = this.user.ud.subscribe((ud) => {
             if (ud !== null) {
                 this.findNew();
             }
@@ -39,20 +40,20 @@ export class UserMsgPageComponent implements OnInit, OnDestroy {
     }
 
     private async findNew() {
-        let ud=this.user.ud.getValue();
-        try{
+        let ud = this.user.ud.getValue();
+        try {
             this.msgs = Immutable.List(await this.api.findMsgNew(ud.auth,
                 {
                     limit: this.limit
                 }));
-        }catch(_e){
+        } catch (_e) {
             this.snackBar.open("メッセージ取得に失敗");
         }
     }
 
     async readNew() {
-        let ud=this.user.ud.getValue();
-        try{
+        let ud = this.user.ud.getValue();
+        try {
             if (this.msgs.size === 0) {
                 this.findNew();
             } else {
@@ -64,14 +65,14 @@ export class UserMsgPageComponent implements OnInit, OnDestroy {
                         limit: this.limit
                     })).concat(this.msgs.toArray()));
             }
-        }catch(_e){
+        } catch (_e) {
             this.snackBar.open("メッセージ取得に失敗");
         }
     }
 
     async readOld() {
-        let ud=this.user.ud.getValue();
-        try{
+        let ud = this.user.ud.getValue();
+        try {
             if (this.msgs.size === 0) {
                 this.findNew();
             } else {
@@ -83,7 +84,7 @@ export class UserMsgPageComponent implements OnInit, OnDestroy {
                         limit: this.limit
                     })));
             }
-        }catch(_e){
+        } catch (_e) {
             this.snackBar.open("メッセージ取得に失敗");
         }
     }

@@ -4,8 +4,8 @@
   </div>
   <div>
     <md-card *ngFor="let m of msgs">
-      <md-card-content [innerHTML]="m.mdtext|html"></md-card-content>
-      <md-card-footer>{{m.date|atDate}}</md-card-footer>
+      <div class="header">{{m.date|atDate}}</div>
+      <div [innerHTML]="m.mdtext|html"></div>
     </md-card>
   </div>
   <div>
