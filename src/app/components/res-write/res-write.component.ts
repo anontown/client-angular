@@ -12,7 +12,8 @@ import {
   AtApiService,
   Res,
   Topic,
-  AtError
+  AtError,
+  IAtError
 } from 'anontown';
 
 import { UserService } from '../../services';
@@ -28,7 +29,7 @@ export class ResWriteComponent implements OnInit, OnDestroy {
   private name = "";
   private text = "";
   private profile: string | null = null;
-  private errorMsg: string | null = null;
+  private errors: IAtError[]=[];
   private age = true;
   @Output()
   write = new EventEmitter<Res>();
@@ -87,11 +88,11 @@ export class ResWriteComponent implements OnInit, OnDestroy {
 
       this.text = "";
       this.reply = null;
-      this.errorMsg = null;
+      this.errors = [];
       this.write.emit(res);
     } catch (e) {
       if (e instanceof AtError) {
-        this.errorMsg = e.message;
+        this.errors = e.errors;
       } else {
         throw e;
       }

@@ -1,7 +1,7 @@
 <md-card *ngIf="user.ud.getValue()!==null&&user.ud.getValue()!==undefined">
   <form (ngSubmit)="write()">
-    <div *ngIf="errorMsg!==null">
-      <md-icon>error</md-icon> {{errorMsg}}
+    <div *ngFor="let e of errors">
+      <md-icon>error</md-icon> {{e.message}}
     </div>
     <div>
       <md-select placeholder="種別" [(ngModel)]="type" name="type">

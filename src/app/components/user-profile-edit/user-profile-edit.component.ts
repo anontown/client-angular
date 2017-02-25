@@ -10,6 +10,7 @@ import {
     AtApiService,
     Profile,
     AtError,
+    IAtError
 } from 'anontown';
 import { UserService } from '../../services';
 
@@ -27,7 +28,7 @@ export class UserProfileEditComponent implements OnInit, OnDestroy {
     private name = "";
     private text = "";
     sn = "";
-    private errorMsg: string | null = null;
+    private errors: IAtError[] = [];
 
     constructor(private user: UserService,
         private api: AtApiService) {
@@ -54,13 +55,13 @@ export class UserProfileEditComponent implements OnInit, OnDestroy {
                 text: this.text,
                 sn: this.sn
             });
-            this.errorMsg = null;
+            this.errors = [];
 
             //プロフィール更新
             this.update.emit(profile);
         }catch(e){
             if (e instanceof AtError) {
-                this.errorMsg = e.message;
+                this.errors = e.errors;
             } else {
                 throw e;
             }

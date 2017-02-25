@@ -2,9 +2,10 @@ import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/
 import {
     AtApiService,
     AtError,
-    TopicType
+    TopicType,
+    IAtError
 } from 'anontown';
-import { UserService} from '../../services';
+import { UserService } from '../../services';
 import { Router } from '@angular/router';
 
 
@@ -17,7 +18,7 @@ export class TopicWritePageComponent implements OnInit, OnDestroy {
     private tags = "";
     private text = "";
     private type: TopicType = "normal";
-    private errorMsg: string | null = null;
+    private errors: IAtError[] = [];
 
     constructor(public user: UserService,
         private api: AtApiService,
@@ -25,26 +26,26 @@ export class TopicWritePageComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        document.title="トピック作成"
+        document.title = "トピック作成"
     }
 
     ngOnDestroy() {
     }
 
     async write() {
-        let ud=this.user.ud.getValue();
-        try{
+        let ud = this.user.ud.getValue();
+        try {
             let topic = await this.api.createTopic(ud.auth, {
                 title: this.title,
                 tags: this.tags.length === 0 ? [] : this.tags.split(/[\s　\,]+/),
                 text: this.text,
                 type: this.type
             });
-            this.errorMsg = null;
+            this.errors = [];
             this.router.navigate(["topic", topic.id]);
-        }catch(e){
+        } catch (e) {
             if (e instanceof AtError) {
-                this.errorMsg = e.message;
+                this.errors = e.errors;
             } else {
                 throw e;
             }

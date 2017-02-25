@@ -9,7 +9,8 @@ import {
 import {
     AtApiService,
     AtError,
-    Profile
+    Profile,
+    IAtError
 } from 'anontown';
 import { UserService} from '../../services';
 
@@ -23,7 +24,7 @@ export class UserProfileAddComponent implements OnInit, OnDestroy {
     private name = "";
     private text = "";
     sn = "";
-    private errorMsg: string | null = null;
+    private errors: IAtError[]=[];
 
     @Output()
     add = new EventEmitter<Profile>();
@@ -52,7 +53,7 @@ export class UserProfileAddComponent implements OnInit, OnDestroy {
             this.add.emit(p);
         }catch(e){
             if (e instanceof AtError) {
-                this.errorMsg = e.message;
+                this.errors = e.errors;
             } else {
                 throw e;
             }

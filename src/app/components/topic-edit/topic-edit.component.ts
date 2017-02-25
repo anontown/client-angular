@@ -10,7 +10,8 @@ import {
 import {
     AtApiService,
     Topic,
-    AtError
+    AtError,
+    IAtError
 } from 'anontown';
 import { UserService} from '../../services';
 
@@ -30,7 +31,7 @@ export class TopicEditComponent implements OnInit, OnDestroy {
     private title = "";
     private tags = "";
     private text = "";
-    private errorMsg: string | null = null;
+    private errors: IAtError[]=[];
 
     constructor(private user: UserService,
         private api: AtApiService) {
@@ -54,11 +55,11 @@ export class TopicEditComponent implements OnInit, OnDestroy {
                 tags: this.tags.length === 0 ? [] : this.tags.split(/[\s　\,]+/),
                 text: this.text
             });
-            this.errorMsg = null;
+            this.errors=[];
             this.update.emit(topic);
         }catch(e){
             if (e instanceof AtError) {
-                this.errorMsg = e.message;
+                this.errors = e.errors;
             } else {
                 throw e;
             }

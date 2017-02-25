@@ -1,5 +1,5 @@
 <div *ngIf="topic&&user.ud.getValue()!==undefined" class="fab-main">
-  <button md-mini-fab *ngIf="user.ud!==null" (click)="favo()">
+  <button md-mini-fab *ngIf="user.ud.getValue()!==null" (click)="favo()">
         <md-icon>{{isFavo?'star':'star_border'}}</md-icon>
     </button>
   <button md-mini-fab (click)="autoScrollMenu()">
