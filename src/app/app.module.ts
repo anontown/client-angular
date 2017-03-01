@@ -47,11 +47,9 @@ import {
     TopicPageComponent,
     TopicSearchPageComponent,
     TopicWritePageComponent,
-    FavoPageComponent,
     UserMsgPageComponent,
     UserNoticePageComponent,
     UserProfilePageComponent,
-    TagsPageComponent,
     ResWritePageComponent,
     NotFoundComponent
 } from './pages';
@@ -103,14 +101,6 @@ AtApiService.serverURL = Config.serverURL;
                 component: UserMsgPageComponent
             },
             {
-                path: 'favo',
-                component: FavoPageComponent
-            },
-            {
-                path: 'tags',
-                component: TagsPageComponent
-            },
-            {
                 path: '404',
                 component: NotFoundComponent
             },
@@ -147,13 +137,11 @@ AtApiService.serverURL = Config.serverURL;
         UserNoticePageComponent,
         UserMsgPageComponent,
         UserMsgPageComponent,
-        FavoPageComponent,
         TopicAutoScrollMenuDialogComponent,
         TopicListItemComponent,
         ButtonDialogComponent,
         MdEditorComponent,
         OekakiComponent,
-        TagsPageComponent,
         TopicFavoComponent,
         NotFoundComponent,
         TagFavoComponent,

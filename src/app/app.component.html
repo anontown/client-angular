@@ -9,14 +9,8 @@
   <a md-tab-link [routerLink]="['/']">
     <md-icon>home</md-icon>
   </a>
-  <a md-tab-link [routerLink]="['/favo']" *ngIf="user.ud.getValue()!==null">
-    <md-icon>star</md-icon>
-  </a>
   <a md-tab-link [routerLink]="['/topic/search']">
     <md-icon>search</md-icon>
-  </a>
-  <a md-tab-link [routerLink]="['/tags']">
-    タグ
   </a>
   <a md-tab-link [routerLink]="['/user/notice']" *ngIf="user.ud.getValue()!==null">
     <md-icon>notifications</md-icon>

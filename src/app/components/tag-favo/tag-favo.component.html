@@ -4,7 +4,7 @@
   </md-card>
   <md-card *ngIf="user.ud.getValue().storage.tagsFavo.size===0">
     お気に入りタグがありません。<br>
-    <a [routerLink]="['/tags']">タグ一覧</a>
+    <a [routerLink]="['/topic/search']">検索</a>
   </md-card>
 </div>
 <div *ngIf="user.ud.getValue()===null&&user.ud.getValue()!==undefined">
