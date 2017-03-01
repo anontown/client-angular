@@ -11,10 +11,10 @@
 </div>
 <div *ngIf="topic" [ngClass]="{contents:(rs.size|async)==='lg'}">
   <div class="sidebar-contents" *ngIf="(rs.size|async)==='lg'">
-    <ng-container *ngIf="user.ud.getValue()!==null">
+    <div *ngIf="user.ud.getValue()!==null" class="sidebar-fixed">
       <h1>お気に入りトピ</h1>
       <app-topic-favo [simple]="true"></app-topic-favo>
-    </ng-container>
+    </div>
   </div>
   <div [ngClass]="{'main-contents':(rs.size|async)==='lg'}" class="main-column">
     <app-topic-data (update)="update($event)" [topic]="topic"></app-topic-data>

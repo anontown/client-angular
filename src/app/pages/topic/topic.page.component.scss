@@ -5,6 +5,13 @@
     right: 10vw;
 }
 
+.sidebar-fixed{
+    position: fixed;
+    width: inherit;
+    height: calc(100vh - 64px - 8px);
+    overflow-y: auto;
+}
+
 .topic-tool-open {
     height: 60vh;
     overflow: auto;
