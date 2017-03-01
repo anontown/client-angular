@@ -1,8 +1,15 @@
 <div *ngIf="user.ud.getValue()!==null&&user.ud.getValue()!==undefined">
+  <ng-container *ngIf="tfavo&&tfavo.size!==0">
     <button md-icon-button (click)="update()">
       <md-icon>refresh</md-icon>
     </button>
-    <app-topic-list-item *ngFor="let t of tfavo" [topic]="t" [simple]="simple"></app-topic-list-item>
+    <app-topic-list-item *ngFor="let t of tfavo" [topic]="t" [simple]="simple">
+    </app-topic-list-item>
+  </ng-container>
+  <md-card *ngIf="tfavo&&tfavo.size===0">
+    お気に入りトピックがありません。<br>
+    <a [routerLink]="['/topic/search']">トピック一覧</a>
+  </md-card>
 </div>
 <md-card *ngIf="user.ud.getValue()===null&&user.ud.getValue()!==undefined">
   ログインしないと表示出来ません。

@@ -19,9 +19,7 @@
       </md-input-container>
     </div>
     <div>
-      <md-input-container>
-        <input mdInput placeholder="タグ" [(ngModel)]="tags" name="tags">
-      </md-input-container>
+      <app-tags-input name="tags" [(ngModel)]="tags"></app-tags-input>
     </div>
     <app-md-editor [(ngModel)]="text" name="text"></app-md-editor>
     <div>

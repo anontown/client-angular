@@ -1,8 +1,8 @@
-<md-card>
+<app-topic-favo *ngIf="user.ud.getValue()!==null&&user.ud.getValue()!==undefined"></app-topic-favo>
+<md-card *ngIf="user.ud.getValue()===null">
     <h1>匿名掲示板Anontownへようこそ</h1>
-    2chの不便な点を改善した掲示板です。<br> 登録は10秒で終わります。メアドなどは一切不要です。
-    <br> 専ブラなどのクライアントソフトも不要な為すぐに使い始めることが出来ます。
-    <br> まずは
-    <a href="https://kgtkr.gitbooks.io/anontown/content/">ドキュメント</a>を読んで下さい。<br> ※当サイトは無断転載禁止です<br><br>
-    管理人の2chでのトリップ→at ◆nZmkazVYrM
+    <ul>
+        <li><a [routerLink]="['/topic/search']">トピック一覧</a></li>
+        <li><a href="https://kgtkr.gitbooks.io/anontown/content/" target="_blank">登録の方法などの説明</a></li>
+    </ul>
 </md-card>

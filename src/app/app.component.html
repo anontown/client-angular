@@ -1,10 +1,14 @@
 <md-menu #menu="mdMenu">
   <button md-menu-item [routerLink]="['/user/profile']">プロフ管理</button>
   <button md-menu-item [routerLink]="['/user/msg']">お知らせ</button>
+  <a md-menu-item href="https://kgtkr.gitbooks.io/anontown/content/" target="_blank">ドキュメント</a>
   <button md-menu-item (click)="logout()">ログアウト</button>
 </md-menu>
 
 <nav md-tab-nav-bar class="tab-nav">
+  <a md-tab-link [routerLink]="['/']">
+    <md-icon>home</md-icon>
+  </a>
   <a md-tab-link [routerLink]="['/favo']" *ngIf="user.ud.getValue()!==null">
     <md-icon>star</md-icon>
   </a>

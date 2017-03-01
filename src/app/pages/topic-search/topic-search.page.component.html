@@ -4,9 +4,7 @@
   </button>
   <div>
     <div>
-      <md-input-container>
-        <input mdInput placeholder="タグ" [(ngModel)]="form.tags" name="tags" (input)="formChangeObs.next()">
-      </md-input-container>
+      <app-tags-input name="tags" [(ngModel)]="tags" (ngModelChange)="formChangeObs.next()"></app-tags-input>
     </div>
     <div>
       <md-input-container>

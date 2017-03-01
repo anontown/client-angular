@@ -35,7 +35,6 @@ export class TopicSearchPageComponent implements OnInit, OnDestroy {
 
   // フォームデータ
   form = {
-    tags: '',
     title: '',
     dead: false
   };
@@ -84,13 +83,13 @@ export class TopicSearchPageComponent implements OnInit, OnDestroy {
     this.formChangeObs
       .debounceTime(500)
       .subscribe(() => {
-        this.router.navigate(['/topic/search'], { queryParams: { title: this.form.title, tags: this.form.tags, dead: this.form.dead } });
+        this.router.navigate(['/topic/search'], { queryParams: { title: this.form.title, tags: this.tags, dead: this.form.dead } });
       });
 
     this.route.queryParams.forEach(async (params) => {
       document.title = "検索";
       this.form.title = this.title = params['title'] ? params['title'] : '';
-      this.form.tags = this.tags = params['tags'] ? params['tags'] : '';
+      this.tags = params['tags'] ? params['tags'] : '';
       this.form.dead = this.dead = params['dead'] === "true";
       await this.update();
     });

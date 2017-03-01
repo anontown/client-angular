@@ -1,0 +1,13 @@
+<md-input-container>
+  <span *ngFor="let t of tags" class="tag">
+    <a href="javascript:void(0);" (click)="del(t)">x</a> 
+    {{t}}
+  </span>
+  <input mdInput [formControl]="stateCtrl" placeholder="タグ" (blur)="ok()" [(ngModel)]="tag" (keypress)="tagChange($event)" [mdAutocomplete]="auto" (ngModelChange)="change()">
+</md-input-container>
+
+<md-autocomplete #auto="mdAutocomplete">
+   <md-option *ngFor="let l of filteredStates|async" [value]="l.name" (onSelect)="select()">
+      {{l.name}}({{l.count}})
+   </md-option>
+</md-autocomplete>
