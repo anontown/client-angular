@@ -8,7 +8,8 @@ import {
     MdPipe,
     MapPipe,
     AtDatePipe,
-    HtmlPipe
+    HtmlPipe,
+    ReversePipe
 } from './pipes';
 import {
     UserService,
@@ -115,6 +116,7 @@ AtApiService.serverURL = Config.serverURL;
         MapPipe,
         AtDatePipe,
         HtmlPipe,
+        ReversePipe,
 
         InfiniteScrollDirective,
 

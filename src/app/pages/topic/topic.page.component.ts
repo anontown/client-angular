@@ -173,6 +173,7 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
                 this.isReadAllOld = true;
               }
               this.reses = Immutable.List(reses);
+              await this.scrollBottom();
             });
           } catch (_e) {
             this.snackBar.open("レス取得に失敗");
@@ -247,6 +248,15 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   private subscriptions: Subscription[] = [];
 
+  private scrollBottom(): Promise<void> {
+    return new Promise<void>((ok) => {
+      setTimeout(() => {
+        document.body.scrollTop = document.body.scrollHeight;
+        ok();
+      });
+    });
+  }
+
   private async findNew() {
     let ud = this.user.ud.getValue();
     try {
@@ -260,6 +270,7 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
           this.isReadAllNew = true;
         }
         this.reses = Immutable.List(reses);
+        await this.scrollBottom();
       });
     } catch (_e) {
       this.snackBar.open("レス取得に失敗");
@@ -279,9 +290,6 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
         this.findNew();
       } else {
         await this.lock(async () => {
-          //一番上のレスと座標を取得
-          let el = await this.iScroll.getTopElement();
-
           let reses = await this.api.findRes(ud ? ud.auth : null,
             {
               topic: this.topic.id,
@@ -291,13 +299,11 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
               limit: this.limit
             }
           );
+          console.log(reses.length);
           if (reses.length !== this.limit) {
             this.isReadAllNew = true;
           }
           this.reses = Immutable.List(reses.concat(this.reses.toArray()));
-          if (el) {
-            this.iScroll.setTopElement(el);
-          }
         });
       }
       this.cdr.markForCheck();
@@ -315,6 +321,9 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
       if (this.reses.size === 0) {
         this.findNew();
       } else {
+        //一番下のレスと座標を取得
+        let el = await this.iScroll.getTopElement();
+
         await this.lock(async () => {
           let reses = await this.api.findRes(ud ? ud.auth : null,
             {
@@ -329,6 +338,10 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
             this.isReadAllOld = true;
           }
           this.reses = Immutable.List(this.reses.toArray().concat(reses));
+
+          if (el) {
+            this.iScroll.setTopElement(el);
+          }
         });
       }
       this.cdr.markForCheck();

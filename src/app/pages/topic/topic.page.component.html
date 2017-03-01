@@ -18,8 +18,8 @@
   </div>
   <div [ngClass]="{'main-contents':(rs.size|async)==='lg'}" class="main-column">
     <app-topic-data (update)="update($event)" [topic]="topic"></app-topic-data>
-    <div #iScroll=infiniteScroll appInfiniteScroll (scrollTop)="readNew()" (scrollBottom)="readOld()" (topElementChange)="scrollSave($event)">
-      <app-res #resE *ngFor="let r of reses" [res]="r" (update)="updateRes($event)"></app-res>
+    <div #iScroll=infiniteScroll appInfiniteScroll (scrollTop)="readOld()" (scrollBottom)="readNew()" (elementChange)="scrollSave($event.bottom)">
+      <app-res #resE *ngFor="let r of reses|reverse" [res]="r" (update)="updateRes($event)"></app-res>
     </div>
   </div>
 </div>

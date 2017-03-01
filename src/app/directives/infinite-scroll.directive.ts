@@ -12,7 +12,7 @@ import { Observable, Subscription } from 'rxjs';
 
 export interface IInfiniteScrollElement {
   el: HTMLElement;
-  offsetTop: number;
+  y: number;
 }
 
 @Directive({
@@ -32,10 +32,10 @@ export class InfiniteScrollDirective implements OnInit, OnDestroy {
   @Input()
   wait = 500;
 
-  setTopElement(iel:IInfiniteScrollElement ): Promise<void> {
+  setTopElement(iel: IInfiniteScrollElement): Promise<void> {
     return new Promise<void>((resolve => {
       setTimeout(() => {
-        document.body.scrollTop += iel.el.offsetTop - iel.offsetTop;
+        document.body.scrollTop += (iel.el.offsetTop + iel.el.offsetHeight / 2) - iel.y;
         resolve();
       }, 0)
     }));
@@ -50,19 +50,62 @@ export class InfiniteScrollDirective implements OnInit, OnDestroy {
           .forEach((x: HTMLElement) => {
             if (minEl === null) {
               minEl = x;
-            } else if (Math.abs(minEl.getBoundingClientRect().top) >
-              Math.abs(x.getBoundingClientRect().top)) {
+            } else if (Math.abs(minEl.getBoundingClientRect().top + minEl.getBoundingClientRect().height / 2) >
+              Math.abs(x.getBoundingClientRect().top + x.getBoundingClientRect().height / 2)) {
               minEl = x;
             }
           });
 
-        resolve({ el: minEl, offsetTop: minEl.offsetTop });
+        resolve({
+          el: minEl,
+          y: minEl.offsetTop + minEl.offsetHeight / 2,
+        });
+      }, 0);
+    }));
+  }
+
+  setBottomElement(iel: IInfiniteScrollElement): Promise<void> {
+    return new Promise<void>((resolve => {
+      setTimeout(() => {
+        document.body.scrollTop += (iel.el.offsetTop + iel.el.offsetHeight / 2) - iel.y;
+        resolve();
+      }, 0)
+    }));
+  }
+
+  getBottomElement(): Promise<IInfiniteScrollElement> {
+    return new Promise<IInfiniteScrollElement>((resolve => {
+      setTimeout(() => {
+        //最短距離のエレメント
+        let minEl: HTMLElement = null;
+        Array.from((<HTMLElement>this.el.nativeElement).children)
+          .forEach((x: HTMLElement) => {
+            if (minEl === null) {
+              minEl = x;
+            } else if (Math.abs(
+              window.innerHeight -
+              (minEl.getBoundingClientRect().top +
+                minEl.getBoundingClientRect().height / 2)
+            ) >
+              Math.abs(
+                window.innerHeight -
+                (x.getBoundingClientRect().top +
+                  minEl.getBoundingClientRect().height / 2)
+              )) {
+              minEl = x;
+            }
+          });
+
+        resolve({
+          el: minEl,
+          y: minEl.offsetTop + minEl.offsetHeight / 2,
+        });
       }, 0);
     }));
   }
 
   @Output()
-  topElementChange = new EventEmitter<IInfiniteScrollElement>();
+  elementChange = new EventEmitter<{ top: IInfiniteScrollElement, bottom: IInfiniteScrollElement }>();
 
   private subscriptions: Subscription[] = [];
 
@@ -88,7 +131,10 @@ export class InfiniteScrollDirective implements OnInit, OnDestroy {
     this.subscriptions.push(Observable.fromEvent(window, "scroll")
       .debounceTime(this.wait)
       .subscribe(async () => {
-        this.topElementChange.emit(await this.getTopElement());
+        this.elementChange.emit({
+          top: await this.getTopElement(),
+          bottom: await this.getBottomElement()
+        });
       }));
   }
 
