@@ -194,7 +194,7 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
       this.zone.runOutsideAngular(() => {
         this.intervalID = setInterval(() => {
           if (this.isAutoScroll) {
-            document.body.scrollTop -= this.autoScrollSpeed;
+            document.body.scrollTop += this.autoScrollSpeed;
           }
         }, 200);
       });
@@ -299,7 +299,6 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
               limit: this.limit
             }
           );
-          console.log(reses.length);
           if (reses.length !== this.limit) {
             this.isReadAllNew = true;
           }
