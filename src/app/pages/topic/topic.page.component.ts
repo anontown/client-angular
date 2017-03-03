@@ -8,7 +8,8 @@ import {
   AfterViewChecked,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  ViewChild
+  ViewChild,
+  ElementRef
 } from '@angular/core';
 import { Subscription, Subject } from 'rxjs';
 import * as socketio from 'socket.io-client';
@@ -26,7 +27,7 @@ import {
   ResWriteDialogComponent,
   TopicDataDialogComponent
 } from '../../dialogs';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ResComponent } from '../../components';
 import * as Immutable from 'immutable';
 import { MdSnackBar } from '@angular/material';
@@ -48,7 +49,6 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
   private isReadAllNew = false;
   private isReadAllOld = false;
 
-  private isIOS = navigator.userAgent.match(/iPhone|iPad/);
   private intervalID: any;
 
   constructor(
@@ -58,7 +58,6 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
     private zone: NgZone,
     private dialog: MdDialog,
     public snackBar: MdSnackBar,
-    private router: Router,
     private cdr: ChangeDetectorRef,
     public rs: ResponsiveService) {
   }
@@ -106,15 +105,11 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.isAutoScroll = con.isAutoScroll;
   }
 
-  writeMenu() {
-    if (!this.isIOS) {
-      let dialog = this.dialog.open(ResWriteDialogComponent);
-      let com = dialog.componentInstance;
-      com.topic = this.topic;
-      com.reply = null;
-    } else {
-      this.router.navigate(['topic', this.topic.id, 'write']);
-    }
+  writeMenu(res: Res) {
+    let dialog = this.dialog.open(ResWriteDialogComponent);
+    let com = dialog.componentInstance;
+    com.topic = this.topic;
+    com.reply = res;
   }
 
   update(topic: Topic) {
@@ -202,7 +197,7 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
       this.zone.runOutsideAngular(() => {
         this.intervalID = setInterval(() => {
           if (this.isAutoScroll) {
-            document.body.scrollTop += this.autoScrollSpeed;
+            this.scrollEl.nativeElement.scrollTop += this.autoScrollSpeed;
           }
         }, 200);
       });
@@ -218,6 +213,9 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
       });
     });
   }
+
+  @ViewChild('scrollEl')
+  scrollEl: ElementRef;
 
   scrollSave(iel: IInfiniteScrollElement) {
     if (iel === null || !this.user.ud.getValue()) {

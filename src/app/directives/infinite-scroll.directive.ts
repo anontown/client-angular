@@ -32,19 +32,22 @@ export class InfiniteScrollDirective implements OnInit, OnDestroy {
   @Input()
   wait = 500;
 
-  toTop():Promise<void>{
+  @Input()
+  scrollEl: HTMLElement;
+
+  toTop(): Promise<void> {
     return new Promise<void>((ok) => {
       setTimeout(() => {
-        document.body.scrollTop = 0;
+        this.scrollEl.scrollTop = 0;
         ok();
       });
     });
   }
 
-  toBottom():Promise<void>{
+  toBottom(): Promise<void> {
     return new Promise<void>((ok) => {
       setTimeout(() => {
-        document.body.scrollTop = document.body.scrollHeight;
+        this.scrollEl.scrollTop = this.scrollEl.scrollHeight;
         ok();
       });
     });
@@ -53,7 +56,7 @@ export class InfiniteScrollDirective implements OnInit, OnDestroy {
   setTopElement(iel: IInfiniteScrollElement): Promise<void> {
     return new Promise<void>((resolve => {
       setTimeout(() => {
-        document.body.scrollTop += (iel.el.offsetTop + iel.el.offsetHeight / 2) - iel.y;
+        this.scrollEl.scrollTop += (iel.el.offsetTop + iel.el.offsetHeight / 2) - iel.y;
         resolve();
       }, 0)
     }));
@@ -64,7 +67,7 @@ export class InfiniteScrollDirective implements OnInit, OnDestroy {
       setTimeout(() => {
         //最短距離のエレメント
         let minEl: HTMLElement = null;
-        Array.from((<HTMLElement>this.el.nativeElement).children)
+        Array.from(this.el.children)
           .forEach((x: HTMLElement) => {
             if (minEl === null) {
               minEl = x;
@@ -85,7 +88,7 @@ export class InfiniteScrollDirective implements OnInit, OnDestroy {
   setBottomElement(iel: IInfiniteScrollElement): Promise<void> {
     return new Promise<void>((resolve => {
       setTimeout(() => {
-        document.body.scrollTop += (iel.el.offsetTop + iel.el.offsetHeight / 2) - iel.y;
+        this.scrollEl.scrollTop += (iel.el.offsetTop + iel.el.offsetHeight / 2) - iel.y;
         resolve();
       }, 0)
     }));
@@ -96,7 +99,7 @@ export class InfiniteScrollDirective implements OnInit, OnDestroy {
       setTimeout(() => {
         //最短距離のエレメント
         let minEl: HTMLElement = null;
-        Array.from((<HTMLElement>this.el.nativeElement).children)
+        Array.from(this.el.children)
           .forEach((x: HTMLElement) => {
             if (minEl === null) {
               minEl = x;
@@ -127,26 +130,30 @@ export class InfiniteScrollDirective implements OnInit, OnDestroy {
 
   private subscriptions: Subscription[] = [];
 
-  constructor(private el: ElementRef) { }
+  el: HTMLElement;
+
+  constructor(el: ElementRef) {
+    this.el = el.nativeElement;
+  }
 
   ngOnInit() {
-    this.subscriptions.push(Observable.fromEvent(window, "scroll")
-      .map(() => <ClientRect>this.el.nativeElement.getBoundingClientRect())
-      .filter(x => x.top >= -this.width)
+    this.subscriptions.push(Observable.fromEvent(this.scrollEl, "scroll")
+      .map(() => this.el.scrollTop)
+      .filter(top => top <= this.width)
       .debounceTime(this.wait)
       .subscribe(() => {
         this.scrollTop.emit();
       }));
 
-    this.subscriptions.push(Observable.fromEvent(window, "scroll")
-      .map(() => <ClientRect>this.el.nativeElement.getBoundingClientRect())
-      .filter(x => x.bottom <= window.innerHeight + this.width)
+    this.subscriptions.push(Observable.fromEvent(this.scrollEl, "scroll")
+      .map(() => this.el.scrollTop + this.el.clientHeight)
+      .filter(bottom => bottom >= this.el.scrollHeight - this.width)
       .debounceTime(this.wait)
       .subscribe(() => {
         this.scrollBottom.emit();
       }));
 
-    this.subscriptions.push(Observable.fromEvent(window, "scroll")
+    this.subscriptions.push(Observable.fromEvent(this.scrollEl, "scroll")
       .debounceTime(this.wait)
       .subscribe(async () => {
         this.elementChange.emit({

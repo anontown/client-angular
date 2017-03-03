@@ -25,7 +25,7 @@ import { UserService } from '../../services';
 import { MdDialog } from '@angular/material';
 
 import { ProfileDialogComponent, ResWriteDialogComponent, ButtonDialogComponent } from '../../dialogs';
-import {MdSnackBar} from '@angular/material';
+import { MdSnackBar } from '@angular/material';
 
 import { Router } from '@angular/router';
 
@@ -47,6 +47,9 @@ export class ResComponent implements OnInit, OnDestroy {
   @Output()
   update = new EventEmitter<Res>();
 
+  @Output()
+  reply = new EventEmitter<Res>();
+
   childrenMsg: string = null;
 
   isSelf: boolean;
@@ -57,12 +60,12 @@ export class ResComponent implements OnInit, OnDestroy {
     public elementRef: ElementRef,
     private cdr: ChangeDetectorRef,
     public snackBar: MdSnackBar,
-    private router:Router) {
+    private router: Router) {
   }
 
   private subscription: Subscription;
 
-  private isIOS=navigator.userAgent.match(/iPhone|iPad/);
+  private isIOS = navigator.userAgent.match(/iPhone|iPad/);
 
 
   ngOnInit() {
@@ -86,21 +89,9 @@ export class ResComponent implements OnInit, OnDestroy {
     this.cdr.markForCheck();
   }
 
-
-  reply() {
-    if(!this.isIOS){
-      let dialog = this.dialog.open(ResWriteDialogComponent);
-      let com = dialog.componentInstance;
-      com.topic = this.res.topic;
-      com.reply = this.res;
-    }else{
-      this.router.navigate(['topic',this.res.topic,'write'], { queryParams: { reply:this.res.id } });
-    }
-  }
-
   async hashClick() {
-    let ud=this.user.ud.getValue();
-    try{
+    let ud = this.user.ud.getValue();
+    try {
       if (this.children.size !== 0) {
         this.children = Immutable.List<Res>();
         this.childrenMsg = null;
@@ -112,14 +103,14 @@ export class ResComponent implements OnInit, OnDestroy {
         this.childrenMsg = "抽出 HASH:" + this.res.hash;
       }
       this.cdr.markForCheck();
-    }catch(_e){
+    } catch (_e) {
       this.snackBar.open("レス取得に失敗");
     }
   }
 
   async sendReplyClick() {
-    let ud=this.user.ud.getValue();
-    try{
+    let ud = this.user.ud.getValue();
+    try {
       if (this.children.size !== 0) {
         this.children = Immutable.List<Res>();
       } else {
@@ -129,14 +120,14 @@ export class ResComponent implements OnInit, OnDestroy {
       }
       this.childrenMsg = null;
       this.cdr.markForCheck();
-    }catch(_e){
+    } catch (_e) {
       this.snackBar.open("レス取得に失敗");
     }
   }
 
   async receiveReplyClick() {
-    let ud=this.user.ud.getValue();
-    try{
+    let ud = this.user.ud.getValue();
+    try {
       if (this.children.size !== 0) {
         this.children = Immutable.List<Res>();
       } else {
@@ -147,14 +138,14 @@ export class ResComponent implements OnInit, OnDestroy {
       }
       this.childrenMsg = null;
       this.cdr.markForCheck();
-    }catch(_e){
+    } catch (_e) {
       this.snackBar.open("レス取得に失敗");
     }
   }
 
   async uv() {
-    let ud=this.user.ud.getValue();
-    try{
+    let ud = this.user.ud.getValue();
+    try {
       switch (this.res.voteFlag) {
         case "uv":
           this.update.emit(await this.api.cvRes(ud.auth, {
@@ -175,14 +166,14 @@ export class ResComponent implements OnInit, OnDestroy {
           }));
           break;
       }
-    }catch(_e){
+    } catch (_e) {
       this.snackBar.open("投票に失敗");
     }
   }
 
   async dv() {
-    let ud=this.user.ud.getValue();
-    try{
+    let ud = this.user.ud.getValue();
+    try {
       switch (this.res.voteFlag) {
         case "dv":
           this.update.emit(await this.api.cvRes(ud.auth, {
@@ -203,14 +194,14 @@ export class ResComponent implements OnInit, OnDestroy {
           }));
           break;
       }
-    }catch(_e){
+    } catch (_e) {
       this.snackBar.open("レス取得に失敗");
     }
   }
 
   async del() {
-    let ud=this.user.ud.getValue();
-    try{
+    let ud = this.user.ud.getValue();
+    try {
       let dialogRef = this.dialog.open(ButtonDialogComponent);
       let com = dialogRef.componentInstance;
       com.message = "削除して良いですか？";
@@ -223,19 +214,19 @@ export class ResComponent implements OnInit, OnDestroy {
           id: this.res.id
         }));
       }
-    }catch(_e){
+    } catch (_e) {
       this.snackBar.open("レス削除に失敗");
     }
   }
-  
+
 
   async profileOpen() {
-    let ud=this.user.ud.getValue();
-    try{
+    let ud = this.user.ud.getValue();
+    try {
       this.dialog.open(ProfileDialogComponent).componentInstance.profile = await this.api.findProfileOne(ud ? ud.auth : null, {
         id: this.res.profile as string
       });
-    }catch(_e){
+    } catch (_e) {
       this.snackBar.open("プロフ取得に失敗");
     }
   }

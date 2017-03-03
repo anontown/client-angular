@@ -1,5 +1,12 @@
 <div *ngIf="user.ud.getValue()!==null&&user.ud.getValue()!==undefined">
   <form (ngSubmit)="ok()">
+    <div class="reply" *ngIf="reply">
+      リプライ先
+      <button (click)="reply=null" md-icon-button>
+      <md-icon>close</md-icon>
+    </button>
+      <app-res [res]="reply"></app-res>
+    </div>
     <div *ngFor="let e of errors">
       <md-icon>error</md-icon> {{e.message}}
     </div>

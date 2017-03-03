@@ -1,3 +1,4 @@
+//ツールボックス
 .topic-tool {
     position: fixed;
     width: 80vw;
@@ -5,21 +6,58 @@
     right: 10vw;
 }
 
-.sidebar-fixed{
-    position: fixed;
-    width: inherit;
-    height: calc(100vh - 64px);
-    overflow-y: auto;
-}
-
-.topic-tool-open {
-    height: 60vh;
-    overflow: auto;
-}
-
-.tool-button {
-    display: inline-block;
+//一番外側
+.contents{
+    position: absolute;
+    top:0px;
+    bottom: 0px;
     right: 0px;
+    left: 0px;
+    padding-top: 59px;
+}
+
+//一番外側、幅が広い場合は2カラム
+.two-column{
+    display: flex;
+
+    .sidebar-column{
+        overflow-y: auto;
+        width: 30vw;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .main-column{
+        flex: 1;
+    }
+}
+
+.main-column{
+    display: flex;
+    flex-direction: column;
+
+    .header{
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        padding: 6px;
+        height: 24px;
+        background-color: #aaf;
+
+        .icon{
+            line-height:16px;
+        }
+
+        .subject{
+            font-size: 16px;
+            font-weight: bold;
+        }
+    }
+
+    .reses{
+        flex: 1;
+        overflow: auto;
+        -webkit-overflow-scrolling: touch;
+    }
 }
 
 .fab-main {
@@ -27,51 +65,4 @@
   bottom: 20px;
   right: 20px;
   z-index: 999;
-}
-
-.title{
-    font-size:24px;
-}
-
-.contents{
-    display: table;
-    width: 100%;
-    table-layout: fixed;
-}
-
-.sidebar-contents{
-    display: table-cell;
-    width: 30%;
-    padding-right: 4px;
-}
-
-$padding:64px;
-
-.main-column{
-    padding-top: $padding;
-}
-
-.main-contents{
-    display: table-cell;
-    width:70%;
-    padding-left: 4px;
-}
-.header{
-    position: fixed;
-    margin-top: -$padding;
-    width: 100%;
-    z-index: 2;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    padding: 6px;
-
-    .icon{
-        line-height:16px;
-    }
-
-    .subject{
-        font-size: 16px;
-        font-weight: bold;
-    }
 }

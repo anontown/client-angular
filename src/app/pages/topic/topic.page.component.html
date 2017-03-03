@@ -8,24 +8,23 @@
   <button md-mini-fab (click)="autoScrollMenu()">
         <md-icon>play_circle_outline</md-icon>
         </button>
-  <button md-fab *ngIf="user.ud.getValue()!==null&&topic.active" (click)="writeMenu()">
+  <button md-fab *ngIf="user.ud.getValue()!==null&&topic.active" (click)="writeMenu(null)">
         <md-icon>edit</md-icon>
     </button>
 </div>
-<div *ngIf="topic" [ngClass]="{contents:(rs.size|async)==='lg'}">
-  <div class="sidebar-contents" *ngIf="(rs.size|async)==='lg'">
-    <div *ngIf="user.ud.getValue()!==null" class="sidebar-fixed">
-      <h1>お気に入りトピ</h1>
-      <app-topic-favo [simple]="true"></app-topic-favo>
-    </div>
+<div *ngIf="topic" [ngClass]="{'two-column':(rs.size|async)==='lg','contents':true}">
+  <div class="sidebar-column" *ngIf="(rs.size|async)==='lg'&&user.ud.getValue()!==null">
+    <h1>お気に入りトピ</h1>
+    <app-topic-favo [simple]="true"></app-topic-favo>
   </div>
-  <div [ngClass]="{'main-contents':(rs.size|async)==='lg'}" class="main-column">
+  <div class="main-column">
     <md-card class="header">
       <md-icon *ngIf="topic.type==='one'" class="icon">looks_one</md-icon>
       <span class="subject">{{topic.title}}</span>
     </md-card>
-    <div #iScroll=infiniteScroll appInfiniteScroll (scrollTop)="readOld()" (scrollBottom)="readNew()" (elementChange)="scrollSave($event.bottom)">
-      <app-res #resE *ngFor="let r of reses|reverse" [res]="r" (update)="updateRes($event)"></app-res>
+    <div class="reses" #scrollEl [scrollEl]="scrollEl" #iScroll=infiniteScroll appInfiniteScroll (scrollTop)="readOld()" (scrollBottom)="readNew()"
+      (elementChange)="scrollSave($event.bottom)">
+      <app-res (reply)="writeMenu($event)" #resE *ngFor="let r of reses|reverse" [res]="r" (update)="updateRes($event)"></app-res>
     </div>
   </div>
 </div>

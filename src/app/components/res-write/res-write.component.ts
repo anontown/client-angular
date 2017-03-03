@@ -29,7 +29,7 @@ export class ResWriteComponent implements OnInit, OnDestroy {
   private name = "";
   private text = "";
   private profile: string | null = null;
-  private errors: IAtError[]=[];
+  private errors: IAtError[] = [];
   private age = true;
   @Output()
   write = new EventEmitter<Res>();
@@ -64,10 +64,10 @@ export class ResWriteComponent implements OnInit, OnDestroy {
   topic: Topic | string;
 
   @Input()
-  reply: Res | string | null = null;
+  reply: Res | null = null;
 
   async ok() {
-    let ud=this.user.ud.getValue();
+    let ud = this.user.ud.getValue();
     try {
       let text: string;
       if (this.text.length !== 0 && !this.markdown) {
@@ -79,9 +79,7 @@ export class ResWriteComponent implements OnInit, OnDestroy {
         topic: typeof this.topic === "string" ? this.topic : this.topic.id,
         name: this.name,
         text: text,
-        reply: this.reply === null ? null
-          : typeof this.reply === "string" ? this.reply
-            : this.reply.id,
+        reply: this.reply === null ? null : this.reply.id,
         profile: this.profile,
         age: this.age
       });

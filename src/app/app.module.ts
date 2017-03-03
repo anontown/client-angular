@@ -50,7 +50,6 @@ import {
     UserMsgPageComponent,
     UserNoticePageComponent,
     UserProfilePageComponent,
-    ResWritePageComponent,
     NotFoundComponent,
     TopicEditPageComponent
 } from './pages';
@@ -80,10 +79,6 @@ AtApiService.serverURL = Config.serverURL;
             {
                 path: 'topic/write',
                 component: TopicWritePageComponent
-            },
-            {
-                path: 'topic/:id/write',
-                component: ResWritePageComponent
             },
             {
                 path: 'topic/:id/edit',
@@ -125,7 +120,6 @@ AtApiService.serverURL = Config.serverURL;
         InfiniteScrollDirective,
 
         AppComponent,
-        ResWritePageComponent,
         ResWriteComponent,
         TopicHistoryComponent,
         ProfileDialogComponent,
