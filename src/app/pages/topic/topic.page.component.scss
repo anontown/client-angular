@@ -8,6 +8,7 @@
 
 //一番外側
 .contents{
+    display: flex;
     position: absolute;
     top:0px;
     bottom: 0px;
@@ -18,20 +19,15 @@
 
 //一番外側、幅が広い場合は2カラム
 .two-column{
-    display: flex;
-
     .sidebar-column{
         overflow-y: auto;
         width: 30vw;
         -webkit-overflow-scrolling: touch;
     }
-
-    .main-column{
-        flex: 1;
-    }
 }
 
 .main-column{
+    flex: 1;
     display: flex;
     flex-direction: column;
 

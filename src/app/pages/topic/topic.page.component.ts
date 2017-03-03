@@ -90,7 +90,7 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.reses = this.reses.set(this.reses.findIndex((r) => r.id === res.id), res);
   }
 
-  autoScrollSpeed = 10;
+  autoScrollSpeed = 15;
   private isAutoScroll = false;
   autoScroll() {
     this.isAutoScroll = !this.isAutoScroll;
@@ -199,7 +199,7 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
           if (this.isAutoScroll) {
             this.scrollEl.nativeElement.scrollTop += this.autoScrollSpeed;
           }
-        }, 200);
+        }, 100);
       });
 
       //自動更新
