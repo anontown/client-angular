@@ -1,4 +1,7 @@
 <div *ngIf="topic&&user.ud.getValue()!==undefined" class="fab-main">
+  <button md-mini-fab (click)="openData()">
+      <md-icon>keyboard_arrow_up</md-icon>
+    </button>
   <button md-mini-fab *ngIf="user.ud.getValue()!==null" (click)="favo()">
         <md-icon>{{isFavo?'star':'star_border'}}</md-icon>
     </button>
@@ -17,7 +20,10 @@
     </div>
   </div>
   <div [ngClass]="{'main-contents':(rs.size|async)==='lg'}" class="main-column">
-    <app-topic-data (update)="update($event)" [topic]="topic"></app-topic-data>
+    <md-card class="header">
+      <md-icon *ngIf="topic.type==='one'" class="icon">looks_one</md-icon>
+      <span class="subject">{{topic.title}}</span>
+    </md-card>
     <div #iScroll=infiniteScroll appInfiniteScroll (scrollTop)="readOld()" (scrollBottom)="readNew()" (elementChange)="scrollSave($event.bottom)">
       <app-res #resE *ngFor="let r of reses|reverse" [res]="r" (update)="updateRes($event)"></app-res>
     </div>

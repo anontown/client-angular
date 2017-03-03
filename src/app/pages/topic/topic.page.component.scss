@@ -8,7 +8,7 @@
 .sidebar-fixed{
     position: fixed;
     width: inherit;
-    height: calc(100vh - 64px - 8px);
+    height: calc(100vh - 64px);
     overflow-y: auto;
 }
 
@@ -45,8 +45,33 @@
     padding-right: 4px;
 }
 
+$padding:64px;
+
+.main-column{
+    padding-top: $padding;
+}
+
 .main-contents{
     display: table-cell;
     width:70%;
     padding-left: 4px;
+}
+.header{
+    position: fixed;
+    margin-top: -$padding;
+    width: 100%;
+    z-index: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 6px;
+
+    .icon{
+        line-height:16px;
+    }
+
+    .subject{
+        font-size: 16px;
+        font-weight: bold;
+    }
 }

@@ -23,10 +23,8 @@ import {
     UserProfileEditComponent,
     UserProfileAddComponent,
     ResComponent,
-    TopicEditComponent,
     TopicListItemComponent,
     MdEditorComponent,
-    TopicDataComponent,
     OekakiComponent,
     ResWriteComponent,
     TopicFavoComponent,
@@ -38,7 +36,8 @@ import {
     ResWriteDialogComponent,
     ProfileDialogComponent,
     TopicAutoScrollMenuDialogComponent,
-    ButtonDialogComponent
+    ButtonDialogComponent,
+    TopicDataDialogComponent
 } from './dialogs';
 
 import { AppComponent } from './app.component';
@@ -52,7 +51,8 @@ import {
     UserNoticePageComponent,
     UserProfilePageComponent,
     ResWritePageComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    TopicEditPageComponent
 } from './pages';
 import { Config } from './config';
 
@@ -84,6 +84,10 @@ AtApiService.serverURL = Config.serverURL;
             {
                 path: 'topic/:id/write',
                 component: ResWritePageComponent
+            },
+            {
+                path: 'topic/:id/edit',
+                component: TopicEditPageComponent
             },
             {
                 path: 'topic/:id',
@@ -129,8 +133,8 @@ AtApiService.serverURL = Config.serverURL;
         UserProfileEditComponent,
         ResWriteDialogComponent,
         ResComponent,
-        TopicDataComponent,
-        TopicEditComponent,
+        TopicDataDialogComponent,
+        TopicEditPageComponent,
         TopicSearchPageComponent,
         TopicWritePageComponent,
         TopicPageComponent,
@@ -160,7 +164,8 @@ AtApiService.serverURL = Config.serverURL;
         ProfileDialogComponent,
         ResWriteDialogComponent,
         TopicAutoScrollMenuDialogComponent,
-        ButtonDialogComponent
+        ButtonDialogComponent,
+        TopicDataDialogComponent
     ]
 
 })

@@ -32,6 +32,24 @@ export class InfiniteScrollDirective implements OnInit, OnDestroy {
   @Input()
   wait = 500;
 
+  toTop():Promise<void>{
+    return new Promise<void>((ok) => {
+      setTimeout(() => {
+        document.body.scrollTop = 0;
+        ok();
+      });
+    });
+  }
+
+  toBottom():Promise<void>{
+    return new Promise<void>((ok) => {
+      setTimeout(() => {
+        document.body.scrollTop = document.body.scrollHeight;
+        ok();
+      });
+    });
+  }
+
   setTopElement(iel: IInfiniteScrollElement): Promise<void> {
     return new Promise<void>((resolve => {
       setTimeout(() => {

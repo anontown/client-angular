@@ -7,3 +7,4 @@ export * from './user-notice/user-notice.page.component';
 export * from './user-profile/user-profile.page.component';
 export * from './res-write/res-write.page.component';
 export * from './not-found/not-found.component';
+export * from './topic-edit/topic-edit.component';

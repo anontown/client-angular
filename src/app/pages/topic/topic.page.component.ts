@@ -23,7 +23,8 @@ import { Config } from '../../config';
 import { UserService, ResponsiveService } from '../../services';
 import {
   TopicAutoScrollMenuDialogComponent,
-  ResWriteDialogComponent
+  ResWriteDialogComponent,
+  TopicDataDialogComponent
 } from '../../dialogs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ResComponent } from '../../components';
@@ -120,6 +121,11 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.topic = topic;
   }
 
+  openData() {
+    let dialog = this.dialog.open(TopicDataDialogComponent);
+    dialog.componentInstance.topic = this.topic;
+  }
+
 
   private socket: SocketIOClient.Socket;
 
@@ -139,6 +145,8 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
     let first = true;
     this.route.params.forEach(async (params) => {
       if (!first) {
+        this.isReadAllNew = false;
+        this.isReadAllOld = false;
         this.ngOnDestroy();
       }
       first = false;
@@ -173,7 +181,7 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
                 this.isReadAllOld = true;
               }
               this.reses = Immutable.List(reses);
-              await this.scrollBottom();
+              await this.iScroll.toBottom();
             });
           } catch (_e) {
             this.snackBar.open("レス取得に失敗");
@@ -248,15 +256,6 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   private subscriptions: Subscription[] = [];
 
-  private scrollBottom(): Promise<void> {
-    return new Promise<void>((ok) => {
-      setTimeout(() => {
-        document.body.scrollTop = document.body.scrollHeight;
-        ok();
-      });
-    });
-  }
-
   private async findNew() {
     let ud = this.user.ud.getValue();
     try {
@@ -270,7 +269,7 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
           this.isReadAllNew = true;
         }
         this.reses = Immutable.List(reses);
-        await this.scrollBottom();
+        await this.iScroll.toBottom();
       });
     } catch (_e) {
       this.snackBar.open("レス取得に失敗");

@@ -1,0 +1,19 @@
+<md-card *ngIf="user.ud.getValue()!==null&&user.ud.getValue()!==undefined">
+  <form (ngSubmit)="ok()">
+    <div *ngFor="let e of errors">
+      <md-icon>error</md-icon> {{e.message}}
+    </div>
+    <div>
+      <md-input-container>
+        <input mdInput placeholder="タイトル" [(ngModel)]="title" name="title">
+      </md-input-container>
+    </div>
+    <div>
+      <app-tags-input [(ngModel)]="tags" name="tags"></app-tags-input>
+    </div>
+    <app-md-editor [(ngModel)]="text" name="text"></app-md-editor>
+    <div>
+      <button type="submit" md-raised-button>OK</button>
+    </div>
+  </form>
+</md-card>

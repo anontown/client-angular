@@ -1,0 +1,25 @@
+<div md-dialog-content *ngIf="user.ud.getValue()!==undefined">
+  <dl>
+    <dt>作成</dt>
+    <dd>{{topic.date|atDate}}</dd>
+    <dt>更新</dt>
+    <dd>{{topic.update|atDate}}</dd>
+    <dt>カテゴリ</dt>
+    <dd><a [routerLink]="['/topic/search']" [queryParams]="{title:'',tags:topic.tags.join(' ')}">{{topic.tags.join(',')}}</a></dd>
+    <dt>本文</dt>
+    <dd>
+      <div [innerHTML]="topic.mdtext|html"></div>
+    </dd>
+    <button md-icon-button *ngIf="user.ud.getValue()!==null&&topic.type!=='one'" (click)="edit()">
+      <md-icon>edit</md-icon>
+    </button>
+    <ng-container *ngIf="topic.type!=='one'">
+      <dt>編集履歴</dt>
+      <dd>
+        <div class="panel-group">
+          <app-topic-history *ngFor="let h of histories" [history]="h" [topic]="topic"></app-topic-history>
+        </div>
+      </dd>
+    </ng-container>
+  </dl>
+</div>
