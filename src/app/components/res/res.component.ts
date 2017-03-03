@@ -24,10 +24,8 @@ import {
 import { UserService } from '../../services';
 import { MdDialog } from '@angular/material';
 
-import { ProfileDialogComponent, ResWriteDialogComponent, ButtonDialogComponent } from '../../dialogs';
+import { ProfileDialogComponent, ButtonDialogComponent } from '../../dialogs';
 import { MdSnackBar } from '@angular/material';
-
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-res',
@@ -59,14 +57,10 @@ export class ResComponent implements OnInit, OnDestroy {
     private dialog: MdDialog,
     public elementRef: ElementRef,
     private cdr: ChangeDetectorRef,
-    public snackBar: MdSnackBar,
-    private router: Router) {
+    public snackBar: MdSnackBar) {
   }
 
   private subscription: Subscription;
-
-  private isIOS = navigator.userAgent.match(/iPhone|iPad/);
-
 
   ngOnInit() {
     this.subscription = this.user.ud.subscribe((ud) => {
