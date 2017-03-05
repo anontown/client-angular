@@ -28,6 +28,8 @@
 
 .main-column{
     flex: 1;
+    overflow: auto;
+    word-wrap:break-word;
     display: flex;
     flex-direction: column;
 
