@@ -52,6 +52,7 @@ import {
     UserNoticePageComponent,
     UserProfilePageComponent,
     NotFoundComponent,
+    ResPageComponent
 } from './pages';
 import { Config } from './config';
 
@@ -71,6 +72,10 @@ AtApiService.serverURL = Config.serverURL;
             {
                 path: '',
                 component: IndexPageComponent
+            },
+            {
+                path: 'res/:id',
+                component: ResPageComponent
             },
             {
                 path: 'topic/search',
@@ -141,7 +146,8 @@ AtApiService.serverURL = Config.serverURL;
         TopicFavoComponent,
         NotFoundComponent,
         TagFavoComponent,
-        TagsInputComponent
+        TagsInputComponent,
+        ResPageComponent
     ],
     // エントリ
     bootstrap: [AppComponent],

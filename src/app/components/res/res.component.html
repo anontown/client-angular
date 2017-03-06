@@ -3,7 +3,7 @@
     <a (click)="reply.emit(res)" href="javascript:void(0);">{{res.name}}</a>
     <a *ngIf="res.profile!==null" (click)="profileOpen()" href="javascript:void(0);">[プロフィール]</a>
 
-    <span>{{res.date|atDate}}</span>
+    <a [routerLink]="['/res',res.id]">{{res.date|atDate}}</a>
     <a href="javascript:void(0);" (click)="hashClick()">
       HASH:{{res.hash.substr(0,6)}}...
     </a>
