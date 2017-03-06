@@ -34,8 +34,6 @@ export class TopicEditDialogComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        document.title = "トピック編集";
-
         this.title = this.topic.title;
         this.tags = this.topic.tags.join(" ");
         this.text = this.topic.text;

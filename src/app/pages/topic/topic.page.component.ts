@@ -122,10 +122,12 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
     dialog.componentInstance.topic = this.topic;
   }
 
-  async openEdit() {
+  openEdit() {
     let dialog = this.dialog.open(TopicEditDialogComponent);
     dialog.componentInstance.topic = this.topic;
-    this.topic = await dialog.afterClosed().toPromise();
+    dialog.afterClosed()
+      .filter(x => x)
+      .subscribe(x => this.topic = x);
   }
 
 

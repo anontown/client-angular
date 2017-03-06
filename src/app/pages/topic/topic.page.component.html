@@ -5,7 +5,6 @@
 </div>
 <div *ngIf="topic&&user.ud.getValue()!==undefined" [ngClass]="{'two-column':(rs.size|async)==='lg','contents':true}">
   <div class="sidebar-column" *ngIf="(rs.size|async)==='lg'&&user.ud.getValue()!==null">
-    <h1>お気に入りトピ</h1>
     <app-topic-favo [simple]="true"></app-topic-favo>
   </div>
   <div class="main-column">
