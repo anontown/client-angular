@@ -37,7 +37,8 @@ import {
     ProfileDialogComponent,
     TopicAutoScrollMenuDialogComponent,
     ButtonDialogComponent,
-    TopicDataDialogComponent
+    TopicDataDialogComponent,
+    TopicEditDialogComponent
 } from './dialogs';
 
 import { AppComponent } from './app.component';
@@ -51,7 +52,6 @@ import {
     UserNoticePageComponent,
     UserProfilePageComponent,
     NotFoundComponent,
-    TopicEditPageComponent
 } from './pages';
 import { Config } from './config';
 
@@ -79,10 +79,6 @@ AtApiService.serverURL = Config.serverURL;
             {
                 path: 'topic/write',
                 component: TopicWritePageComponent
-            },
-            {
-                path: 'topic/:id/edit',
-                component: TopicEditPageComponent
             },
             {
                 path: 'topic/:id',
@@ -128,7 +124,7 @@ AtApiService.serverURL = Config.serverURL;
         ResWriteDialogComponent,
         ResComponent,
         TopicDataDialogComponent,
-        TopicEditPageComponent,
+        TopicEditDialogComponent,
         TopicSearchPageComponent,
         TopicWritePageComponent,
         TopicPageComponent,
@@ -159,7 +155,8 @@ AtApiService.serverURL = Config.serverURL;
         ResWriteDialogComponent,
         TopicAutoScrollMenuDialogComponent,
         ButtonDialogComponent,
-        TopicDataDialogComponent
+        TopicDataDialogComponent,
+        TopicEditDialogComponent
     ]
 
 })

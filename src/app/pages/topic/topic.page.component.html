@@ -1,26 +1,33 @@
 <div *ngIf="topic&&user.ud.getValue()!==undefined" class="fab-main">
-  <button md-mini-fab (click)="openData()">
-      <md-icon>keyboard_arrow_up</md-icon>
-    </button>
-  <button md-mini-fab *ngIf="user.ud.getValue()!==null" (click)="favo()">
-        <md-icon>{{isFavo?'star':'star_border'}}</md-icon>
-    </button>
-  <button md-mini-fab (click)="autoScrollMenu()">
-        <md-icon>play_circle_outline</md-icon>
-        </button>
   <button md-fab *ngIf="user.ud.getValue()!==null&&topic.active" (click)="writeMenu(null)">
         <md-icon>edit</md-icon>
     </button>
 </div>
-<div *ngIf="topic" [ngClass]="{'two-column':(rs.size|async)==='lg','contents':true}">
+<div *ngIf="topic&&user.ud.getValue()!==undefined" [ngClass]="{'two-column':(rs.size|async)==='lg','contents':true}">
   <div class="sidebar-column" *ngIf="(rs.size|async)==='lg'&&user.ud.getValue()!==null">
     <h1>お気に入りトピ</h1>
     <app-topic-favo [simple]="true"></app-topic-favo>
   </div>
   <div class="main-column">
     <md-card class="header">
-      <md-icon *ngIf="topic.type==='one'" class="icon">looks_one</md-icon>
-      <span class="subject">{{topic.title}}</span>
+      <div>
+        <md-icon *ngIf="topic.type==='one'" class="icon">looks_one</md-icon>
+        <span class="subject">{{topic.title}}</span>
+      </div>
+      <div class="tool">
+        <button md-icon-button (click)="openData()">
+      <md-icon>keyboard_arrow_down</md-icon>
+    </button>
+    <button md-icon-button *ngIf="user.ud.getValue()!==null&&topic.type!=='one'" (click)="openEdit()">
+      <md-icon>settings</md-icon>
+    </button>
+        <button md-icon-button *ngIf="user.ud.getValue()!==null" (click)="favo()">
+        <md-icon>{{isFavo?'star':'star_border'}}</md-icon>
+    </button>
+        <button md-icon-button (click)="autoScrollMenu()">
+        <md-icon>play_circle_outline</md-icon>
+        </button>
+      </div>
     </md-card>
     <div class="reses" #scrollEl [scrollEl]="scrollEl" #iScroll=infiniteScroll appInfiniteScroll (scrollTop)="readOld()" (scrollBottom)="readNew()"
       (elementChange)="scrollSave($event.bottom)">

@@ -5,8 +5,6 @@ import {
     ChangeDetectionStrategy,
 } from '@angular/core';
 
-import { ActivatedRoute, Router } from '@angular/router';
-
 import {
     AtApiService,
     Topic,
@@ -15,14 +13,14 @@ import {
 } from 'anontown';
 import { UserService } from '../../services';
 
-import { MdSnackBar } from '@angular/material';
+import { MdSnackBar, MdDialogRef } from '@angular/material';
 
 @Component({
     templateUrl: './topic-edit.component.html',
     changeDetection: ChangeDetectionStrategy.Default
 })
-export class TopicEditPageComponent implements OnInit, OnDestroy {
-    private topic: Topic;
+export class TopicEditDialogComponent implements OnInit, OnDestroy {
+    topic: Topic;
 
     private title = "";
     private tags = "";
@@ -31,29 +29,16 @@ export class TopicEditPageComponent implements OnInit, OnDestroy {
 
     constructor(private user: UserService,
         private api: AtApiService,
-        private route: ActivatedRoute,
         public snackBar: MdSnackBar,
-        private router: Router) {
+        private dialogRef: MdDialogRef<TopicEditDialogComponent>) {
     }
 
     ngOnInit() {
         document.title = "トピック編集";
 
-        this.route.params.forEach(async params => {
-            try {
-                let topic = await this.api.findTopicOne({
-                    id: params['id']
-                });
-
-                this.title = topic.title;
-                this.tags = topic.tags.join(" ");
-                this.text = topic.text;
-
-                this.topic = topic;
-            } catch (_e) {
-                this.snackBar.open('トピック取得に失敗');
-            }
-        });
+        this.title = this.topic.title;
+        this.tags = this.topic.tags.join(" ");
+        this.text = this.topic.text;
     }
 
     ngOnDestroy() {
@@ -62,14 +47,14 @@ export class TopicEditPageComponent implements OnInit, OnDestroy {
     async ok() {
         let ud = this.user.ud.getValue();
         try {
-            await this.api.updateTopic(ud.auth, {
+            let topic = await this.api.updateTopic(ud.auth, {
                 id: this.topic.id,
                 title: this.title,
                 tags: this.tags.length === 0 ? [] : this.tags.split(/[\s　\,]+/),
                 text: this.text
             });
-            this.router.navigate(['/topic', this.topic.id]);
             this.errors = [];
+            this.dialogRef.close(topic);
         } catch (e) {
             if (e instanceof AtError) {
                 this.errors = e.errors;

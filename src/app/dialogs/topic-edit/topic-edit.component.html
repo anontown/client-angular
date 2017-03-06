@@ -1,4 +1,4 @@
-<md-card *ngIf="user.ud.getValue()!==null&&user.ud.getValue()!==undefined">
+<div md-dialog-content *ngIf="user.ud.getValue()!==null&&user.ud.getValue()!==undefined">
   <form (ngSubmit)="ok()">
     <div *ngFor="let e of errors">
       <md-icon>error</md-icon> {{e.message}}
@@ -16,4 +16,4 @@
       <button type="submit" md-raised-button>OK</button>
     </div>
   </form>
-</md-card>
+</div>

@@ -25,7 +25,8 @@ import { UserService, ResponsiveService } from '../../services';
 import {
   TopicAutoScrollMenuDialogComponent,
   ResWriteDialogComponent,
-  TopicDataDialogComponent
+  TopicDataDialogComponent,
+  TopicEditDialogComponent
 } from '../../dialogs';
 import { ActivatedRoute } from '@angular/router';
 import { ResComponent } from '../../components';
@@ -119,6 +120,12 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
   openData() {
     let dialog = this.dialog.open(TopicDataDialogComponent);
     dialog.componentInstance.topic = this.topic;
+  }
+
+  async openEdit() {
+    let dialog = this.dialog.open(TopicEditDialogComponent);
+    dialog.componentInstance.topic = this.topic;
+    this.topic = await dialog.afterClosed().toPromise();
   }
 
 

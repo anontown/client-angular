@@ -34,20 +34,37 @@
     flex-direction: column;
 
     .header{
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
         padding: 6px;
-        height: 24px;
-        background-color: #aaf;
+        height: 42px;
+        background-color: #ccf;
 
         .icon{
             line-height:16px;
         }
 
         .subject{
-            font-size: 16px;
             font-weight: bold;
+        }
+
+        .tool{
+            $icon-button-size:20px;
+            $icon-size:16px;
+
+            font-size: $icon-size;
+            line-height: $icon-size;
+            color: #555;
+
+            [md-icon-button] {
+                width: $icon-button-size;
+                height: $icon-button-size;
+                line-height: $icon-button-size;
+            }
+
+            md-icon{
+                font-size: $icon-size;
+                line-height: $icon-size;
+                display: inline;
+            }
         }
     }
 
