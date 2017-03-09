@@ -9,9 +9,9 @@
   </div>
   <div class="main-column">
     <md-card class="header">
-      <div>
+      <div class="subject">
         <md-icon *ngIf="topic.type==='one'" class="icon">looks_one</md-icon>
-        <span class="subject">{{topic.title}}</span>
+        {{topic.title}}
       </div>
       <div class="tool">
         <button md-icon-button (click)="openData()">
