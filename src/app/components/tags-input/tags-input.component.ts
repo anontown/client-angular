@@ -61,7 +61,7 @@ export class TagsInputComponent implements OnInit, OnDestroy, ControlValueAccess
 
   ok() {
     if (this.tag.length !== 0) {
-      this.tags = this.tags.add(this.tag);
+      this.tags = this.tags.add(this.tag.toLowerCase());
       this.tag = '';
     }
   }

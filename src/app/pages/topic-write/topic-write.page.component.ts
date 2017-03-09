@@ -7,6 +7,8 @@ import {
 } from 'anontown';
 import { UserService } from '../../services';
 import { Router } from '@angular/router';
+import { MdDialog } from '@angular/material';
+import { ButtonDialogComponent } from '../../dialogs';
 
 
 @Component({
@@ -17,12 +19,13 @@ export class TopicWritePageComponent implements OnInit, OnDestroy {
     private title = "";
     private tags = "";
     private text = "";
-    private type: TopicType = "normal";
+    private type: TopicType = "one";
     private errors: IAtError[] = [];
 
     constructor(public user: UserService,
         private api: AtApiService,
-        private router: Router) {
+        private router: Router,
+        private dialog: MdDialog) {
     }
 
     ngOnInit() {
@@ -33,6 +36,18 @@ export class TopicWritePageComponent implements OnInit, OnDestroy {
     }
 
     async write() {
+        if (this.type === 'normal') {
+            let dialog = this.dialog.open(ButtonDialogComponent);
+            dialog.componentInstance.actions = [
+                { data: true, text: 'はい' },
+                { data: false, text: 'いいえ' }
+            ];
+            dialog.componentInstance.message = 'ニュース・ネタ・実況などは単発トピックで建てて下さい。\n本当に建てますか？';
+            if (!(await dialog.afterClosed().toPromise())) {
+                return;
+            }
+        }
+
         let ud = this.user.ud.getValue();
         try {
             let topic = await this.api.createTopic(ud.auth, {
