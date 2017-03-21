@@ -7,7 +7,7 @@ import {
 
 import {
     AtApiService,
-    Topic,
+    TopicNormal,
     AtError,
     IAtError
 } from 'anontown';
@@ -20,8 +20,7 @@ import { MdSnackBar, MdDialogRef } from '@angular/material';
     changeDetection: ChangeDetectionStrategy.Default
 })
 export class TopicEditDialogComponent implements OnInit, OnDestroy {
-    topic: Topic;
-
+    topic: TopicNormal;
     private title = "";
     private tags = "";
     private text = "";

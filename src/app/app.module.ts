@@ -38,7 +38,8 @@ import {
     TopicAutoScrollMenuDialogComponent,
     ButtonDialogComponent,
     TopicDataDialogComponent,
-    TopicEditDialogComponent
+    TopicEditDialogComponent,
+    TopicForkDialogComponent
 } from './dialogs';
 
 import { AppComponent } from './app.component';
@@ -130,6 +131,7 @@ AtApiService.serverURL = Config.serverURL;
         ResComponent,
         TopicDataDialogComponent,
         TopicEditDialogComponent,
+        TopicForkDialogComponent,
         TopicSearchPageComponent,
         TopicWritePageComponent,
         TopicPageComponent,
@@ -162,7 +164,8 @@ AtApiService.serverURL = Config.serverURL;
         TopicAutoScrollMenuDialogComponent,
         ButtonDialogComponent,
         TopicDataDialogComponent,
-        TopicEditDialogComponent
+        TopicEditDialogComponent,
+        TopicForkDialogComponent
     ]
 
 })

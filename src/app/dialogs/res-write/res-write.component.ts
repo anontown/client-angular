@@ -14,7 +14,7 @@ import { MdDialogRef } from '@angular/material';
 
 
 @Component({
-  templateUrl: './res-write.dialog.component.html',
+  templateUrl: './res-write.component.html',
   changeDetection: ChangeDetectionStrategy.Default
 })
 export class ResWriteDialogComponent implements OnInit, OnDestroy {

@@ -9,7 +9,7 @@ import { Profile } from 'anontown';
 import { UserService } from '../../services'
 
 @Component({
-  templateUrl: './profile.dialog.component.html',
+  templateUrl: './profile.component.html',
   changeDetection: ChangeDetectionStrategy.Default
 })
 export class ProfileDialogComponent implements OnInit, OnDestroy {

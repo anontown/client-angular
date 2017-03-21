@@ -1,0 +1,19 @@
+<div md-dialog-content *ngIf="user.ud.getValue()!==undefined">
+  <div *ngIf="user.ud.getValue()!==null">
+    <div *ngFor="let e of errors">
+      <md-icon>error</md-icon> {{e.message}}
+    </div>
+    <form (ngSubmit)="write()">
+      <md-input-container>
+        <input mdInput placeholder="タイトル" [(ngModel)]="title" name="title">
+      </md-input-container>
+      <div>
+        <button type="submit" md-raised-button>新規作成</button>
+      </div>
+    </form>
+  </div>
+  <hr>
+  <div>
+    <app-topic-list-item *ngFor="let t of children" [topic]="t"></app-topic-list-item>
+  </div>
+</div>

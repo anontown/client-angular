@@ -50,12 +50,15 @@ export class TopicWritePageComponent implements OnInit, OnDestroy {
 
         let ud = this.user.ud.getValue();
         try {
-            let topic = await this.api.createTopic(ud.auth, {
+            let params = {
                 title: this.title,
                 tags: this.tags.length === 0 ? [] : this.tags.split(/[\s　\,]+/),
                 text: this.text,
-                type: this.type
-            });
+            };
+            let topic = this.type === "one" ?
+                await this.api.createTopicOne(ud.auth, params) :
+                await this.api.createTopicNormal(ud.auth, params);
+
             this.errors = [];
             this.router.navigate(["topic", topic.id]);
         } catch (e) {

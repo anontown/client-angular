@@ -4,13 +4,19 @@
     <dd>{{topic.date|atDate}}</dd>
     <dt>更新</dt>
     <dd>{{topic.update|atDate}}</dd>
-    <dt>カテゴリ</dt>
-    <dd><a [routerLink]="['/topic/search']" [queryParams]="{title:'',tags:topic.tags.join(' ')}">{{topic.tags.join(',')}}</a></dd>
-    <dt>本文</dt>
-    <dd>
-      <div [innerHTML]="topic.mdtext|html"></div>
-    </dd>
-    <ng-container *ngIf="topic.type!=='one'">
+    <ng-container *ngIf="topic.type!=='fork'">
+      <dt>カテゴリ</dt>
+      <dd><a [routerLink]="['/topic/search']" [queryParams]="{title:'',tags:topic.tags.join(' ')}">{{topic.tags.join(',')}}</a></dd>
+      <dt>本文</dt>
+      <dd>
+        <div [innerHTML]="topic.mdtext|html"></div>
+      </dd>
+    </ng-container>
+    <ng-container *ngIf="topic.type==='fork'&&parent">
+      <dt>派生元</dt>
+      <dd><a [routerLink]="['/topic',parent.id]">{{parent.title}}</a></dd>
+    </ng-container>
+    <ng-container *ngIf="topic.type==='normal'">
       <dt>編集履歴</dt>
       <dd>
         <div class="panel-group">

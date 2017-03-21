@@ -11,6 +11,7 @@ import {
   ViewChild,
   ElementRef
 } from '@angular/core';
+import { Router } from '@angular/router';
 import { Subscription, Subject } from 'rxjs';
 import * as socketio from 'socket.io-client';
 import { MdDialog } from '@angular/material';
@@ -18,6 +19,7 @@ import {
   Topic,
   AtApiService,
   Res,
+  TopicNormal
 } from 'anontown';
 import { InfiniteScrollDirective, IInfiniteScrollElement } from '../../directives';
 import { Config } from '../../config';
@@ -26,7 +28,8 @@ import {
   TopicAutoScrollMenuDialogComponent,
   ResWriteDialogComponent,
   TopicDataDialogComponent,
-  TopicEditDialogComponent
+  TopicEditDialogComponent,
+  TopicForkDialogComponent
 } from '../../dialogs';
 import { ActivatedRoute } from '@angular/router';
 import { ResComponent } from '../../components';
@@ -60,7 +63,8 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
     private dialog: MdDialog,
     public snackBar: MdSnackBar,
     private cdr: ChangeDetectorRef,
-    public rs: ResponsiveService) {
+    public rs: ResponsiveService,
+    private router: Router) {
   }
 
 
@@ -124,7 +128,7 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   openEdit() {
     let dialog = this.dialog.open(TopicEditDialogComponent);
-    dialog.componentInstance.topic = this.topic;
+    dialog.componentInstance.topic = this.topic as TopicNormal;
     dialog.afterClosed()
       .filter(x => x)
       .subscribe(x => this.topic = x);
@@ -285,6 +289,16 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   @ViewChild("iScroll")
   iScroll: InfiniteScrollDirective;
+
+  openFork() {
+    let dia = this.dialog.open(TopicForkDialogComponent);
+    dia.componentInstance.topic = this.topic as TopicNormal;
+    dia.afterClosed().subscribe(id => {
+      setTimeout(() => {
+        this.router.navigate(['/topic', id]);
+      }, 500);
+    });
+  }
 
   async readNew() {
     let ud = this.user.ud.getValue();

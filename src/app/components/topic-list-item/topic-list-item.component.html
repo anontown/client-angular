@@ -2,13 +2,17 @@
   <div>
     <md-icon *ngIf="!topic.active">not_interested</md-icon>
     <md-icon *ngIf="topic.type==='one'">looks_one</md-icon>
+    <md-icon *ngIf="topic.type==='fork'">call_split</md-icon>
     <md-icon *ngIf="newRes!==null&&newRes!==0">fiber_new</md-icon>
     <strong>{{topic.title}}</strong>
   </div>
   <div class="data" *ngIf="!simple">
-    <div class="tags">
+    <div class="tags" *ngIf="topic.type!=='fork'">
       {{topic.tags.join(',')}}
     </div>
+    <a *ngIf="topic.type==='fork'" [routerLink]="['/topic',topic.parent]">
+      親トピック
+    </a>
     <div>
       作成 {{topic.date|atDate}} 更新 {{topic.update|atDate}}
     </div>
