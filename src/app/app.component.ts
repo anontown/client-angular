@@ -27,7 +27,7 @@ export class AppComponent implements OnInit, OnDestroy {
     // トークンリクエスト
     this.router.events.take(1).subscribe(async e => {
       try{
-        let params = this.router.parseUrl(e.url).queryParams;
+        let params = this.router.parseUrl((e as any).url).queryParams;
         let id = params['id'];
         let key = params['key'];
         if (id && key) {

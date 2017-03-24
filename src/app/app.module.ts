@@ -15,6 +15,7 @@ import {
     UserService,
     ResponsiveService
 } from './services';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import 'hammerjs';
 
 import { RouterModule } from '@angular/router';
@@ -65,9 +66,10 @@ AtApiService.serverURL = Config.serverURL;
     imports: [
         AnontownModule,
         BrowserModule,
+        BrowserAnimationsModule,
         FormsModule,
         HttpModule,
-        MaterialModule.forRoot(),
+        MaterialModule,
         ReactiveFormsModule,
         RouterModule.forRoot([
             {
