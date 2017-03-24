@@ -30,7 +30,7 @@ export class UserProfileEditComponent implements OnInit, OnDestroy {
     sn = "";
     private errors: IAtError[] = [];
 
-    constructor(private user: UserService,
+    constructor(public user: UserService,
         private api: AtApiService) {
     }
 

@@ -26,7 +26,7 @@ export class TopicEditDialogComponent implements OnInit, OnDestroy {
     private text = "";
     private errors: IAtError[] = [];
 
-    constructor(private user: UserService,
+    constructor(public user: UserService,
         private api: AtApiService,
         public snackBar: MdSnackBar,
         private dialogRef: MdDialogRef<TopicEditDialogComponent>) {

@@ -12,7 +12,7 @@ export class ResPageComponent implements OnInit {
 
   constructor(private api: AtApiService,
     private route: ActivatedRoute,
-    private user: UserService) { }
+    public user: UserService) { }
 
   ngOnInit() {
     this.route.params.forEach(params => {

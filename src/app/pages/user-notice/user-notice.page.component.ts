@@ -18,7 +18,7 @@ export class UserNoticePageComponent implements OnInit, OnDestroy {
     private limit = 50;
 
     constructor(
-        private user: UserService,
+        public user: UserService,
         private api: AtApiService,
         public snackBar: MdSnackBar) {
     }

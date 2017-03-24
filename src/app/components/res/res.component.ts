@@ -52,7 +52,7 @@ export class ResComponent implements OnInit, OnDestroy {
 
   isSelf: boolean;
 
-  constructor(private user: UserService,
+  constructor(public user: UserService,
     private api: AtApiService,
     private dialog: MdDialog,
     public elementRef: ElementRef,

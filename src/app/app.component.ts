@@ -16,7 +16,7 @@ import {MdSnackBar} from '@angular/material';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit, OnDestroy {
-  constructor(private user: UserService,
+  constructor(public user: UserService,
     private api: AtApiService,
     public router: Router,
     public snackBar: MdSnackBar) {

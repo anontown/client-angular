@@ -23,11 +23,11 @@
     [width]="w"
     [height]="h"
     (mousedown)="mousedown($event)"
-    (mouseup)="mouseup($event)"
+    (mouseup)="mouseup()"
     (mousemove)="mousemove($event)"
     (touchstart)="touchstart($event)"
     (touchmove)="touchmove($event)"
-    (touchend)="touchend($event)"
+    (touchend)="touchend()"
     ></canvas>
   <button type="button" md-button (click)="clickOK()">OK</button>
 </md-card>

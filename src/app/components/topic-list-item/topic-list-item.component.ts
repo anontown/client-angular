@@ -24,7 +24,7 @@ export class TopicListItemComponent implements OnInit, OnDestroy {
   @Input()
   simple=false;
 
-  constructor(private user: UserService,
+  constructor(public user: UserService,
     private cdr: ChangeDetectorRef,
     private router:Router) {
 

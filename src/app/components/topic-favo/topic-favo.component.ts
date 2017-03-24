@@ -24,7 +24,7 @@ export class TopicFavoComponent implements OnInit, OnDestroy {
   @Input()
   simple = false;
 
-  constructor(private user: UserService,
+  constructor(public user: UserService,
     private router: Router,
     private api: AtApiService,
     public snackBar: MdSnackBar) {

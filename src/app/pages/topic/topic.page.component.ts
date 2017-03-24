@@ -56,7 +56,7 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
   private intervalID: any;
 
   constructor(
-    private user: UserService,
+    public user: UserService,
     private api: AtApiService,
     private route: ActivatedRoute,
     private zone: NgZone,

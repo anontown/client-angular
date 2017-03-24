@@ -7,7 +7,7 @@ import { Profile } from 'anontown';
   changeDetection: ChangeDetectionStrategy.Default
 })
 export class UserProfilePageComponent implements OnInit, OnDestroy {
-  constructor(private user: UserService) {
+  constructor(public user: UserService) {
   }
 
   ngOnInit() {

@@ -21,8 +21,8 @@ import { MdSnackBar } from '@angular/material';
 })
 export class TopicSearchPageComponent implements OnInit, OnDestroy {
   // 検索結果
-  private topics = Immutable.List<Topic>();
-  private count = 0;
+  topics = Immutable.List<Topic>();
+  count = 0;
 
   // 現在の検索条件
   private tags = '';
@@ -31,7 +31,7 @@ export class TopicSearchPageComponent implements OnInit, OnDestroy {
   private dead = false;
 
   // 設定
-  private readonly limit = 100;
+  readonly limit = 100;
 
   // フォームデータ
   form = {
@@ -42,7 +42,7 @@ export class TopicSearchPageComponent implements OnInit, OnDestroy {
   constructor(private api: AtApiService,
     private route: ActivatedRoute,
     private router: Router,
-    private user: UserService,
+    public user: UserService,
     public snackBar: MdSnackBar) {
 
   }
