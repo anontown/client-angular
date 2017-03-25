@@ -6,12 +6,13 @@ import {
   forwardRef,
   ViewChild,
   ElementRef,
-  ChangeDetectorRef, 
+  ChangeDetectorRef,
   Output,
-  EventEmitter
+  EventEmitter,
+  AfterViewInit,
 } from '@angular/core';
-import {MdSnackBar} from '@angular/material';
-import { Http,Headers } from '@angular/http';
+import { MdSnackBar } from '@angular/material';
+import { Http, Headers } from '@angular/http';
 import { MdPipe } from '../../pipes';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MdTabChangeEvent } from '@angular/material';
@@ -29,22 +30,34 @@ import { MdTabChangeEvent } from '@angular/material';
     }
   ]
 })
-export class MdEditorComponent implements OnInit, ControlValueAccessor {
+export class MdEditorComponent implements OnInit, ControlValueAccessor, AfterViewInit {
   @Output()
-  tefocus=new EventEmitter();
+  tefocus = new EventEmitter();
 
   @Output()
-  teblur=new EventEmitter();
+  teblur = new EventEmitter();
 
-  constructor(private http:Http,
-  public cdr: ChangeDetectorRef,
-  public snackBar: MdSnackBar) { }
+  constructor(private http: Http,
+    public cdr: ChangeDetectorRef,
+    public snackBar: MdSnackBar) { }
 
   ngOnInit() {
+
+  }
+
+  ngAfterViewInit() {
+    if (this.autofocus) {
+      setTimeout(() => {
+        this.textbox.nativeElement.focus();
+      }, 0);
+    }
   }
 
   @Input('value')
   _value = '';
+
+  @Input()
+  autofocus = false;
 
   mdValue = '';
 
@@ -56,25 +69,29 @@ export class MdEditorComponent implements OnInit, ControlValueAccessor {
   }
 
   @ViewChild('img')
-  img:ElementRef;
-  async upload(){
-    let el:HTMLInputElement=this.img.nativeElement;
-    if(el.files.length!==0){
+  img: ElementRef;
+
+  @ViewChild("textbox")
+  textbox: ElementRef;
+
+  async upload() {
+    let el: HTMLInputElement = this.img.nativeElement;
+    if (el.files.length !== 0) {
       let formData = new FormData();
       formData.append('image', el.files[0]);
       await this.imgur(formData);
     }
   }
 
-  private async imgur(blob:Blob|FormData){
-    try{
-        let result=await this.http.post("https://api.imgur.com/3/image",blob,{
-          headers:new Headers({Authorization:'Client-ID 042fd78266ccaaf'}) 
-        }).toPromise();
-        this.value+=`![](${JSON.parse(result.text()).data.link})`;
-      }catch(e){
-        this.snackBar.open("画像投稿に失敗");
-      }
+  private async imgur(blob: Blob | FormData) {
+    try {
+      let result = await this.http.post("https://api.imgur.com/3/image", blob, {
+        headers: new Headers({ Authorization: 'Client-ID 042fd78266ccaaf' })
+      }).toPromise();
+      this.value += `![](${JSON.parse(result.text()).data.link})`;
+    } catch (e) {
+      this.snackBar.open("画像投稿に失敗");
+    }
   }
 
   tabChange(event: MdTabChangeEvent) {
@@ -103,8 +120,8 @@ export class MdEditorComponent implements OnInit, ControlValueAccessor {
     }
   }
 
-  isOekaki=false;
-  oekaki(){
-    this.isOekaki=!this.isOekaki;
+  isOekaki = false;
+  oekaki() {
+    this.isOekaki = !this.isOekaki;
   }
 }

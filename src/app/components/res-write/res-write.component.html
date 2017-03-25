@@ -27,7 +27,7 @@
     <div>
       <md-slide-toggle name="markdown" [(ngModel)]="markdown">Markdown</md-slide-toggle>
     </div>
-    <app-md-editor teblur *ngIf="markdown" [(ngModel)]="text" name="text" (keypress)="key($event)">
+    <app-md-editor [autofocus]="true" teblur *ngIf="markdown" [(ngModel)]="text" name="text" (keypress)="key($event)">
     </app-md-editor>
     <textarea mdInput *ngIf="!markdown" [(ngModel)]="text" name="text" (keypress)="key($event)" style="width:100%;" [rows]="5">
 </textarea>
