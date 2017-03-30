@@ -7,7 +7,6 @@ import {
 } from '@angular/core';
 import { UserService, } from '../../services';
 
-import { Router } from '@angular/router';
 import { Topic, AtApiService } from 'anontown';
 import { MdSnackBar } from '@angular/material';
 import * as Immutable from 'immutable';
@@ -25,7 +24,6 @@ export class TopicFavoComponent implements OnInit, OnDestroy {
   simple = false;
 
   constructor(public user: UserService,
-    private router: Router,
     private api: AtApiService,
     public snackBar: MdSnackBar) {
   }
@@ -45,10 +43,6 @@ export class TopicFavoComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
-  }
-
-  linkClick(id: number) {
-    this.router.navigate(['/topic', id])
   }
 
   private async update() {

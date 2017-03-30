@@ -1,10 +1,10 @@
-<md-card *ngIf="user.ud.getValue()!==undefined" (click)="click()" class="contents">
+<md-card *ngIf="user.ud.getValue()!==undefined">
   <div>
     <md-icon *ngIf="!topic.active">not_interested</md-icon>
     <md-icon *ngIf="topic.type==='one'">looks_one</md-icon>
     <md-icon *ngIf="topic.type==='fork'">call_split</md-icon>
     <md-icon *ngIf="newRes!==null&&newRes!==0">fiber_new</md-icon>
-    <strong>{{topic.title}}</strong>
+    <a [routerLink]="['/topic',topic.id]">{{topic.title}}</a>
   </div>
   <div class="data" *ngIf="!simple">
     <div class="tags" *ngIf="topic.type!=='fork'">

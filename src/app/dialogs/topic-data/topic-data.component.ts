@@ -53,9 +53,4 @@ export class TopicDataDialogComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
   }
-
-  edit() {
-    this.dialogRef.close();
-    this.router.navigate(['/topic', this.topic.id, 'edit']);
-  }
 }

@@ -294,9 +294,11 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
     let dia = this.dialog.open(TopicForkDialogComponent);
     dia.componentInstance.topic = this.topic as TopicNormal;
     dia.afterClosed().subscribe(id => {
-      setTimeout(() => {
-        this.router.navigate(['/topic', id]);
-      }, 500);
+      if (id) {
+        setTimeout(() => {
+          this.router.navigate(['/topic', id]);
+        }, 500);
+      }
     });
   }
 
