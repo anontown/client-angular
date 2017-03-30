@@ -1,6 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Config } from '../../config';
 import { UserService } from '../../services/user.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   templateUrl: './index.page.component.html',
@@ -9,11 +10,12 @@ import { UserService } from '../../services/user.service';
 export class IndexPageComponent implements OnInit {
   userURL = Config.userURL;
 
-  constructor(public user: UserService) {
+  constructor(public user: UserService,
+    private titleService: Title) {
 
   }
 
   ngOnInit() {
-    document.title = "Anontown";
+    this.titleService.setTitle("Anontown");
   }
 }

@@ -35,6 +35,7 @@ import { ActivatedRoute } from '@angular/router';
 import { ResComponent } from '../../components';
 import * as Immutable from 'immutable';
 import { MdSnackBar } from '@angular/material';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   templateUrl: './topic.page.component.html',
@@ -64,7 +65,8 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
     public snackBar: MdSnackBar,
     private cdr: ChangeDetectorRef,
     public rs: ResponsiveService,
-    private router: Router) {
+    private router: Router,
+    private titleService: Title) {
   }
 
 
@@ -162,7 +164,7 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
       let id = params["id"];
       try {
         this.topic = await this.api.findTopicOne({ id });
-        document.title = this.topic.title;
+        this.titleService.setTitle(this.topic.title);
       } catch (_e) {
         this.snackBar.open("トピック取得に失敗");
       }

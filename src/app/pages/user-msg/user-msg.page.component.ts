@@ -7,7 +7,7 @@ import { UserService } from '../../services';
 import * as Immutable from 'immutable';
 import { MdSnackBar } from '@angular/material';
 import { Subscription } from 'rxjs';
-
+import { Title } from '@angular/platform-browser';
 
 @Component({
     templateUrl: './user-msg.page.component.html',
@@ -21,13 +21,14 @@ export class UserMsgPageComponent implements OnInit, OnDestroy {
     constructor(
         public user: UserService,
         private api: AtApiService,
-        public snackBar: MdSnackBar) {
+        public snackBar: MdSnackBar,
+        private titleService: Title) {
     }
 
     private subscription: Subscription;
 
     ngOnInit() {
-        document.title = "お知らせ"
+        this.titleService.setTitle("お知らせ");
         this.subscription = this.user.ud.subscribe((ud) => {
             if (ud !== null) {
                 this.findNew();

@@ -7,7 +7,7 @@ import { UserService } from '../../services';
 import * as Immutable from 'immutable';
 import {MdSnackBar} from '@angular/material';
 import { Subscription } from 'rxjs';
-
+import { Title } from '@angular/platform-browser';
 
 @Component({
     templateUrl: './user-notice.page.component.html',
@@ -20,12 +20,13 @@ export class UserNoticePageComponent implements OnInit, OnDestroy {
     constructor(
         public user: UserService,
         private api: AtApiService,
-        public snackBar: MdSnackBar) {
+        public snackBar: MdSnackBar,
+        private titleService: Title) {
     }
 
     private subscription: Subscription;
     ngOnInit() {
-        document.title="通知"
+        this.titleService.setTitle("通知");
         let isInit = false;
         this.subscription = this.user.ud.subscribe((ud) => {
             if (isInit) {

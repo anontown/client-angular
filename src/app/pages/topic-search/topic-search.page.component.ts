@@ -13,7 +13,7 @@ import {
   UserService
 } from '../../services';
 import { MdSnackBar } from '@angular/material';
-
+import { Title } from '@angular/platform-browser';
 @Component({
   templateUrl: './topic-search.page.component.html',
   styleUrls: ['./topic-search.page.component.scss'],
@@ -43,7 +43,8 @@ export class TopicSearchPageComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     public user: UserService,
-    public snackBar: MdSnackBar) {
+    public snackBar: MdSnackBar,
+    private titleService: Title) {
 
   }
 
@@ -87,7 +88,7 @@ export class TopicSearchPageComponent implements OnInit, OnDestroy {
       });
 
     this.route.queryParams.forEach(async (params) => {
-      document.title = "検索";
+      this.titleService.setTitle("検索");
       this.form.title = this.title = params['title'] ? params['title'] : '';
       this.tags = params['tags'] ? params['tags'] : '';
       this.form.dead = this.dead = params['dead'] === "true";

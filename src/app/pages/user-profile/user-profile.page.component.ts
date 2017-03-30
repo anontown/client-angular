@@ -2,16 +2,19 @@ import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/
 
 import { UserService } from '../../services';
 import { Profile } from 'anontown';
+import { Title } from '@angular/platform-browser';
+
 @Component({
   templateUrl: './user-profile.page.component.html',
   changeDetection: ChangeDetectionStrategy.Default
 })
 export class UserProfilePageComponent implements OnInit, OnDestroy {
-  constructor(public user: UserService) {
+  constructor(public user: UserService,
+  private titleService: Title) {
   }
 
   ngOnInit() {
-    document.title="プロフィール管理"
+    this.titleService.setTitle("プロフィール管理");
   }
 
   ngOnDestroy() {

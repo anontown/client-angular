@@ -9,7 +9,7 @@ import { UserService } from '../../services';
 import { Router } from '@angular/router';
 import { MdDialog } from '@angular/material';
 import { ButtonDialogComponent } from '../../dialogs';
-
+import { Title } from '@angular/platform-browser';
 
 @Component({
     templateUrl: './topic-write.page.component.html',
@@ -25,11 +25,12 @@ export class TopicWritePageComponent implements OnInit, OnDestroy {
     constructor(public user: UserService,
         private api: AtApiService,
         private router: Router,
-        private dialog: MdDialog) {
+        private dialog: MdDialog,
+        private titleService: Title) {
     }
 
     ngOnInit() {
-        document.title = "トピック作成"
+        this.titleService.setTitle("トピック作成");
     }
 
     ngOnDestroy() {
