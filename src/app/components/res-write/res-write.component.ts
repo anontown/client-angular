@@ -34,8 +34,6 @@ export class ResWriteComponent implements OnInit, OnDestroy {
   @Output()
   write = new EventEmitter<Res>();
 
-  markdown = true;
-
 
   ngOnInit() {
   }
@@ -69,16 +67,10 @@ export class ResWriteComponent implements OnInit, OnDestroy {
   async ok() {
     let ud = this.user.ud.getValue();
     try {
-      let text: string;
-      if (this.text.length !== 0 && !this.markdown) {
-        text = this.text.split(/\r\n|\r|\n/).map(s => "    " + s).join("\n");
-      } else {
-        text = this.text;
-      }
       let res = await this.api.createRes(ud.auth, {
         topic: typeof this.topic === "string" ? this.topic : this.topic.id,
         name: this.name,
-        text: text,
+        text: this.text,
         reply: this.reply === null ? null : this.reply.id,
         profile: this.profile,
         age: this.age

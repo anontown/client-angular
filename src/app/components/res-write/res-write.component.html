@@ -23,18 +23,11 @@
           ●{{p.sn}} {{p.name}}
         </md-option>
       </md-select>
+      <app-md-editor [autofocus]="true" teblur [(ngModel)]="text" name="text" (keypress)="key($event)">
+      </app-md-editor>
+      <button type="submit" md-raised-button>書き込む</button>
     </div>
-    <div>
-      <md-slide-toggle name="markdown" [(ngModel)]="markdown">Markdown</md-slide-toggle>
-    </div>
-    <app-md-editor [autofocus]="true" teblur *ngIf="markdown" [(ngModel)]="text" name="text" (keypress)="key($event)">
-    </app-md-editor>
-    <textarea mdInput *ngIf="!markdown" [(ngModel)]="text" name="text" (keypress)="key($event)" style="width:100%;" [rows]="5">
-</textarea>
-<div>
-  <button type="submit" md-raised-button>書き込む</button>
-</div>
-</form>
+  </form>
 </div>
 <div *ngIf="user.ud.getValue()===null">
   ログインしないと書き込めません
