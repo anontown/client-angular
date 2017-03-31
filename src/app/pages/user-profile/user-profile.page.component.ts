@@ -10,7 +10,7 @@ import { Title } from '@angular/platform-browser';
 })
 export class UserProfilePageComponent implements OnInit, OnDestroy {
   constructor(public user: UserService,
-  private titleService: Title) {
+    private titleService: Title) {
   }
 
   ngOnInit() {
@@ -21,13 +21,13 @@ export class UserProfilePageComponent implements OnInit, OnDestroy {
   }
 
   update(pr: Profile) {
-    let ud=this.user.ud.getValue();
+    let ud = this.user.ud.getValue();
     ud.profiles = ud.profiles.set(ud.profiles.findIndex(p => p.id === pr.id), pr);
     this.user.ud.next(ud);
   }
 
   add(p: Profile) {
-    let ud=this.user.ud.getValue();
+    let ud = this.user.ud.getValue();
     ud.profiles = ud.profiles.push(p);
     this.user.ud.next(ud);
   }
