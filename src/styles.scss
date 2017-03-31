@@ -34,3 +34,12 @@ body{
   background-color: #ddffdd;
   padding-top: 49px;
 }
+
+html{
+  overflow-y: hidden;
+}
+
+#main{
+  height: 100%;
+  overflow:auto;
+}
