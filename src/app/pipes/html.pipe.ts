@@ -29,7 +29,6 @@ export class HtmlPipe implements PipeTransform {
 
                     frame.attr('src', 'https://www.youtube.com/embed/' + youtubeID);
                     frame.attr('frameborder', '0');
-                    frame.attr('allowfullscreen', '');
                     el.replaceWith($("<div>")
                         .addClass("youtube")
                         .append(frame));
