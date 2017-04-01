@@ -10,24 +10,24 @@
   max-height: 100%;
 }
 
-.aa,.aa code{
+.markdown{
   font-family:'ＭＳ Ｐゴシック','ＭＳＰゴシック','MSPゴシック','MS Pゴシック';
   font-size:14px;
   line-height:16px;
-}
 
-.aa pre{
-  //折り返し
-  white-space: pre-wrap;
-  word-wrap: break-word;
-  overflow: auto;
-}
+  pre{
+    //折り返し
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow: auto;
+  }
 
-img{
-  width:auto;
-  height:auto;
-  max-width:50vw;
-  max-height:60vw;
+  img,iframe{
+    width:auto;
+    height:auto;
+    max-width:50vw;
+    max-height:60vw;
+  }
 }
 
 body{

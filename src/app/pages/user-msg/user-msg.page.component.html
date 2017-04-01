@@ -5,7 +5,7 @@
   <div>
     <md-card *ngFor="let m of msgs">
       <div class="header">{{m.date|atDate}}</div>
-      <div [innerHTML]="m.mdtext|html"></div>
+      <div [innerHTML]="m.mdtext|html" class="markdown"></div>
     </md-card>
   </div>
   <div>

@@ -12,7 +12,7 @@
     <dd><a [routerLink]="['/topic/search']" [queryParams]="{title:'',tags:history.tags.join(' ')}">{{history.tags.join(',')}}</a></dd>
     <dt>本文</dt>
     <dd>
-      <div [innerHTML]="history.mdtext|html"></div>
+      <div [innerHTML]="history.mdtext|html" class="markdown"></div>
     </dd>
   </dl>
   <div *ngIf="hashReses.size!==0">
