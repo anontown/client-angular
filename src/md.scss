@@ -1,0 +1,176 @@
+.markdown{
+  /*
+  基本設定
+  */
+  font-family:'ＭＳ Ｐゴシック','ＭＳＰゴシック','MSPゴシック','MS Pゴシック';
+  font-size:14px;
+  line-height:16px;
+
+  /*
+  marked要素
+  */
+  pre{
+    border: 1px solid #ccc;
+    background-color: #eee;
+    border-radius: 3px;
+    padding: 0.5em;
+
+    white-space: nowrap;
+    overflow-x: auto;
+    code{
+
+    }
+  }
+
+  :not(pre)>code{
+    font-size: 90%;
+    margin: 0 2px;
+    padding: 0 5px;
+    border: 1px solid #ccc;
+    background-color: #eee;
+    border-radius: 3px;
+  }
+
+  h1,h2,h3,h4,h5,h6{
+    font-weight:bold;
+    line-height:normal;
+  }
+
+  h1{
+    font-size: 3em;
+    border-left: 6px solid #bbb;
+    border-top: 1px solid #bbb;
+    border-bottom: 1px solid #bbb;
+    padding: 12px;
+  }
+
+  h2{
+    font-size: 2.4em;
+    border-left: 5px solid #bbb;
+    border-bottom: 1px solid #bbb;
+    padding: 10px;
+  }
+
+  h3{
+    border-bottom: 1px solid #ccc;
+    font-size: 2.0em;
+    padding: 8px;
+  }
+
+  h4{
+    font-size: 1.7em;
+  }
+
+  h5{
+    font-size: 1.5em;
+  }
+
+  h6{
+    font-size:1.3em;
+  }
+
+  hr{
+    border-width: 2px 0 0 0;
+    border-style: solid;
+    border-color: #bbb;
+  }
+
+  ul,ol{
+    padding-left: 1em;
+    &>li{
+
+    }
+  }
+
+  ol{
+    &>li{
+
+    }
+  }
+
+  ul{
+    &>li{
+      list-style-type: disc;
+    }
+  }
+
+  p{
+
+  }
+
+  table{
+    border-collapse:collapse;
+
+    td, th{
+      border: 1px solid #ccc;
+      padding: 6px;
+    }
+
+    thead{
+      tr{
+        th{
+          background: #eee;
+        }
+      }
+    }
+
+    tbody{
+      tr{
+        td{
+
+        }
+      }
+    }
+  }
+
+  strong{
+
+  }
+
+  em{
+
+  }
+
+  br{
+
+  }
+
+  del{
+
+  }
+
+  a{
+
+  }
+
+  img{
+    width:auto;
+    height:auto;
+    max-width:100%;
+  }
+
+  blockquote{
+    margin: 1em;
+    padding-left: 0.5em;
+    padding-top:0.5em;
+    padding-bottom: 0.5em;
+    border-left: 5px solid #ccc;
+    border-radius: 2px;
+  }
+
+  /*
+  独自拡張
+  */
+  div.youtube{
+    position: relative;
+    width: 100%;
+    padding: 75% 0 0 0;
+    iframe{
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+  }
+}

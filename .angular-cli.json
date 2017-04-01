@@ -19,7 +19,8 @@
       "prefix": "app",
       "styles": [
         "theme.scss",
-        "styles.scss"
+        "styles.scss",
+        "md.scss"
       ],
       "scripts": [],
       "environmentSource":"environments/environment.ts",

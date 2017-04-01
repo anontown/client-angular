@@ -12,6 +12,9 @@ export class HtmlPipe implements PipeTransform {
     transform(value: string): any {
         let $ = cheerio.load(value);
 
+        //見出しのID削除
+        $(":header").removeAttr("id");
+
         $("a").each(function (this: any) {
             let el = $(this);
             let href = el.attr("href");
@@ -23,12 +26,13 @@ export class HtmlPipe implements PipeTransform {
                     //youtube
                     let youtubeID = reqArray[2];
                     let frame = $('<iframe></iframe>');
-                    frame.attr('width', '560');
-                    frame.attr('height', '315');
+
                     frame.attr('src', 'https://www.youtube.com/embed/' + youtubeID);
                     frame.attr('frameborder', '0');
                     frame.attr('allowfullscreen', '');
-                    el.replaceWith(frame);
+                    el.replaceWith($("<div>")
+                        .addClass("youtube")
+                        .append(frame));
                 } else if (href.match(/\.(jpg|jpeg|png|gif|bmp|tif|tiff|svg)$/i)) {
                     //画像
                     let img = $('<img></img>');
