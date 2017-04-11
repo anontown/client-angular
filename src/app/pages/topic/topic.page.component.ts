@@ -21,10 +21,10 @@ import { Config } from '../../config';
 import {
   UserService,
   ResponsiveService,
-  Topic,
+  ITopicAPI,
   AtApiService,
-  Res,
-  TopicNormal
+  IResAPI,
+  ITopicNormalAPI
 } from '../../services';
 import {
   TopicAutoScrollMenuDialogComponent,
@@ -45,11 +45,11 @@ import { Title } from '@angular/platform-browser';
   changeDetection: ChangeDetectionStrategy.Default
 })
 export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
-  topic: Topic;
+  topic:ITopicAPI;
 
   @ViewChildren('resE') resE: QueryList<ResComponent>;
 
-  private reses = Immutable.List<Res>();
+  private reses = Immutable.List<IResAPI>();
   private limit = 50;
 
   // 全レス読んだか
@@ -95,7 +95,7 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.isLock = false;
   }
 
-  updateRes(res: Res) {
+  updateRes(res: IResAPI) {
     this.reses = this.reses.set(this.reses.findIndex((r) => r.id === res.id), res);
   }
 
@@ -114,14 +114,14 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.isAutoScroll = con.isAutoScroll;
   }
 
-  writeMenu(res: Res) {
+  writeMenu(res: IResAPI) {
     let dialog = this.dialog.open(ResWriteDialogComponent);
     let com = dialog.componentInstance;
     com.topic = this.topic;
     com.reply = res;
   }
 
-  update(topic: Topic) {
+  update(topic: ITopicAPI) {
     this.topic = topic;
   }
 
@@ -132,7 +132,7 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   openEdit() {
     let dialog = this.dialog.open(TopicEditDialogComponent);
-    dialog.componentInstance.topic = this.topic as TopicNormal;
+    dialog.componentInstance.topic = this.topic as ITopicNormalAPI;
     dialog.afterClosed()
       .filter(x => x)
       .subscribe(x => this.topic = x);
@@ -296,7 +296,7 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   openFork() {
     let dia = this.dialog.open(TopicForkDialogComponent);
-    dia.componentInstance.topic = this.topic as TopicNormal;
+    dia.componentInstance.topic = this.topic as ITopicNormalAPI;
     dia.afterClosed().subscribe(id => {
       if (id) {
         setTimeout(() => {

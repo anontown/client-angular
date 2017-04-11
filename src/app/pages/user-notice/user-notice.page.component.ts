@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import {
     UserService,
-    Res,
+    IResAPI,
     AtApiService,
 } from '../../services';
 import * as Immutable from 'immutable';
@@ -14,7 +14,7 @@ import { Title } from '@angular/platform-browser';
     changeDetection: ChangeDetectionStrategy.Default
 })
 export class UserNoticePageComponent implements OnInit, OnDestroy {
-    private reses = Immutable.List<Res>();
+    private reses = Immutable.List<IResAPI>();
     private limit = 50;
 
     constructor(
@@ -43,7 +43,7 @@ export class UserNoticePageComponent implements OnInit, OnDestroy {
         this.subscription.unsubscribe();
     }
 
-    updateRes(res: Res) {
+    updateRes(res: IResAPI) {
         this.reses.set(this.reses.findIndex((r) => r.id === res.id), res);
     }
 

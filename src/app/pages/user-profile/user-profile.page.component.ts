@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 
-import { UserService,Profile } from '../../services';
+import { UserService,IProfileAPI } from '../../services';
 import { Title } from '@angular/platform-browser';
 
 @Component({
@@ -19,13 +19,13 @@ export class UserProfilePageComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
   }
 
-  update(pr: Profile) {
+  update(pr: IProfileAPI) {
     let ud = this.user.ud.getValue();
     ud.profiles = ud.profiles.set(ud.profiles.findIndex(p => p.id === pr.id), pr);
     this.user.ud.next(ud);
   }
 
-  add(p: Profile) {
+  add(p: IProfileAPI) {
     let ud = this.user.ud.getValue();
     ud.profiles = ud.profiles.push(p);
     this.user.ud.next(ud);

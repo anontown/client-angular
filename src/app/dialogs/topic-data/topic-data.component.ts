@@ -7,8 +7,8 @@ import {
 
 import {
   UserService,
-  Topic,
-  History,
+  ITopicAPI,
+  IHistoryAPI,
   AtApiService
 } from '../../services';
 import * as Immutable from 'immutable';
@@ -23,10 +23,10 @@ import { Router } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.Default
 })
 export class TopicDataDialogComponent implements OnInit, OnDestroy {
-  topic: Topic;
-  parent:Topic;
+  topic: ITopicAPI;
+  parent:ITopicAPI;
 
-  histories: Immutable.List<History>;
+  histories: Immutable.List<IHistoryAPI>;
   constructor(public user: UserService,
     private api: AtApiService,
     public snackBar: MdSnackBar,

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router'
 import {
   UserService,
-  Res,
+  IResAPI,
   AtApiService,
   IAuthToken
 } from '../../services';
@@ -12,7 +12,7 @@ import {
   styleUrls: ['./res.component.scss']
 })
 export class ResPageComponent implements OnInit {
-  res: Res;
+  res: IResAPI;
 
   constructor(private api: AtApiService,
     private route: ActivatedRoute,

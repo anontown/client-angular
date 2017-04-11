@@ -10,7 +10,7 @@ import {
 import {
     UserService,
     AtApiService,
-    Profile,
+    IProfileAPI,
     AtError,
     IAtError
 } from '../../services';

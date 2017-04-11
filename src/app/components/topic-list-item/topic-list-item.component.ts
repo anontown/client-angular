@@ -6,7 +6,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef
 } from '@angular/core';
-import { UserService,Topic } from '../../services';
+import { UserService,ITopicAPI } from '../../services';
 import { Subscription } from 'rxjs';
 
 @Component({

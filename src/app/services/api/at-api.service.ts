@@ -98,7 +98,7 @@ export class AtApiService {
             topic: string,
             type: "before" | "after",
             equal: boolean,
-            date: Date,
+            date: string,
             limit: number
         }): Promise<IResAPI[]> {
         return this.request<IResAPI[]>(
@@ -148,7 +148,7 @@ export class AtApiService {
         params: {
             type: "before" | "after",
             equal: boolean,
-            date: Date,
+            date: string,
             limit: number
         }): Promise<IResAPI[]> {
         return this.request<IResAPI[]>(
@@ -392,7 +392,7 @@ export class AtApiService {
         params: {
             type: "before" | "after",
             equal: boolean,
-            date: Date,
+            date: string,
             limit: number
         }): Promise<IMsgAPI[]> {
         return this.request<IMsgAPI[]>(

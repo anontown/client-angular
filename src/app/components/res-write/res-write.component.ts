@@ -12,8 +12,8 @@ import {
 import {
   UserService,
   AtApiService,
-  Res,
-  Topic,
+  IResAPI,
+  ITopicAPI,
   AtError,
   IAtError
 } from '../../services';
@@ -32,7 +32,7 @@ export class ResWriteComponent implements OnInit, OnDestroy {
   private errors: IAtError[] = [];
   private age = true;
   @Output()
-  write = new EventEmitter<Res>();
+  write = new EventEmitter<IResAPI>();
 
 
   ngOnInit() {
@@ -59,10 +59,10 @@ export class ResWriteComponent implements OnInit, OnDestroy {
   }
 
   @Input()
-  topic: Topic | string;
+  topic: ITopicAPI | string;
 
   @Input()
-  reply: Res | null = null;
+  reply: IResAPI | null = null;
 
   async ok() {
     let ud = this.user.ud.getValue();

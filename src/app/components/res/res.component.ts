@@ -16,7 +16,7 @@ import * as Immutable from 'immutable';
 
 import {
   UserService, AtApiService,
-  Res,
+  IResAPI,
 } from '../../services';
 
 import { MdDialog } from '@angular/material';
@@ -32,18 +32,18 @@ import { MdSnackBar } from '@angular/material';
 })
 export class ResComponent implements OnInit, OnDestroy {
   @Input()
-  res: Res;
+  res: IResAPI;
 
-  children = Immutable.List<Res>();
+  children = Immutable.List<IResAPI>();
 
   @Input()
   isPop: boolean = false;
 
   @Output()
-  update = new EventEmitter<Res>();
+  update = new EventEmitter<IResAPI>();
 
   @Output()
-  reply = new EventEmitter<Res>();
+  reply = new EventEmitter<IResAPI>();
 
   childrenMsg: string = null;
 
@@ -75,7 +75,7 @@ export class ResComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  childrenUpdate(res: Res) {
+  childrenUpdate(res: IResAPI) {
     this.children = this.children.set(this.children.findIndex((r) => r.id === res.id), res);
     this.cdr.markForCheck();
   }
@@ -84,7 +84,7 @@ export class ResComponent implements OnInit, OnDestroy {
     let ud = this.user.ud.getValue();
     try {
       if (this.children.size !== 0) {
-        this.children = Immutable.List<Res>();
+        this.children = Immutable.List<IResAPI>();
         this.childrenMsg = null;
       } else {
         this.children = Immutable.List(await this.api.findResHash(ud !== null ? ud.auth : null, {
@@ -103,7 +103,7 @@ export class ResComponent implements OnInit, OnDestroy {
     let ud = this.user.ud.getValue();
     try {
       if (this.children.size !== 0) {
-        this.children = Immutable.List<Res>();
+        this.children = Immutable.List<IResAPI>();
       } else {
         this.children = Immutable.List([await this.api.findResOne(ud !== null ? ud.auth : null, {
           id: this.res.reply as string
@@ -120,7 +120,7 @@ export class ResComponent implements OnInit, OnDestroy {
     let ud = this.user.ud.getValue();
     try {
       if (this.children.size !== 0) {
-        this.children = Immutable.List<Res>();
+        this.children = Immutable.List<IResAPI>();
       } else {
         this.children = Immutable.List(await this.api.findResReply(ud !== null ? ud.auth : null, {
           topic: this.res.topic,

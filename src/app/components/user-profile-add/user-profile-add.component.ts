@@ -10,7 +10,7 @@ import {
     UserService,
     AtApiService,
     AtError,
-    Profile,
+    IProfileAPI,
     IAtError
 } from '../../services';
 
@@ -27,7 +27,7 @@ export class UserProfileAddComponent implements OnInit, OnDestroy {
     private errors: IAtError[] = [];
 
     @Output()
-    add = new EventEmitter<Profile>();
+    add = new EventEmitter<IProfileAPI>();
 
     constructor(public user: UserService, private api: AtApiService) {
     }

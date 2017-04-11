@@ -5,7 +5,7 @@ import {
   ChangeDetectionStrategy,
   Input
 } from '@angular/core';
-import { UserService,Topic, AtApiService } from '../../services';
+import { UserService,ITopicAPI, AtApiService } from '../../services';
 
 import { MdSnackBar } from '@angular/material';
 import * as Immutable from 'immutable';
@@ -27,7 +27,7 @@ export class TopicFavoComponent implements OnInit, OnDestroy {
     public snackBar: MdSnackBar) {
   }
 
-  tfavo: Immutable.List<Topic>;
+  tfavo: Immutable.List<ITopicAPI>;
   private subscription: Subscription;
 
   ngOnInit() {

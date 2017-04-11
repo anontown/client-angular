@@ -7,8 +7,8 @@ import {
   ChangeDetectionStrategy,
 } from '@angular/core';
 import {
-  Res,
-  Topic,
+  IResAPI,
+  ITopicAPI,
 } from '../../services';
 import { MdDialogRef } from '@angular/material';
 
@@ -19,9 +19,9 @@ import { MdDialogRef } from '@angular/material';
 })
 export class ResWriteDialogComponent implements OnInit, OnDestroy {
   @Output()
-  write = new EventEmitter<Res>();
-  topic: Topic | string;
-  reply: Res | null = null;
+  write = new EventEmitter<IResAPI>();
+  topic: ITopicAPI | string;
+  reply: IResAPI | null = null;
 
   ngOnInit() {
   }

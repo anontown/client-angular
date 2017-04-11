@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {
   UserService,
-  TopicNormal,
-  TopicFork,
+  ITopicNormalAPI,
+  ITopicForkAPI,
   AtApiService,
   AtError,
   IAtError
@@ -16,8 +16,8 @@ import * as Immutable from 'immutable';
   styleUrls: ['./topic-fork.component.scss']
 })
 export class TopicForkDialogComponent implements OnInit {
-  topic: TopicNormal;
-  children: Immutable.List<TopicFork>;
+  topic: ITopicNormalAPI;
+  children: Immutable.List<ITopicForkAPI>;
   title = "";
   errors: IAtError[] = [];
   constructor(public user: UserService,

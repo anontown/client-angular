@@ -8,7 +8,7 @@ import {
 import * as Immutable from 'immutable';
 import {
   UserService,
-  Topic,
+  ITopicAPI,
   AtApiService
 } from '../../services';
 import { MdSnackBar } from '@angular/material';
@@ -20,7 +20,7 @@ import { Title } from '@angular/platform-browser';
 })
 export class TopicSearchPageComponent implements OnInit, OnDestroy {
   // 検索結果
-  topics = Immutable.List<Topic>();
+  topics = Immutable.List<ITopicAPI>();
   count = 0;
 
   // 現在の検索条件
@@ -51,7 +51,7 @@ export class TopicSearchPageComponent implements OnInit, OnDestroy {
   formChangeObs = new Subject<void>();
 
   async update() {
-    this.topics = Immutable.List<Topic>();
+    this.topics = Immutable.List<ITopicAPI>();
     this.page = 0;
     this.count = 0;
     await this.more();

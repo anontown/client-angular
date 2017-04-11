@@ -5,7 +5,7 @@ import {
   OnDestroy,
   ChangeDetectionStrategy
 } from '@angular/core';
-import { UserService,Profile } from '../../services'
+import { UserService,IProfileAPI } from '../../services'
 
 @Component({
   templateUrl: './profile.component.html',
@@ -13,7 +13,7 @@ import { UserService,Profile } from '../../services'
 })
 export class ProfileDialogComponent implements OnInit, OnDestroy {
   @Input()
-  profile: Profile;
+  profile: IProfileAPI;
 
   constructor(public user: UserService) {
   }

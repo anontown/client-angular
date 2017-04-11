@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import {
     UserService,
-    Msg,
+    IMsgAPI,
     AtApiService,
 } from '../../services';
 import * as Immutable from 'immutable';
@@ -15,7 +15,7 @@ import { Title } from '@angular/platform-browser';
     changeDetection: ChangeDetectionStrategy.Default
 })
 export class UserMsgPageComponent implements OnInit, OnDestroy {
-    private msgs = Immutable.List<Msg>();
+    private msgs = Immutable.List<IMsgAPI>();
     private limit = 50;
 
     constructor(

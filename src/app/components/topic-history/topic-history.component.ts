@@ -6,7 +6,11 @@ import {
     ChangeDetectionStrategy
 } from '@angular/core';
 import {
-    UserService, AtApiService, Topic, Res, History
+    UserService, 
+    AtApiService, 
+    ITopicAPI,
+     IResAPI,
+      IHistoryAPI
 } from '../../services';
 import * as Immutable from 'immutable';
 import { MdSnackBar } from '@angular/material';
@@ -18,12 +22,12 @@ import { MdSnackBar } from '@angular/material';
 })
 export class TopicHistoryComponent implements OnInit, OnDestroy {
     @Input()
-    topic: Topic;
+    topic: ITopicAPI;
 
     @Input()
-    history: History;
+    history: IHistoryAPI;
 
-    private hashReses = Immutable.List<Res>();
+    private hashReses = Immutable.List<IResAPI>();
 
     private isDetail = false;
 
@@ -43,7 +47,7 @@ export class TopicHistoryComponent implements OnInit, OnDestroy {
     ngOnDestroy() {
     }
 
-    updateRes(res: Res) {
+    updateRes(res: IResAPI) {
         this.hashReses.set(this.hashReses.findIndex((r) => r.id === res.id), res);
     }
 
@@ -51,7 +55,7 @@ export class TopicHistoryComponent implements OnInit, OnDestroy {
         let ud = this.user.ud.getValue();
         try {
             if (this.hashReses.size !== 0) {
-                this.hashReses = Immutable.List<Res>();
+                this.hashReses = Immutable.List<IResAPI>();
             } else {
                 this.hashReses = Immutable.List(await this.api.findResHash(ud.auth, {
                     topic: this.topic.id,

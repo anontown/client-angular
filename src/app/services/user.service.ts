@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import {
   IAuthToken,
-  Token,
-  Profile,
+  ITokenMasterAPI,
+  IProfileAPI,
   AtApiService
 } from './api';
 import { Storage } from '../storage';
@@ -19,7 +19,7 @@ export class UserService {
     public snackBar: MdSnackBar) {
   }
 
-  async login(token: Token) {
+  async login(token: ITokenMasterAPI) {
     try{
       let auth: IAuthToken = {
         id: token.id,
@@ -51,7 +51,8 @@ export class UserService {
 
 export interface IUserData {
   auth: IAuthToken,
-  token: Token,
+  sn:string,
+  token: ITokenMasterAPI,
   storage: Storage,
-  profiles: Immutable.List<Profile>
+  profiles: Immutable.List<IProfileAPI>
 }
