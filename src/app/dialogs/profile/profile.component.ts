@@ -5,8 +5,7 @@ import {
   OnDestroy,
   ChangeDetectionStrategy
 } from '@angular/core';
-import { Profile } from 'anontown';
-import { UserService } from '../../services'
+import { UserService,Profile } from '../../services'
 
 @Component({
   templateUrl: './profile.component.html',

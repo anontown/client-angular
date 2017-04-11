@@ -6,13 +6,14 @@ import {
     Output,
     EventEmitter, ChangeDetectionStrategy
 } from '@angular/core';
+
 import {
+    UserService,
     AtApiService,
     Profile,
     AtError,
     IAtError
-} from 'anontown';
-import { UserService } from '../../services';
+} from '../../services';
 
 @Component({
     selector: 'app-user-profile-edit',
@@ -47,8 +48,8 @@ export class UserProfileEditComponent implements OnInit, OnDestroy {
     }
 
     async ok() {
-        let ud=this.user.ud.getValue();
-        try{
+        let ud = this.user.ud.getValue();
+        try {
             let profile = await this.api.updateProfile(ud.auth, {
                 id: this.profile.id,
                 name: this.name,
@@ -59,7 +60,7 @@ export class UserProfileEditComponent implements OnInit, OnDestroy {
 
             //プロフィール更新
             this.update.emit(profile);
-        }catch(e){
+        } catch (e) {
             if (e instanceof AtError) {
                 this.errors = e.errors;
             } else {

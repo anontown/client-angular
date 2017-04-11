@@ -8,15 +8,15 @@ import {
   OnDestroy,
   ChangeDetectionStrategy,
 } from '@angular/core';
+
 import {
+  UserService,
   AtApiService,
   Res,
   Topic,
   AtError,
   IAtError
-} from 'anontown';
-
-import { UserService } from '../../services';
+} from '../../services';
 
 
 @Component({

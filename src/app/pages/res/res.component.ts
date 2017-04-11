@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Res, AtApiService, IAuthToken } from 'anontown';
 import { ActivatedRoute } from '@angular/router'
-import { UserService } from '../../services/user.service';
+import {
+  UserService,
+  Res,
+  AtApiService,
+  IAuthToken
+} from '../../services';
 
 @Component({
   templateUrl: './res.component.html',

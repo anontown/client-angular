@@ -5,12 +5,11 @@ import {
     OnDestroy,
     ChangeDetectionStrategy
 } from '@angular/core';
-import { AtApiService, Topic, Res, History } from 'anontown';
 import {
-    UserService
+    UserService, AtApiService, Topic, Res, History
 } from '../../services';
 import * as Immutable from 'immutable';
-import {MdSnackBar} from '@angular/material';
+import { MdSnackBar } from '@angular/material';
 
 @Component({
     selector: 'app-topic-history',
@@ -49,8 +48,8 @@ export class TopicHistoryComponent implements OnInit, OnDestroy {
     }
 
     async hashClick() {
-        let ud=this.user.ud.getValue();
-        try{
+        let ud = this.user.ud.getValue();
+        try {
             if (this.hashReses.size !== 0) {
                 this.hashReses = Immutable.List<Res>();
             } else {
@@ -60,8 +59,8 @@ export class TopicHistoryComponent implements OnInit, OnDestroy {
                 }));
 
             }
-        }catch(_e){
-        this.snackBar.open("レス取得に失敗");
+        } catch (_e) {
+            this.snackBar.open("レス取得に失敗");
         }
     }
 }

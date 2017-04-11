@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import {
+    UserService,
     Msg,
     AtApiService,
-} from 'anontown';
-import { UserService } from '../../services';
+} from '../../services';
 import * as Immutable from 'immutable';
 import { MdSnackBar } from '@angular/material';
 import { Subscription } from 'rxjs';

@@ -1,11 +1,11 @@
 import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import {
+    UserService,
     AtApiService,
     AtError,
     TopicType,
     IAtError
-} from 'anontown';
-import { UserService } from '../../services';
+} from '../../services';
 import { Router } from '@angular/router';
 import { MdDialog } from '@angular/material';
 import { ButtonDialogComponent } from '../../dialogs';

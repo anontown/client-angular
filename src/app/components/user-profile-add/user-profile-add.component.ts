@@ -7,12 +7,12 @@ import {
     ChangeDetectionStrategy
 } from '@angular/core';
 import {
+    UserService,
     AtApiService,
     AtError,
     Profile,
     IAtError
-} from 'anontown';
-import { UserService} from '../../services';
+} from '../../services';
 
 
 @Component({
@@ -24,7 +24,7 @@ export class UserProfileAddComponent implements OnInit, OnDestroy {
     private name = "";
     private text = "";
     sn = "";
-    private errors: IAtError[]=[];
+    private errors: IAtError[] = [];
 
     @Output()
     add = new EventEmitter<Profile>();
@@ -39,8 +39,8 @@ export class UserProfileAddComponent implements OnInit, OnDestroy {
     }
 
     async ok() {
-        let ud=this.user.ud.getValue();
-        try{
+        let ud = this.user.ud.getValue();
+        try {
             let p = await this.api.createProfile(ud.auth, {
                 name: this.name,
                 text: this.text,
@@ -51,7 +51,7 @@ export class UserProfileAddComponent implements OnInit, OnDestroy {
             this.name = "";
             this.text = "";
             this.add.emit(p);
-        }catch(e){
+        } catch (e) {
             if (e instanceof AtError) {
                 this.errors = e.errors;
             } else {

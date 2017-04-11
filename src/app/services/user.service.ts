@@ -4,7 +4,7 @@ import {
   Token,
   Profile,
   AtApiService
-} from 'anontown';
+} from './api';
 import { Storage } from '../storage';
 import * as Immutable from 'immutable';
 import {MdSnackBar} from '@angular/material';

@@ -14,14 +14,11 @@ import { Subscription } from 'rxjs';
 
 import * as Immutable from 'immutable';
 
-
 import {
-  AtApiService,
+  UserService, AtApiService,
   Res,
-} from 'anontown';
+} from '../../services';
 
-
-import { UserService } from '../../services';
 import { MdDialog } from '@angular/material';
 
 import { ProfileDialogComponent, ButtonDialogComponent } from '../../dialogs';

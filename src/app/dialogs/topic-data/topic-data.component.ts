@@ -4,13 +4,12 @@ import {
   OnInit,
   ChangeDetectionStrategy
 } from '@angular/core';
+
 import {
+  UserService,
   Topic,
   History,
   AtApiService
-} from 'anontown';
-import {
-  UserService
 } from '../../services';
 import * as Immutable from 'immutable';
 

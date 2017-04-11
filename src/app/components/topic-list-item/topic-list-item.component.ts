@@ -6,8 +6,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef
 } from '@angular/core';
-import { Topic } from 'anontown';
-import { UserService } from '../../services';
+import { UserService,Topic } from '../../services';
 import { Subscription } from 'rxjs';
 
 @Component({

@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 
-import { UserService } from '../../services';
-import { Profile } from 'anontown';
+import { UserService,Profile } from '../../services';
 import { Title } from '@angular/platform-browser';
 
 @Component({

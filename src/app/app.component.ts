@@ -4,8 +4,7 @@ import {
   OnInit,
   OnDestroy
 } from '@angular/core';
-import { AtApiService, IAuthToken } from 'anontown';
-import { UserService } from './services';
+import { UserService,AtApiService, IAuthToken } from './services';
 import { Config } from './config';
 import { Router } from '@angular/router';
 import {MdSnackBar} from '@angular/material';

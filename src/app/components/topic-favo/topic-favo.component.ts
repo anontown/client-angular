@@ -5,9 +5,8 @@ import {
   ChangeDetectionStrategy,
   Input
 } from '@angular/core';
-import { UserService, } from '../../services';
+import { UserService,Topic, AtApiService } from '../../services';
 
-import { Topic, AtApiService } from 'anontown';
 import { MdSnackBar } from '@angular/material';
 import * as Immutable from 'immutable';
 import { Subscription } from 'rxjs';

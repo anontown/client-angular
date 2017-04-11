@@ -6,12 +6,12 @@ import {
 } from '@angular/core';
 
 import {
+    UserService,
     AtApiService,
     TopicNormal,
     AtError,
     IAtError
-} from 'anontown';
-import { UserService } from '../../services';
+} from '../../services';
 
 import { MdSnackBar, MdDialogRef } from '@angular/material';
 

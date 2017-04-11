@@ -15,15 +15,17 @@ import { Router } from '@angular/router';
 import { Subscription, Subject } from 'rxjs';
 import * as socketio from 'socket.io-client';
 import { MdDialog } from '@angular/material';
+
+import { InfiniteScrollDirective, IInfiniteScrollElement } from '../../directives';
+import { Config } from '../../config';
 import {
+  UserService,
+  ResponsiveService,
   Topic,
   AtApiService,
   Res,
   TopicNormal
-} from 'anontown';
-import { InfiniteScrollDirective, IInfiniteScrollElement } from '../../directives';
-import { Config } from '../../config';
-import { UserService, ResponsiveService } from '../../services';
+} from '../../services';
 import {
   TopicAutoScrollMenuDialogComponent,
   ResWriteDialogComponent,

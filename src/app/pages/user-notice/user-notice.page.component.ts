@@ -1,11 +1,11 @@
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import {
+    UserService,
     Res,
     AtApiService,
-} from 'anontown';
-import { UserService } from '../../services';
+} from '../../services';
 import * as Immutable from 'immutable';
-import {MdSnackBar} from '@angular/material';
+import { MdSnackBar } from '@angular/material';
 import { Subscription } from 'rxjs';
 import { Title } from '@angular/platform-browser';
 
@@ -48,19 +48,19 @@ export class UserNoticePageComponent implements OnInit, OnDestroy {
     }
 
     private async findNew() {
-        let ud=this.user.ud.getValue();
-        try{
+        let ud = this.user.ud.getValue();
+        try {
             this.reses = Immutable.List(await this.api.findResNoticeNew(ud.auth, {
                 limit: this.limit
             }));
-        }catch(_e){
+        } catch (_e) {
             this.snackBar.open("レス取得に失敗");
         }
     }
 
     async readNew() {
-        let ud=this.user.ud.getValue();
-        try{
+        let ud = this.user.ud.getValue();
+        try {
             if (this.reses.size === 0) {
                 this.findNew();
             } else {
@@ -72,14 +72,14 @@ export class UserNoticePageComponent implements OnInit, OnDestroy {
                         limit: this.limit
                     })).concat(this.reses.toArray()));
             }
-        }catch(_e){
+        } catch (_e) {
             this.snackBar.open("レス取得に失敗");
         }
     }
 
     async readOld() {
-        let ud=this.user.ud.getValue();
-        try{
+        let ud = this.user.ud.getValue();
+        try {
             if (this.reses.size === 0) {
                 this.findNew();
             } else {
@@ -91,7 +91,7 @@ export class UserNoticePageComponent implements OnInit, OnDestroy {
                         limit: this.limit
                     })));
             }
-        }catch(_e){
+        } catch (_e) {
             this.snackBar.open("レス取得に失敗");
         }
     }

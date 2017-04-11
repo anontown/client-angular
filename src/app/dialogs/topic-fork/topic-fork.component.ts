@@ -1,6 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { TopicNormal, TopicFork, AtApiService, AtError, IAtError } from 'anontown';
-import { UserService } from '../../services/user.service';
+import {
+  UserService,
+  TopicNormal,
+  TopicFork,
+  AtApiService,
+  AtError,
+  IAtError
+} from '../../services';
 
 import { MdDialogRef, MdSnackBar } from '@angular/material';
 import * as Immutable from 'immutable';

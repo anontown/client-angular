@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { MaterialModule } from '@angular/material';
-import { AnontownModule, AtApiService } from 'anontown';
 import {
     MdPipe,
     MapPipe,
@@ -13,7 +12,8 @@ import {
 } from './pipes';
 import {
     UserService,
-    ResponsiveService
+    ResponsiveService,
+    AtApiService
 } from './services';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import 'hammerjs';
@@ -61,10 +61,8 @@ import { Config } from './config';
 import { InfiniteScrollDirective } from './directives';
 
 
-AtApiService.serverURL = Config.serverURL;
 @NgModule({
     imports: [
-        AnontownModule,
         BrowserModule,
         BrowserAnimationsModule,
         FormsModule,
@@ -157,7 +155,8 @@ AtApiService.serverURL = Config.serverURL;
     bootstrap: [AppComponent],
     providers: [
         UserService,
-        ResponsiveService
+        ResponsiveService,
+        AtApiService
     ],
     entryComponents: [
         //モーダルで使うコンポーネント

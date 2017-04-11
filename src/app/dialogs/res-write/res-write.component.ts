@@ -9,7 +9,7 @@ import {
 import {
   Res,
   Topic,
-} from 'anontown';
+} from '../../services';
 import { MdDialogRef } from '@angular/material';
 
 

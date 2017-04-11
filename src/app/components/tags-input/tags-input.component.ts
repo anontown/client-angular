@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import * as Immutable from 'immutable';
-import { AtApiService } from 'anontown';
+import { AtApiService } from '../../services';
 import { MdSnackBar } from '@angular/material';
 import { FormControl } from '@angular/forms';
 

@@ -1,8 +1,5 @@
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
-import {
-  Topic,
-  AtApiService
-} from 'anontown';
+
 import { Subject } from 'rxjs';
 import {
   ActivatedRoute,
@@ -10,7 +7,9 @@ import {
 } from '@angular/router';
 import * as Immutable from 'immutable';
 import {
-  UserService
+  UserService,
+  Topic,
+  AtApiService
 } from '../../services';
 import { MdSnackBar } from '@angular/material';
 import { Title } from '@angular/platform-browser';
