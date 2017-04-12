@@ -11,7 +11,6 @@ export class ClientComponent implements OnInit {
   client: IClientAPI;
 
   constructor(public user: UserService) {
-    
   }
 
   ngOnInit() {

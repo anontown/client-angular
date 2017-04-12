@@ -1,6 +1,4 @@
-<div *ngIf="auth">
-  <md-card>
-    <at-client *ngFor="let c of clients" md-line [client]="c" (update)="update($event)" [auth]="auth"></at-client>
-  </md-card>
-  <at-client-add (add)="add($event)" [auth]="auth"></at-client-add>
+<div *ngIf="user.ud.getValue()">
+  <at-client *ngFor="let c of clients" [client]="c"></at-client>
+  <at-client-add (add)="add($event)"></at-client-add>
 </div>

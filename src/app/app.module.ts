@@ -60,7 +60,7 @@ import {
     InPageComponent,
     AuthPageComponent,
     ClientsPageComponent,
-    TokensPageComponent,
+    AppsPageComponent,
     UserSettingPageComponent
 } from './pages';
 import { Config } from './config';
@@ -118,15 +118,15 @@ import { InfiniteScrollDirective } from './directives';
                 component: AuthPageComponent
             },
             {
-                path: 'user/clients',
+                path: 'settings/dev',
                 component: ClientsPageComponent
             },
             {
-                path: 'user/tokens',
-                component: TokensPageComponent
+                path: 'settings/apps',
+                component: AppsPageComponent
             },
             {
-                path: 'user/setting',
+                path: 'settings/account',
                 component: UserSettingPageComponent
             },
             {
@@ -183,7 +183,7 @@ import { InfiniteScrollDirective } from './directives';
         InPageComponent,
         AuthPageComponent,
         ClientsPageComponent,
-        TokensPageComponent,
+        AppsPageComponent,
         UserSettingPageComponent
     ],
     // エントリ

@@ -1,4 +1,4 @@
-<div>
+<md-card>
   <h2>{{client.name}}</h2>
   <span class="client-id">{{client.id}}</span>
   <span class="client-url">{{client.url}}</span>
@@ -9,4 +9,4 @@
     <app-client-edit [client]="client" *ngIf="isEdit" (update)="ok($event)">
     </app-client-edit>
   </div>
-</div>
+</md-card>

@@ -1,49 +1,54 @@
 import {
-    Component,
-    OnInit,
-    OnDestroy
+  Component,
+  OnInit,
+  OnDestroy
 } from '@angular/core';
-import { AtApiService, AtError, IAuthUser,IAtError } from 'anontown';
-import { UserService, IAuthListener } from '../services/user.service';
+import {
+  UserService,
+  AtApiService,
+  AtError,
+  IAtError
+} from '../../services';
 
 
 @Component({
-    templateUrl: './user-setting.component.html',
+  templateUrl: './user-setting.component.html',
 })
 export class UserSettingPageComponent implements OnInit, OnDestroy {
-    private auth: IAuthUser = null;
-    pass: string = "";
-    sn: string = "";
-    private errors: IAtError[] = [];
+  newPass = "";
+  oldPass = "";
+  sn = "";
+  private errors: IAtError[] = [];
 
-    constructor(private user: UserService, private api: AtApiService) {
-    }
+  constructor(private user: UserService, private api: AtApiService) {
+  }
 
-    private authListener: IAuthListener;
-    ngOnInit() {
-        this.authListener = this.user.addAuthListener(async (auth, sn) => {
-            this.auth = auth;
-            if (auth !== null) {
-                this.pass = auth.pass;
-                this.sn = sn;
-            }
-        });
-    }
-    ngOnDestroy() {
-        this.user.removeAuthListener(this.authListener);
-    }
+  async ngOnInit() {
+    let ud = await this.user.ud.toPromise();
+    this.sn = await this.api.findUserSN({ id: ud.token.user });
+  }
+  ngOnDestroy() {
+  }
 
-    ok() {
-        (async () => {
-            await this.api.updateUser(this.auth, { pass: this.pass, sn: this.sn });
-            await this.user.setAuth({ id: this.auth.id, pass: this.pass }, this.sn);
-            this.errors = [];
-        })().catch(e => {
-            if (e instanceof AtError) {
-                this.errors = e.errors;
-            } else {
-                throw e;
-            }
-        });
+  async ok() {
+    let ud = this.user.ud.getValue();
+    let auth = {
+      id: ud.token.user,
+      pass: this.oldPass
+    };
+    try {
+      await this.api.updateUser(auth, {
+        pass: this.newPass,
+        sn: this.sn
+      });
+      this.user.login(await this.api.createTokenMaster(auth));
+      this.errors = [];
+    } catch (e) {
+      if (e instanceof AtError) {
+        this.errors = e.errors;
+      } else {
+        throw e;
+      }
     }
+  }
 }

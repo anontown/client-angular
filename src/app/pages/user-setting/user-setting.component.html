@@ -1,4 +1,4 @@
-<md-card *ngIf="auth">
+<md-card *ngIf="user.ud.getValue()">
   <form (ngSubmit)="ok()">
     <div *ngFor="let e of errors">
       <md-icon>error</md-icon> {{e.message}}
@@ -8,7 +8,10 @@
       <input mdInput type="text" placeholder="ID" [(ngModel)]="sn" name="sn">
     </md-input-container>
     <md-input-container>
-      <input mdInput type="text" placeholder="Pass" [(ngModel)]="pass" name="pass">
+      <input mdInput type="text" placeholder="新しいパスワード" [(ngModel)]="newPass" name="new-pass">
+    </md-input-container>
+    <md-input-container>
+      <input mdInput type="text" placeholder="現在のパスワード" [(ngModel)]="oldPass" name="old-pass">
     </md-input-container>
 
     <button type="submit" md-button>OK</button>

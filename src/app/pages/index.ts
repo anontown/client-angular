@@ -11,4 +11,4 @@ export * from './in/in.component';
 export * from './auth/auth.component';
 export * from './clients/clients.component';
 export * from './user-setting/user-setting.component';
-export * from './tokens/tokens.component';
+export * from './apps/apps.component';
