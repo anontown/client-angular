@@ -40,8 +40,8 @@ import { MdSnackBar } from '@angular/material';
 import { Title } from '@angular/platform-browser';
 
 @Component({
-  templateUrl: './topic.page.component.html',
-  styleUrls: ['./topic.page.component.scss'],
+  templateUrl: './topic.component.html',
+  styleUrls: ['./topic.component.scss'],
   changeDetection: ChangeDetectionStrategy.Default
 })
 export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {

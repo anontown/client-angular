@@ -1,0 +1,12 @@
+<div>
+  <h2>{{client.name}}</h2>
+  <span class="client-id">{{client.id}}</span>
+  <span class="client-url">{{client.url}}</span>
+  <div *ngIf="user.ud.getValue()&&user.ud.getValue().token.user===client.user">
+    <button type="button" (click)="edit()" md-button>
+      <md-icon>edit</md-icon>
+    </button>
+    <app-client-edit [client]="client" *ngIf="isEdit" (update)="ok($event)">
+    </app-client-edit>
+  </div>
+</div>

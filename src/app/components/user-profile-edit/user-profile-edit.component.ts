@@ -22,7 +22,7 @@ import {
 })
 export class UserProfileEditComponent implements OnInit, OnDestroy {
     @Input()
-    private profile: Profile;
+    private profile: IProfileAPI;
 
     private isEdit = false;
 
@@ -36,7 +36,7 @@ export class UserProfileEditComponent implements OnInit, OnDestroy {
     }
 
     @Output()
-    update = new EventEmitter<Profile>();
+    update = new EventEmitter<IProfileAPI>();
 
     ngOnInit() {
         this.sn = this.profile.sn;

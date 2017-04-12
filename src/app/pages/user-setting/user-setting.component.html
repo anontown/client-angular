@@ -1,0 +1,16 @@
+<md-card *ngIf="auth">
+  <form (ngSubmit)="ok()">
+    <div *ngFor="let e of errors">
+      <md-icon>error</md-icon> {{e.message}}
+    </div>
+
+    <md-input-container>
+      <input mdInput type="text" placeholder="ID" [(ngModel)]="sn" name="sn">
+    </md-input-container>
+    <md-input-container>
+      <input mdInput type="text" placeholder="Pass" [(ngModel)]="pass" name="pass">
+    </md-input-container>
+
+    <button type="submit" md-button>OK</button>
+  </form>
+</md-card>

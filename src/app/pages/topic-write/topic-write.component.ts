@@ -12,7 +12,7 @@ import { ButtonDialogComponent } from '../../dialogs';
 import { Title } from '@angular/platform-browser';
 
 @Component({
-    templateUrl: './topic-write.page.component.html',
+    templateUrl: './topic-write.component.html',
     changeDetection: ChangeDetectionStrategy.Default
 })
 export class TopicWritePageComponent implements OnInit, OnDestroy {

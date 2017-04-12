@@ -1,0 +1,14 @@
+<form *ngIf="user.ud|async" (ngSubmit)="ok()">
+    <div *ngFor="let e of errors">
+        <md-icon>error</md-icon> {{e.message}}
+    </div>
+
+    <md-input-container>
+        <input mdInput placeholder="名前" [(ngModel)]="name" name="name">
+    </md-input-container>
+    <md-input-container>
+        <input mdInput placeholder="url" [(ngModel)]="url" name="url">
+    </md-input-container>
+
+    <button type="submit" md-button>OK</button>
+</form>

@@ -9,3 +9,6 @@ export * from './res-write/res-write.component';
 export * from './topic-favo/topic-favo.component';
 export * from './tag-favo/tag-favo.component';
 export * from './tags-input/tags-input.component';
+export * from './client/client.component';
+export * from './client-add/client-add.component';
+export * from './client-edit/client-edit.component';

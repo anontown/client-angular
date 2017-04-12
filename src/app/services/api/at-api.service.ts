@@ -598,6 +598,17 @@ export class AtApiService {
             null,
             null);
     }
+    findUserSN(
+        params: {
+            id: string
+        }) {
+        return this.request<string>(
+            "/user/find/sn",
+            params,
+            null,
+            null,
+            null);
+    }
     createUser(recaptcha: string,
         params: {
             sn: string,

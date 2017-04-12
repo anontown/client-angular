@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import {
     UserService,
-    IResAPI,
+    IMsgAPI,
     AtApiService,
 } from '../../services';
 import * as Immutable from 'immutable';
@@ -10,11 +10,12 @@ import { Subscription } from 'rxjs';
 import { Title } from '@angular/platform-browser';
 
 @Component({
-    templateUrl: './user-notice.page.component.html',
+    templateUrl: './user-msg.component.html',
+    styleUrls: ['./user-msg.component.scss'],
     changeDetection: ChangeDetectionStrategy.Default
 })
-export class UserNoticePageComponent implements OnInit, OnDestroy {
-    private reses = Immutable.List<IResAPI>();
+export class UserMsgPageComponent implements OnInit, OnDestroy {
+    private msgs = Immutable.List<IMsgAPI>();
     private limit = 50;
 
     constructor(
@@ -25,14 +26,10 @@ export class UserNoticePageComponent implements OnInit, OnDestroy {
     }
 
     private subscription: Subscription;
+
     ngOnInit() {
-        this.titleService.setTitle("通知");
-        let isInit = false;
+        this.titleService.setTitle("お知らせ");
         this.subscription = this.user.ud.subscribe((ud) => {
-            if (isInit) {
-                return;
-            }
-            isInit = true;
             if (ud !== null) {
                 this.findNew();
             }
@@ -43,56 +40,53 @@ export class UserNoticePageComponent implements OnInit, OnDestroy {
         this.subscription.unsubscribe();
     }
 
-    updateRes(res: IResAPI) {
-        this.reses.set(this.reses.findIndex((r) => r.id === res.id), res);
-    }
-
     private async findNew() {
         let ud = this.user.ud.getValue();
         try {
-            this.reses = Immutable.List(await this.api.findResNoticeNew(ud.auth, {
-                limit: this.limit
-            }));
+            this.msgs = Immutable.List(await this.api.findMsgNew(ud.auth,
+                {
+                    limit: this.limit
+                }));
         } catch (_e) {
-            this.snackBar.open("レス取得に失敗");
+            this.snackBar.open("メッセージ取得に失敗");
         }
     }
 
     async readNew() {
         let ud = this.user.ud.getValue();
         try {
-            if (this.reses.size === 0) {
+            if (this.msgs.size === 0) {
                 this.findNew();
             } else {
-                this.reses = Immutable.List((await this.api.findResNotice(ud.auth,
+                this.msgs = Immutable.List((await this.api.findMsg(ud.auth,
                     {
                         type: "after",
                         equal: false,
-                        date: this.reses.first().date,
+                        date: this.msgs.first().date,
                         limit: this.limit
-                    })).concat(this.reses.toArray()));
+                    })).concat(this.msgs.toArray()));
             }
         } catch (_e) {
-            this.snackBar.open("レス取得に失敗");
+            this.snackBar.open("メッセージ取得に失敗");
         }
     }
 
     async readOld() {
         let ud = this.user.ud.getValue();
         try {
-            if (this.reses.size === 0) {
+            if (this.msgs.size === 0) {
                 this.findNew();
             } else {
-                this.reses = Immutable.List(this.reses.toArray().concat(await this.api.findResNotice(ud.auth,
+                this.msgs = Immutable.List(this.msgs.toArray().concat(await this.api.findMsg(ud.auth,
                     {
                         type: "before",
                         equal: false,
-                        date: this.reses.last().date,
+                        date: this.msgs.last().date,
                         limit: this.limit
                     })));
             }
         } catch (_e) {
-            this.snackBar.open("レス取得に失敗");
+            this.snackBar.open("メッセージ取得に失敗");
         }
     }
 }

@@ -17,7 +17,7 @@ import { Subscription } from 'rxjs';
 })
 export class TopicListItemComponent implements OnInit, OnDestroy {
   @Input()
-  topic: Topic;
+  topic: ITopicAPI;
 
   @Input()
   simple=false;

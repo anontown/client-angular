@@ -1,0 +1,25 @@
+<md-card>
+  <form (ngSubmit)="ok()">
+    <div *ngFor="let e of errors">
+      <md-icon>error</md-icon> {{e.message}}
+    </div>
+
+    <md-input-container>
+      <input mdInput placeholder="ID" [(ngModel)]="sn" name="sn">
+    </md-input-container>
+    <md-input-container>
+      <input mdInput placeholder="Pass" [(ngModel)]="pass" name="pass">
+    </md-input-container>
+    <md-select placeholder="ログイン/登録" [(ngModel)]="isLogin" name="isLogin">
+      <md-option [value]="true">
+        ログイン
+      </md-option>
+      <md-option [value]="false">
+        登録
+      </md-option>
+    </md-select>
+     <re-captcha *ngIf="!isLogin" site_key="{{siteKey}}"></re-captcha>
+
+    <button type="submit" md-button>OK</button>
+  </form>
+</md-card>

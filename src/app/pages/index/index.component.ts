@@ -4,7 +4,7 @@ import { UserService } from '../../services/user.service';
 import { Title } from '@angular/platform-browser';
 
 @Component({
-  templateUrl: './index.page.component.html',
+  templateUrl: './index.component.html',
   changeDetection: ChangeDetectionStrategy.Default
 })
 export class IndexPageComponent implements OnInit {

@@ -16,7 +16,6 @@ import {
     AtApiService
 } from './services';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import 'hammerjs';
 
 import { RouterModule } from '@angular/router';
 import {
@@ -30,7 +29,10 @@ import {
     ResWriteComponent,
     TopicFavoComponent,
     TagFavoComponent,
-    TagsInputComponent
+    TagsInputComponent,
+    ClientComponent,
+    ClientAddComponent,
+    ClientEditComponent
 } from './components';
 
 import {
@@ -54,7 +56,12 @@ import {
     UserNoticePageComponent,
     UserProfilePageComponent,
     NotFoundComponent,
-    ResPageComponent
+    ResPageComponent,
+    InPageComponent,
+    AuthPageComponent,
+    ClientsPageComponent,
+    TokensPageComponent,
+    UserSettingPageComponent
 } from './pages';
 import { Config } from './config';
 
@@ -103,6 +110,26 @@ import { InfiniteScrollDirective } from './directives';
                 component: UserMsgPageComponent
             },
             {
+                path: 'in',
+                component: InPageComponent
+            },
+            {
+                path: 'auth',
+                component: AuthPageComponent
+            },
+            {
+                path: 'user/clients',
+                component: ClientsPageComponent
+            },
+            {
+                path: 'user/tokens',
+                component: TokensPageComponent
+            },
+            {
+                path: 'user/setting',
+                component: UserSettingPageComponent
+            },
+            {
                 path: '404',
                 component: NotFoundComponent
             },
@@ -149,7 +176,15 @@ import { InfiniteScrollDirective } from './directives';
         NotFoundComponent,
         TagFavoComponent,
         TagsInputComponent,
-        ResPageComponent
+        ResPageComponent,
+        ClientComponent,
+        ClientAddComponent,
+        ClientEditComponent,
+        InPageComponent,
+        AuthPageComponent,
+        ClientsPageComponent,
+        TokensPageComponent,
+        UserSettingPageComponent
     ],
     // エントリ
     bootstrap: [AppComponent],

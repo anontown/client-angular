@@ -14,8 +14,8 @@ import {
 import { MdSnackBar } from '@angular/material';
 import { Title } from '@angular/platform-browser';
 @Component({
-  templateUrl: './topic-search.page.component.html',
-  styleUrls: ['./topic-search.page.component.scss'],
+  templateUrl: './topic-search.component.html',
+  styleUrls: ['./topic-search.component.scss'],
   changeDetection: ChangeDetectionStrategy.Default
 })
 export class TopicSearchPageComponent implements OnInit, OnDestroy {
