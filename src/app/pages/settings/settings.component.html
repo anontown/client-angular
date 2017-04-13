@@ -1,0 +1,12 @@
+<nav md-tab-nav-bar class="tab-nav">
+  <a md-tab-link [routerLink]="['/settings/account']">
+    ユーザー設定
+  </a>
+  <a md-tab-link [routerLink]="['/settings/apps']">
+    連携アプリ
+  </a>
+  <a md-tab-link [routerLink]="['/settings/dev']">
+    <md-icon>開発者向け</md-icon>
+  </a>
+</nav>
+<router-outlet></router-outlet>

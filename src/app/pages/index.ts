@@ -12,3 +12,4 @@ export * from './auth/auth.component';
 export * from './clients/clients.component';
 export * from './user-setting/user-setting.component';
 export * from './apps/apps.component';
+export * from './settings/settings.component';

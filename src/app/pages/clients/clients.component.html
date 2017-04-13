@@ -1,4 +1,4 @@
 <div *ngIf="user.ud.getValue()">
-  <at-client *ngFor="let c of clients" [client]="c"></at-client>
-  <at-client-add (add)="add($event)"></at-client-add>
+  <app-client *ngFor="let c of clients" [client]="c"></app-client>
+  <app-client-add (add)="add($event)"></app-client-add>
 </div>

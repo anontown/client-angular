@@ -2,7 +2,7 @@ import { Component, Output, EventEmitter, ViewChild } from '@angular/core';
 import { AtApiService, AtError, IAuthUser, IAtError, UserService } from '../../services';
 import { Config } from '../../config';
 import { ReCaptchaComponent } from 'angular2-recaptcha/lib/captcha.component';
-
+import { Router } from '@angular/router';
 
 @Component({
   templateUrl: './in.component.html'
@@ -17,7 +17,8 @@ export class InPageComponent {
   @ViewChild(ReCaptchaComponent) captcha: ReCaptchaComponent;
 
   constructor(public user: UserService,
-    private api: AtApiService) { }
+    private api: AtApiService,
+    private router:Router) { }
 
   async ok() {
     try {
@@ -33,7 +34,13 @@ export class InPageComponent {
         id = await this.api.findUserID({ sn: this.sn });
       }
 
-      this.user.login(await this.api.createTokenMaster({ id, pass: this.pass }));
+      let token = await this.api.createTokenMaster({ id, pass: this.pass })
+      this.user.login(token);
+      localStorage.setItem('token', JSON.stringify({
+        id: token.id,
+        key: token.key
+      }));
+      this.router.navigate(['/']);
     } catch (e) {
       if (this.captcha) {
         this.captcha.reset();

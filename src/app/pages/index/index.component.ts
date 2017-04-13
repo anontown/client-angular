@@ -8,8 +8,6 @@ import { Title } from '@angular/platform-browser';
   changeDetection: ChangeDetectionStrategy.Default
 })
 export class IndexPageComponent implements OnInit {
-  userURL = Config.userURL;
-
   constructor(public user: UserService,
     private titleService: Title) {
 

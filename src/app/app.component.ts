@@ -4,10 +4,10 @@ import {
   OnInit,
   OnDestroy
 } from '@angular/core';
-import { UserService,AtApiService, IAuthToken } from './services';
+import { UserService, AtApiService, IAuthToken } from './services';
 import { Config } from './config';
 import { Router } from '@angular/router';
-import {MdSnackBar} from '@angular/material';
+import { MdSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-root',
@@ -23,49 +23,23 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
-    // トークンリクエスト
-    this.router.events.take(1).subscribe(async e => {
-      try{
-        let params = this.router.parseUrl((e as any).url).queryParams;
-        let id = params['id'];
-        let key = params['key'];
-        if (id && key) {
-          let token = await this.api.findTokenReq({
-            id,
-            key
-          });
-
-          localStorage.setItem('token', JSON.stringify({
-            id: token.id,
-            key: token.key
-          }));
-        }
-      }catch(_e){
-        this.snackBar.open("トークン取得に失敗");
-      }
-
-      // 認証
-      try{
-        let json = localStorage.getItem('token');
-        if (json) {
-          let auth: IAuthToken = JSON.parse(json);
-          let token = await this.api.findTokenOne(auth);
-          await this.user.login(token);
-        } else {
-          this.user.ud.next(null);
-        }
-      }catch(_e){
-        this.snackBar.open("認証に失敗");
+    // 認証
+    try {
+      let json = localStorage.getItem('token');
+      if (json) {
+        let auth: IAuthToken = JSON.parse(json);
+        let token = await this.api.findTokenOne(auth);
+        await this.user.login(token);
+      } else {
         this.user.ud.next(null);
       }
-    });
+    } catch (_e) {
+      this.snackBar.open("認証に失敗");
+      this.user.ud.next(null);
+    }
   }
 
   ngOnDestroy() {
-  }
-
-  login() {
-    location.href = Config.userURL + '/auth?client=' + Config.clientID;
   }
 
   logout() {
@@ -80,14 +54,14 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   async save() {
-    let ud=this.user.ud.getValue();
+    let ud = this.user.ud.getValue();
     if (ud !== null) {
-      try{
+      try {
         await this.api.setTokenStorage(ud.auth, {
-          name:"main",
+          name: "main",
           value: ud.storage.toJSON()
         });
-      }catch(_e){
+      } catch (_e) {
         this.snackBar.open("お気に入りなどのデータ保存に失敗");
       }
     }
