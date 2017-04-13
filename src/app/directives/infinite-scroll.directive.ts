@@ -66,7 +66,7 @@ export class InfiniteScrollDirective implements OnInit, OnDestroy {
     return new Promise<IInfiniteScrollElement>((resolve => {
       setTimeout(() => {
         //最短距離のエレメント
-        let minEl: HTMLElement = null;
+        let minEl: HTMLElement | null = null;
         Array.from(this.el.children)
           .forEach((x: HTMLElement) => {
             if (minEl === null) {
@@ -78,8 +78,8 @@ export class InfiniteScrollDirective implements OnInit, OnDestroy {
           });
 
         resolve({
-          el: minEl,
-          y: minEl.offsetTop + minEl.offsetHeight / 2,
+          el: minEl!,
+          y: minEl!.offsetTop + minEl!.offsetHeight / 2,
         });
       }, 0);
     }));
@@ -98,7 +98,7 @@ export class InfiniteScrollDirective implements OnInit, OnDestroy {
     return new Promise<IInfiniteScrollElement>((resolve => {
       setTimeout(() => {
         //最短距離のエレメント
-        let minEl: HTMLElement = null;
+        let minEl: HTMLElement | null = null;
         Array.from(this.el.children)
           .forEach((x: HTMLElement) => {
             if (minEl === null) {
@@ -118,8 +118,8 @@ export class InfiniteScrollDirective implements OnInit, OnDestroy {
           });
 
         resolve({
-          el: minEl,
-          y: minEl.offsetTop + minEl.offsetHeight / 2,
+          el: minEl!,
+          y: minEl!.offsetTop + minEl!.offsetHeight / 2,
         });
       }, 0);
     }));

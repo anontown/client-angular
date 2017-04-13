@@ -11,7 +11,7 @@ import { Behavior2Subject } from './behavior2subject';
 
 @Injectable()
 export class UserService {
-  ud = new Behavior2Subject<IUserData>();
+  ud = new Behavior2Subject<IUserData | null>();
 
   constructor(private api: AtApiService,
     public snackBar: MdSnackBar) {

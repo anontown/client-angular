@@ -21,7 +21,7 @@ export class HtmlPipe implements PipeTransform {
             if ((href.indexOf("http://") === 0 || href.indexOf("https://") === 0) &&
                 href.indexOf("https://anontown.com") !== 0) {
                 //外部リンク
-                let reqArray: RegExpMatchArray;
+                let reqArray: RegExpMatchArray | null;
                 if (reqArray = href.match(/(youtube\.com\/watch\?v=|youtu\.be\/)([a-z0-9_]+)/i)) {
                     //youtube
                     let youtubeID = reqArray[2];

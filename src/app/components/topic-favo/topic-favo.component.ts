@@ -35,7 +35,7 @@ export class TopicFavoComponent implements OnInit, OnDestroy {
       if (ud !== null) {
         await this.update();
       } else {
-        this.tfavo = null;
+        this.tfavo = Immutable.List<ITopicAPI>();
       }
     });
   }
@@ -45,7 +45,7 @@ export class TopicFavoComponent implements OnInit, OnDestroy {
   }
 
   private async update() {
-    let ud = this.user.ud.getValue();
+    let ud = this.user.ud.getValue()!;
     try {
       this.tfavo = Immutable.List(await this.api.findTopicIn({ ids: ud.storage.topicFavo.toArray() }))
         .sort((a, b) => a.update > b.update ? -1 : a.update < b.update ? 1 : 0).toList();

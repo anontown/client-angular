@@ -19,14 +19,14 @@ export class UserProfilePageComponent implements OnInit, OnDestroy {
   async ngOnInit() {
     this.titleService.setTitle("プロフィール管理");
     let ud = await this.user.ud.toPromise();
-    this.profiles = Immutable.List(await this.api.findProfileAll(ud.auth));
+    this.profiles = Immutable.List(await this.api.findProfileAll(ud!.auth));
   }
 
   ngOnDestroy() {
   }
 
   update(pr: IProfileAPI) {
-    this.profiles = this.profiles.set(this.profiles.findIndex(p => p.id === pr.id), pr);
+    this.profiles = this.profiles.set(this.profiles.findIndex(p => p!.id === pr.id), pr);
   }
 
   add(p: IProfileAPI) {

@@ -25,7 +25,11 @@ export class OekakiComponent implements OnInit, AfterViewInit {
   ok = new EventEmitter<Blob>();
   clickOK() {
     (this.canvas.nativeElement as HTMLCanvasElement)
-      .toBlob((blob) => this.ok.emit(blob));
+      .toBlob(blob => {
+        if (blob) {
+          this.ok.emit(blob)
+        }
+      });
   }
 
 

@@ -41,7 +41,7 @@ export class UserMsgPageComponent implements OnInit, OnDestroy {
     }
 
     private async findNew() {
-        let ud = this.user.ud.getValue();
+        let ud = this.user.ud.getValue()!;
         try {
             this.msgs = Immutable.List(await this.api.findMsgNew(ud.auth,
                 {
@@ -53,7 +53,7 @@ export class UserMsgPageComponent implements OnInit, OnDestroy {
     }
 
     async readNew() {
-        let ud = this.user.ud.getValue();
+        let ud = this.user.ud.getValue()!;
         try {
             if (this.msgs.size === 0) {
                 this.findNew();
@@ -72,7 +72,7 @@ export class UserMsgPageComponent implements OnInit, OnDestroy {
     }
 
     async readOld() {
-        let ud = this.user.ud.getValue();
+        let ud = this.user.ud.getValue()!;
         try {
             if (this.msgs.size === 0) {
                 this.findNew();

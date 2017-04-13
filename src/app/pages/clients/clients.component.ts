@@ -14,7 +14,7 @@ import { Title } from '@angular/platform-browser';
   templateUrl: './clients.component.html',
 })
 export class ClientsPageComponent implements OnInit, OnDestroy {
-  private clients: Immutable.List<IClientAPI> = null;
+  private clients: Immutable.List<IClientAPI>;
 
   constructor(public user: UserService,
     private api: AtApiService,

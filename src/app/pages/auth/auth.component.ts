@@ -10,7 +10,7 @@ import { Title } from '@angular/platform-browser';
     templateUrl: './auth.component.html'
 })
 export class AuthPageComponent implements OnInit, OnDestroy {
-    client: IClientAPI = null;
+    client: IClientAPI;
 
     constructor(private api: AtApiService,
         private route: ActivatedRoute,
@@ -20,7 +20,7 @@ export class AuthPageComponent implements OnInit, OnDestroy {
     }
 
     async ok() {
-        let ud=this.user.ud.getValue();
+        let ud=this.user.ud.getValue()!;
         let token=await this.api.createTokenGeneral(ud.auth,{client:this.client.id});
         let req = await this.api.createTokenReq({ id: token.id, key: token.key });
         //リダイレクト

@@ -99,7 +99,7 @@ export class TopicSearchPageComponent implements OnInit, OnDestroy {
   }
 
   async favo() {
-    let ud=this.user.ud.getValue();
+    let ud=this.user.ud.getValue()!;
     let storage = ud.storage;
     let tf = storage.tagsFavo;
     let tags = Immutable.Set(this.tagArray);
@@ -108,7 +108,7 @@ export class TopicSearchPageComponent implements OnInit, OnDestroy {
   }
 
   get isFavo(): boolean {
-    let ud=this.user.ud.getValue();
+    let ud=this.user.ud.getValue()!;
     return ud.storage.tagsFavo.has(Immutable.Set(this.tagArray));
   }
 }

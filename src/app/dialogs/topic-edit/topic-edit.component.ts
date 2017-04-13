@@ -42,7 +42,7 @@ export class TopicEditDialogComponent implements OnInit, OnDestroy {
     }
 
     async ok() {
-        let ud = this.user.ud.getValue();
+        let ud = this.user.ud.getValue()!;
         try {
             let topic = await this.api.updateTopic(ud.auth, {
                 id: this.topic.id,

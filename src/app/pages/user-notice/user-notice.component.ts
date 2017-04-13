@@ -44,11 +44,11 @@ export class UserNoticePageComponent implements OnInit, OnDestroy {
     }
 
     updateRes(res: IResAPI) {
-        this.reses.set(this.reses.findIndex((r) => r.id === res.id), res);
+        this.reses.set(this.reses.findIndex((r) => r!.id === res.id), res);
     }
 
     private async findNew() {
-        let ud = this.user.ud.getValue();
+        let ud = this.user.ud.getValue()!;
         try {
             this.reses = Immutable.List(await this.api.findResNoticeNew(ud.auth, {
                 limit: this.limit
@@ -59,7 +59,7 @@ export class UserNoticePageComponent implements OnInit, OnDestroy {
     }
 
     async readNew() {
-        let ud = this.user.ud.getValue();
+        let ud = this.user.ud.getValue()!;
         try {
             if (this.reses.size === 0) {
                 this.findNew();
@@ -78,7 +78,7 @@ export class UserNoticePageComponent implements OnInit, OnDestroy {
     }
 
     async readOld() {
-        let ud = this.user.ud.getValue();
+        let ud = this.user.ud.getValue()!;
         try {
             if (this.reses.size === 0) {
                 this.findNew();

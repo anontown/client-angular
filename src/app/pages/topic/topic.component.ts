@@ -96,7 +96,7 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   updateRes(res: IResAPI) {
-    this.reses = this.reses.set(this.reses.findIndex((r) => r.id === res.id), res);
+    this.reses = this.reses.set(this.reses.findIndex((r) => r!.id === res.id), res);
   }
 
   autoScrollSpeed = 15;
@@ -246,7 +246,7 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.storageSave(rc.res.id);
   }
 
-  storageSave(res: string) {
+  storageSave(res: string|null) {
     let ud = this.user.ud.getValue();
     if (!ud) {
       return;
@@ -377,13 +377,13 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   async favo() {
     let ud = this.user.ud.getValue();
-    let storage = ud.storage;
+    let storage = ud!.storage;
     let tf = storage.topicFavo;
     storage.topicFavo = this.isFavo ? tf.delete(this.topic.id) : tf.add(this.topic.id);
     this.user.ud.next(ud);
   }
 
   get isFavo(): boolean {
-    return this.user.ud.getValue().storage.topicFavo.has(this.topic.id)
+    return this.user.ud.getValue()!.storage.topicFavo.has(this.topic.id)
   }
 }

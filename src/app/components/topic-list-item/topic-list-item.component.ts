@@ -6,7 +6,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef
 } from '@angular/core';
-import { UserService,ITopicAPI } from '../../services';
+import { UserService, ITopicAPI } from '../../services';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -20,7 +20,7 @@ export class TopicListItemComponent implements OnInit, OnDestroy {
   topic: ITopicAPI;
 
   @Input()
-  simple=false;
+  simple = false;
 
   constructor(public user: UserService,
     private cdr: ChangeDetectorRef) {
@@ -28,7 +28,7 @@ export class TopicListItemComponent implements OnInit, OnDestroy {
   }
 
   private subscription: Subscription;
-  newRes: number;
+  newRes: number | null;
 
   ngOnInit() {
     this.subscription = this.user.ud.subscribe((ud) => {

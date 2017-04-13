@@ -40,7 +40,7 @@ export class TopicForkDialogComponent implements OnInit {
 
   async write() {
     try {
-      let topic = await this.api.createTopicFork(this.user.ud.getValue().auth, {
+      let topic = await this.api.createTopicFork(this.user.ud.getValue()!.auth, {
         title: this.title,
         parent: this.topic.id
       });

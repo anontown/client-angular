@@ -23,7 +23,7 @@ export class ResPageComponent implements OnInit {
       this.user.ud
         .take(1)
         .subscribe(async ud => {
-          let token: IAuthToken;
+          let token: IAuthToken | null;
           if (ud) {
             token = ud.auth;
           } else {

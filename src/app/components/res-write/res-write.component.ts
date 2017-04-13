@@ -65,7 +65,7 @@ export class ResWriteComponent implements OnInit, OnDestroy {
   reply: IResAPI | null = null;
 
   async ok() {
-    let ud = this.user.ud.getValue();
+    let ud = this.user.ud.getValue()!;
     try {
       let res = await this.api.createRes(ud.auth, {
         topic: typeof this.topic === "string" ? this.topic : this.topic.id,

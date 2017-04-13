@@ -49,7 +49,7 @@ export class TopicWritePageComponent implements OnInit, OnDestroy {
             }
         }
 
-        let ud = this.user.ud.getValue();
+        let ud = this.user.ud.getValue()!;
         try {
             let params = {
                 title: this.title,

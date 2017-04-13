@@ -28,13 +28,13 @@ export class UserSettingPageComponent implements OnInit, OnDestroy {
   async ngOnInit() {
     this.titleService.setTitle("アカウント設定");
     let ud = await this.user.ud.toPromise();
-    this.sn = await this.api.findUserSN({ id: ud.token.user });
+    this.sn = await this.api.findUserSN({ id: ud!.token.user });
   }
   ngOnDestroy() {
   }
 
   async ok() {
-    let ud = this.user.ud.getValue();
+    let ud = this.user.ud.getValue()!;
     let auth = {
       id: ud.token.user,
       pass: this.oldPass

@@ -36,7 +36,7 @@ export class ClientEditComponent implements OnInit {
     this.url = this.client.url;
   }
   async ok() {
-    let ud = this.user.ud.getValue();
+    let ud = this.user.ud.getValue()!;
     try {
       let client = await this.api.updateClient(ud.auth, {
         id: this.client.id,

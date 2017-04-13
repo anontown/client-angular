@@ -19,14 +19,14 @@ export class AppsPageComponent implements OnInit, OnDestroy {
   }
   async ngOnInit() {
     let ud = await this.user.ud.toPromise();
-    this.clients = Immutable.List(await this.api.findTokenClientAll(ud.auth));
+    this.clients = Immutable.List(await this.api.findTokenClientAll(ud!.auth));
   }
 
   ngOnDestroy() {
   }
 
   async del(id: string) {
-    await this.api.deleteTokenClient(this.user.ud.getValue().auth, { client: id });
-    this.clients=this.clients.remove(this.clients.findIndex(c=>c.id===id));
+    await this.api.deleteTokenClient(this.user.ud.getValue()!.auth, { client: id });
+    this.clients=this.clients.remove(this.clients.findIndex(c=>c!.id===id));
   }
 }

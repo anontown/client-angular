@@ -48,11 +48,11 @@ export class TopicHistoryComponent implements OnInit, OnDestroy {
     }
 
     updateRes(res: IResAPI) {
-        this.hashReses.set(this.hashReses.findIndex((r) => r.id === res.id), res);
+        this.hashReses.set(this.hashReses.findIndex(r => r!.id === res.id), res);
     }
 
     async hashClick() {
-        let ud = this.user.ud.getValue();
+        let ud = this.user.ud.getValue()!;
         try {
             if (this.hashReses.size !== 0) {
                 this.hashReses = Immutable.List<IResAPI>();

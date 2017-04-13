@@ -76,7 +76,7 @@ export class MdEditorComponent implements OnInit, ControlValueAccessor, AfterVie
 
   async upload() {
     let el: HTMLInputElement = this.img.nativeElement;
-    if (el.files.length !== 0) {
+    if (el.files && el.files.length !== 0) {
       let formData = new FormData();
       formData.append('image', el.files[0]);
       await this.imgur(formData);
