@@ -9,7 +9,7 @@ import {
   AtError,
   IAtError
 } from '../../services';
-
+import { Title } from '@angular/platform-browser';
 
 @Component({
   templateUrl: './user-setting.component.html',
@@ -20,10 +20,13 @@ export class UserSettingPageComponent implements OnInit, OnDestroy {
   sn = "";
   private errors: IAtError[] = [];
 
-  constructor(private user: UserService, private api: AtApiService) {
+  constructor(private user: UserService,
+    private api: AtApiService,
+    private titleService: Title) {
   }
 
   async ngOnInit() {
+    this.titleService.setTitle("アカウント設定");
     let ud = await this.user.ud.toPromise();
     this.sn = await this.api.findUserSN({ id: ud.token.user });
   }

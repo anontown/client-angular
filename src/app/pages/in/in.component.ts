@@ -1,13 +1,13 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { AtApiService, AtError, IAtError, UserService } from '../../services';
 import { Config } from '../../config';
 import { ReCaptchaComponent } from 'angular2-recaptcha/lib/captcha.component';
 import { Router } from '@angular/router';
-
+import { Title } from '@angular/platform-browser';
 @Component({
   templateUrl: './in.component.html'
 })
-export class InPageComponent {
+export class InPageComponent implements OnInit {
   private sn = "";
   private pass = "";
   private isLogin = true;
@@ -18,7 +18,12 @@ export class InPageComponent {
 
   constructor(public user: UserService,
     private api: AtApiService,
-    private router:Router) { }
+    private router: Router,
+    private titleService: Title) { }
+
+  ngOnInit() {
+    this.titleService.setTitle("ログイン/登録");
+  }
 
   async ok() {
     try {

@@ -9,14 +9,16 @@ import {
   AtApiService
 } from '../../services';
 import * as Immutable from 'immutable';
-
+import { Title } from '@angular/platform-browser';
 @Component({
   templateUrl: './clients.component.html',
 })
 export class ClientsPageComponent implements OnInit, OnDestroy {
   private clients: Immutable.List<IClientAPI> = null;
 
-  constructor(public user: UserService, private api: AtApiService) {
+  constructor(public user: UserService,
+    private api: AtApiService,
+    private titleService: Title) {
   }
 
   add(client: IClientAPI) {
@@ -24,8 +26,9 @@ export class ClientsPageComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
-    let ud=await this.user.ud.toPromise();
-    if(ud){
+    this.titleService.setTitle("クライアント管理");
+    let ud = await this.user.ud.toPromise();
+    if (ud) {
       this.clients = Immutable.List(await this.api.findClientAll(ud.auth));
     }
   }

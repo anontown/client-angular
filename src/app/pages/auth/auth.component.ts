@@ -5,7 +5,7 @@ import {
     AtApiService,
     IClientAPI
 } from '../../services';
-
+import { Title } from '@angular/platform-browser';
 @Component({
     templateUrl: './auth.component.html'
 })
@@ -14,7 +14,8 @@ export class AuthPageComponent implements OnInit, OnDestroy {
 
     constructor(private api: AtApiService,
         private route: ActivatedRoute,
-        private user: UserService) {
+        private user: UserService,
+        private titleService: Title) {
 
     }
 
@@ -30,6 +31,7 @@ export class AuthPageComponent implements OnInit, OnDestroy {
     }
 
     async ngOnInit() {
+        this.titleService.setTitle("アプリ認証");
         let ud = await this.user.ud.toPromise();
         if (ud) {
             let clientID = "";
