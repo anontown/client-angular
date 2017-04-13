@@ -1,5 +1,5 @@
-import { Component, Output, EventEmitter, ViewChild } from '@angular/core';
-import { AtApiService, AtError, IAuthUser, IAtError, UserService } from '../../services';
+import { Component, ViewChild } from '@angular/core';
+import { AtApiService, AtError, IAtError, UserService } from '../../services';
 import { Config } from '../../config';
 import { ReCaptchaComponent } from 'angular2-recaptcha/lib/captcha.component';
 import { Router } from '@angular/router';

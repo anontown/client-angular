@@ -6,7 +6,6 @@ import {
 import {
   UserService,
   IClientAPI,
-  IAuthUser,
   AtApiService
 } from '../../services';
 import * as Immutable from 'immutable';

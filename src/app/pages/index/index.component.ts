@@ -1,5 +1,4 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { Config } from '../../config';
 import { UserService } from '../../services/user.service';
 import { Title } from '@angular/platform-browser';
 

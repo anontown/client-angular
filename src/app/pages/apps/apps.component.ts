@@ -2,7 +2,6 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import {
   UserService,
   AtApiService,
-  ITokenAPI,
   IClientAPI
 } from '../../services';
 import * as Immutable from 'immutable';

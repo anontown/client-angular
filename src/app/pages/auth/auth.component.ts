@@ -3,8 +3,6 @@ import { ActivatedRoute } from '@angular/router';
 import {
     UserService,
     AtApiService,
-    ITokenAPI,
-    IAuthUser,
     IClientAPI
 } from '../../services';
 

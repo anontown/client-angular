@@ -13,9 +13,7 @@ import {
 } from '../../services';
 import * as Immutable from 'immutable';
 
-import { MdSnackBar, MdDialogRef } from '@angular/material';
-
-import { Router } from '@angular/router';
+import { MdSnackBar } from '@angular/material';
 
 @Component({
   templateUrl: './topic-data.component.html',
@@ -29,9 +27,7 @@ export class TopicDataDialogComponent implements OnInit, OnDestroy {
   histories: Immutable.List<IHistoryAPI>;
   constructor(public user: UserService,
     private api: AtApiService,
-    public snackBar: MdSnackBar,
-    private router: Router,
-    private dialogRef: MdDialogRef<TopicDataDialogComponent>) {
+    public snackBar: MdSnackBar) {
   }
 
   async ngOnInit() {

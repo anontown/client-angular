@@ -1,9 +1,8 @@
-import { Component, EventEmitter, Output, Input } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import {
   AtApiService,
   AtError,
   IClientAPI,
-  IAuthUser,
   IAtError,
   UserService
 } from '../../services';

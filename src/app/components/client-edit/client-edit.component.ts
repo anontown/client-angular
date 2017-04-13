@@ -9,7 +9,6 @@ import {
   AtApiService,
   IClientAPI,
   AtError,
-  IAuthUser,
   IAtError,
   UserService
 } from '../../services';

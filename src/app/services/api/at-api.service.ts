@@ -12,7 +12,6 @@ import {
     IClientAPI,
     IHistoryAPI,
     IProfileAPI,
-    ITokenGeneralAPI,
     ITokenMasterAPI
 } from './api-object';
 import { IAuthUser, IAuthToken } from './auth';

@@ -64,7 +64,6 @@ import {
   UserSettingPageComponent,
   SettingsPageComponent
 } from './pages';
-import { Config } from './config';
 
 import { InfiniteScrollDirective } from './directives';
 

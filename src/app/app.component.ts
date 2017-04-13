@@ -5,7 +5,6 @@ import {
   OnDestroy
 } from '@angular/core';
 import { UserService, AtApiService, IAuthToken } from './services';
-import { Config } from './config';
 import { Router } from '@angular/router';
 import { MdSnackBar } from '@angular/material';
 
