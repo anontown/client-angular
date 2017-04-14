@@ -32,7 +32,7 @@ export class AuthPageComponent implements OnInit, OnDestroy {
 
     async ngOnInit() {
         this.titleService.setTitle("アプリ認証");
-        let ud = await this.user.ud.toPromise();
+        let ud = await this.user.ud.take(1).toPromise();
         if (ud) {
             let clientID = "";
             this.route.queryParams.forEach((params) => {

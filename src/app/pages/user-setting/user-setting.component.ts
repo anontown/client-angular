@@ -27,14 +27,14 @@ export class UserSettingPageComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     this.titleService.setTitle("アカウント設定");
-    let ud = await this.user.ud.toPromise();
+    let ud = await this.user.ud.take(1).toPromise();
     this.sn = await this.api.findUserSN({ id: ud!.token.user });
   }
   ngOnDestroy() {
   }
 
   async ok() {
-    let ud = this.user.ud.getValue()!;
+    let ud = this.user.ud.getValue() !;
     let auth = {
       id: ud.token.user,
       pass: this.oldPass
@@ -44,7 +44,15 @@ export class UserSettingPageComponent implements OnInit, OnDestroy {
         pass: this.newPass,
         sn: this.sn
       });
-      this.user.login(await this.api.createTokenMaster(auth));
+      let newToken = await this.api.createTokenMaster({
+        id: ud.token.user,
+        pass: this.newPass
+      });
+      this.user.login(newToken);
+      localStorage.setItem('token', JSON.stringify({
+        id: newToken.id,
+        key: newToken.key
+      }));
       this.errors = [];
     } catch (e) {
       if (e instanceof AtError) {
