@@ -19,7 +19,7 @@
         <md-option [value]="null" selected>
           なし
         </md-option>
-        <md-option *ngFor="let p of user.ud.getValue().profiles" [value]="p.id">
+        <md-option *ngFor="let p of profiles" [value]="p.id">
           ●{{p.sn}} {{p.name}}
         </md-option>
       </md-select>

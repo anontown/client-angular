@@ -15,7 +15,8 @@ import {
   IResAPI,
   ITopicAPI,
   AtError,
-  IAtError
+  IAtError,
+  IProfileAPI
 } from '../../services';
 
 
@@ -35,7 +36,9 @@ export class ResWriteComponent implements OnInit, OnDestroy {
   write = new EventEmitter<IResAPI>();
 
 
-  ngOnInit() {
+  async ngOnInit() {
+    let ud = await this.user.ud.take(1).toPromise();
+    this.profiles = await this.api.findProfileAll(ud.auth);
   }
 
   ngOnDestroy() {
@@ -64,8 +67,10 @@ export class ResWriteComponent implements OnInit, OnDestroy {
   @Input()
   reply: IResAPI | null = null;
 
+  profiles: IProfileAPI[];
+
   async ok() {
-    let ud = this.user.ud.getValue()!;
+    let ud = this.user.ud.getValue() !;
     try {
       let res = await this.api.createRes(ud.auth, {
         topic: typeof this.topic === "string" ? this.topic : this.topic.id,
