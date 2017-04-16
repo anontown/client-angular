@@ -14,7 +14,7 @@ import * as Immutable from 'immutable';
 export class AppsPageComponent implements OnInit, OnDestroy {
   private clients: Immutable.List<IClientAPI>;
 
-  constructor(private user: UserService, private api: AtApiService) {
+  constructor(public user: UserService, private api: AtApiService) {
 
   }
   async ngOnInit() {

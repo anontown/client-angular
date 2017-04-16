@@ -8,10 +8,10 @@ import { Title } from '@angular/platform-browser';
   templateUrl: './in.component.html'
 })
 export class InPageComponent implements OnInit {
-  private sn = "";
-  private pass = "";
-  private isLogin = true;
-  private errors: IAtError[] = [];
+  sn = "";
+  pass = "";
+  isLogin = true;
+  errors: IAtError[] = [];
   siteKey = Config.recaptcha;
 
   @ViewChild(ReCaptchaComponent) captcha: ReCaptchaComponent;

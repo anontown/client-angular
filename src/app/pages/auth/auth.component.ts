@@ -14,7 +14,7 @@ export class AuthPageComponent implements OnInit, OnDestroy {
 
     constructor(private api: AtApiService,
         private route: ActivatedRoute,
-        private user: UserService,
+        public user: UserService,
         private titleService: Title) {
 
     }

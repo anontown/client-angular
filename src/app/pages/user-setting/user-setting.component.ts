@@ -20,7 +20,7 @@ export class UserSettingPageComponent implements OnInit, OnDestroy {
   sn = "";
   private errors: IAtError[] = [];
 
-  constructor(private user: UserService,
+  constructor(public user: UserService,
     private api: AtApiService,
     private titleService: Title) {
   }
