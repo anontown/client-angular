@@ -2,34 +2,45 @@ import {
   Component,
   OnInit,
   ViewChild,
-  EventEmitter,
   ElementRef,
   AfterViewInit,
   Output
 } from '@angular/core';
 
 import * as Immutable from 'immutable';
+import { MdDialogRef } from '@angular/material';
+import { ImgurApiService } from '../../services';
 
 @Component({
-  selector: 'app-oekaki',
   templateUrl: './oekaki.component.html',
   styleUrls: ['./oekaki.component.scss']
 })
-export class OekakiComponent implements OnInit, AfterViewInit {
+export class OekakiDialogComponent implements OnInit, AfterViewInit {
   readonly w = 320;
   readonly h = 240;
 
   private cmd: Command<ImageData>;
 
-  @Output()
-  ok = new EventEmitter<Blob>();
-  clickOK() {
-    (this.canvas.nativeElement as HTMLCanvasElement)
-      .toBlob(blob => {
-        if (blob) {
-          this.ok.emit(blob)
-        }
-      });
+  now: 'posting' | 'error' | null;
+
+  async ok() {
+    let blob = await new Promise<Blob>((resolve) => {
+      (this.canvas.nativeElement as HTMLCanvasElement)
+        .toBlob((result) => {
+          resolve(result);
+        });
+    });
+
+    if (blob) {
+      try {
+        this.now = 'posting';
+        let url = await this.imgur.upload(blob);
+        this.now = null;
+        this.dialog.close(url);
+      } catch (_e) {
+        this.now = 'error';
+      }
+    }
   }
 
 
@@ -38,7 +49,8 @@ export class OekakiComponent implements OnInit, AfterViewInit {
 
   ctx: CanvasRenderingContext2D;
 
-  constructor() { }
+  constructor(private dialog: MdDialogRef<OekakiDialogComponent>,
+    private imgur: ImgurApiService) { }
 
   ngOnInit() {
   }
@@ -61,7 +73,7 @@ export class OekakiComponent implements OnInit, AfterViewInit {
   }
 
   isDraw = false;
-  color = { r: 0, g: 0, b: 0 };
+  color = '#000000';
   //太さ
   lineWidth = 3;
 
@@ -96,7 +108,7 @@ export class OekakiComponent implements OnInit, AfterViewInit {
     let rect = (<Element>this.canvas.nativeElement).getBoundingClientRect();
 
     //色と太さ
-    this.ctx.strokeStyle = `rgba(${this.color.r},${this.color.g},${this.color.b},1)`;
+    this.ctx.strokeStyle = this.color;
     this.ctx.lineWidth = this.lineWidth;
 
     //描画

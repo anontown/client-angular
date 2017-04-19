@@ -1,16 +1,9 @@
 <div *ngIf="user.ud.getValue()!==null&&user.ud.getValue()!==undefined">
   <form (ngSubmit)="ok()">
-    <div class="reply" *ngIf="reply">
-      リプライ先
-      <button (click)="reply=null" md-icon-button>
-      <md-icon>close</md-icon>
-    </button>
-      <app-res [res]="reply"></app-res>
-    </div>
     <div *ngFor="let e of errors">
       <md-icon>error</md-icon> {{e.message}}
     </div>
-    <div>
+    <div [ngClass]="{hidden:!isDetail}">
       <md-input-container>
         <input mdInput placeholder="名前" [(ngModel)]="name" name="name">
       </md-input-container>
@@ -23,9 +16,16 @@
           ●{{p.sn}} {{p.name}}
         </md-option>
       </md-select>
-      <app-md-editor [autofocus]="true" teblur [(ngModel)]="text" name="text" (keypress)="key($event)">
+    </div>
+    <div>
+      <button md-icon-button (click)="detail()" type="button">
+          <md-icon>{{isDetail?'arrow_drop_down':'arrow_drop_up'}}</md-icon>
+        </button>
+      <app-md-editor [simple]="!isDetail" [(ngModel)]="text" name="text" (keypress)="key($event)" [maxRows]="5" [minRows]="1">
       </app-md-editor>
-      <button type="submit" md-raised-button>書き込む</button>
+      <button type="submit" md-icon-button>
+        <md-icon>arrow_forward</md-icon>
+      </button>
     </div>
   </form>
 </div>

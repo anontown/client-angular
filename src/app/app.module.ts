@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { MaterialModule } from '@angular/material';
+import { ColorPickerModule } from 'ngx-color-picker';
 import {
   MdPipe,
   MapPipe,
@@ -13,7 +14,8 @@ import {
 import {
   UserService,
   ResponsiveService,
-  AtApiService
+  AtApiService,
+  ImgurApiService
 } from './services';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -25,7 +27,6 @@ import {
   ResComponent,
   TopicListItemComponent,
   MdEditorComponent,
-  OekakiComponent,
   ResWriteComponent,
   TopicFavoComponent,
   TagFavoComponent,
@@ -36,13 +37,14 @@ import {
 } from './components';
 
 import {
-  ResWriteDialogComponent,
+  ImageUploadDialogComponent,
   ProfileDialogComponent,
   TopicAutoScrollMenuDialogComponent,
   ButtonDialogComponent,
   TopicDataDialogComponent,
   TopicEditDialogComponent,
-  TopicForkDialogComponent
+  TopicForkDialogComponent,
+  OekakiDialogComponent
 } from './dialogs';
 import { ReCaptchaModule } from 'angular2-recaptcha';
 import { AppComponent } from './app.component';
@@ -77,6 +79,7 @@ import { InfiniteScrollDirective } from './directives';
     MaterialModule,
     ReactiveFormsModule,
     ReCaptchaModule,
+    ColorPickerModule,
     RouterModule.forRoot([
       {
         path: '',
@@ -161,7 +164,7 @@ import { InfiniteScrollDirective } from './directives';
     ProfileDialogComponent,
     UserProfileAddComponent,
     UserProfileEditComponent,
-    ResWriteDialogComponent,
+    ImageUploadDialogComponent,
     ResComponent,
     TopicDataDialogComponent,
     TopicEditDialogComponent,
@@ -178,7 +181,7 @@ import { InfiniteScrollDirective } from './directives';
     TopicListItemComponent,
     ButtonDialogComponent,
     MdEditorComponent,
-    OekakiComponent,
+    OekakiDialogComponent,
     TopicFavoComponent,
     NotFoundComponent,
     TagFavoComponent,
@@ -199,17 +202,19 @@ import { InfiniteScrollDirective } from './directives';
   providers: [
     UserService,
     ResponsiveService,
-    AtApiService
+    AtApiService,
+    ImgurApiService
   ],
   entryComponents: [
     //モーダルで使うコンポーネント
     ProfileDialogComponent,
-    ResWriteDialogComponent,
+    ImageUploadDialogComponent,
     TopicAutoScrollMenuDialogComponent,
     ButtonDialogComponent,
     TopicDataDialogComponent,
     TopicEditDialogComponent,
-    TopicForkDialogComponent
+    TopicForkDialogComponent,
+    OekakiDialogComponent
   ]
 
 })

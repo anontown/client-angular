@@ -1,6 +1,6 @@
 <md-card [ngClass]="{'res-pop':isPop}">
   <div [ngClass]="{'res-self':isSelf,'res-reply':res.isReply&&!isSelf,header:true}">
-    <a (click)="reply.emit(res)" href="javascript:void(0);">{{res.name}}</a>
+    <a (click)="isReply=!isReply">{{res.name}}</a>
     <a *ngIf="res.profile!==null" (click)="profileOpen()" href="javascript:void(0);">[プロフィール]</a>
 
     <a [routerLink]="['/res',res.id]">{{res.date|atDate}}</a>
@@ -37,10 +37,13 @@
       <md-icon>delete</md-icon>
     </button>
   </div>
+  <md-card *ngIf="isReply&&user.ud.getValue()!==null">
+    <app-res-write [topic]="res.topic" [reply]="res.id" (write)="isReply=false"></app-res-write>
+  </md-card>
   <div *ngIf="children.size!==0">
     <md-card *ngIf="childrenMsg!==null">
       <strong>{{childrenMsg}}</strong>
     </md-card>
-    <app-res (reply)="reply.emit($event)" *ngFor="let c of children|reverse" [res]="c" (update)="childrenUpdate($event)" [isPop]="true"></app-res>
+    <app-res *ngFor="let c of children|reverse" [res]="c" (update)="childrenUpdate($event)" [isPop]="true"></app-res>
   </div>
 </md-card>

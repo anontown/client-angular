@@ -36,16 +36,15 @@ export class ResComponent implements OnInit, OnDestroy {
 
   children = Immutable.List<IResAPI>();
 
+  isReply = false;
+
   @Input()
   isPop: boolean = false;
 
   @Output()
   update = new EventEmitter<IResAPI>();
 
-  @Output()
-  reply = new EventEmitter<IResAPI>();
-
-  childrenMsg: string|null = null;
+  childrenMsg: string | null = null;
 
   isSelf: boolean;
 
@@ -135,7 +134,7 @@ export class ResComponent implements OnInit, OnDestroy {
   }
 
   async uv() {
-    let ud = this.user.ud.getValue()!;
+    let ud = this.user.ud.getValue() !;
     try {
       switch (this.res.voteFlag) {
         case "uv":
@@ -163,7 +162,7 @@ export class ResComponent implements OnInit, OnDestroy {
   }
 
   async dv() {
-    let ud = this.user.ud.getValue()!;
+    let ud = this.user.ud.getValue() !;
     try {
       switch (this.res.voteFlag) {
         case "dv":
@@ -191,7 +190,7 @@ export class ResComponent implements OnInit, OnDestroy {
   }
 
   async del() {
-    let ud = this.user.ud.getValue()!;
+    let ud = this.user.ud.getValue() !;
     try {
       let dialogRef = this.dialog.open(ButtonDialogComponent);
       let com = dialogRef.componentInstance;

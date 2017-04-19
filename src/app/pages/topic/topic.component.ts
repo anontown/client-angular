@@ -28,7 +28,6 @@ import {
 } from '../../services';
 import {
   TopicAutoScrollMenuDialogComponent,
-  ResWriteDialogComponent,
   TopicDataDialogComponent,
   TopicEditDialogComponent,
   TopicForkDialogComponent
@@ -112,13 +111,6 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
     await dialog.afterClosed().toPromise();
     this.autoScrollSpeed = con.autoScrollSpeed;
     this.isAutoScroll = con.isAutoScroll;
-  }
-
-  writeMenu(res: IResAPI) {
-    let dialog = this.dialog.open(ResWriteDialogComponent);
-    let com = dialog.componentInstance;
-    com.topic = this.topic;
-    com.reply = res;
   }
 
   update(topic: ITopicAPI) {

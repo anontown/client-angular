@@ -1,8 +1,3 @@
-<div *ngIf="topic&&user.ud.getValue()!==undefined" class="fab-main">
-  <button md-fab *ngIf="user.ud.getValue()!==null&&topic.active" (click)="writeMenu(null)">
-        <md-icon>edit</md-icon>
-    </button>
-</div>
 <div *ngIf="topic&&user.ud.getValue()!==undefined" [ngClass]="{'two-column':(rs.size|async)==='lg','contents':true}">
   <div class="sidebar-column" *ngIf="(rs.size|async)==='lg'&&user.ud.getValue()!==null">
     <app-topic-favo [simple]="true"></app-topic-favo>
@@ -34,7 +29,10 @@
     </md-card>
     <div class="reses" #scrollEl [scrollEl]="scrollEl" #iScroll=infiniteScroll appInfiniteScroll (scrollTop)="readOld()" (scrollBottom)="readNew()"
       (elementChange)="scrollSave($event.bottom)">
-      <app-res (reply)="writeMenu($event)" #resE *ngFor="let r of reses|reverse" [res]="r" (update)="updateRes($event)"></app-res>
+      <app-res #resE *ngFor="let r of reses|reverse" [res]="r" (update)="updateRes($event)"></app-res>
     </div>
+    <md-card *ngIf="user.ud.getValue()!==null&&topic.active" class="res-write">
+      <app-res-write [topic]="topic"></app-res-write>
+    </md-card>
   </div>
 </div>

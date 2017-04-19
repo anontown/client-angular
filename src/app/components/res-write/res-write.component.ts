@@ -3,7 +3,6 @@ import {
   Input,
   Output,
   EventEmitter,
-  NgZone,
   OnInit,
   OnDestroy,
   ChangeDetectionStrategy,
@@ -45,27 +44,22 @@ export class ResWriteComponent implements OnInit, OnDestroy {
   }
 
   constructor(public user: UserService,
-    private api: AtApiService,
-    private zone: NgZone) {
+    private api: AtApiService) {
   }
 
 
 
   key(e: any) {
-    this.zone.runOutsideAngular(() => {
-      if (e.shiftKey && e.keyCode === 13) {
-        this.zone.run(() => {
-          this.ok();
-        });
-      }
-    });
+    if (e.shiftKey && e.keyCode === 13) {
+      this.ok();
+    }
   }
 
   @Input()
   topic: ITopicAPI | string;
 
   @Input()
-  reply: IResAPI | null = null;
+  reply: IResAPI | string | null = null;
 
   profiles: IProfileAPI[];
 
@@ -76,7 +70,11 @@ export class ResWriteComponent implements OnInit, OnDestroy {
         topic: typeof this.topic === "string" ? this.topic : this.topic.id,
         name: this.name,
         text: this.text,
-        reply: this.reply === null ? null : this.reply.id,
+        reply: this.reply !== null
+          ? typeof this.reply === 'string'
+            ? this.reply
+            : this.reply.id
+          : null,
         profile: this.profile,
         age: this.age
       });
@@ -92,5 +90,11 @@ export class ResWriteComponent implements OnInit, OnDestroy {
         throw e;
       }
     }
+  }
+
+  isDetail = false;
+
+  detail() {
+    this.isDetail = !this.isDetail;
   }
 }

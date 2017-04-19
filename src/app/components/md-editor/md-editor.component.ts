@@ -4,18 +4,16 @@ import {
   ChangeDetectionStrategy,
   Input,
   forwardRef,
-  ViewChild,
-  ElementRef,
-  ChangeDetectorRef,
   Output,
   EventEmitter,
-  AfterViewInit,
+  AfterViewInit
 } from '@angular/core';
-import { MdSnackBar } from '@angular/material';
-import { Http, Headers } from '@angular/http';
-import { MdPipe } from '../../pipes';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { MdTabChangeEvent } from '@angular/material';
+import { MdTabChangeEvent, MdDialog } from '@angular/material';
+import {
+  ImageUploadDialogComponent,
+  OekakiDialogComponent
+} from '../../dialogs';
 
 @Component({
   selector: 'app-md-editor',
@@ -31,35 +29,25 @@ import { MdTabChangeEvent } from '@angular/material';
   ]
 })
 export class MdEditorComponent implements OnInit, ControlValueAccessor, AfterViewInit {
-  @Output()
-  tefocus = new EventEmitter();
+  constructor(private dialog: MdDialog) { }
 
-  @Output()
-  teblur = new EventEmitter();
+  @Input()
+  maxRows: number | null = null;
 
-  constructor(private http: Http,
-    public cdr: ChangeDetectorRef,
-    public snackBar: MdSnackBar) { }
+  @Input()
+  minRows = 5;
+
+  rows: number;
 
   ngOnInit() {
-
+    this.rows = this.minRows;
   }
 
   ngAfterViewInit() {
-    if (this.autofocus) {
-      setTimeout(() => {
-        this.textbox.nativeElement.focus();
-      }, 0);
-    }
   }
 
   @Input('value')
   _value = '';
-
-  @Input()
-  autofocus = false;
-
-  mdValue = '';
 
   onChange = (_value: string) => { };
   onTouched = () => { };
@@ -68,42 +56,42 @@ export class MdEditorComponent implements OnInit, ControlValueAccessor, AfterVie
     return this._value;
   }
 
-  @ViewChild('img')
-  img: ElementRef;
+  @Input()
+  simple = false;
 
-  @ViewChild("textbox")
-  textbox: ElementRef;
-
-  async upload() {
-    let el: HTMLInputElement = this.img.nativeElement;
-    if (el.files && el.files.length !== 0) {
-      let formData = new FormData();
-      formData.append('image', el.files[0]);
-      await this.imgur(formData);
-    }
+  image() {
+    this.dialogOpen(ImageUploadDialogComponent);
   }
 
-  private async imgur(blob: Blob | FormData) {
-    try {
-      let result = await this.http.post("https://api.imgur.com/3/image", blob, {
-        headers: new Headers({ Authorization: 'Client-ID 042fd78266ccaaf' })
-      }).toPromise();
-      this.value += `![](${JSON.parse(result.text()).data.link})`;
-    } catch (e) {
-      this.snackBar.open("画像投稿に失敗");
-    }
+  oekaki() {
+    this.dialogOpen(OekakiDialogComponent);
   }
 
-  tabChange(event: MdTabChangeEvent) {
-    if (event.index === 1) {
-      this.mdValue = new MdPipe().transform(this._value);
-    }
+  dialogOpen(com: any) {
+    this.dialog.open(com)
+      .afterClosed()
+      .filter(url => typeof url === 'string')
+      .subscribe(url => {
+        this.value += `![](${url})`;
+      });
   }
 
   set value(val) {
     this._value = val;
     this.onChange(val);
     this.onTouched();
+
+    let rows = this.value.length !== 0
+      ? this.value.split(/\r\n|\r|\n/).length
+      : 1;
+
+    rows = Math.max(this.minRows, rows);
+
+    if (this.maxRows !== null) {
+      rows = Math.min(this.maxRows, rows);
+    }
+
+    this.rows = rows;
   }
 
   registerOnChange(fn: (value: string) => void) {
@@ -115,13 +103,10 @@ export class MdEditorComponent implements OnInit, ControlValueAccessor, AfterVie
   }
 
   writeValue(value: string) {
-    if (value) {
+    if (typeof value === 'string') {
       this.value = value;
     }
   }
 
-  isOekaki = false;
-  oekaki() {
-    this.isOekaki = !this.isOekaki;
-  }
+  isPreview = false;
 }

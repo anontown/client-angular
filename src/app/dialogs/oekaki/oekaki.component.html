@@ -1,0 +1,23 @@
+<div md-dialog-content>
+  <md-spinner *ngIf="now==='posting'"></md-spinner>
+  <div *ngIf="now==='error'">
+    <md-icon>error</md-icon>
+    アップロードに失敗しました
+  </div>
+  <div>
+    <button md-icon-button type="button" [(colorPicker)]="color" [style.color]="color">
+      <md-icon>invert_colors</md-icon>
+    </button>
+    <button md-icon-button type="button" (click)="undo()">
+      <md-icon>undo</md-icon>
+    </button>
+    <button md-icon-button type="button" (click)="redo()">
+      <md-icon>redo</md-icon>
+    </button>
+    <button md-icon-button type="button" (click)="ok()">
+      <md-icon>file_upload</md-icon>
+    </button>
+  </div>
+  <canvas #canvas [width]="w" [height]="h" (mousedown)="mousedown($event)" (mouseup)="mouseup()" (mousemove)="mousemove($event)"
+    (touchstart)="touchstart($event)" (touchmove)="touchmove($event)" (touchend)="touchend()"></canvas>
+</div>
