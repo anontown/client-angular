@@ -1,3 +1,11 @@
+<ng-template #autoScrollDialog>
+  <md-dialog-content>
+    <button md-icon-button (click)="autoScroll()">
+  <md-icon>{{isAutoScroll?'stop':'play_arrow'}}</md-icon>
+</button>
+    <input type="range" [(ngModel)]="autoScrollSpeed" max="30">
+  </md-dialog-content>
+</ng-template>
 <div *ngIf="topic&&user.ud.getValue()!==undefined" [ngClass]="{'two-column':(rs.size|async)==='lg','contents':true}">
   <div class="sidebar-column" *ngIf="(rs.size|async)==='lg'&&user.ud.getValue()!==null">
     <app-topic-favo [simple]="true"></app-topic-favo>
@@ -13,10 +21,10 @@
         <button md-icon-button (click)="openData()">
       <md-icon>keyboard_arrow_down</md-icon>
     </button>
-    <button md-icon-button (click)="openFork()" *ngIf="topic.type==='normal'">
+        <button md-icon-button (click)="openFork()" *ngIf="topic.type==='normal'">
       <md-icon>call_split</md-icon>
     </button>
-    <button md-icon-button *ngIf="user.ud.getValue()!==null&&topic.type==='normal'" (click)="openEdit()">
+        <button md-icon-button *ngIf="user.ud.getValue()!==null&&topic.type==='normal'" (click)="openEdit()">
       <md-icon>settings</md-icon>
     </button>
         <button md-icon-button *ngIf="user.ud.getValue()!==null" (click)="favo()">

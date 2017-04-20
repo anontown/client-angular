@@ -39,7 +39,6 @@ import {
 import {
   ImageUploadDialogComponent,
   ProfileDialogComponent,
-  TopicAutoScrollMenuDialogComponent,
   ButtonDialogComponent,
   TopicDataDialogComponent,
   TopicEditDialogComponent,
@@ -177,7 +176,6 @@ import { InfiniteScrollDirective } from './directives';
     UserNoticePageComponent,
     UserMsgPageComponent,
     UserMsgPageComponent,
-    TopicAutoScrollMenuDialogComponent,
     TopicListItemComponent,
     ButtonDialogComponent,
     MdEditorComponent,
@@ -209,7 +207,6 @@ import { InfiniteScrollDirective } from './directives';
     //モーダルで使うコンポーネント
     ProfileDialogComponent,
     ImageUploadDialogComponent,
-    TopicAutoScrollMenuDialogComponent,
     ButtonDialogComponent,
     TopicDataDialogComponent,
     TopicEditDialogComponent,

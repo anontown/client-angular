@@ -9,7 +9,8 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   ViewChild,
-  ElementRef
+  ElementRef,
+  TemplateRef,
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription, Subject } from 'rxjs';
@@ -27,7 +28,6 @@ import {
   ITopicNormalAPI
 } from '../../services';
 import {
-  TopicAutoScrollMenuDialogComponent,
   TopicDataDialogComponent,
   TopicEditDialogComponent,
   TopicForkDialogComponent
@@ -44,7 +44,7 @@ import { Title } from '@angular/platform-browser';
   changeDetection: ChangeDetectionStrategy.Default
 })
 export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
-  topic:ITopicAPI;
+  topic: ITopicAPI;
 
   @ViewChildren('resE') resE: QueryList<ResComponent>;
 
@@ -98,19 +98,15 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.reses = this.reses.set(this.reses.findIndex((r) => r!.id === res.id), res);
   }
 
+  @ViewChild('autoScrollDialog')
+  autoScrollDialog: TemplateRef<any>;
   autoScrollSpeed = 15;
   private isAutoScroll = false;
   autoScroll() {
     this.isAutoScroll = !this.isAutoScroll;
   }
-  async autoScrollMenu() {
-    let dialog = this.dialog.open(TopicAutoScrollMenuDialogComponent);
-    let con = dialog.componentInstance;
-    con.autoScrollSpeed = this.autoScrollSpeed;
-    con.isAutoScroll = this.isAutoScroll;
-    await dialog.afterClosed().toPromise();
-    this.autoScrollSpeed = con.autoScrollSpeed;
-    this.isAutoScroll = con.isAutoScroll;
+  autoScrollMenu() {
+    this.dialog.open(this.autoScrollDialog);
   }
 
   update(topic: ITopicAPI) {
@@ -238,7 +234,7 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.storageSave(rc.res.id);
   }
 
-  storageSave(res: string|null) {
+  storageSave(res: string | null) {
     let ud = this.user.ud.getValue();
     if (!ud) {
       return;
@@ -376,6 +372,6 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   get isFavo(): boolean {
-    return this.user.ud.getValue()!.storage.topicFavo.has(this.topic.id)
+    return this.user.ud.getValue() !.storage.topicFavo.has(this.topic.id)
   }
 }
