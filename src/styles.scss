@@ -12,7 +12,6 @@
 
 body{
   background-color: #ddffdd;
-  padding-top: 49px;
 }
 
 html{
@@ -27,4 +26,37 @@ html{
 color-picker>div{
     top:10px !important;
     left:10px !important;
+}
+
+
+@import './app/styles/page.scss';
+
+app-page>.app-page-contents{
+    position: absolute;
+    top:59px;
+    bottom: 0px;
+    right: 0px;
+    left: 0px;
+
+    &.one{
+        @include scroll();
+    }
+
+    &.two{
+        display: flex;
+        @media screen and (max-width: 767px) {
+            &>aside {
+                display: none;
+            }
+        }
+        &>aside {
+            @include scroll();
+            width: 30vw;
+        }
+
+        &>main {
+            @include scroll();
+            flex: 1;
+        }
+    }
 }

@@ -1,12 +1,14 @@
-<nav md-tab-nav-bar class="tab-nav">
-  <a md-tab-link [routerLink]="['/settings/account']">
+<app-page>
+  <nav md-tab-nav-bar class="tab-nav">
+    <a md-tab-link [routerLink]="['/settings/account']">
     ユーザー設定
   </a>
-  <a md-tab-link [routerLink]="['/settings/apps']">
+    <a md-tab-link [routerLink]="['/settings/apps']">
     連携アプリ
   </a>
-  <a md-tab-link [routerLink]="['/settings/dev']">
+    <a md-tab-link [routerLink]="['/settings/dev']">
     開発者向け
   </a>
-</nav>
-<router-outlet></router-outlet>
+  </nav>
+  <router-outlet></router-outlet>
+</app-page>

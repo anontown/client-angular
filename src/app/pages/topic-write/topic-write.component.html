@@ -1,32 +1,34 @@
-<md-card *ngIf="user.ud.getValue()!==null&&user.ud.getValue()!==undefined">
-  <form (ngSubmit)="write()">
-    <div *ngFor="let e of errors">
-      <md-icon>error</md-icon> {{e.message}}
-    </div>
-    <div>
-      <md-select placeholder="種別" [(ngModel)]="type" name="type">
-        <md-option [value]="'one'">
-          単発
-        </md-option>
-        <md-option [value]="'normal'">
-          通常
-        </md-option>
-      </md-select>
-    </div>
-    <div>
-      <md-input-container>
-        <input mdInput placeholder="タイトル" [(ngModel)]="title" name="title">
-      </md-input-container>
-    </div>
-    <div>
-      <app-tags-input name="tags" [(ngModel)]="tags"></app-tags-input>
-    </div>
-    <app-md-editor [(ngModel)]="text" name="text"></app-md-editor>
-    <div>
-      <button type="submit" md-raised-button>書き込む</button>
-    </div>
-  </form>
-</md-card>
-<md-card *ngIf="user.ud.getValue()===null">
-  ログインしないと書き込めません
-</md-card>
+<app-page>
+  <md-card *ngIf="user.ud.getValue()!==null&&user.ud.getValue()!==undefined">
+    <form (ngSubmit)="write()">
+      <div *ngFor="let e of errors">
+        <md-icon>error</md-icon> {{e.message}}
+      </div>
+      <div>
+        <md-select placeholder="種別" [(ngModel)]="type" name="type">
+          <md-option [value]="'one'">
+            単発
+          </md-option>
+          <md-option [value]="'normal'">
+            通常
+          </md-option>
+        </md-select>
+      </div>
+      <div>
+        <md-input-container>
+          <input mdInput placeholder="タイトル" [(ngModel)]="title" name="title">
+        </md-input-container>
+      </div>
+      <div>
+        <app-tags-input name="tags" [(ngModel)]="tags"></app-tags-input>
+      </div>
+      <app-md-editor [(ngModel)]="text" name="text"></app-md-editor>
+      <div>
+        <button type="submit" md-raised-button>書き込む</button>
+      </div>
+    </form>
+  </md-card>
+  <md-card *ngIf="user.ud.getValue()===null">
+    ログインしないと書き込めません
+  </md-card>
+</app-page>

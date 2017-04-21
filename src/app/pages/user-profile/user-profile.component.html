@@ -1,9 +1,11 @@
-<div *ngIf="user.ud.getValue()!==null&&user.ud.getValue()!==undefined">
-  <app-user-profile-add (add)="add($event)"></app-user-profile-add>
-  <div>
-    <app-user-profile-edit *ngFor="let p of profiles" [profile]="p" (update)="update($event)"></app-user-profile-edit>
+<app-page>
+  <div *ngIf="user.ud.getValue()!==null&&user.ud.getValue()!==undefined">
+    <app-user-profile-add (add)="add($event)"></app-user-profile-add>
+    <div>
+      <app-user-profile-edit *ngFor="let p of profiles" [profile]="p" (update)="update($event)"></app-user-profile-edit>
+    </div>
   </div>
-</div>
-<md-card *ngIf="user.ud.getValue()===null&&user.ud.getValue()!==undefined">
-  ログインしてください。
-</md-card>
+  <md-card *ngIf="user.ud.getValue()===null&&user.ud.getValue()!==undefined">
+    ログインしてください。
+  </md-card>
+</app-page>

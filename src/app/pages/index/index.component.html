@@ -1,17 +1,19 @@
-<div *ngIf="user.ud.getValue()!==null&&user.ud.getValue()!==undefined">
-  <md-tab-group>
-    <md-tab label="トピック">
-      <app-topic-favo></app-topic-favo>
-    </md-tab>
-    <md-tab label="タグ">
-      <app-tag-favo></app-tag-favo>
-    </md-tab>
-  </md-tab-group>
-</div>
-<md-card *ngIf="user.ud.getValue()===null">
+<app-page>
+  <div *ngIf="user.ud.getValue()!==null&&user.ud.getValue()!==undefined">
+    <md-tab-group>
+      <md-tab label="トピック">
+        <app-topic-favo></app-topic-favo>
+      </md-tab>
+      <md-tab label="タグ">
+        <app-tag-favo></app-tag-favo>
+      </md-tab>
+    </md-tab-group>
+  </div>
+  <md-card *ngIf="user.ud.getValue()===null">
     <h1>匿名掲示板Anontownへようこそ</h1>
     <ul>
-        <li><a [routerLink]="['/topic/search']">トピック一覧</a></li>
-        <li><a href="https://kgtkr.gitbooks.io/anontown/content/" target="_blank">登録の方法などの説明</a></li>
+      <li><a [routerLink]="['/topic/search']">トピック一覧</a></li>
+      <li><a href="https://kgtkr.gitbooks.io/anontown/content/" target="_blank">登録の方法などの説明</a></li>
     </ul>
-</md-card>
+  </md-card>
+</app-page>

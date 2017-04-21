@@ -6,11 +6,11 @@
     <input type="range" [(ngModel)]="autoScrollSpeed" max="30">
   </md-dialog-content>
 </ng-template>
-<div *ngIf="topic&&user.ud.getValue()!==undefined" [ngClass]="{'two-column':(rs.size|async)==='lg','contents':true}">
-  <div class="sidebar-column" *ngIf="(rs.size|async)==='lg'&&user.ud.getValue()!==null">
+<app-page [column]="2" *ngIf="topic&&user.ud.getValue()!==undefined">
+  <aside class="sidebar-column" *ngIf="user.ud.getValue()!==null">
     <app-topic-favo [simple]="true"></app-topic-favo>
-  </div>
-  <div class="main-column">
+  </aside>
+  <main class="main-column">
     <md-card class="header">
       <div class="subject">
         <md-icon *ngIf="topic.type==='fork'" class="icon">call_split</md-icon>
@@ -42,5 +42,5 @@
     <md-card *ngIf="user.ud.getValue()!==null&&topic.active" class="res-write">
       <app-res-write [topic]="topic"></app-res-write>
     </md-card>
-  </div>
-</div>
+  </main>
+</app-page>

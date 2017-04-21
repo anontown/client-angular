@@ -1,26 +1,6 @@
-//一番外側
-.contents{
-    display: flex;
-    position: absolute;
-    top:0px;
-    bottom: 0px;
-    right: 0px;
-    left: 0px;
-    padding-top: 59px;
-}
-
-//一番外側、幅が広い場合は2カラム
-.two-column{
-    .sidebar-column{
-        overflow-y: auto;
-        width: 30vw;
-        -webkit-overflow-scrolling: touch;
-    }
-}
+@import '../../styles/page.scss';
 
 .main-column{
-    flex: 1;
-    overflow: auto;
     word-wrap:break-word;
     display: flex;
     flex-direction: column;
@@ -70,7 +50,6 @@
 
     .reses{
         flex: 1;
-        overflow: auto;
-        -webkit-overflow-scrolling: touch;
+        @include scroll();
     }
 }

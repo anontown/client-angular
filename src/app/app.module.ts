@@ -13,7 +13,6 @@ import {
 } from './pipes';
 import {
   UserService,
-  ResponsiveService,
   AtApiService,
   ImgurApiService
 } from './services';
@@ -33,7 +32,8 @@ import {
   TagsInputComponent,
   ClientComponent,
   ClientAddComponent,
-  ClientEditComponent
+  ClientEditComponent,
+  PageComponent
 } from './components';
 
 import {
@@ -193,13 +193,13 @@ import { InfiniteScrollDirective } from './directives';
     ClientsPageComponent,
     AppsPageComponent,
     UserSettingPageComponent,
-    SettingsPageComponent
+    SettingsPageComponent,
+    PageComponent
   ],
   // エントリ
   bootstrap: [AppComponent],
   providers: [
     UserService,
-    ResponsiveService,
     AtApiService,
     ImgurApiService
   ],

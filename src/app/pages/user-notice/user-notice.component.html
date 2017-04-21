@@ -1,4 +1,5 @@
-<div *ngIf="user.ud.getValue()!==null&&user.ud.getValue()!==undefined">
+<app-page>
+    <div *ngIf="user.ud.getValue()!==null&&user.ud.getValue()!==undefined">
     <div>
         <button (click)="readNew()" md-raised-button>最新</button>
     </div>
@@ -8,7 +9,8 @@
     <div>
         <button (click)="readOld()" md-raised-button>前</button>
     </div>
-</div>
+    </div>
 <md-card *ngIf="user.ud.getValue()===null&&user.ud.getValue()!==undefined">
     ログインしてください。
 </md-card>
+</app-page>

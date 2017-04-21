@@ -11,3 +11,4 @@ export * from './tags-input/tags-input.component';
 export * from './client/client.component';
 export * from './client-add/client-add.component';
 export * from './client-edit/client-edit.component';
+export * from './page/page.component';

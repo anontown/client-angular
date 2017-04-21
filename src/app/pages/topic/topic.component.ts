@@ -21,7 +21,6 @@ import { InfiniteScrollDirective, IInfiniteScrollElement } from '../../directive
 import { Config } from '../../config';
 import {
   UserService,
-  ResponsiveService,
   ITopicAPI,
   AtApiService,
   IResAPI,
@@ -65,7 +64,6 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
     private dialog: MdDialog,
     public snackBar: MdSnackBar,
     private cdr: ChangeDetectorRef,
-    public rs: ResponsiveService,
     private router: Router,
     private titleService: Title) {
   }
