@@ -12,6 +12,17 @@ html{
   overflow:auto;
 }
 
+.loading{
+    position: absolute;
+    top:0px;
+    bottom: 0px;
+    right: 0px;
+    left: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 color-picker>div{
     top:10px !important;
     left:10px !important;
