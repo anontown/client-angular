@@ -6,3 +6,7 @@ textarea,.preview{
     border:solid 1px #666;
     background: #fff;
 }
+
+textarea {
+  resize: none;
+}
