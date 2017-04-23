@@ -1,7 +1,7 @@
 <div md-dialog-content>
   <md-spinner *ngIf="now==='posting'"></md-spinner>
   <div *ngIf="now==='error'">
-    <md-icon>error</md-icon>
+    <md-icon color="warn">error</md-icon>
     アップロードに失敗しました
   </div>
   <input type="file" #img>

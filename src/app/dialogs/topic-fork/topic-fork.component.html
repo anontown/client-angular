@@ -1,7 +1,7 @@
 <div md-dialog-content *ngIf="user.ud.getValue()!==undefined">
   <div *ngIf="user.ud.getValue()!==null">
     <div *ngFor="let e of errors">
-      <md-icon>error</md-icon> {{e.message}}
+      <md-icon color="warn">error</md-icon> {{e.message}}
     </div>
     <form (ngSubmit)="write()">
       <md-input-container>

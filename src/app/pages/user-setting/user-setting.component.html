@@ -1,7 +1,7 @@
 <md-card *ngIf="user.ud.getValue()">
   <form (ngSubmit)="ok()">
     <div *ngFor="let e of errors">
-      <md-icon>error</md-icon> {{e.message}}
+      <md-icon color="warn">error</md-icon> {{e.message}}
     </div>
 
     <md-input-container>
