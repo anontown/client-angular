@@ -1,10 +1,10 @@
 <md-card [ngClass]="{'res-pop':isPop}">
   <div [ngClass]="{'res-self':isSelf,'res-reply':res.isReply&&!isSelf,header:true}">
     <a (click)="isReply=!isReply">{{res.name}}</a>
-    <a *ngIf="res.profile!==null" (click)="profileOpen()" href="javascript:void(0);">[プロフィール]</a>
+    <a *ngIf="res.profile!==null" (click)="profileOpen()">[プロフィール]</a>
 
-    <a [routerLink]="['/res',res.id]">{{res.date|atDate}}</a>
-    <a href="javascript:void(0);" (click)="hashClick()">
+    <a class="app-link" [routerLink]="['/res',res.id]">{{res.date|atDate}}</a>
+    <a (click)="hashClick()">
       HASH:{{res.hash.substr(0,6)}}...
     </a>
   </div>
@@ -41,7 +41,7 @@
     <app-res-write [topic]="res.topic" [reply]="res.id" (write)="isReply=false"></app-res-write>
   </md-card>
   <div *ngIf="children.size!==0">
-    <md-card *ngIf="childrenMsg!==null">
+    <md-card *ngIf="childrenMsg!==null" class="children-msg">
       <strong>{{childrenMsg}}</strong>
     </md-card>
     <app-res *ngFor="let c of children|reverse" [res]="c" (update)="childrenUpdate($event)" [isPop]="true"></app-res>

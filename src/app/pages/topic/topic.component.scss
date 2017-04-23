@@ -7,13 +7,13 @@
 
     .res-write{
         padding: 6px;
-        background-color: #eee;
+        background-color: var(--app-color-primary-8);
     }
 
     .header{
         padding: 6px;
         height: 42px;
-        background-color: #ccf;
+        background-color: var(--app-color-accent-8);
 
         .icon{
             line-height:16px;
@@ -32,7 +32,6 @@
 
             font-size: $icon-size;
             line-height: $icon-size;
-            color: #555;
 
             [md-icon-button] {
                 width: $icon-button-size;

@@ -12,8 +12,8 @@
   <md-card *ngIf="user.ud.getValue()===null">
     <h1>匿名掲示板Anontownへようこそ</h1>
     <ul>
-      <li><a [routerLink]="['/topic/search']">トピック一覧</a></li>
-      <li><a href="https://kgtkr.gitbooks.io/anontown/content/" target="_blank">登録の方法などの説明</a></li>
+      <li><a class="app-link" [routerLink]="['/topic/search']">トピック一覧</a></li>
+      <li><a class="app-link" href="https://kgtkr.gitbooks.io/anontown/content/" target="_blank">登録の方法などの説明</a></li>
     </ul>
   </md-card>
 </app-page>

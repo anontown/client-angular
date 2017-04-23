@@ -1,6 +1,6 @@
 <md-input-container>
   <span *ngFor="let t of tags" class="tag">
-    <a href="javascript:void(0);" (click)="del(t)">x</a> 
+    <a class="app-link" (click)="del(t)">x</a> 
     {{t}}
   </span>
   <input mdInput [formControl]="stateCtrl" placeholder="タグ" (blur)="ok()" [(ngModel)]="tag" (keypress)="tagChange($event)" [mdAutocomplete]="auto" (ngModelChange)="change()">

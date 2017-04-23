@@ -1,13 +1,13 @@
-.res-pop{
-  background-color: #ffffcc;
+.res-pop,.children-msg{
+  border:solid 2px var(--app-color-foreground-80);
 }
 
 .res-self{
-  background-color: #ccffcc;
+  background-color: var(--app-color-primary-20);
 }
 
 .res-reply{
-  background-color: #ccccff;
+  background-color: var(--app-color-accent-20);
 }
 
 .vote{
@@ -34,9 +34,8 @@
     display: inline !important;
   }
 
-  color: #666;
   .is-vote{
-    color: #333;
+    color: var(--app-color-accent-100);
   }
 }
 
@@ -57,11 +56,6 @@ md-card{
 
   a{
     text-decoration: none;
-
-    &:link,&:visited,&:hover,&:active {
-      color: #333;
-    }
-
     &:hover,&:active{
       text-decoration: underline;
     }

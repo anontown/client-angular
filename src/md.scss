@@ -10,8 +10,8 @@
   marked要素
   */
   pre{
-    border: 1px solid #ccc;
-    background-color: #eee;
+    border: 1px solid var(--app-color-foreground-50);
+    background-color: var(--app-color-foreground-10);
     border-radius: 3px;
     padding: 0.5em;
 
@@ -27,8 +27,8 @@
     font-size: 90%;
     margin: 0 2px;
     padding: 0 5px;
-    border: 1px solid #ccc;
-    background-color: #eee;
+    border: 1px solid var(--app-color-foreground-50);
+    background-color: var(--app-color-foreground-10);
     border-radius: 3px;
   }
 
@@ -39,21 +39,21 @@
 
   h1{
     font-size: 3em;
-    border-left: 6px solid #bbb;
-    border-top: 1px solid #bbb;
-    border-bottom: 1px solid #bbb;
+    border-left: 6px solid var(--app-color-foreground-50);
+    border-top: 1px solid var(--app-color-foreground-50);
+    border-bottom: 1px solid var(--app-color-foreground-50);
     padding: 12px;
   }
 
   h2{
     font-size: 2.4em;
-    border-left: 5px solid #bbb;
-    border-bottom: 1px solid #bbb;
+    border-left: 5px solid var(--app-color-foreground-50);
+    border-bottom: 1px solid var(--app-color-foreground-50);
     padding: 10px;
   }
 
   h3{
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid var(--app-color-foreground-35);
     font-size: 2.0em;
     padding: 8px;
   }
@@ -73,7 +73,7 @@
   hr{
     border-width: 2px 0 0 0;
     border-style: solid;
-    border-color: #bbb;
+    border-color: var(--app-color-foreground-50);
   }
 
   ul,ol{
@@ -103,14 +103,14 @@
     border-collapse:collapse;
 
     td, th{
-      border: 1px solid #ccc;
+      border: 1px solid var(--app-color-foreground-60);
       padding: 6px;
     }
 
     thead{
       tr{
         th{
-          background: #eee;
+          background: var(--app-color-foreground-10);
         }
       }
     }
@@ -141,7 +141,8 @@
   }
 
   a{
-
+    @import './app/styles/link-color.scss';
+    @include link-color();
   }
 
   img{
@@ -155,7 +156,7 @@
     padding-left: 0.5em;
     padding-top:0.5em;
     padding-bottom: 0.5em;
-    border-left: 5px solid #ccc;
+    border-left: 5px solid var(--app-color-foreground-50);
     border-radius: 2px;
   }
 
