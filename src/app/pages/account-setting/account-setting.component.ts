@@ -12,9 +12,9 @@ import {
 import { Title } from '@angular/platform-browser';
 
 @Component({
-  templateUrl: './user-setting.component.html',
+  templateUrl: './account-setting.component.html',
 })
-export class UserSettingPageComponent implements OnInit, OnDestroy {
+export class AccountSettingPageComponent implements OnInit, OnDestroy {
   newPass = "";
   oldPass = "";
   sn = "";

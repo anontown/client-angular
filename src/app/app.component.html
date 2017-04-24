@@ -1,6 +1,6 @@
 <md-menu #menu="mdMenu">
-  <button md-menu-item [routerLink]="['/user/profile']">プロフ管理</button>
-  <button md-menu-item [routerLink]="['/user/msg']">お知らせ</button>
+  <button md-menu-item [routerLink]="['/profiles']">プロフ管理</button>
+  <button md-menu-item [routerLink]="['/messages']">お知らせ</button>
   <button md-menu-item [routerLink]="['/settings/account']">設定</button>
   <a md-menu-item href="https://kgtkr.gitbooks.io/anontown/content/" target="_blank">ドキュメント</a>
   <button md-menu-item (click)="logout()">ログアウト</button>
@@ -13,7 +13,7 @@
   <a md-tab-link [routerLink]="['/topic/search']">
     <md-icon>search</md-icon>
   </a>
-  <a md-tab-link [routerLink]="['/user/notice']" *ngIf="user.ud.getValue()!==null">
+  <a md-tab-link [routerLink]="['/notifications']" *ngIf="user.ud.getValue()!==null">
     <md-icon>notifications</md-icon>
   </a>
   <a md-tab-link *ngIf="user.ud.getValue()!==null" [mdMenuTriggerFor]="menu">

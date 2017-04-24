@@ -1,14 +1,23 @@
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  ChangeDetectionStrategy
+} from '@angular/core';
 
-import { UserService, IProfileAPI, AtApiService } from '../../services';
+import {
+  UserService,
+  IProfileAPI,
+  AtApiService
+} from '../../services';
 import { Title } from '@angular/platform-browser';
 import * as Immutable from 'immutable';
 
 @Component({
-  templateUrl: './user-profile.component.html',
+  templateUrl: './profiles.component.html',
   changeDetection: ChangeDetectionStrategy.Default
 })
-export class UserProfilePageComponent implements OnInit, OnDestroy {
+export class ProfilesPageComponent implements OnInit, OnDestroy {
   profiles: Immutable.List<IProfileAPI>;
 
   constructor(private api: AtApiService,

@@ -8,10 +8,10 @@ import * as Immutable from 'immutable';
 
 
 @Component({
-  templateUrl: './apps.component.html',
-  styleUrls: ['./apps.component.scss']
+  templateUrl: './apps-setting.component.html',
+  styleUrls: ['./apps-setting.component.scss']
 })
-export class AppsPageComponent implements OnInit, OnDestroy {
+export class AppsSettingPageComponent implements OnInit, OnDestroy {
   private clients: Immutable.List<IClientAPI>;
 
   constructor(public user: UserService, private api: AtApiService) {

@@ -11,9 +11,9 @@ import {
 import * as Immutable from 'immutable';
 import { Title } from '@angular/platform-browser';
 @Component({
-  templateUrl: './clients.component.html',
+  templateUrl: './dev-setting.component.html',
 })
-export class ClientsPageComponent implements OnInit, OnDestroy {
+export class DevSettingPageComponent implements OnInit, OnDestroy {
   private clients = Immutable.List<IClientAPI>();
 
   constructor(public user: UserService,

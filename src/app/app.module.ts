@@ -49,20 +49,19 @@ import { ReCaptchaModule } from 'angular2-recaptcha';
 import { AppComponent } from './app.component';
 
 import {
-  IndexPageComponent,
+  HomePageComponent,
   TopicPageComponent,
   TopicSearchPageComponent,
-  TopicWritePageComponent,
-  UserMsgPageComponent,
-  UserNoticePageComponent,
-  UserProfilePageComponent,
+  MessagesPageComponent,
+  NotificationsPageComponent,
+  ProfilesPageComponent,
   NotFoundComponent,
   ResPageComponent,
   InPageComponent,
   AuthPageComponent,
-  ClientsPageComponent,
-  AppsPageComponent,
-  UserSettingPageComponent,
+  DevSettingPageComponent,
+  AppsSettingPageComponent,
+  AccountSettingPageComponent,
   SettingsPageComponent
 } from './pages';
 
@@ -82,7 +81,7 @@ import { InfiniteScrollDirective } from './directives';
     RouterModule.forRoot([
       {
         path: '',
-        component: IndexPageComponent
+        component: HomePageComponent
       },
       {
         path: 'res/:id',
@@ -93,24 +92,20 @@ import { InfiniteScrollDirective } from './directives';
         component: TopicSearchPageComponent
       },
       {
-        path: 'topic/write',
-        component: TopicWritePageComponent
-      },
-      {
         path: 'topic/:id',
         component: TopicPageComponent
       },
       {
-        path: 'user/profile',
-        component: UserProfilePageComponent
+        path: 'profiles',
+        component: ProfilesPageComponent
       },
       {
-        path: 'user/notice',
-        component: UserNoticePageComponent
+        path: 'notifications',
+        component: NotificationsPageComponent
       },
       {
-        path: 'user/msg',
-        component: UserMsgPageComponent
+        path: 'messages',
+        component: MessagesPageComponent
       },
       {
         path: 'in',
@@ -126,15 +121,15 @@ import { InfiniteScrollDirective } from './directives';
         children: [
           {
             path: 'dev',
-            component: ClientsPageComponent,
+            component: DevSettingPageComponent,
           },
           {
             path: 'apps',
-            component: AppsPageComponent,
+            component: AppsSettingPageComponent,
           },
           {
             path: 'account',
-            component: UserSettingPageComponent,
+            component: AccountSettingPageComponent,
           },
         ]
       },
@@ -169,13 +164,11 @@ import { InfiniteScrollDirective } from './directives';
     TopicEditDialogComponent,
     TopicForkDialogComponent,
     TopicSearchPageComponent,
-    TopicWritePageComponent,
     TopicPageComponent,
-    IndexPageComponent,
-    UserProfilePageComponent,
-    UserNoticePageComponent,
-    UserMsgPageComponent,
-    UserMsgPageComponent,
+    HomePageComponent,
+    ProfilesPageComponent,
+    NotificationsPageComponent,
+    MessagesPageComponent,
     TopicListItemComponent,
     ButtonDialogComponent,
     MdEditorComponent,
@@ -190,9 +183,9 @@ import { InfiniteScrollDirective } from './directives';
     ClientEditComponent,
     InPageComponent,
     AuthPageComponent,
-    ClientsPageComponent,
-    AppsPageComponent,
-    UserSettingPageComponent,
+    DevSettingPageComponent,
+    AppsSettingPageComponent,
+    AccountSettingPageComponent,
     SettingsPageComponent,
     PageComponent
   ],

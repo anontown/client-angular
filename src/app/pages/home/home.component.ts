@@ -3,10 +3,10 @@ import { UserService } from '../../services/user.service';
 import { Title } from '@angular/platform-browser';
 
 @Component({
-  templateUrl: './index.component.html',
+  templateUrl: './home.component.html',
   changeDetection: ChangeDetectionStrategy.Default
 })
-export class IndexPageComponent implements OnInit {
+export class HomePageComponent implements OnInit {
   constructor(public user: UserService,
     private titleService: Title) {
 
