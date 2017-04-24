@@ -1,13 +1,6 @@
 .res-pop,.children-msg{
-  border:solid 2px var(--app-color-foreground-80);
-}
-
-.res-self{
-  background-color: var(--app-color-primary-20);
-}
-
-.res-reply{
-  background-color: var(--app-color-accent-20);
+  border-style: solid;
+  border-width: 2px;
 }
 
 .vote{
@@ -32,10 +25,6 @@
     font-size: $icon-size !important;
     line-height: $icon-size !important;
     display: inline !important;
-  }
-
-  .is-vote{
-    color: var(--app-color-accent-100);
   }
 }
 

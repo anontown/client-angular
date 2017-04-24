@@ -1,0 +1,8 @@
+@mixin app-client-theme($theme){
+  app-client{
+    .client-url{
+        $color:mat-color(map-get($theme, primary));
+        color: $color;
+    }
+  }
+}

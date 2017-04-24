@@ -1,0 +1,8 @@
+@mixin app-topic-list-item-theme($theme){
+  app-topic-list-item{
+    .tags{
+      $color:mat-color(map-get($theme, foreground),secondary-text);
+      color:$color;
+    }
+  }
+}

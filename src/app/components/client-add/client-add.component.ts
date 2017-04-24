@@ -11,6 +11,7 @@ import {
 @Component({
   selector: 'app-client-add',
   templateUrl: './client-add.component.html',
+  styleUrls: ['client-add.component.scss']
 })
 export class ClientAddComponent {
   private url = '';
@@ -26,7 +27,7 @@ export class ClientAddComponent {
   }
 
   async ok() {
-    let ud = this.user.ud.getValue()!;
+    let ud = this.user.ud.getValue() !;
     try {
       let client = await this.api.createClient(ud.auth, {
         name: this.name,

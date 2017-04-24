@@ -1,0 +1,8 @@
+@mixin app-md-editor-theme($theme){
+  app-md-editor{
+    textarea,.preview{
+        $color:mat-get(map-get($theme, foreground),divider);
+        border-color:$color;
+    }
+  }
+}

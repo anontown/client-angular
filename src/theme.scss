@@ -1,36 +1,13 @@
 @import '~@angular/material/theming';
-@mixin custom-property($theme){
-    @each $name in (primary,accent,warn) {
-        @for $i from 1 through 100 {
-            $color:mat-color(map-get($theme, $name),$i/100);
-            --app-color-#{$name}-#{$i}:$color;
-        }
-    }
-
-    @for $i from 1 through 100 {
-        $black:rgba(black,$i/100);
-        $white:rgba(white,$i/100);
-
-        $is-dark:map-get($theme,is-dark);
-        $foreground:if($is-dark,$white,$black);
-        $background:if($is-dark,$black,$white);
-        --app-color-foreground-#{$i}:$foreground;
-        --app-color-background-#{$i}:$background;
-    }
-}
-
 @mixin theme($theme){
-    :root{
-        @include custom-property($theme);
-    }
-    body{
-        color:var(--app-color-foreground-100);
-    }
     a.app-link{
         @import './app/styles/link-color.scss';
         @include link-color();
     }
     @include angular-material-theme($theme);
+
+    @import './app/components/_component-theme.scss';
+    @include app-component-theme($theme);
 }
 
 @include mat-core();

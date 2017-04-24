@@ -1,0 +1,25 @@
+@mixin app-res-theme($theme){
+  app-res{
+    .res-pop,.children-msg{
+      $color:mat-color(map-get($theme,warn));
+      border-color:$color;
+    }
+
+    .res-self{
+      $color:mat-color(map-get($theme, primary),30);
+      background-color: $color;
+    }
+
+    .res-reply{
+      $color:mat-color(map-get($theme, accent),30);
+      background-color: $color;
+    }
+
+    .action{
+      .is-vote{
+        $color:mat-color(map-get($theme, accent));
+        color: $color;
+      }
+    }
+  }
+}

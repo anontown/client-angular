@@ -1,0 +1,8 @@
+@mixin app-tags-input-theme($theme){
+  app-tags-input{
+    .tag{
+      $color:mat-color(map-get($theme, primary),30);
+      background: $color;
+    }
+  }
+}
