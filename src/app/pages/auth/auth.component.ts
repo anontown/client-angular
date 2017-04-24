@@ -7,7 +7,8 @@ import {
 } from '../../services';
 import { Title } from '@angular/platform-browser';
 @Component({
-    templateUrl: './auth.component.html'
+    templateUrl: './auth.component.html',
+    selector: 'app-page-auth'
 })
 export class AuthPageComponent implements OnInit, OnDestroy {
     client: IClientAPI;
@@ -20,8 +21,8 @@ export class AuthPageComponent implements OnInit, OnDestroy {
     }
 
     async ok() {
-        let ud=this.user.ud.getValue()!;
-        let token=await this.api.createTokenGeneral(ud.auth,{client:this.client.id});
+        let ud = this.user.ud.getValue() !;
+        let token = await this.api.createTokenGeneral(ud.auth, { client: this.client.id });
         let req = await this.api.createTokenReq({ id: token.id, key: token.key });
         //リダイレクト
         location.href = this.client.url + "?" + "id=" + req.token + "&key=" + encodeURI(req.key);

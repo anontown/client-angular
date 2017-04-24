@@ -13,6 +13,7 @@ import { Title } from '@angular/platform-browser';
 
 @Component({
   templateUrl: './account-setting.component.html',
+  selector: 'app-page-account-setting'
 })
 export class AccountSettingPageComponent implements OnInit, OnDestroy {
   newPass = "";

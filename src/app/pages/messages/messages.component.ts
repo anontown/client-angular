@@ -17,7 +17,8 @@ import { Title } from '@angular/platform-browser';
 @Component({
     templateUrl: './messages.component.html',
     styleUrls: ['./messages.component.scss'],
-    changeDetection: ChangeDetectionStrategy.Default
+    changeDetection: ChangeDetectionStrategy.Default,
+    selector: 'app-page-messages'
 })
 export class MessagesPageComponent implements OnInit, OnDestroy {
     private msgs = Immutable.List<IMsgAPI>();

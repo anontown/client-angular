@@ -5,7 +5,8 @@ import { ReCaptchaComponent } from 'angular2-recaptcha/lib/captcha.component';
 import { Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 @Component({
-  templateUrl: './in.component.html'
+  templateUrl: './in.component.html',
+  selector: 'app-page-in'
 })
 export class InPageComponent implements OnInit {
   sn = "";

@@ -16,7 +16,8 @@ import { Title } from '@angular/platform-browser';
 
 @Component({
     templateUrl: './notifications.component.html',
-    changeDetection: ChangeDetectionStrategy.Default
+    changeDetection: ChangeDetectionStrategy.Default,
+    selector: 'app-page-notifications'
 })
 export class NotificationsPageComponent implements OnInit, OnDestroy {
     private reses = Immutable.List<IResAPI>();

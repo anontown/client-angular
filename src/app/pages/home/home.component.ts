@@ -4,7 +4,8 @@ import { Title } from '@angular/platform-browser';
 
 @Component({
   templateUrl: './home.component.html',
-  changeDetection: ChangeDetectionStrategy.Default
+  changeDetection: ChangeDetectionStrategy.Default,
+  selector: 'app-page-home'
 })
 export class HomePageComponent implements OnInit {
   constructor(public user: UserService,

@@ -9,7 +9,8 @@ import * as Immutable from 'immutable';
 
 @Component({
   templateUrl: './apps-setting.component.html',
-  styleUrls: ['./apps-setting.component.scss']
+  styleUrls: ['./apps-setting.component.scss'],
+  selector: 'app-page-apps-setting'
 })
 export class AppsSettingPageComponent implements OnInit, OnDestroy {
   private clients: Immutable.List<IClientAPI>;
@@ -26,7 +27,7 @@ export class AppsSettingPageComponent implements OnInit, OnDestroy {
   }
 
   async del(id: string) {
-    await this.api.deleteTokenClient(this.user.ud.getValue()!.auth, { client: id });
-    this.clients=this.clients.remove(this.clients.findIndex(c=>c!.id===id));
+    await this.api.deleteTokenClient(this.user.ud.getValue() !.auth, { client: id });
+    this.clients = this.clients.remove(this.clients.findIndex(c => c!.id === id));
   }
 }
