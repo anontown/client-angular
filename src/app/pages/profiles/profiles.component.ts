@@ -26,7 +26,7 @@ export class ProfilesPageComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
-    this.titleService.setTitle("プロフィール管理");
+    this.titleService.setTitle('プロフィール管理');
     let ud = await this.user.ud.toPromise();
     this.profiles = Immutable.List(await this.api.findProfileAll(ud!.auth));
   }

@@ -13,8 +13,8 @@ import {
   templateUrl: './client-add.component.html',
 })
 export class ClientAddComponent {
-  private url = "";
-  private name = "";
+  private url = '';
+  private name = '';
   private errors: IAtError[] = [];
 
   @Output()

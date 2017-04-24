@@ -16,9 +16,9 @@ import { Title } from '@angular/platform-browser';
   selector: 'app-page-account-setting'
 })
 export class AccountSettingPageComponent implements OnInit, OnDestroy {
-  newPass = "";
-  oldPass = "";
-  sn = "";
+  newPass = '';
+  oldPass = '';
+  sn = '';
   private errors: IAtError[] = [];
 
   constructor(public user: UserService,
@@ -27,7 +27,7 @@ export class AccountSettingPageComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
-    this.titleService.setTitle("アカウント設定");
+    this.titleService.setTitle('アカウント設定');
     let ud = await this.user.ud.take(1).toPromise();
     this.sn = await this.api.findUserSN({ id: ud!.token.user });
   }

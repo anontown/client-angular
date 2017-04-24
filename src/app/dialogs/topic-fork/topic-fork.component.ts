@@ -18,7 +18,7 @@ import * as Immutable from 'immutable';
 export class TopicForkDialogComponent implements OnInit {
   topic: ITopicNormalAPI;
   children: Immutable.List<ITopicForkAPI>;
-  title = "";
+  title = '';
   errors: IAtError[] = [];
   constructor(public user: UserService,
     private api: AtApiService,
@@ -34,7 +34,7 @@ export class TopicForkDialogComponent implements OnInit {
         activeOnly: false
       }));
     } catch (_e) {
-      this.snackBar.open("トピック取得に失敗");
+      this.snackBar.open('トピック取得に失敗');
     }
   }
 

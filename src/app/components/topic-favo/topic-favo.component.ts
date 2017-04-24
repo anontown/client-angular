@@ -50,7 +50,7 @@ export class TopicFavoComponent implements OnInit, OnDestroy {
       this.tfavo = Immutable.List(await this.api.findTopicIn({ ids: ud.storage.topicFavo.toArray() }))
         .sort((a, b) => a.update > b.update ? -1 : a.update < b.update ? 1 : 0).toList();
     } catch (_e) {
-      this.snackBar.open("トピック取得に失敗");
+      this.snackBar.open('トピック取得に失敗');
     }
   }
 }

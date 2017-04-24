@@ -90,11 +90,11 @@ export class ResComponent implements OnInit, OnDestroy {
           topic: this.res.topic,
           hash: this.res.hash
         }));
-        this.childrenMsg = "抽出 HASH:" + this.res.hash;
+        this.childrenMsg = '抽出 HASH:' + this.res.hash;
       }
       this.cdr.markForCheck();
     } catch (_e) {
-      this.snackBar.open("レス取得に失敗");
+      this.snackBar.open('レス取得に失敗');
     }
   }
 
@@ -111,7 +111,7 @@ export class ResComponent implements OnInit, OnDestroy {
       this.childrenMsg = null;
       this.cdr.markForCheck();
     } catch (_e) {
-      this.snackBar.open("レス取得に失敗");
+      this.snackBar.open('レス取得に失敗');
     }
   }
 
@@ -129,7 +129,7 @@ export class ResComponent implements OnInit, OnDestroy {
       this.childrenMsg = null;
       this.cdr.markForCheck();
     } catch (_e) {
-      this.snackBar.open("レス取得に失敗");
+      this.snackBar.open('レス取得に失敗');
     }
   }
 
@@ -137,12 +137,12 @@ export class ResComponent implements OnInit, OnDestroy {
     let ud = this.user.ud.getValue() !;
     try {
       switch (this.res.voteFlag) {
-        case "uv":
+        case 'uv':
           this.update.emit(await this.api.cvRes(ud.auth, {
             id: this.res.id
           }));
           break;
-        case "dv":
+        case 'dv':
           await this.api.cvRes(ud.auth, {
             id: this.res.id
           });
@@ -150,14 +150,14 @@ export class ResComponent implements OnInit, OnDestroy {
             id: this.res.id
           }));
           break;
-        case "not":
+        case 'not':
           this.update.emit(await this.api.uvRes(ud.auth, {
             id: this.res.id
           }));
           break;
       }
     } catch (_e) {
-      this.snackBar.open("投票に失敗");
+      this.snackBar.open('投票に失敗');
     }
   }
 
@@ -165,12 +165,12 @@ export class ResComponent implements OnInit, OnDestroy {
     let ud = this.user.ud.getValue() !;
     try {
       switch (this.res.voteFlag) {
-        case "dv":
+        case 'dv':
           this.update.emit(await this.api.cvRes(ud.auth, {
             id: this.res.id
           }));
           break;
-        case "uv":
+        case 'uv':
           await this.api.cvRes(ud.auth, {
             id: this.res.id
           });
@@ -178,14 +178,14 @@ export class ResComponent implements OnInit, OnDestroy {
             id: this.res.id
           }));
           break;
-        case "not":
+        case 'not':
           this.update.emit(await this.api.dvRes(ud.auth, {
             id: this.res.id
           }));
           break;
       }
     } catch (_e) {
-      this.snackBar.open("レス取得に失敗");
+      this.snackBar.open('レス取得に失敗');
     }
   }
 
@@ -194,8 +194,8 @@ export class ResComponent implements OnInit, OnDestroy {
     try {
       let dialogRef = this.dialog.open(ButtonDialogComponent);
       let com = dialogRef.componentInstance;
-      com.message = "削除して良いですか？";
-      com.actions = [{ data: true, text: "はい" }, { data: false, text: "いいえ" }];
+      com.message = '削除して良いですか？';
+      com.actions = [{ data: true, text: 'はい' }, { data: false, text: 'いいえ' }];
 
       let result: boolean = await dialogRef.afterClosed().toPromise();
 
@@ -205,7 +205,7 @@ export class ResComponent implements OnInit, OnDestroy {
         }));
       }
     } catch (_e) {
-      this.snackBar.open("レス削除に失敗");
+      this.snackBar.open('レス削除に失敗');
     }
   }
 
@@ -217,7 +217,7 @@ export class ResComponent implements OnInit, OnDestroy {
         id: this.res.profile as string
       });
     } catch (_e) {
-      this.snackBar.open("プロフ取得に失敗");
+      this.snackBar.open('プロフ取得に失敗');
     }
   }
 }

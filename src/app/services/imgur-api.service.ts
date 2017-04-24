@@ -8,7 +8,7 @@ export class ImgurApiService {
   }
 
   async upload(data: Blob | FormData): Promise<string> {
-    let result = await this.http.post("https://api.imgur.com/3/image", data, {
+    let result = await this.http.post('https://api.imgur.com/3/image', data, {
       headers: new Headers({ Authorization: 'Client-ID 042fd78266ccaaf' })
     }).toPromise();
     return JSON.parse(result.text()).data.link;

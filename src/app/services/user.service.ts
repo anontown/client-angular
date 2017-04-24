@@ -24,11 +24,11 @@ export class UserService {
         key: token.key
       };
 
-      let storageStr = "";
+      let storageStr = '';
       try {
-        storageStr = await this.api.getTokenStorage(auth, { name: "main" });
+        storageStr = await this.api.getTokenStorage(auth, { name: 'main' });
       } catch (_e) {
-        storageStr = "";
+        storageStr = '';
       }
 
       let storage = Storage.fromJSON(storageStr);
@@ -39,7 +39,7 @@ export class UserService {
         storage
       });
     } catch (_e) {
-      this.snackBar.open("ログインに失敗");
+      this.snackBar.open('ログインに失敗');
     }
   }
 }

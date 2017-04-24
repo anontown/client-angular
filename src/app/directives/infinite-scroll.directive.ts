@@ -17,7 +17,7 @@ export interface IInfiniteScrollElement {
 
 @Directive({
   selector: '[appInfiniteScroll]',
-  exportAs: "infiniteScroll"
+  exportAs: 'infiniteScroll'
 })
 export class InfiniteScrollDirective implements OnInit, OnDestroy {
   @Output()
@@ -137,7 +137,7 @@ export class InfiniteScrollDirective implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.subscriptions.push(Observable.fromEvent(this.scrollEl, "scroll")
+    this.subscriptions.push(Observable.fromEvent(this.scrollEl, 'scroll')
       .map(() => this.el.scrollTop)
       .filter(top => top <= this.width)
       .debounceTime(this.wait)
@@ -145,7 +145,7 @@ export class InfiniteScrollDirective implements OnInit, OnDestroy {
         this.scrollTop.emit();
       }));
 
-    this.subscriptions.push(Observable.fromEvent(this.scrollEl, "scroll")
+    this.subscriptions.push(Observable.fromEvent(this.scrollEl, 'scroll')
       .map(() => this.el.scrollTop + this.el.clientHeight)
       .filter(bottom => bottom >= this.el.scrollHeight - this.width)
       .debounceTime(this.wait)
@@ -153,7 +153,7 @@ export class InfiniteScrollDirective implements OnInit, OnDestroy {
         this.scrollBottom.emit();
       }));
 
-    this.subscriptions.push(Observable.fromEvent(this.scrollEl, "scroll")
+    this.subscriptions.push(Observable.fromEvent(this.scrollEl, 'scroll')
       .debounceTime(this.wait)
       .subscribe(async () => {
         this.elementChange.emit({

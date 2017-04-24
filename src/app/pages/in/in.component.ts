@@ -9,8 +9,8 @@ import { Title } from '@angular/platform-browser';
   selector: 'app-page-in'
 })
 export class InPageComponent implements OnInit {
-  sn = "";
-  pass = "";
+  sn = '';
+  pass = '';
   isLogin = true;
   errors: IAtError[] = [];
   siteKey = Config.recaptcha;
@@ -23,7 +23,7 @@ export class InPageComponent implements OnInit {
     private titleService: Title) { }
 
   ngOnInit() {
-    this.titleService.setTitle("ログイン/登録");
+    this.titleService.setTitle('ログイン/登録');
   }
 
   async ok() {

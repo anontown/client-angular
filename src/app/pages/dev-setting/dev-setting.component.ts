@@ -27,7 +27,7 @@ export class DevSettingPageComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
-    this.titleService.setTitle("クライアント管理");
+    this.titleService.setTitle('クライアント管理');
     let ud = await this.user.ud.take(1).toPromise();
     if (ud) {
       this.clients = Immutable.List(await this.api.findClientAll(ud.auth));

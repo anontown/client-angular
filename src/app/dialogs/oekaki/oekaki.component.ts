@@ -44,7 +44,7 @@ export class OekakiDialogComponent implements OnInit, AfterViewInit {
   }
 
 
-  @ViewChild("canvas")
+  @ViewChild('canvas')
   canvas: ElementRef;
 
   ctx: CanvasRenderingContext2D;
@@ -56,9 +56,9 @@ export class OekakiDialogComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.ctx = this.canvas.nativeElement.getContext("2d");
+    this.ctx = this.canvas.nativeElement.getContext('2d');
 
-    this.ctx.fillStyle = "#fff";
+    this.ctx.fillStyle = '#fff';
     this.ctx.fillRect(0, 0, this.w, this.h);
 
     this.cmd = new Command<ImageData>(this.image);

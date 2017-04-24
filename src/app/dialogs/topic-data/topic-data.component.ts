@@ -31,17 +31,17 @@ export class TopicDataDialogComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
-    if (this.topic.type === "normal") {
+    if (this.topic.type === 'normal') {
       try {
         this.histories = Immutable.List(await this.api.findHistoryAll({ topic: this.topic.id }));
       } catch (_e) {
-        this.snackBar.open("編集履歴取得に失敗");
+        this.snackBar.open('編集履歴取得に失敗');
       }
-    }else if(this.topic.type==="fork"){
+    }else if(this.topic.type==='fork'){
       try {
         this.parent = await this.api.findTopicOne({ id: this.topic.parent });
       } catch (_e) {
-        this.snackBar.open("親トピック取得に失敗");
+        this.snackBar.open('親トピック取得に失敗');
       }
     }
   }

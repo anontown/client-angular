@@ -37,7 +37,7 @@ export class AppComponent implements OnInit, OnDestroy {
         this.user.ud.next(null);
       }
     } catch (_e) {
-      this.snackBar.open("認証に失敗");
+      this.snackBar.open('認証に失敗');
       this.user.ud.next(null);
     }
   }
@@ -61,11 +61,11 @@ export class AppComponent implements OnInit, OnDestroy {
     if (ud !== null) {
       try {
         await this.api.setTokenStorage(ud.auth, {
-          name: "main",
+          name: 'main',
           value: ud.storage.toJSON()
         });
       } catch (_e) {
-        this.snackBar.open("お気に入りなどのデータ保存に失敗");
+        this.snackBar.open('お気に入りなどのデータ保存に失敗');
       }
     }
   }

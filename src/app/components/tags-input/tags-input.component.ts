@@ -85,7 +85,7 @@ export class TagsInputComponent implements OnInit, OnDestroy, ControlValueAccess
         .startWith(null)
         .map(name => this.filterStates(name));
     } catch (_e) {
-      this.snackBar.open("タグ一覧取得に失敗")
+      this.snackBar.open('タグ一覧取得に失敗')
     }
   }
 
@@ -124,7 +124,7 @@ export class TagsInputComponent implements OnInit, OnDestroy, ControlValueAccess
   }
 
   writeValue(value: string) {
-    if (typeof value === "string" && this.value !== value) {
+    if (typeof value === 'string' && this.value !== value) {
       this.value = value;
     }
   }

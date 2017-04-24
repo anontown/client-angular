@@ -26,8 +26,8 @@ import {
   changeDetection: ChangeDetectionStrategy.Default
 })
 export class ResWriteComponent implements OnInit, OnDestroy {
-  private name = "";
-  private text = "";
+  private name = '';
+  private text = '';
   private profile: string | null = null;
   private errors: IAtError[] = [];
   private age = true;
@@ -67,7 +67,7 @@ export class ResWriteComponent implements OnInit, OnDestroy {
     let ud = this.user.ud.getValue() !;
     try {
       let res = await this.api.createRes(ud.auth, {
-        topic: typeof this.topic === "string" ? this.topic : this.topic.id,
+        topic: typeof this.topic === 'string' ? this.topic : this.topic.id,
         name: this.name,
         text: this.text,
         reply: this.reply !== null
@@ -79,7 +79,7 @@ export class ResWriteComponent implements OnInit, OnDestroy {
         age: this.age
       });
 
-      this.text = "";
+      this.text = '';
       this.reply = null;
       this.errors = [];
       this.write.emit(res);

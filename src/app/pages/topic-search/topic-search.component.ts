@@ -74,7 +74,7 @@ export class TopicSearchPageComponent implements OnInit, OnDestroy {
       this.topics = Immutable.List(this.topics.toArray().concat(t));
       this.page++;
     } catch (_e) {
-      this.snackBar.open("トピック取得に失敗");
+      this.snackBar.open('トピック取得に失敗');
     }
   }
 
@@ -87,10 +87,10 @@ export class TopicSearchPageComponent implements OnInit, OnDestroy {
       });
 
     this.route.queryParams.forEach(async (params) => {
-      this.titleService.setTitle("検索");
+      this.titleService.setTitle('検索');
       this.form.title = this.title = params['title'] ? params['title'] : '';
       this.tags = params['tags'] ? params['tags'] : '';
-      this.form.dead = this.dead = params['dead'] === "true";
+      this.form.dead = this.dead = params['dead'] === 'true';
       await this.update();
     });
   }

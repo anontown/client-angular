@@ -149,12 +149,12 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
       }
       first = false;
 
-      let id = params["id"];
+      let id = params['id'];
       try {
         this.topic = await this.api.findTopicOne({ id });
         this.titleService.setTitle(this.topic.title);
       } catch (_e) {
-        this.snackBar.open("トピック取得に失敗");
+        this.snackBar.open('トピック取得に失敗');
       }
 
       let isInit = false;
@@ -170,7 +170,7 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
               let reses = await this.api.findRes(ud.auth,
                 {
                   topic: this.topic.id,
-                  type: "before",
+                  type: 'before',
                   equal: true,
                   date: (await this.api.findResOne(ud.auth, { id: (ud.storage.topicRead.get(this.topic.id).res) })).date,
                   limit: this.limit
@@ -182,7 +182,7 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
               await this.iScroll.toBottom();
             });
           } catch (_e) {
-            this.snackBar.open("レス取得に失敗");
+            this.snackBar.open('レス取得に失敗');
           }
           this.afterViewChecked
             .take(1)
@@ -192,7 +192,7 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
           try {
             await this.findNew();
           } catch (_e) {
-            this.snackBar.open("レス取得に失敗");
+            this.snackBar.open('レス取得に失敗');
           }
         }
       }));
@@ -207,8 +207,8 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
 
       //自動更新
       this.socket = socketio.connect(Config.serverURL, { forceNew: true });
-      this.socket.emit("topic-join", this.topic.id);
-      this.socket.on("topic", (msg: string) => {
+      this.socket.emit('topic-join', this.topic.id);
+      this.socket.on('topic', (msg: string) => {
         if (msg === this.topic.id) {
           this.isReadAllNew = false;
           this.readNew();
@@ -273,11 +273,11 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
         await this.iScroll.toBottom();
       });
     } catch (_e) {
-      this.snackBar.open("レス取得に失敗");
+      this.snackBar.open('レス取得に失敗');
     }
   }
 
-  @ViewChild("iScroll")
+  @ViewChild('iScroll')
   iScroll: InfiniteScrollDirective;
 
   openFork() {
@@ -305,7 +305,7 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
           let reses = await this.api.findRes(ud ? ud.auth : null,
             {
               topic: this.topic.id,
-              type: "after",
+              type: 'after',
               equal: false,
               date: this.reses.first().date,
               limit: this.limit
@@ -319,7 +319,7 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
       }
       this.cdr.markForCheck();
     } catch (_e) {
-      this.snackBar.open("レス取得に失敗");
+      this.snackBar.open('レス取得に失敗');
     }
   }
 
@@ -339,7 +339,7 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
           let reses = await this.api.findRes(ud ? ud.auth : null,
             {
               topic: this.topic.id,
-              type: "before",
+              type: 'before',
               equal: false,
               date: this.reses.last().date,
               limit: this.limit
@@ -357,7 +357,7 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
       }
       this.cdr.markForCheck();
     } catch (_e) {
-      this.snackBar.open("レス取得に失敗");
+      this.snackBar.open('レス取得に失敗');
     }
   }
 
