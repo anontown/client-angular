@@ -12,6 +12,7 @@ import { MdDialogRef, MdSnackBar } from '@angular/material';
 import * as Immutable from 'immutable';
 
 @Component({
+  selector: 'app-dialog-topic-fork',
   templateUrl: './topic-fork.component.html',
   styleUrls: ['./topic-fork.component.scss']
 })

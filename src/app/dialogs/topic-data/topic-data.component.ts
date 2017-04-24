@@ -16,6 +16,7 @@ import * as Immutable from 'immutable';
 import { MdSnackBar } from '@angular/material';
 
 @Component({
+  selector: 'app-dialog-topic-data',
   templateUrl: './topic-data.component.html',
   styleUrls: ['./topic-data.component.scss'],
   changeDetection: ChangeDetectionStrategy.Default

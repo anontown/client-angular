@@ -8,6 +8,7 @@ import {
 import { UserService,IProfileAPI } from '../../services'
 
 @Component({
+  selector: 'app-dialog-profile',
   templateUrl: './profile.component.html',
   changeDetection: ChangeDetectionStrategy.Default
 })

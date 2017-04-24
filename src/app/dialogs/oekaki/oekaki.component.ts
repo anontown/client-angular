@@ -12,6 +12,7 @@ import { MdDialogRef } from '@angular/material';
 import { ImgurApiService } from '../../services';
 
 @Component({
+  selector: 'app-dialog-oekaki',
   templateUrl: './oekaki.component.html',
   styleUrls: ['./oekaki.component.scss']
 })

@@ -13,6 +13,7 @@ import {
 import { ImgurApiService } from '../../services';
 
 @Component({
+  selector: 'app-dialog-image-upload',
   templateUrl: './image-upload.component.html',
   styleUrls: ['./image-upload.component.scss']
 })

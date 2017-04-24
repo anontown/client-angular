@@ -16,6 +16,7 @@ import {
 import { MdSnackBar, MdDialogRef } from '@angular/material';
 
 @Component({
+  selector: 'app-dialog-topic-edit',
   templateUrl: './topic-edit.component.html',
   changeDetection: ChangeDetectionStrategy.Default
 })

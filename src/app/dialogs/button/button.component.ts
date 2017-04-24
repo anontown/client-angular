@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MdDialogRef } from '@angular/material';
 
 @Component({
+  selector: 'app-dialog-button',
   templateUrl: './button.component.html',
   styleUrls: ['./button.component.scss']
 })
