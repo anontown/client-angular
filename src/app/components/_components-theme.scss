@@ -1,4 +1,4 @@
-@mixin app-component-theme($theme){
+@mixin app-components-theme($theme){
     @import './client/_client-theme.scss';
     @include app-client-theme($theme);
 

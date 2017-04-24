@@ -1,0 +1,22 @@
+@mixin app-dialogs-theme($theme){
+    @import './button/_button-theme.scss';
+    @include app-dialog-button-theme($theme);
+
+    @import './image-upload/_image-upload-theme.scss';
+    @include app-dialog-image-upload-theme($theme);
+
+    @import './oekaki/_oekaki-theme.scss';
+    @include app-dialog-oekaki-theme($theme);
+
+    @import './profile/_profile-theme.scss';
+    @include app-dialog-profile-theme($theme);
+
+    @import './topic-data/_topic-data-theme.scss';
+    @include app-dialog-topic-data-theme($theme);
+
+    @import './topic-edit/_topic-edit-theme.scss';
+    @include app-dialog-topic-edit-theme($theme);
+
+    @import './topic-fork/_topic-fork-theme.scss';
+    @include app-dialog-topic-fork-theme($theme);
+}

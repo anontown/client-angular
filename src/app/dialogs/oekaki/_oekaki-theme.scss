@@ -1,0 +1,8 @@
+@mixin app-dialog-oekaki-theme($theme){
+  app-dialog-oekaki{
+    canvas{
+      $color:mat-color(map-get($theme,foreground),divider);
+      border-color: $color;
+    }
+  }
+}

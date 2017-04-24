@@ -6,8 +6,11 @@
     }
     @include angular-material-theme($theme);
 
-    @import './app/components/_component-theme.scss';
-    @include app-component-theme($theme);
+    @import './app/components/_components-theme.scss';
+    @include app-components-theme($theme);
+
+    @import './app/dialogs/_dialogs-theme.scss';
+    @include app-dialogs-theme($theme);
 }
 
 @include mat-core();
