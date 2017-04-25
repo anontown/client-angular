@@ -40,7 +40,8 @@ import { Title } from '@angular/platform-browser';
 @Component({
   templateUrl: './topic.component.html',
   styleUrls: ['./topic.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Default
+  changeDetection: ChangeDetectionStrategy.Default,
+  selector:'app-page-topic'
 })
 export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
   topic: ITopicAPI;

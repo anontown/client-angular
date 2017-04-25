@@ -1,16 +1,40 @@
 @import '~@angular/material/theming';
+@import './app/components/_components-theme.scss';
+@import './app/styles/link-color.scss';
+@import './app/dialogs/_dialogs-theme.scss';
+@import './app/pages/_pages-theme.scss';
+@import './app/_app-root-theme.scss';
+@import './_md-theme.scss';
+
 @mixin theme($theme){
     a.app-link{
-        @import './app/styles/link-color.scss';
-        @include link-color();
+        @include link-color($theme);
     }
     @include angular-material-theme($theme);
-
-    @import './app/components/_components-theme.scss';
     @include app-components-theme($theme);
-
-    @import './app/dialogs/_dialogs-theme.scss';
     @include app-dialogs-theme($theme);
+    @include app-pages-theme($theme);
+    @include app-root-theme($theme);
+    @include md-theme($theme);
+
+
+    //スクロールバー
+    $base:mat-color(map-get($theme,foreground),base);
+
+    ::-webkit-scrollbar{
+        width: 10px
+    }
+
+    ::-webkit-scrollbar-thumb{
+        $color:rgba($base,0.5);
+        background:$color;
+        border-radius:4px;
+    }
+
+    ::-webkit-scrollbar-track-piece{
+        $color:rgba($base,0.15);
+        background:$color;
+    }
 }
 
 @include mat-core();
@@ -19,7 +43,7 @@
     $primary: mat-palette($mat-green);
     $accent:  mat-palette($mat-light-blue);
     $warn:    mat-palette($mat-red);
-    $theme: mat-dark-theme($primary, $accent, $warn);
+    $theme: mat-light-theme($primary, $accent, $warn);
     @include theme($theme);
 }
 
@@ -32,4 +56,4 @@
     @include theme($theme);
 }
 
-@include dark-theme();
+@include light-theme();

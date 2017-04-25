@@ -1,8 +1,11 @@
 @mixin app-md-editor-theme($theme){
   app-md-editor{
     textarea,.preview{
-        $color:mat-get(map-get($theme, foreground),divider);
-        border-color:$color;
+        $border-color:mat-color(map-get($theme, foreground),divider);
+        border-color:$border-color !important;
+
+        $background-color:mat-color(map-get($theme, background),background);
+        background-color: $background-color !important;
     }
   }
 }

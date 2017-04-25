@@ -1,5 +1,6 @@
-@mixin link-color(){
+@mixin link-color($theme){
     &:link,&:visited,&:hover,&:active {
-        color: var(--app-color-foreground-100);
+        $color:mat-color(map-get($theme,foreground),text);
+        color: $color;
     }
 }

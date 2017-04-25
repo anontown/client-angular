@@ -1,43 +1,31 @@
+@import './client/_client-theme.scss';
+@import './client-add/_client-add-theme.scss';
+@import './client-edit/_client-edit-theme.scss';
+@import './md-editor/_md-editor-theme.scss';
+@import './page/_page-theme.scss';
+@import './res/_res-theme.scss';
+@import './res-write/_res-write-theme.scss';
+@import './tag-favo/_tag-favo-theme.scss';
+@import './tags-input/_tags-input-theme.scss';
+@import './topic-favo/_topic-favo-theme.scss';
+@import './topic-history/_topic-history-theme.scss';
+@import './topic-list-item/_topic-list-item-theme.scss';
+@import './user-profile-add/_user-profile-add-theme.scss';
+@import './user-profile-edit/_user-profile-edit-theme.scss';
+
 @mixin app-components-theme($theme){
-    @import './client/_client-theme.scss';
     @include app-client-theme($theme);
-
-    @import './client-add/_client-add-theme.scss';
     @include app-client-add-theme($theme);
-
-    @import './client-edit/_client-edit-theme.scss';
     @include app-client-edit-theme($theme);
-
-    @import './md-editor/_md-editor-theme.scss';
     @include app-md-editor-theme($theme);
-
-    @import './page/_page-theme.scss';
     @include app-page-theme($theme);
-
-    @import './res/_res-theme.scss';
     @include app-res-theme($theme);
-
-    @import './res-write/_res-write-theme.scss';
     @include app-res-write-theme($theme);
-
-    @import './tag-favo/_tag-favo-theme.scss';
     @include app-tag-favo-theme($theme);
-
-    @import './tags-input/_tags-input-theme.scss';
     @include app-tags-input-theme($theme);
-
-    @import './topic-favo/_topic-favo-theme.scss';
     @include app-topic-favo-theme($theme);
-
-    @import './topic-history/_topic-history-theme.scss';
     @include app-topic-history-theme($theme);
-
-    @import './topic-list-item/_topic-list-item-theme.scss';
     @include app-topic-list-item-theme($theme);
-
-    @import './user-profile-add/_user-profile-add-theme.scss';
     @include app-user-profile-add-theme($theme);
-
-    @import './user-profile-edit/_user-profile-edit-theme.scss';
     @include app-user-profile-edit-theme($theme);
 }

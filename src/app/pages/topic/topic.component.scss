@@ -1,5 +1,3 @@
-@import '../../styles/page.scss';
-
 .main-column{
     word-wrap:break-word;
     display: flex;
@@ -7,13 +5,11 @@
 
     .res-write{
         padding: 6px;
-        background-color: var(--app-color-primary-8);
     }
 
     .header{
         padding: 6px;
         height: 42px;
-        background-color: var(--app-color-accent-8);
 
         .icon{
             line-height:16px;
@@ -49,6 +45,7 @@
 
     .reses{
         flex: 1;
+        @import '../../styles/scroll.scss';
         @include scroll();
     }
 }

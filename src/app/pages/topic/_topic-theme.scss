@@ -1,0 +1,15 @@
+@mixin app-page-topic-theme($theme){
+  app-page-topic{
+    .main-column{
+      .res-write{
+        $color:mat-color(map-get($theme,primary),0.20);
+        background-color:$color;
+      }
+
+      .header{
+        $color:mat-color(map-get($theme,accent),0.20);
+        background-color:$color;
+      }
+    }
+  }
+}

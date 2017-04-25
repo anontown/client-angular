@@ -1,4 +1,10 @@
-.markdown{
+@import './app/styles/link-color.scss';
+
+@mixin md-theme($theme){
+  $border-color:mat-color(map-get($theme,foreground),divider);
+  $background-color:rgba(mat-color(map-get($theme,foreground),base),0.1);
+
+  .markdown{
   /*
   基本設定
   */
@@ -10,8 +16,8 @@
   marked要素
   */
   pre{
-    border: 1px solid var(--app-color-foreground-50);
-    background-color: var(--app-color-foreground-10);
+    border: 1px solid $border-color;
+    background-color: $background-color;
     border-radius: 3px;
     padding: 0.5em;
 
@@ -27,8 +33,8 @@
     font-size: 90%;
     margin: 0 2px;
     padding: 0 5px;
-    border: 1px solid var(--app-color-foreground-50);
-    background-color: var(--app-color-foreground-10);
+    border: 1px solid $border-color;
+    background-color: $background-color;
     border-radius: 3px;
   }
 
@@ -39,21 +45,21 @@
 
   h1{
     font-size: 3em;
-    border-left: 6px solid var(--app-color-foreground-50);
-    border-top: 1px solid var(--app-color-foreground-50);
-    border-bottom: 1px solid var(--app-color-foreground-50);
+    border-left: 6px solid $border-color;
+    border-top: 1px solid $border-color;
+    border-bottom: 1px solid $border-color;
     padding: 12px;
   }
 
   h2{
     font-size: 2.4em;
-    border-left: 5px solid var(--app-color-foreground-50);
-    border-bottom: 1px solid var(--app-color-foreground-50);
+    border-left: 5px solid $border-color;
+    border-bottom: 1px solid $border-color;
     padding: 10px;
   }
 
   h3{
-    border-bottom: 1px solid var(--app-color-foreground-35);
+    border-bottom: 1px solid $border-color;
     font-size: 2.0em;
     padding: 8px;
   }
@@ -73,7 +79,7 @@
   hr{
     border-width: 2px 0 0 0;
     border-style: solid;
-    border-color: var(--app-color-foreground-50);
+    border-color: $border-color;
   }
 
   ul,ol{
@@ -103,14 +109,14 @@
     border-collapse:collapse;
 
     td, th{
-      border: 1px solid var(--app-color-foreground-60);
+      border: 1px solid $border-color;
       padding: 6px;
     }
 
     thead{
       tr{
         th{
-          background: var(--app-color-foreground-10);
+          background: $background-color;
         }
       }
     }
@@ -141,8 +147,7 @@
   }
 
   a{
-    @import './app/styles/link-color.scss';
-    @include link-color();
+    @include link-color($theme);
   }
 
   img{
@@ -156,7 +161,7 @@
     padding-left: 0.5em;
     padding-top:0.5em;
     padding-bottom: 0.5em;
-    border-left: 5px solid var(--app-color-foreground-50);
+    border-left: 5px solid $border-color;
     border-radius: 2px;
   }
 
@@ -175,4 +180,5 @@
       height: 100%;
     }
   }
+}
 }

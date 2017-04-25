@@ -1,0 +1,31 @@
+@import './account-setting/_account-setting-theme.scss';
+@import './apps-setting/_apps-setting-theme.scss';
+@import './auth/_auth-theme.scss';
+@import './dev-setting/_dev-setting-theme.scss';
+@import './home/_home-theme.scss';
+@import './in/_in-theme.scss';
+@import './messages/_messages-theme.scss';
+@import './not-found/_not-found-theme.scss';
+@import './profiles/_profiles-theme.scss';
+@import './notifications/_notifications-theme.scss';
+@import './res/_res-theme.scss';
+@import './settings/_settings-theme.scss';
+@import './topic/_topic-theme.scss';
+@import './topic-search/_topic-search-theme.scss';
+
+@mixin app-pages-theme($theme){
+    @include app-page-account-setting-theme($theme);
+    @include app-page-apps-setting-theme($theme);
+    @include app-page-auth-theme($theme);
+    @include app-page-dev-setting-theme($theme);
+    @include app-page-home-theme($theme);
+    @include app-page-in-theme($theme);
+    @include app-page-messages-theme($theme);
+    @include app-page-not-found-theme($theme);
+    @include app-page-notifications-theme($theme);
+    @include app-page-profiles-theme($theme);
+    @include app-page-res-theme($theme);
+    @include app-page-settings-theme($theme);
+    @include app-page-topic-theme($theme);
+    @include app-page-topic-search-theme($theme);
+}

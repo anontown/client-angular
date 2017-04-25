@@ -1,5 +1,5 @@
 <md-card [ngClass]="{'res-pop':isPop}">
-  <div [ngClass]="{'res-self':isSelf,'res-reply':res.isReply&&!isSelf,header:true}">
+  <div [ngClass]="{'res-self':isSelf,'res-reply':res.isReply&&!isSelf,'res-header':true}">
     <a (click)="isReply=!isReply">{{res.name}}</a>
     <a *ngIf="res.profile!==null" (click)="profileOpen()">[プロフィール]</a>
 

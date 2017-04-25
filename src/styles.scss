@@ -24,9 +24,6 @@ color-picker>div{
     left:10px !important;
 }
 
-
-@import './app/styles/page.scss';
-
 app-page>.app-page-contents{
     position: absolute;
     top:59px;
@@ -34,6 +31,8 @@ app-page>.app-page-contents{
     right: 0px;
     left: 0px;
 
+
+    @import './app/styles/scroll.scss';
     &.one{
         @include scroll();
     }
@@ -46,13 +45,13 @@ app-page>.app-page-contents{
             }
         }
         &>aside {
-            @include scroll();
             width: 30vw;
+            @include scroll();
         }
 
         &>main {
-            @include scroll();
             flex: 1;
+            @include scroll();
         }
     }
 }

@@ -1,0 +1,8 @@
+@mixin app-page-apps-setting-theme($theme){
+  app-page-apps-setting{
+    .client-url{
+        $color:mat-color(map-get($theme,primary));
+        color: $color;
+    }
+  }
+}
