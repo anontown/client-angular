@@ -6,14 +6,19 @@
 @import './app/_app-root-theme.scss';
 @import './_md-theme.scss';
 
-@mixin theme($theme){
+@mixin theme($theme,$background){
     a.app-link{
         @include link-color($theme);
     }
     
     &{
-        $background-color: mat-color(map-get($theme, background),background);
-        background-color: $background-color;
+        background-color: $background;
+    }
+
+
+    button[md-icon-button] md-icon{
+        $color:mat-color(map-get($theme,foreground),text);
+        color:$color;
     }
 
     @include angular-material-theme($theme);
@@ -51,12 +56,7 @@
     $warn:    mat-palette($mat-red);
     $theme: mat-light-theme($primary, $accent, $warn);
 
-    //バックグラウンドカラー変更
-    $background:map-get($theme,background);
-    $background:map-merge($background,(background: mat-color($primary,0.3)));
-
-    $theme:map-merge($theme,(background:$background));
-    @include theme($theme);
+    @include theme($theme,mat-color($primary,0.3));
 }
 
 
@@ -65,7 +65,7 @@
     $accent:  mat-palette($mat-light-blue);
     $warn:    mat-palette($mat-red);
     $theme: mat-dark-theme($primary, $accent, $warn);
-    @include theme($theme);
+    @include theme($theme,mat-color(map-get($theme, background),background));
 }
 
 body:not(.app-dark-theme){
