@@ -1,6 +1,5 @@
 import {
   Component,
-  HostListener,
   OnInit,
   OnDestroy
 } from '@angular/core';
@@ -18,11 +17,33 @@ import { MdSnackBar } from '@angular/material';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit, OnDestroy {
+  get isDarkTheme(): boolean {
+    return document.body.classList.contains('app-dark-theme');
+  }
+
+  set isDarkTheme(value: boolean) {
+    switch (value) {
+      case true:
+        localStorage.setItem('theme', 'dark');
+        document.body.classList.add('app-dark-theme')
+        break;
+      case false:
+        localStorage.setItem('theme', 'light');
+        document.body.classList.remove('app-dark-theme')
+        break;
+    }
+  }
+
   constructor(public user: UserService,
     private api: AtApiService,
     public router: Router,
     public snackBar: MdSnackBar) {
     setInterval(() => this.save(), 30 * 1000);
+    this.isDarkTheme = localStorage.getItem('theme') === 'dark';
+  }
+
+  changeTheme() {
+    this.isDarkTheme = !this.isDarkTheme;
   }
 
   async ngOnInit() {
@@ -48,12 +69,6 @@ export class AppComponent implements OnInit, OnDestroy {
   logout() {
     this.user.ud.next(null);
     localStorage.removeItem('token');
-  }
-
-  @HostListener('window:beforeunload')
-  beforeUnloadHander() {
-    this.save();
-    return 'ページを移動しますか？';
   }
 
   async save() {

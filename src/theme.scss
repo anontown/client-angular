@@ -10,6 +10,12 @@
     a.app-link{
         @include link-color($theme);
     }
+    
+    &{
+        $background-color: mat-color(map-get($theme, background),background);
+        background-color: $background-color;
+    }
+
     @include angular-material-theme($theme);
     @include app-components-theme($theme);
     @include app-dialogs-theme($theme);
@@ -44,6 +50,12 @@
     $accent:  mat-palette($mat-light-blue);
     $warn:    mat-palette($mat-red);
     $theme: mat-light-theme($primary, $accent, $warn);
+
+    //バックグラウンドカラー変更
+    $background:map-get($theme,background);
+    $background:map-merge($background,(background: mat-color($primary,0.3)));
+
+    $theme:map-merge($theme,(background:$background));
     @include theme($theme);
 }
 
@@ -56,4 +68,10 @@
     @include theme($theme);
 }
 
-@include light-theme();
+body:not(.app-dark-theme){
+    @include light-theme();
+}
+
+body.app-dark-theme{
+    @include dark-theme();
+}

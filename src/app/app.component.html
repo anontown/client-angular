@@ -1,6 +1,7 @@
 <md-menu #menu="mdMenu">
   <button md-menu-item [routerLink]="['/profiles']">プロフ管理</button>
   <button md-menu-item [routerLink]="['/messages']">お知らせ</button>
+  <button md-menu-item type="button" (click)="changeTheme()">テーマ切り替え</button>
   <button md-menu-item [routerLink]="['/settings/account']">設定</button>
   <a md-menu-item href="https://kgtkr.gitbooks.io/anontown/content/" target="_blank">ドキュメント</a>
   <button md-menu-item (click)="logout()">ログアウト</button>
