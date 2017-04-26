@@ -47,7 +47,7 @@ import {
 } from './dialogs';
 import { ReCaptchaModule } from 'angular2-recaptcha';
 import { AppComponent } from './app.component';
-
+import 'hammerjs';
 import {
   HomePageComponent,
   TopicPageComponent,
