@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import { MaterialModule, OverlayContainer } from '@angular/material';
+import { MaterialModule } from '@angular/material';
 import { ColorPickerModule } from 'ngx-color-picker';
 import {
   MdPipe,
@@ -209,7 +209,4 @@ import { InfiniteScrollDirective } from './directives';
 
 })
 export class AppModule {
-  constructor(overlayContainer: OverlayContainer) {
-    overlayContainer.themeClass = 'app-dark-theme';
-  }
 }

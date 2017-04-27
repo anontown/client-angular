@@ -6,7 +6,7 @@
 @import './app/_app-root-theme.scss';
 @import './_md-theme.scss';
 
-@mixin theme($theme,$background){
+@mixin theme($theme){
     a.app-link{
         @include link-color($theme);
     }
@@ -52,7 +52,8 @@
     $warn:    mat-palette($mat-red);
     $theme: mat-light-theme($primary, $accent, $warn);
 
-    @include theme($theme,mat-color($primary,0.3));
+
+    @include theme($theme);
 }
 
 
@@ -61,7 +62,7 @@
     $accent:  mat-palette($mat-light-blue);
     $warn:    mat-palette($mat-red);
     $theme: mat-dark-theme($primary, $accent, $warn);
-    @include theme($theme,mat-color(map-get($theme, background),background));
+    @include theme($theme);
 }
 
 
