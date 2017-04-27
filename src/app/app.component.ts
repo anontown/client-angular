@@ -25,11 +25,11 @@ export class AppComponent implements OnInit, OnDestroy {
     switch (value) {
       case true:
         localStorage.setItem('theme', 'dark');
-        document.body.classList.add('app-dark-theme')
+        document.body.classList.add('app-dark-theme');
         break;
       case false:
         localStorage.setItem('theme', 'light');
-        document.body.classList.remove('app-dark-theme')
+        document.body.classList.remove('app-dark-theme');
         break;
     }
   }

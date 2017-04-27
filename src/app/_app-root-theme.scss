@@ -1,13 +1,11 @@
 @mixin app-root-theme($theme){
   app-root{
       .tab-nav{
-          $background: mat-color(map-get($theme,background),background);
-          background-color: $background;
+        $background: mat-color(map-get($theme,background),background);
+        background-color: $background;
 
-          md-icon{
-              $color:mat-color(map-get($theme,foreground),text);
-              color:$color;
-          }
+        $color:mat-color(map-get($theme,foreground),text);
+        color:$color;
       }
   }
 }

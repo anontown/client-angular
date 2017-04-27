@@ -10,10 +10,6 @@
     a.app-link{
         @include link-color($theme);
     }
-    
-    &{
-        background-color: $background;
-    }
 
 
     button[md-icon-button] md-icon{
@@ -68,10 +64,9 @@
     @include theme($theme,mat-color(map-get($theme, background),background));
 }
 
-body:not(.app-dark-theme){
-    @include light-theme();
-}
 
-body.app-dark-theme{
+@include light-theme();
+
+.app-dark-theme{
     @include dark-theme();
 }
