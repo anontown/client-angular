@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128">
+  <g fill="white">
+    <path d="
+      M 64 0
+      l -64 64
+      h 24
+      v 64
+      h 80
+      v -64
+      h 24
+      l -64 -64
+      Z"/>
+  </g>
+</svg>

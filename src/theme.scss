@@ -6,15 +6,15 @@
 @import './app/_app-root-theme.scss';
 @import './_md-theme.scss';
 
+@import '~@angular/material/theming';
+
 @mixin theme($theme){
     a.app-link{
         @include link-color($theme);
     }
 
-
-    button[md-icon-button] md-icon{
-        $color:mat-color(map-get($theme,foreground),text);
-        color:$color;
+    *{
+        color:mat-color(map-get($theme,foreground),text);
     }
 
     @include angular-material-theme($theme);
