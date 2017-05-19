@@ -9,7 +9,8 @@ import {
 
 @Component({
   templateUrl: './res.component.html',
-  styleUrls: ['./res.component.scss']
+  styleUrls: ['./res.component.scss'],
+  selector: 'app-page-res'
 })
 export class ResPageComponent implements OnInit {
   res: IResAPI;

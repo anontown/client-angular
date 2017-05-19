@@ -11,6 +11,7 @@
 @import './res/_res-theme.scss';
 @import './settings/_settings-theme.scss';
 @import './topic/_topic-theme.scss';
+@import './topic-create/_topic-create-theme.scss';
 @import './topic-search/_topic-search-theme.scss';
 
 @mixin app-pages-theme($theme){
@@ -27,5 +28,6 @@
     @include app-page-res-theme($theme);
     @include app-page-settings-theme($theme);
     @include app-page-topic-theme($theme);
+    @include app-page-topic-create-theme($theme);
     @include app-page-topic-search-theme($theme);
 }

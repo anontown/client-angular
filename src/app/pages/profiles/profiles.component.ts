@@ -15,7 +15,8 @@ import * as Immutable from 'immutable';
 
 @Component({
   templateUrl: './profiles.component.html',
-  changeDetection: ChangeDetectionStrategy.Default
+  changeDetection: ChangeDetectionStrategy.Default,
+  selector: 'app-page-profiles'
 })
 export class ProfilesPageComponent implements OnInit, OnDestroy {
   profiles: Immutable.List<IProfileAPI>;

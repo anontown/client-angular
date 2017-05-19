@@ -62,7 +62,8 @@ import {
   DevSettingPageComponent,
   AppsSettingPageComponent,
   AccountSettingPageComponent,
-  SettingsPageComponent
+  SettingsPageComponent,
+  TopicCreatePageComponent
 } from './pages';
 
 import { InfiniteScrollDirective } from './directives';
@@ -90,6 +91,10 @@ import { InfiniteScrollDirective } from './directives';
       {
         path: 'topic/search',
         component: TopicSearchPageComponent
+      },
+      {
+        path: 'topic/create',
+        component: TopicCreatePageComponent
       },
       {
         path: 'topic/:id',
@@ -165,6 +170,7 @@ import { InfiniteScrollDirective } from './directives';
     TopicForkDialogComponent,
     TopicSearchPageComponent,
     TopicPageComponent,
+    TopicCreatePageComponent,
     HomePageComponent,
     ProfilesPageComponent,
     NotificationsPageComponent,

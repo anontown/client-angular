@@ -1,6 +1,7 @@
 export * from './home/home.component';
 export * from './topic/topic.component';
 export * from './topic-search/topic-search.component';
+export * from './topic-create/topic-create.component';
 export * from './messages/messages.component';
 export * from './notifications/notifications.component';
 export * from './profiles/profiles.component';
