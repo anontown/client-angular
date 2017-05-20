@@ -66,7 +66,7 @@ import {
   TopicCreatePageComponent
 } from './pages';
 
-import { InfiniteScrollDirective } from './directives';
+import { InfiniteScrollDirective, InfiniteScrollItemDirective } from './directives';
 
 
 @NgModule({
@@ -156,6 +156,7 @@ import { InfiniteScrollDirective } from './directives';
     ReversePipe,
 
     InfiniteScrollDirective,
+    InfiniteScrollItemDirective,
 
     AppComponent,
     ResWriteComponent,

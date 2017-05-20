@@ -48,7 +48,6 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   @ViewChildren('resE') resE: QueryList<ResComponent>;
 
-  private reses = Immutable.List<IResAPI>();
   private limit = 50;
 
   // 全レス読んだか
@@ -69,32 +68,36 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
     private titleService: Title) {
   }
 
+  updateItem$ = new Subject<IResAPI>();
 
-
-  // 他のレスを取得している間はロック
-  private isLock = false;
-  private async lock(call: () => Promise<void>) {
-    if (this.isLock) {
-      return;
-    }
-    this.isLock = true;
-    try {
-      await call();
-    } catch (e) {
-      this.isLock = false;
-      throw e;
-    }
-    // レス数が変わっているはずなので更新
-    try {
-      this.topic = await this.api.findTopicOne({ id: this.topic.id });
-    } catch (_e) {
-      this.snackBar.open('トピック取得に失敗');
-    }
-    this.isLock = false;
+  findNewItem = async () => {
+    let ud = await this.user.ud.take(1).toPromise();
+    return Immutable.List(await this.api.findResNew(ud ? ud.auth : null, {
+      topic: this.topic.id,
+      limit: this.limit
+    }));
   }
 
-  updateRes(res: IResAPI) {
-    this.reses = this.reses.set(this.reses.findIndex((r) => r!.id === res.id), res);
+  findAfterItem = async (max: string) => {
+    let ud = await this.user.ud.take(1).toPromise();
+    return Immutable.List(await this.api.findRes(ud ? ud.auth : null, {
+      topic: this.topic.id,
+      type: 'after',
+      equal: false,
+      date: max,
+      limit: this.limit
+    }));
+  }
+
+  findBeforeItem = async (min: string) => {
+    let ud = await this.user.ud.take(1).toPromise();
+    return Immutable.List(await this.api.findRes(ud ? ud.auth : null, {
+      topic: this.topic.id,
+      type: 'before',
+      equal: false,
+      date: min,
+      limit: this.limit
+    }));
   }
 
   @ViewChild('autoScrollDialog')
@@ -106,10 +109,6 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
   autoScrollMenu() {
     this.dialog.open(this.autoScrollDialog);
-  }
-
-  update(topic: ITopicAPI) {
-    this.topic = topic;
   }
 
   openData() {
@@ -127,6 +126,7 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
 
 
   private socket: SocketIOClient.Socket;
+  updateNew$ = new Subject<void>();
 
   afterViewChecked = new Subject<void>();
   ngAfterViewChecked() {
@@ -139,6 +139,8 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
     clearInterval(this.intervalID);
     this.socket.close();
   }
+
+  scrollNewItem: { id: string, date: string };
 
   async ngOnInit() {
     let first = true;
@@ -158,79 +160,42 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
         this.snackBar.open('トピック取得に失敗');
       }
 
-      let isInit = false;
-      this.subscriptions.push(this.user.ud.subscribe(async (ud) => {
-        if (isInit) {
-          return;
-        }
-        isInit = true;
-        if (ud !== null && ud.storage.topicRead.has(this.topic.id)) {
-          //読んだことあるなら続きから
-          try {
-            await this.lock(async () => {
-              let reses = await this.api.findRes(ud.auth,
-                {
-                  topic: this.topic.id,
-                  type: 'before',
-                  equal: true,
-                  date: (await this.api.findResOne(ud.auth, { id: (ud.storage.topicRead.get(this.topic.id).res) })).date,
-                  limit: this.limit
-                })
-              if (reses.length !== this.limit) {
-                this.isReadAllOld = true;
-              }
-              this.reses = Immutable.List(reses);
-              await this.iScroll.toBottom();
-            });
-          } catch (_e) {
-            this.snackBar.open('レス取得に失敗');
-          }
-          this.afterViewChecked
-            .take(1)
-            .subscribe(() => this.readNew());
+      let ud = await this.user.ud.take(1).toPromise();
+      if (ud) {
+        let topicRead = ud.storage.topicRead.get(this.topic.id);
+        if (topicRead) {
+          let readRes = await this.api.findResOne(ud.auth, {
+            id: topicRead.res
+          });
+
+          this.scrollNewItem = {
+            id: readRes.id,
+            date: readRes.date
+          };
         } else {
-          //読んだことないなら最新レス
-          try {
-            await this.findNew();
-          } catch (_e) {
-            this.snackBar.open('レス取得に失敗');
-          }
+          this.scrollNewItem = null;
         }
-      }));
+      } else {
+        this.scrollNewItem = null;
+      }
 
-      this.zone.runOutsideAngular(() => {
-        this.intervalID = setInterval(() => {
-          if (this.isAutoScroll) {
-            this.scrollEl.nativeElement.scrollTop += this.autoScrollSpeed;
-          }
-        }, 100);
-      });
-
-      //自動更新
       this.socket = socketio.connect(Config.serverURL, { forceNew: true });
       this.socket.emit('topic-join', this.topic.id);
       this.socket.on('topic', (msg: string) => {
         if (msg === this.topic.id) {
           this.isReadAllNew = false;
-          this.readNew();
+          this.updateNew$.next();
         }
       });
     });
   }
 
-  @ViewChild('scrollEl')
-  scrollEl: ElementRef;
-
-  scrollSave(iel: IInfiniteScrollElement) {
-    if (iel === null || !this.user.ud.getValue()) {
-      return;
-    }
-    let rc = this.resE.find(x => x.elementRef.nativeElement === iel.el);
-    if (!rc) {
+  scrollNewItemChange(item: { id: string, date: string }) {
+    if (!item || !this.user.ud.getValue()) {
       return;
     }
 
-    this.storageSave(rc.res.id);
+    this.storageSave(item.id);
   }
 
   storageSave(res: string | null) {
@@ -242,10 +207,10 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
       if (ud.storage.topicRead.has(this.topic.id)) {
         res = ud.storage.topicRead.get(this.topic.id).res;
       } else {
-        if (this.reses.size === 0) {
+        if (this.infiniteScroll.list.size === 0) {
           return;
         }
-        res = this.reses.first().id;
+        res = this.infiniteScroll.list.first().id;
       }
     }
     let storage = ud.storage;
@@ -258,28 +223,8 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   private subscriptions: Subscription[] = [];
 
-  private async findNew() {
-    let ud = this.user.ud.getValue();
-    try {
-      await this.lock(async () => {
-        let reses = await this.api.findResNew(ud ? ud.auth : null,
-          {
-            topic: this.topic.id,
-            limit: this.limit
-          });
-        if (reses.length !== this.limit) {
-          this.isReadAllNew = true;
-        }
-        this.reses = Immutable.List(reses);
-        await this.iScroll.toBottom();
-      });
-    } catch (_e) {
-      this.snackBar.open('レス取得に失敗');
-    }
-  }
-
-  @ViewChild('iScroll')
-  iScroll: InfiniteScrollDirective;
+  @ViewChild('infiniteScroll')
+  infiniteScroll: InfiniteScrollDirective<IResAPI>;
 
   openFork() {
     let dia = this.dialog.open(TopicForkDialogComponent);
@@ -293,75 +238,6 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
     });
   }
 
-  async readNew() {
-    let ud = this.user.ud.getValue();
-    if (this.isReadAllNew) {
-      return;
-    }
-    try {
-      if (this.reses.size === 0) {
-        this.findNew();
-      } else {
-        await this.lock(async () => {
-          let reses = await this.api.findRes(ud ? ud.auth : null,
-            {
-              topic: this.topic.id,
-              type: 'after',
-              equal: false,
-              date: this.reses.first().date,
-              limit: this.limit
-            }
-          );
-          if (reses.length !== this.limit) {
-            this.isReadAllNew = true;
-          }
-          this.reses = Immutable.List(reses.concat(this.reses.toArray()));
-        });
-      }
-      this.cdr.markForCheck();
-    } catch (_e) {
-      this.snackBar.open('レス取得に失敗');
-    }
-  }
-
-  async readOld() {
-    let ud = this.user.ud.getValue();
-    if (this.isReadAllOld) {
-      return;
-    }
-    try {
-      if (this.reses.size === 0) {
-        this.findNew();
-      } else {
-        //一番下のレスと座標を取得
-        let el = await this.iScroll.getTopElement();
-
-        await this.lock(async () => {
-          let reses = await this.api.findRes(ud ? ud.auth : null,
-            {
-              topic: this.topic.id,
-              type: 'before',
-              equal: false,
-              date: this.reses.last().date,
-              limit: this.limit
-            }
-          );
-          if (reses.length !== this.limit) {
-            this.isReadAllOld = true;
-          }
-          this.reses = Immutable.List(this.reses.toArray().concat(reses));
-
-          if (el) {
-            this.iScroll.setTopElement(el);
-          }
-        });
-      }
-      this.cdr.markForCheck();
-    } catch (_e) {
-      this.snackBar.open('レス取得に失敗');
-    }
-  }
-
   async favo() {
     let ud = this.user.ud.getValue();
     let storage = ud!.storage;
@@ -371,6 +247,6 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   get isFavo(): boolean {
-    return this.user.ud.getValue() !.storage.topicFavo.has(this.topic.id)
+    return this.user.ud.getValue()!.storage.topicFavo.has(this.topic.id)
   }
 }

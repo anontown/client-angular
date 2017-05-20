@@ -6,23 +6,30 @@ import {
   EventEmitter,
   OnInit,
   OnDestroy,
-  ViewChildren,
-  QueryList
+  ContentChildren,
+  QueryList,
+  NgZone
 } from '@angular/core';
 import { InfiniteScrollItemDirective } from './infinite-scroll-item.directive';
-import { Observable, Subscription } from 'rxjs';
+import {
+  Observable,
+  Subscription
+} from 'rxjs';
 import * as Immutable from 'immutable';
+
+type TItem = { id: string, date: string };
 
 export interface IInfiniteScrollElement {
   el: HTMLElement;
   y: number;
+  item: TItem;
 }
 
 @Directive({
   selector: '[appInfiniteScroll]',
   exportAs: 'infiniteScroll'
 })
-export class InfiniteScrollDirective<T extends { id: string, date: string }> implements OnInit, OnDestroy {
+export class InfiniteScrollDirective<T extends TItem> implements OnInit, OnDestroy {
   /**
    * アイテムリスト
    * 新しいアイテムが下
@@ -70,21 +77,23 @@ export class InfiniteScrollDirective<T extends { id: string, date: string }> imp
   @Input() newItem: 'top' | 'bottom' = 'top';
 
   /**
-   * 初期化アイテム設定をリクエスト
+   * 最新アイテム設定をリクエスト
    */
-  @Input() findInitItem: () => Promise<Immutable.List<T>> =
+  @Input() findNewItem: () => Promise<Immutable.List<T>> =
   () => Promise.resolve(Immutable.List());
 
   /**
    * 新規アイテム追加をリクエスト
    */
-  @Input() findNewItem: (max: string) => Promise<Immutable.List<T>> =
+  @Input() findAfterItem: (max: string) => Promise<Immutable.List<T>> =
   () => Promise.resolve(Immutable.List());
+
+  @Input() afterViewChecked: Observable<void>;
 
   /**
    * 古いアイテム追加をリクエスト
    */
-  @Input() findOldItem: (min: string) => Promise<Immutable.List<T>> =
+  @Input() findBeforeItem: (min: string) => Promise<Immutable.List<T>> =
   () => Promise.resolve(Immutable.List());
 
   /**
@@ -96,6 +105,39 @@ export class InfiniteScrollDirective<T extends { id: string, date: string }> imp
    * スクロールが止まって何ミリ秒後に更新イベントを送るか
    */
   @Input() debounceTime = 500;
+
+  @Input() autoScrollSpeed = 15;
+
+  @Input() isAutoScroll = false;
+
+  @Output()
+  scrollNewItemChange = new EventEmitter<TItem>();
+
+  @Input()
+  set scrollNewItem(val: TItem | null) {
+    (async () => {
+      if (val) {
+        await this._lock(async () => {
+          this.list = await this.findBeforeItem(val.date);
+
+          await this.afterViewChecked.take(1).toPromise();
+
+          switch (this.newItem) {
+            case 'top':
+              await this.toTop();
+              break;
+            case 'bottom':
+              await this.toBottom();
+              break;
+          }
+        });
+
+        await this.findAfter();
+      } else {
+        await this.findNew();
+      }
+    })();
+  }
 
   /**
    * アイテム更新Observable
@@ -126,7 +168,7 @@ export class InfiniteScrollDirective<T extends { id: string, date: string }> imp
   set updateNew$(val: Observable<void>) {
     this._updateNewSub.unsubscribe();
     this._updateNewSub = val.subscribe(() => {
-      this.findNew();
+      this.findAfter();
     });
     this._updateNew$ = val;
   }
@@ -134,7 +176,7 @@ export class InfiniteScrollDirective<T extends { id: string, date: string }> imp
     return this._updateNew$;
   }
 
-  @ViewChildren(InfiniteScrollItemDirective) items: QueryList<InfiniteScrollItemDirective>;
+  @ContentChildren(InfiniteScrollItemDirective) items: QueryList<InfiniteScrollItemDirective>;
 
   toTop(): Promise<void> {
     return new Promise<void>((ok) => {
@@ -166,21 +208,25 @@ export class InfiniteScrollDirective<T extends { id: string, date: string }> imp
   getTopElement(): Promise<IInfiniteScrollElement> {
     return new Promise<IInfiniteScrollElement>((resolve => {
       setTimeout(() => {
-        //最短距離のエレメント
-        let minEl: HTMLElement | null = null;
-        Array.from(this.el.children)
-          .forEach((x: HTMLElement) => {
-            if (minEl === null) {
-              minEl = x;
-            } else if (Math.abs(minEl.getBoundingClientRect().top + minEl.getBoundingClientRect().height / 2) >
-              Math.abs(x.getBoundingClientRect().top + x.getBoundingClientRect().height / 2)) {
-              minEl = x;
+        //最短距離のアイテム
+        let minItem: InfiniteScrollItemDirective | null = null;
+        this.items
+          .forEach(x => {
+            if (minItem === null) {
+              minItem = x;
+            } else if (Math.abs(minItem.el.getBoundingClientRect().top + minItem.el.getBoundingClientRect().height / 2) >
+              Math.abs(x.el.getBoundingClientRect().top + x.el.getBoundingClientRect().height / 2)) {
+              minItem = x;
             }
           });
 
         resolve({
-          el: minEl!,
-          y: minEl!.offsetTop + minEl!.offsetHeight / 2,
+          el: minItem!.el,
+          y: minItem!.el.offsetTop + minItem!.el.offsetHeight / 2,
+          item: {
+            id: minItem!.id,
+            date: minItem!.date,
+          }
         });
       });
     }));
@@ -199,41 +245,35 @@ export class InfiniteScrollDirective<T extends { id: string, date: string }> imp
     return new Promise<IInfiniteScrollElement>((resolve => {
       setTimeout(() => {
         //最短距離のエレメント
-        let minEl: HTMLElement | null = null;
-        Array.from(this.el.children)
-          .forEach((x: HTMLElement) => {
-            if (minEl === null) {
-              minEl = x;
-            } else if (Math.abs(
-              window.innerHeight -
-              (minEl.getBoundingClientRect().top +
-                minEl.getBoundingClientRect().height / 2)
-            ) >
-              Math.abs(
-                window.innerHeight -
-                (x.getBoundingClientRect().top +
-                  minEl.getBoundingClientRect().height / 2)
-              )) {
-              minEl = x;
+        let minItem: InfiniteScrollItemDirective | null = null;
+        this.items
+          .forEach(x => {
+            if (minItem === null) {
+              minItem = x;
+            } else if (Math.abs(window.innerHeight - (minItem.el.getBoundingClientRect().top + minItem.el.getBoundingClientRect().height / 2)) >
+              Math.abs(window.innerHeight - (x.el.getBoundingClientRect().top + minItem.el.getBoundingClientRect().height / 2))) {
+              minItem = x;
             }
           });
 
         resolve({
-          el: minEl!,
-          y: minEl!.offsetTop + minEl!.offsetHeight / 2,
+          el: minItem!.el,
+          y: minItem!.el.offsetTop + minItem!.el.offsetHeight / 2,
+          item: {
+            id: minItem!.id,
+            date: minItem!.date,
+          }
         });
       }, 0);
     }));
   }
 
-  @Output()
-  elementChange = new EventEmitter<{ top: IInfiniteScrollElement, bottom: IInfiniteScrollElement }>();
-
   private subscriptions: Subscription[] = [];
 
   el: HTMLElement;
 
-  constructor(el: ElementRef) {
+  constructor(el: ElementRef,
+    private zone: NgZone) {
     this.el = el.nativeElement;
   }
 
@@ -243,7 +283,14 @@ export class InfiniteScrollDirective<T extends { id: string, date: string }> imp
       .filter(top => top <= this.width)
       .debounceTime(this.debounceTime)
       .subscribe(() => {
-        this.scrollTop.emit();
+        switch (this.newItem) {
+          case 'top':
+            this.findAfter();
+            break;
+          case 'bottom':
+            this.findBefore();
+            break;
+        }
       }));
 
     this.subscriptions.push(Observable.fromEvent(this.el, 'scroll')
@@ -251,17 +298,32 @@ export class InfiniteScrollDirective<T extends { id: string, date: string }> imp
       .filter(bottom => bottom >= this.el.scrollHeight - this.width)
       .debounceTime(this.debounceTime)
       .subscribe(() => {
-        this.scrollBottom.emit();
+        switch (this.newItem) {
+          case 'bottom':
+            this.findAfter();
+            break;
+          case 'top':
+            this.findBefore();
+            break;
+        }
       }));
 
     this.subscriptions.push(Observable.fromEvent(this.el, 'scroll')
       .debounceTime(this.debounceTime)
       .subscribe(async () => {
-        this.elementChange.emit({
-          top: await this.getTopElement(),
-          bottom: await this.getBottomElement()
-        });
+        let newItem = this.newItem === 'top' ? await this.getTopElement() : await this.getBottomElement();
+        this.scrollNewItemChange.emit(newItem.item);
       }));
+
+    this.zone.runOutsideAngular(() => {
+      this.subscriptions.push(Observable
+        .interval(100)
+        .subscribe(() => {
+          if (this.isAutoScroll) {
+            this.el.scrollTop += this.autoScrollSpeed;
+          }
+        }));
+    });
   }
 
   ngOnDestroy() {
@@ -283,29 +345,82 @@ export class InfiniteScrollDirective<T extends { id: string, date: string }> imp
     this._isLock = false;
   }
 
+  private async findAfter(): Promise<void> {
+    if (this.list.size === 0) {
+      await this.findNew();
+    } else {
+      await this._lock(async () => {
+        let ise: IInfiniteScrollElement;
+        switch (this.newItem) {
+          case 'bottom':
+            ise = await this.getBottomElement();
+            break;
+          case 'top':
+            ise = await this.getTopElement();
+            break;
+        }
+
+        this.list = this.list.merge(await this.findAfterItem(this._list.last().date));
+
+        await this.afterViewChecked.take(1).toPromise();
+
+        switch (this.newItem) {
+          case 'bottom':
+            await this.setBottomElement(ise);
+            break;
+          case 'top':
+            await this.setTopElement(ise);
+            break;
+        }
+      });
+    }
+  }
+
+  private async findBefore(): Promise<void> {
+    if (this.list.size === 0) {
+      await this.findNew();
+    } else {
+      await this._lock(async () => {
+        let ise: IInfiniteScrollElement;
+        switch (this.newItem) {
+          case 'bottom':
+            ise = await this.getTopElement();
+            break;
+          case 'top':
+            ise = await this.getBottomElement();
+            break;
+        }
+
+        this.list = this.list.merge(await this.findBeforeItem(this._list.first().date));
+
+        await this.afterViewChecked.take(1).toPromise();
+
+        switch (this.newItem) {
+          case 'bottom':
+            await this.setTopElement(ise);
+            break;
+          case 'top':
+            await this.setBottomElement(ise);
+            break;
+        }
+      });
+    }
+  }
+
   private async findNew(): Promise<void> {
-    if (this.list.size === 0) {
-      await this.findInit();
-    } else {
-      await this._lock(async () => {
-        this.list = await this.findNewItem(this._list.last().date);
-      });
-    }
-  }
-
-  private async findOld(): Promise<void> {
-    if (this.list.size === 0) {
-      await this.findInit();
-    } else {
-      await this._lock(async () => {
-        this.list = await this.findOldItem(this._list.first().date);
-      });
-    }
-  }
-
-  private async findInit(): Promise<void> {
     await this._lock(async () => {
-      this.list = await this.findInitItem();
+      this.list = await this.findNewItem();
+
+      await this.afterViewChecked.take(1).toPromise();
+
+      switch (this.newItem) {
+        case 'bottom':
+          await this.toBottom();
+          break;
+        case 'top':
+          await this.toTop();
+          break;
+      }
     });
   }
 }

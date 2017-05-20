@@ -1,45 +1,80 @@
 <ng-template #autoScrollDialog>
   <md-dialog-content>
-    <button md-icon-button (click)="autoScroll()">
+    <button md-icon-button
+      (click)="autoScroll()">
   <md-icon>{{isAutoScroll?'stop':'play_arrow'}}</md-icon>
 </button>
-    <input type="range" [(ngModel)]="autoScrollSpeed" max="30">
+    <input type="range"
+      [(ngModel)]="autoScrollSpeed"
+      max="30">
   </md-dialog-content>
 </ng-template>
-<app-page [column]="2" *ngIf="topic&&user.ud.getValue()!==undefined">
-  <aside class="sidebar-column" *ngIf="user.ud.getValue()!==null">
+<app-page [column]="2"
+  *ngIf="topic&&user.ud.getValue()!==undefined">
+  <aside class="sidebar-column"
+    *ngIf="user.ud.getValue()!==null">
     <app-topic-favo [simple]="true"></app-topic-favo>
   </aside>
   <main class="main-column">
     <md-card class="header">
       <div class="subject">
-        <md-icon *ngIf="topic.type==='fork'" class="icon">call_split</md-icon>
-        <md-icon *ngIf="topic.type==='one'" class="icon">looks_one</md-icon>
+        <md-icon *ngIf="topic.type==='fork'"
+          class="icon">call_split</md-icon>
+        <md-icon *ngIf="topic.type==='one'"
+          class="icon">looks_one</md-icon>
         {{topic.title}}
       </div>
       <div class="tool">
-        <button md-icon-button (click)="openData()">
+        <button md-icon-button
+          (click)="openData()">
       <md-icon>keyboard_arrow_down</md-icon>
     </button>
-        <button md-icon-button (click)="openFork()" *ngIf="topic.type==='normal'">
+        <button md-icon-button
+          (click)="openFork()"
+          *ngIf="topic.type==='normal'">
       <md-icon>call_split</md-icon>
     </button>
-        <button md-icon-button *ngIf="user.ud.getValue()!==null&&topic.type==='normal'" (click)="openEdit()">
+        <button md-icon-button
+          *ngIf="user.ud.getValue()!==null&&topic.type==='normal'"
+          (click)="openEdit()">
       <md-icon>settings</md-icon>
     </button>
-        <button md-icon-button *ngIf="user.ud.getValue()!==null" (click)="favo()">
+        <button md-icon-button
+          *ngIf="user.ud.getValue()!==null"
+          (click)="favo()">
         <md-icon>{{isFavo?'star':'star_border'}}</md-icon>
     </button>
-        <button md-icon-button (click)="autoScrollMenu()">
+        <button md-icon-button
+          (click)="autoScrollMenu()">
         <md-icon>play_circle_outline</md-icon>
         </button>
       </div>
     </md-card>
-    <div class="reses" #scrollEl [scrollEl]="scrollEl" #iScroll=infiniteScroll appInfiniteScroll (scrollTop)="readOld()" (scrollBottom)="readNew()"
-      (elementChange)="scrollSave($event.bottom)">
-      <app-res #resE *ngFor="let r of reses|reverse" [res]="r" (update)="updateRes($event)"></app-res>
+    <div class="reses"
+      *ngIf="scrollNewItem!==undefined"
+      #infiniteScroll=infiniteScroll
+      appInfiniteScroll
+      [newItem]="'bottom'"
+      [findNewItem]="findNewItem"
+      [findAfterItem]="findAfterItem"
+      [findBeforeItem]="findBeforeItem"
+      [updateItem$]="updateItem$"
+      [updateNew$]="updateNew$"
+      (scrollNewItemChange)="scrollNewItemChange($event)"
+      [scrollNewItem]="scrollNewItem"
+      [isAutoScroll]="isAutoScroll"
+      [autoScrollSpeed]="autoScrollSpeed"
+      [afterViewChecked]="afterViewChecked">
+      <app-res #resE
+        *ngFor="let r of infiniteScroll.list"
+        [res]="r"
+        (update)="updateItem$.next($event)"
+        appInfiniteScrollItem
+        [itemId]="r.id"
+        [itemDate]="r.date"></app-res>
     </div>
-    <md-card *ngIf="user.ud.getValue()!==null&&topic.active" class="res-write">
+    <md-card *ngIf="user.ud.getValue()!==null&&topic.active"
+      class="res-write">
       <app-res-write [topic]="topic"></app-res-write>
     </md-card>
   </main>

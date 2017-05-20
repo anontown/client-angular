@@ -8,24 +8,10 @@ import {
   selector: '[appInfiniteScrollItem]'
 })
 export class InfiniteScrollItemDirective {
-  @Input('itemId') _id: string;
-  @Input('itemDate') _date: number | string | Date;
+  @Input('itemId') id: string;
+  @Input('itemDate') date: string;
 
-  private el: HTMLElement;
-
-  get id(): string {
-    return this._id;
-  }
-
-  get date(): Date {
-    if (typeof this._date === 'string') {
-      return new Date(this._date)
-    } else if (typeof this._date === 'number') {
-      return new Date(this._date);
-    } else {
-      return this._date;
-    }
-  }
+  el: HTMLElement;
 
   get height(): number {
     return this.el.offsetHeight;
