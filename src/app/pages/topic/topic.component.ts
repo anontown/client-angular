@@ -54,8 +54,6 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
   private isReadAllNew = false;
   private isReadAllOld = false;
 
-  private intervalID: any;
-
   constructor(
     public user: UserService,
     private api: AtApiService,
@@ -78,23 +76,23 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
     }));
   }
 
-  findAfterItem = async (max: string) => {
+  findAfterItem = async (max: string, equal: boolean) => {
     let ud = await this.user.ud.take(1).toPromise();
     return Immutable.List(await this.api.findRes(ud ? ud.auth : null, {
       topic: this.topic.id,
       type: 'after',
-      equal: false,
+      equal: equal,
       date: max,
       limit: this.limit
     }));
   }
 
-  findBeforeItem = async (min: string) => {
+  findBeforeItem = async (min: string, equal: boolean) => {
     let ud = await this.user.ud.take(1).toPromise();
     return Immutable.List(await this.api.findRes(ud ? ud.auth : null, {
       topic: this.topic.id,
       type: 'before',
-      equal: false,
+      equal: equal,
       date: min,
       limit: this.limit
     }));
@@ -136,7 +134,6 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
   ngOnDestroy() {
     this.subscriptions.forEach(x => x.unsubscribe());
     this.storageSave(null);
-    clearInterval(this.intervalID);
     this.socket.close();
   }
 
