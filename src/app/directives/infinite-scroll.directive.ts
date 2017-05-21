@@ -51,24 +51,23 @@ export class InfiniteScrollDirective<T extends TItem> implements OnInit, OnDestr
    * 重複要素削除、ソートが行われる
    */
   set list(list: Immutable.List<T>) {
-    this._list =
-      //重複IDの要素削除
-      list.filter((x, i) =>
-        list.findIndex(y => x.id === y.id) === i)
-        //ソート
-        .sort((a, b) => {
-          let aDate = new Date(a.date).valueOf();
-          let bDate = new Date(b.date).valueOf();
-          if (aDate > bDate) {
-            return 1;
-          } else if (aDate < bDate) {
-            return -1;
-          } else {
-            return 0;
-          }
-        })
-        //リストに変換
-        .toList();
+    //重複IDの要素削除
+    this._list = list.filter((x, i) =>
+      list.findIndex(y => x.id === y.id) === i)
+      //ソート
+      .sort((a, b) => {
+        let aDate = new Date(a.date).valueOf();
+        let bDate = new Date(b.date).valueOf();
+        if (aDate > bDate) {
+          return 1;
+        } else if (aDate < bDate) {
+          return -1;
+        } else {
+          return 0;
+        }
+      })
+      //リストに変換
+      .toList();
   }
 
   /**
@@ -272,44 +271,48 @@ export class InfiniteScrollDirective<T extends TItem> implements OnInit, OnDestr
   }
 
   ngOnInit() {
-    this.subscriptions.push(Observable.fromEvent(this.el, 'scroll')
-      .map(() => this.el.scrollTop)
-      .filter(top => top <= this.width)
-      .debounceTime(this.debounceTime)
-      .subscribe(() => {
-        switch (this.newItem) {
-          case 'top':
-            this.findAfter();
-            break;
-          case 'bottom':
-            this.findBefore();
-            break;
-        }
-      }));
-
-    this.subscriptions.push(Observable.fromEvent(this.el, 'scroll')
-      .map(() => this.el.scrollTop + this.el.clientHeight)
-      .filter(bottom => bottom >= this.el.scrollHeight - this.width)
-      .debounceTime(this.debounceTime)
-      .subscribe(() => {
-        switch (this.newItem) {
-          case 'bottom':
-            this.findAfter();
-            break;
-          case 'top':
-            this.findBefore();
-            break;
-        }
-      }));
-
-    this.subscriptions.push(Observable.fromEvent(this.el, 'scroll')
-      .debounceTime(this.debounceTime)
-      .subscribe(async () => {
-        let newItem = this.newItem === 'top' ? await this.getTopElement() : await this.getBottomElement();
-        this.scrollNewItemChange.emit(newItem.item);
-      }));
-
     this.zone.runOutsideAngular(() => {
+      this.subscriptions.push(Observable.fromEvent(this.el, 'scroll')
+        .map(() => this.el.scrollTop)
+        .filter(top => top <= this.width)
+        .debounceTime(this.debounceTime)
+        .subscribe(() => {
+          this.zone.run(() => {
+            switch (this.newItem) {
+              case 'top':
+                this.findAfter();
+                break;
+              case 'bottom':
+                this.findBefore();
+                break;
+            }
+          });
+        }));
+
+      this.subscriptions.push(Observable.fromEvent(this.el, 'scroll')
+        .map(() => this.el.scrollTop + this.el.clientHeight)
+        .filter(bottom => bottom >= this.el.scrollHeight - this.width)
+        .debounceTime(this.debounceTime)
+        .subscribe(() => {
+          this.zone.run(() => {
+            switch (this.newItem) {
+              case 'bottom':
+                this.findAfter();
+                break;
+              case 'top':
+                this.findBefore();
+                break;
+            }
+          });
+        }));
+
+      this.subscriptions.push(Observable.fromEvent(this.el, 'scroll')
+        .debounceTime(this.debounceTime)
+        .subscribe(async () => {
+          let newItem = this.newItem === 'top' ? await this.getTopElement() : await this.getBottomElement();
+          this.scrollNewItemChange.emit(newItem.item);
+        }));
+
       this.subscriptions.push(Observable
         .interval(100)
         .subscribe(() => {
@@ -354,7 +357,9 @@ export class InfiniteScrollDirective<T extends TItem> implements OnInit, OnDestr
             break;
         }
 
-        this.list = this.list.merge(await this.findItem('after', this._list.last().date, false));
+        this.list = this.list
+          .concat(await this.findItem('after', this._list.last().date, false))
+          .toList();
 
         await this.afterViewChecked.take(1).toPromise();
 
@@ -385,7 +390,9 @@ export class InfiniteScrollDirective<T extends TItem> implements OnInit, OnDestr
             break;
         }
 
-        this.list = this.list.merge(await this.findItem('before', this._list.first().date, false));
+        this.list = this.list
+          .concat(await this.findItem('before', this._list.first().date, false))
+          .toList();
 
         await this.afterViewChecked.take(1).toPromise();
 
