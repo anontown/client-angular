@@ -85,16 +85,10 @@ export class InfiniteScrollDirective<T extends TItem> implements OnInit, OnDestr
   /**
    * 新規アイテム追加をリクエスト
    */
-  @Input() findAfterItem: (max: string, equal: boolean) => Promise<Immutable.List<T>> =
+  @Input() findItem: (type: 'before' | 'after', date: string, equal: boolean) => Promise<Immutable.List<T>> =
   () => Promise.resolve(Immutable.List());
 
   @Input() afterViewChecked: Observable<void>;
-
-  /**
-   * 古いアイテム追加をリクエスト
-   */
-  @Input() findBeforeItem: (min: string, equal: boolean) => Promise<Immutable.List<T>> =
-  () => Promise.resolve(Immutable.List());
 
   /**
    * 新しいアイテムを追加する時のスクロール幅の遊び
@@ -118,7 +112,7 @@ export class InfiniteScrollDirective<T extends TItem> implements OnInit, OnDestr
     (async () => {
       if (val) {
         await this._lock(async () => {
-          this.list = await this.findBeforeItem(val.date, true);
+          this.list = await this.findItem('before', val.date, true);
 
           await this.afterViewChecked.take(1).toPromise();
 
@@ -360,7 +354,7 @@ export class InfiniteScrollDirective<T extends TItem> implements OnInit, OnDestr
             break;
         }
 
-        this.list = this.list.merge(await this.findAfterItem(this._list.last().date, false));
+        this.list = this.list.merge(await this.findItem('after', this._list.last().date, false));
 
         await this.afterViewChecked.take(1).toPromise();
 
@@ -391,7 +385,7 @@ export class InfiniteScrollDirective<T extends TItem> implements OnInit, OnDestr
             break;
         }
 
-        this.list = this.list.merge(await this.findBeforeItem(this._list.first().date, false));
+        this.list = this.list.merge(await this.findItem('before', this._list.first().date, false));
 
         await this.afterViewChecked.take(1).toPromise();
 

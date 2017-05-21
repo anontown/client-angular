@@ -76,24 +76,13 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
     }));
   }
 
-  findAfterItem = async (max: string, equal: boolean) => {
+  findItem = async (type: 'after' | 'before', date: string, equal: boolean) => {
     let ud = await this.user.ud.take(1).toPromise();
     return Immutable.List(await this.api.findRes(ud ? ud.auth : null, {
       topic: this.topic.id,
-      type: 'after',
+      type: type,
       equal: equal,
-      date: max,
-      limit: this.limit
-    }));
-  }
-
-  findBeforeItem = async (min: string, equal: boolean) => {
-    let ud = await this.user.ud.take(1).toPromise();
-    return Immutable.List(await this.api.findRes(ud ? ud.auth : null, {
-      topic: this.topic.id,
-      type: 'before',
-      equal: equal,
-      date: min,
+      date,
       limit: this.limit
     }));
   }
