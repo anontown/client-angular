@@ -15,11 +15,9 @@
       background-color: $color;
     }
 
-    .action{
-      .is-vote{
-        $color:mat-color(map-get($theme, accent));
-        color: $color;
-      }
+    .is-vote{
+      $color:mat-color(map-get($theme, accent));
+      color: $color;
     }
   }
 }

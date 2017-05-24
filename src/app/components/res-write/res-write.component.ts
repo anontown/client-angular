@@ -91,10 +91,4 @@ export class ResWriteComponent implements OnInit, OnDestroy {
       }
     }
   }
-
-  isDetail = false;
-
-  detail() {
-    this.isDetail = !this.isDetail;
-  }
 }

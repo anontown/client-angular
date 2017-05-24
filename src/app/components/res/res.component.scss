@@ -12,19 +12,19 @@
   $icon-button-size:16px;
   $icon-size:12px;
 
-  font-size: $icon-size !important;
-  line-height: $icon-size !important;
+  font-size: $icon-size;
+  line-height: $icon-size;
 
   [md-icon-button] {
-    width: $icon-button-size !important;
-    height: $icon-button-size !important;
-    line-height: $icon-button-size !important;
+    width: $icon-button-size;
+    height: $icon-button-size;
+    line-height: $icon-button-size;
   }
 
   md-icon{
-    font-size: $icon-size !important;
-    line-height: $icon-size !important;
-    display: inline !important;
+    font-size: $icon-size;
+    line-height: $icon-size;
+    display: inline;
   }
 }
 
@@ -36,17 +36,29 @@ app-res:last{
 }
 
 md-card{
-  padding: 12px;
+  padding: 8px;
   margin: 1px;
 }
 
 .res-header{
-  padding: 2px;
-
   a{
     text-decoration: none;
     &:hover,&:active{
       text-decoration: underline;
     }
+  }
+}
+
+.res-container{
+  display: flex;
+
+  .res-left{
+    button{
+      display: block;
+    }
+  }
+
+  .res-right{
+
   }
 }

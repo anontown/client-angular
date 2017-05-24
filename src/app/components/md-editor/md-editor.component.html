@@ -1,14 +1,24 @@
-<div *ngIf="!simple">
-  <button md-icon-button (click)="image()" type="button">
+<div>
+  <button md-icon-button
+    (click)="image()"
+    type="button">
     <md-icon>add_a_photo</md-icon>
   </button>
-  <button md-icon-button (click)="oekaki()" type="button">
+  <button md-icon-button
+    (click)="oekaki()"
+    type="button">
     <md-icon>create</md-icon>
   </button>
 </div>
 <md-slide-toggle [(ngModel)]="isPreview">
   Preview
 </md-slide-toggle>
-<textarea #textbox mdInput [(ngModel)]="value" [rows]="rows" wrap="off">
+<textarea #textbox
+  mdInput
+  [(ngModel)]="value"
+  [rows]="rows"
+  wrap="off">
 </textarea>
-<div *ngIf="isPreview" class="preview markdown" [innerHTML]="value|md|html"></div>
+<div *ngIf="isPreview"
+  class="preview markdown"
+  [innerHTML]="value|md|html"></div>

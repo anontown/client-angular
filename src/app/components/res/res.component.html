@@ -1,15 +1,50 @@
-<md-card [ngClass]="{'res-pop':isPop}">
-  <div [ngClass]="{'res-self':isSelf,'res-reply':res.isReply&&!isSelf,'res-header':true}">
-    <a (click)="isReply=!isReply">{{res.name}}</a>
-    <a *ngIf="res.profile!==null" (click)="profileOpen()">[プロフィール]</a>
+<md-menu #menu="mdMenu">
+  <button *ngIf="isSelf&&res.deleteFlag==='active'"
+    (click)="del()"
+    md-menu-item>
+      削除
+    </button>
+</md-menu>
 
-    <a class="app-link" [routerLink]="['/res',res.id]">{{res.date|atDate}}</a>
-    <a (click)="hashClick()">
+<md-card [ngClass]="{'res-pop':isPop}"
+  class="res-container">
+  <div class="res-left">
+    <button type="button"
+      md-icon-button
+      (click)="uv()"
+      [disabled]="isSelf||user.ud.getValue()===null">
+        <md-icon [ngClass]="{'is-vote':res.voteFlag==='uv'}">keyboard_arrow_up</md-icon>
+      </button>
+    <button type="button"
+      md-icon-button
+      (click)="dv()"
+      [disabled]="isSelf||user.ud.getValue()===null">
+        <md-icon [ngClass]="{'is-vote':res.voteFlag==='dv'}">keyboard_arrow_down</md-icon>
+      </button>
+  </div>
+  <div class="res-right">
+    <div [ngClass]="{'res-self':isSelf,'res-reply':res.isReply&&!isSelf,'res-header':true}">
+      <a (click)="isReply=!isReply">{{res.name}}</a>
+      <a *ngIf="res.profile!==null"
+        (click)="profileOpen()">[プロフィール]</a>
+      <a class="app-link"
+        [routerLink]="['/res',res.id]">{{res.date|atDate}}</a>
+      <a (click)="hashClick()">
       HASH:{{res.hash.substr(0,6)}}...
     </a>
-  </div>
-  <div>
-    <span class="action">
+      <span class="action">
+      <span>
+      {{res.uv-res.dv}}ポイント
+    </span>
+      <button type="button"
+        md-icon-button
+        [mdMenuTriggerFor]="menu">
+      <md-icon>keyboard_arrow_down</md-icon>
+    </button>
+      </span>
+    </div>
+    <div>
+      <span class="action">
       <button *ngIf="res.reply!==null" (click)="sendReplyClick()" md-icon-button>
         <md-icon>send</md-icon>
       </button>
@@ -18,32 +53,23 @@
         {{res.replyCount}}
       </button>
     </span>
-    <div [innerHTML]="res.mdtext|html" class="markdown"></div>
-  </div>
-  <div class="res-footer action" *ngIf="user.ud.getValue()!==undefined">
-    <span *ngIf="!isSelf&&user.ud.getValue()!==null&&res.voteFlag!==null">
-      <button (click)="uv()" md-icon-button>
-        <md-icon [ngClass]="{'is-vote':res.voteFlag==='uv'}">thumb_up</md-icon>
-      </button>
-      <span> {{res.uv-res.dv}}</span>
-    <button (click)="dv()" md-icon-button>
-        <md-icon [ngClass]="{'is-vote':res.voteFlag==='dv'}">thumb_down</md-icon>
-      </button>
-    </span>
-    <span *ngIf="isSelf||user.ud.getValue()===null||res.voteFlag===null">
-      <md-icon class="vote">thumbs_up_down</md-icon> {{res.uv-res.dv}}
-    </span>
-    <button *ngIf="isSelf&&res.deleteFlag==='active'" (click)="del()" md-icon-button>
-      <md-icon>delete</md-icon>
-    </button>
+      <div [innerHTML]="res.mdtext|html"
+        class="markdown"></div>
+    </div>
   </div>
   <md-card *ngIf="isReply&&user.ud.getValue()!==null">
-    <app-res-write [topic]="res.topic" [reply]="res.id" (write)="isReply=false"></app-res-write>
+    <app-res-write [topic]="res.topic"
+      [reply]="res.id"
+      (write)="isReply=false"></app-res-write>
   </md-card>
   <div *ngIf="children.size!==0">
-    <md-card *ngIf="childrenMsg!==null" class="children-msg">
+    <md-card *ngIf="childrenMsg!==null"
+      class="children-msg">
       <strong>{{childrenMsg}}</strong>
     </md-card>
-    <app-res *ngFor="let c of children|reverse" [res]="c" (update)="childrenUpdate($event)" [isPop]="true"></app-res>
+    <app-res *ngFor="let c of children|reverse"
+      [res]="c"
+      (update)="childrenUpdate($event)"
+      [isPop]="true"></app-res>
   </div>
 </md-card>

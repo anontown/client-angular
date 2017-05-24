@@ -48,6 +48,10 @@
           (click)="autoScrollMenu()">
         <md-icon>play_circle_outline</md-icon>
         </button>
+        <button md-icon-button
+          (click)="isResWrite = !isResWrite">
+        <md-icon>create</md-icon>
+        </button>
       </div>
     </md-card>
     <div class="reses"
@@ -73,7 +77,8 @@
         [itemDate]="r.date"></app-res>
     </div>
     <md-card *ngIf="user.ud.getValue()!==null&&topic.active"
-      class="res-write">
+      class="res-write"
+      [ngClass]="{hide:!isResWrite}">
       <app-res-write [topic]="topic"></app-res-write>
     </md-card>
   </main>

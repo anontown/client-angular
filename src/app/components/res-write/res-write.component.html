@@ -3,27 +3,35 @@
     <div *ngFor="let e of errors">
       <md-icon color="warn">error</md-icon> {{e.message}}
     </div>
-    <div [ngClass]="{hidden:!isDetail}">
-      <md-input-container>
-        <input mdInput placeholder="名前" [(ngModel)]="name" name="name">
-      </md-input-container>
-      <md-checkbox [(ngModel)]="age" name="age">age</md-checkbox>
-      <md-select placeholder="プロフ" [(ngModel)]="profile" name="profile">
-        <md-option [value]="null" selected>
-          なし
-        </md-option>
-        <md-option *ngFor="let p of profiles" [value]="p.id">
-          ●{{p.sn}} {{p.name}}
-        </md-option>
-      </md-select>
-    </div>
+    <md-input-container>
+      <input mdInput
+        placeholder="名前"
+        [(ngModel)]="name"
+        name="name">
+    </md-input-container>
+    <md-checkbox [(ngModel)]="age"
+      name="age">age</md-checkbox>
+    <md-select placeholder="プロフ"
+      [(ngModel)]="profile"
+      name="profile">
+      <md-option [value]="null"
+        selected>
+        なし
+      </md-option>
+      <md-option *ngFor="let p of profiles"
+        [value]="p.id">
+        ●{{p.sn}} {{p.name}}
+      </md-option>
+    </md-select>
     <div>
-      <button md-icon-button (click)="detail()" type="button">
-          <md-icon>{{isDetail?'arrow_drop_down':'arrow_drop_up'}}</md-icon>
-        </button>
-      <app-md-editor [simple]="!isDetail" [(ngModel)]="text" name="text" (keypress)="key($event)" [maxRows]="5" [minRows]="1">
+      <app-md-editor [(ngModel)]="text"
+        name="text"
+        (keypress)="key($event)"
+        [maxRows]="5"
+        [minRows]="1">
       </app-md-editor>
-      <button type="submit" md-icon-button>
+      <button type="submit"
+        md-icon-button>
         <md-icon>arrow_forward</md-icon>
       </button>
     </div>

@@ -48,6 +48,8 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   @ViewChildren('resE') resE: QueryList<ResComponent>;
 
+  isResWrite = false;
+
   private limit = 50;
 
   // 全レス読んだか

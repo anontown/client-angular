@@ -56,9 +56,6 @@ export class MdEditorComponent implements OnInit, ControlValueAccessor, AfterVie
     return this._value;
   }
 
-  @Input()
-  simple = false;
-
   image() {
     this.dialogOpen(ImageUploadDialogComponent);
   }
