@@ -56,20 +56,20 @@
       <div [innerHTML]="res.mdtext|html"
         class="markdown"></div>
     </div>
-  </div>
-  <md-card *ngIf="isReply&&user.ud.getValue()!==null">
-    <app-res-write [topic]="res.topic"
-      [reply]="res.id"
-      (write)="isReply=false"></app-res-write>
-  </md-card>
-  <div *ngIf="children.size!==0">
-    <md-card *ngIf="childrenMsg!==null"
-      class="children-msg">
-      <strong>{{childrenMsg}}</strong>
+    <md-card *ngIf="isReply&&user.ud.getValue()!==null">
+      <app-res-write [topic]="res.topic"
+        [reply]="res.id"
+        (write)="isReply=false"></app-res-write>
     </md-card>
-    <app-res *ngFor="let c of children|reverse"
-      [res]="c"
-      (update)="childrenUpdate($event)"
-      [isPop]="true"></app-res>
+    <div *ngIf="children.size!==0">
+      <md-card *ngIf="childrenMsg!==null"
+        class="children-msg">
+        <strong>{{childrenMsg}}</strong>
+      </md-card>
+      <app-res *ngFor="let c of children|reverse"
+        [res]="c"
+        (update)="childrenUpdate($event)"
+        [isPop]="true"></app-res>
+    </div>
   </div>
 </md-card>
