@@ -29,7 +29,7 @@ export class AtDatePipe implements PipeTransform {
 
     //一日未満
     if (timespan < 24 * 60 * 60 * 1000) {
-      return Math.floor(timespan / 1000 / 60 / 24) + '時間前';
+      return Math.floor(timespan / 1000 / 60 / 60) + '時間前';
     }
 
     return ('0000' + date.getFullYear()).slice(-4)
