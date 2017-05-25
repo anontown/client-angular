@@ -155,13 +155,13 @@ export class InfiniteScrollDirective<T extends TItem> implements OnInit, OnDestr
   /**
    * websocket等の新着更新通知Observable
    */
-  private _updateNew$: Observable<void> = Observable.empty<void>();
+  private _updateNew$: Observable<T> = Observable.empty<T>();
   private _updateNewSub = this._updateNew$.subscribe();
   @Input()
-  set updateNew$(val: Observable<void>) {
+  set updateNew$(val: Observable<T>) {
     this._updateNewSub.unsubscribe();
-    this._updateNewSub = val.subscribe(() => {
-      this.findAfter();
+    this._updateNewSub = val.subscribe((item) => {
+      this.list = this.list.push(item);
     });
     this._updateNew$ = val;
   }

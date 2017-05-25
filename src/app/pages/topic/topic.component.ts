@@ -13,8 +13,7 @@ import {
   TemplateRef,
 } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subscription, Subject } from 'rxjs';
-import * as socketio from 'socket.io-client';
+import { Subscription, Subject, Observable } from 'rxjs';
 import { MdDialog } from '@angular/material';
 
 import { InfiniteScrollDirective, IInfiniteScrollElement } from '../../directives';
@@ -114,8 +113,7 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
 
-  private socket: SocketIOClient.Socket;
-  updateNew$ = new Subject<void>();
+  updateNew$ = Observable.empty<IResAPI>();
 
   afterViewChecked = new Subject<void>();
   ngAfterViewChecked() {
@@ -125,7 +123,6 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
   ngOnDestroy() {
     this.subscriptions.forEach(x => x.unsubscribe());
     this.storageSave(null);
-    this.socket.close();
   }
 
   scrollNewItem: { id: string, date: string };
@@ -167,14 +164,13 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
         this.scrollNewItem = null;
       }
 
-      this.socket = socketio.connect(Config.serverURL, { forceNew: true });
-      this.socket.emit('topic-join', this.topic.id);
-      this.socket.on('topic', (msg: string) => {
-        if (msg === this.topic.id) {
-          this.isReadAllNew = false;
-          this.updateNew$.next();
-        }
-      });
+      this.updateNew$ = (await this.api.streamUpdateTopic(ud ? ud.auth : null, { id }))
+        .do(x => {
+          console.log(x);
+          this.topic.resCount = x.count;
+          this.storageSave(null);
+        })
+        .map(x => x.res);
     });
   }
 

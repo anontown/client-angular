@@ -18,7 +18,7 @@ import { IAuthUser, IAuthToken } from './auth';
 import { Http, Headers, Response } from '@angular/http';
 import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/toPromise';
-
+import { Observable, Observer } from "rxjs";
 
 export class IAtError {
   message: string;
@@ -34,12 +34,43 @@ export class AtError {
 
 @Injectable()
 export class AtApiService {
-  static serverURL = Config.serverURL;
   constructor(private http: Http) { }
 
+  private stream<T>(name: string, params: any, authToken: IAuthToken | null, authUser: IAuthUser | null, recaptcha: string | null): Promise<Observable<T>> {
+    let query = `name=${encodeURIComponent(name)}&params=${encodeURIComponent(JSON.stringify({
+      authUser,
+      authToken,
+      recaptcha,
+      params
+    }))}`;
+
+    let ws = new WebSocket(Config.socketServerURL + '?' + query);
+    return new Promise<Observable<T>>((resolve, reject) => {
+      ws.onopen = () => {
+        resolve(Observable.create((observer: Observer<T>) => {
+          ws.onclose = () => {
+            observer.complete();
+          };
+
+          ws.onmessage = evt => {
+            observer.next(JSON.parse(evt.data));
+          };
+
+          return () => {
+            ws.close();
+          };
+        }));
+      };
+
+      ws.onerror = () => {
+        reject();
+      };
+    });
+  }
+
   private async request<T>(name: string, params: any, authToken: IAuthToken | null, authUser: IAuthUser | null, recaptcha: string | null): Promise<T> {
-    var url = AtApiService.serverURL + name;
-    var headers = new Headers();
+    let url = Config.serverURL + name;
+    let headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
     let res = await this.http.post(url,
@@ -696,5 +727,12 @@ export class AtApiService {
       null,
       authUser,
       null);
+  }
+
+  streamUpdateTopic(authToken: IAuthToken | null,
+    params: {
+      id: string
+    }) {
+    return this.stream<{ res: IResAPI, count: number }>('topic-update', params, authToken, null, null);
   }
 }
