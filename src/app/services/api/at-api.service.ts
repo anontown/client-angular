@@ -36,7 +36,7 @@ export class AtError {
 export class AtApiService {
   constructor(private http: Http) { }
 
-  private stream<T>(name: string, params: any, authToken: IAuthToken | null, authUser: IAuthUser | null, recaptcha: string | null): Promise<Observable<T>> {
+  private stream<T>(name: string, params: any, authToken: IAuthToken | null, authUser: IAuthUser | null, recaptcha: string | null): Observable<T> {
     let query = `name=${encodeURIComponent(name)}&params=${encodeURIComponent(JSON.stringify({
       authUser,
       authToken,
@@ -44,28 +44,7 @@ export class AtApiService {
       params
     }))}`;
 
-    let ws = new WebSocket(Config.socketServerURL + '?' + query);
-    return new Promise<Observable<T>>((resolve, reject) => {
-      ws.onopen = () => {
-        resolve(Observable.create((observer: Observer<T>) => {
-          ws.onclose = () => {
-            observer.complete();
-          };
-
-          ws.onmessage = evt => {
-            observer.next(JSON.parse(evt.data));
-          };
-
-          return () => {
-            ws.close();
-          };
-        }));
-      };
-
-      ws.onerror = () => {
-        reject();
-      };
-    });
+    return Observable.webSocket<T>(Config.socketServerURL + '?' + query);
   }
 
   private async request<T>(name: string, params: any, authToken: IAuthToken | null, authUser: IAuthUser | null, recaptcha: string | null): Promise<T> {

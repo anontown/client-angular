@@ -164,9 +164,8 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
         this.scrollNewItem = null;
       }
 
-      this.updateNew$ = (await this.api.streamUpdateTopic(ud ? ud.auth : null, { id }))
+      this.updateNew$ = this.api.streamUpdateTopic(ud ? ud.auth : null, { id })
         .do(x => {
-          console.log(x);
           this.topic.resCount = x.count;
           this.storageSave(null);
         })

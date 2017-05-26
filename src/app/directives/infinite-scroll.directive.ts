@@ -324,6 +324,8 @@ export class InfiniteScrollDirective<T extends TItem> implements OnInit, OnDestr
   }
 
   ngOnDestroy() {
+    this._updateItemSub.unsubscribe();
+    this._updateNewSub.unsubscribe();
     this.subscriptions.forEach(x => x.unsubscribe());
   }
 
