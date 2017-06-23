@@ -1,6 +1,7 @@
 <div *ngIf="user.ud.getValue()!==undefined">
   <div>
-    <button md-icon-button (click)="detail()">
+    <button md-icon-button
+      (click)="detail()">
       <md-icon>{{isDetail?'arrow_drop_up':'arrow_drop_down'}}</md-icon>
     </button> {{history.date|atDate}}
     <a (click)="hashClick()">HASH:{{history.hash}}</a>
@@ -9,13 +10,18 @@
     <dt>タイトル</dt>
     <dd>{{history.title}}</dd>
     <dt>カテゴリ</dt>
-    <dd><a class="app-link" [routerLink]="['/topic/search']" [queryParams]="{title:'',tags:history.tags.join(' ')}">{{history.tags.join(',')}}</a></dd>
+    <dd><a class="app-link"
+        [routerLink]="['/topic/search']"
+        [queryParams]="{title:'',tags:history.tags.join(' ')}">{{history.tags.join(',')}}</a></dd>
     <dt>本文</dt>
     <dd>
-      <div [innerHTML]="history.mdtext|html" class="markdown"></div>
+      <div [innerHTML]="history.text|md|html"
+        class="markdown"></div>
     </dd>
   </dl>
   <div *ngIf="hashReses.size!==0">
-    <app-res *ngFor="let r of hashReses" [res]="r" (update)="updateRes($event)"></app-res>
+    <app-res *ngFor="let r of hashReses"
+      [res]="r"
+      (update)="updateRes($event)"></app-res>
   </div>
 </div>

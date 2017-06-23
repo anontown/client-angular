@@ -15,7 +15,9 @@ import { Subscription } from 'rxjs';
 import * as Immutable from 'immutable';
 
 import {
-  UserService, AtApiService,
+  UserService,
+  AtApiService,
+  IProfileAPI,
   IResAPI,
 } from '../../services';
 
@@ -33,6 +35,9 @@ import { MdSnackBar } from '@angular/material';
 export class ResComponent implements OnInit, OnDestroy {
   @Input()
   res: IResAPI;
+
+  @Input()
+  profile: IProfileAPI;
 
   children = Immutable.List<IResAPI>();
 
@@ -99,6 +104,10 @@ export class ResComponent implements OnInit, OnDestroy {
   }
 
   async sendReplyClick() {
+    if (this.res.type !== "normal") {
+      return;
+    }
+
     let ud = this.user.ud.getValue();
     try {
       if (this.children.size !== 0) {
@@ -134,7 +143,7 @@ export class ResComponent implements OnInit, OnDestroy {
   }
 
   async uv() {
-    let ud = this.user.ud.getValue() !;
+    let ud = this.user.ud.getValue()!;
     try {
       switch (this.res.voteFlag) {
         case 'uv':
@@ -162,7 +171,7 @@ export class ResComponent implements OnInit, OnDestroy {
   }
 
   async dv() {
-    let ud = this.user.ud.getValue() !;
+    let ud = this.user.ud.getValue()!;
     try {
       switch (this.res.voteFlag) {
         case 'dv':
@@ -190,7 +199,7 @@ export class ResComponent implements OnInit, OnDestroy {
   }
 
   async del() {
-    let ud = this.user.ud.getValue() !;
+    let ud = this.user.ud.getValue()!;
     try {
       let dialogRef = this.dialog.open(ButtonDialogComponent);
       let com = dialogRef.componentInstance;

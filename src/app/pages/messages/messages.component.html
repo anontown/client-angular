@@ -1,16 +1,19 @@
 <app-page>
   <div *ngIf="user.ud.getValue()!==null&&user.ud.getValue()!==undefined">
     <div>
-      <button (click)="readNew()" md-raised-button>最新</button>
+      <button (click)="readNew()"
+        md-raised-button>最新</button>
     </div>
     <div>
       <md-card *ngFor="let m of msgs">
         <div class="header">{{m.date|atDate}}</div>
-        <div [innerHTML]="m.mdtext|html" class="markdown"></div>
+        <div [innerHTML]="m.text|md|html"
+          class="markdown"></div>
       </md-card>
     </div>
     <div>
-      <button (click)="readOld()" md-raised-button>前</button>
+      <button (click)="readOld()"
+        md-raised-button>前</button>
     </div>
   </div>
   <md-card *ngIf="user.ud.getValue()===null&&user.ud.getValue()!==undefined">

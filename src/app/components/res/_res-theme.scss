@@ -1,5 +1,10 @@
 @mixin app-res-theme($theme){
   app-res{
+    .name-accent{
+      $color:mat-color(map-get($theme, accent),0.8);
+      color: $color;
+    }
+
     .res-pop,.children-msg{
       $color:mat-color(map-get($theme,warn));
       border-color:$color;

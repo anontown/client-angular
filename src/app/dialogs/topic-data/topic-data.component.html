@@ -1,4 +1,5 @@
-<div md-dialog-content *ngIf="user.ud.getValue()!==undefined">
+<div md-dialog-content
+  *ngIf="user.ud.getValue()!==undefined">
   <dl>
     <dt>作成</dt>
     <dd>{{topic.date|atDate}}</dd>
@@ -6,21 +7,27 @@
     <dd>{{topic.update|atDate}}</dd>
     <ng-container *ngIf="topic.type!=='fork'">
       <dt>カテゴリ</dt>
-      <dd><a class="app-link" [routerLink]="['/topic/search']" [queryParams]="{title:'',tags:topic.tags.join(' ')}">{{topic.tags.join(',')}}</a></dd>
+      <dd><a class="app-link"
+          [routerLink]="['/topic/search']"
+          [queryParams]="{title:'',tags:topic.tags.join(' ')}">{{topic.tags.join(',')}}</a></dd>
       <dt>本文</dt>
       <dd>
-        <div [innerHTML]="topic.mdtext|html" class="markdown"></div>
+        <div [innerHTML]="topic.text|md|html"
+          class="markdown"></div>
       </dd>
     </ng-container>
     <ng-container *ngIf="topic.type==='fork'&&parent">
       <dt>派生元</dt>
-      <dd><a class="app-link" [routerLink]="['/topic',parent.id]">{{parent.title}}</a></dd>
+      <dd><a class="app-link"
+          [routerLink]="['/topic',parent.id]">{{parent.title}}</a></dd>
     </ng-container>
     <ng-container *ngIf="topic.type==='normal'">
       <dt>編集履歴</dt>
       <dd>
         <div class="panel-group">
-          <app-topic-history *ngFor="let h of histories" [history]="h" [topic]="topic"></app-topic-history>
+          <app-topic-history *ngFor="let h of histories"
+            [history]="h"
+            [topic]="topic"></app-topic-history>
         </div>
       </dd>
     </ng-container>

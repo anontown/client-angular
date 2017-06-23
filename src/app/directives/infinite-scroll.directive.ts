@@ -162,7 +162,7 @@ export class InfiniteScrollDirective<T extends TItem> implements OnInit, OnDestr
     this._updateNewSub.unsubscribe();
     this._updateNewSub = val.subscribe((item) => {
       this.list = this.list.push(item);
-    });
+    }, () => console.log('err'), () => console.log('com'));
     this._updateNew$ = val;
   }
   get updateNew$() {

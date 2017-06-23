@@ -12,87 +12,102 @@ export interface IHistoryAPI {
   title: string,
   tags: string[],
   text: string,
-  mdtext: string,
   date: string,
   hash: string
 }
-export interface IResAPI {
+
+export type IResAPI = IResNormalAPI | IResHistoryAPI | IResTopicAPI | IResForkAPI | IResDeleteAPI;
+
+export interface IResBaseAPI<T extends ResType> {
   id: string,
   topic: string,
   date: string,
   user: string | null,
-  name: string,
-  text: string,
-  mdtext: string,
-  reply: string | null,
-  deleteFlag: ResDeleteFlag,
   uv: number,
   dv: number,
   hash: string,
-  profile: string | null,
   replyCount: number,
   voteFlag: ResVoteFlag | null,
+  type: T
+}
+
+export interface IResNormalAPI extends IResBaseAPI<"normal"> {
+  name: string | null,
+  text: string,
+  reply: string | null,
+  profile: string | null,
   isReply: boolean | null
 }
 
+export interface IResHistoryAPI extends IResBaseAPI<"history"> {
+  history: string;
+}
+
+export interface IResTopicAPI extends IResBaseAPI<"topic"> {
+}
+
+export interface IResForkAPI extends IResBaseAPI<"fork"> {
+  fork: string;
+}
+
+export interface IResDeleteAPI extends IResBaseAPI<"delete"> {
+  flag: "self" | "freeze";
+}
+
 export type ResVoteFlag = 'uv' | 'dv' | 'not';
-export type ResDeleteFlag = 'active' | 'self' | 'vote' | 'freeze';
+export type ResType = "normal" | "history" | "topic" | "fork" | "delete";
 
 export interface IProfileAPI {
-  id: string,
-  user: string | null,
-  name: string,
-  text: string,
-  mdtext: string,
-  date: string,
-  update: string,
-  sn: string
+  id: string;
+  user: string | null;
+  name: string;
+  text: string;
+  date: string;
+  update: string;
+  sn: string;
 }
 export interface ITopicNormalAPI {
-  id: string,
-  title: string,
-  tags: string[],
-  text: string,
-  mdtext: string,
-  update: string,
-  date: string,
-  resCount: number,
-  type: 'normal',
-  active: boolean
+  id: string;
+  title: string;
+  tags: string[];
+  text: string;
+  update: string;
+  date: string;
+  resCount: number;
+  type: 'normal';
+  active: boolean;
 }
 
 export interface ITopicOneAPI {
-  id: string,
-  title: string,
-  tags: string[],
-  text: string,
-  mdtext: string,
-  update: string,
-  date: string,
-  resCount: number,
-  type: 'one',
-  active: boolean
+  id: string;
+  title: string;
+  tags: string[];
+  text: string;
+  update: string;
+  date: string;
+  resCount: number;
+  type: 'one';
+  active: boolean;
 }
 
 export interface ITopicForkAPI {
-  id: string,
-  title: string,
-  update: string,
-  date: string,
-  resCount: number,
-  type: 'fork',
-  active: boolean,
-  parent: string
+  id: string;
+  title: string;
+  update: string;
+  date: string;
+  resCount: number;
+  type: 'fork';
+  active: boolean;
+  parent: string;
 }
 
 export type TopicType = 'normal' | 'one' | 'fork';
 export type ITopicAPI = ITopicOneAPI | ITopicNormalAPI | ITopicForkAPI;
 export interface IMsgAPI {
-  id: string,
-  receiver: string | null,
-  text: string,
-  mdtext: string,
-  date: string
+  id: string;
+  receiver: string | null;
+  text: string;
+  date: string;
 }
 
 
@@ -100,11 +115,11 @@ export type TokenType = 'master' | 'general';
 export type ITokenAPI = ITokenGeneralAPI | ITokenMasterAPI;
 
 export interface ITokenBaseAPI<T extends TokenType> {
-  id: string,
-  key: string,
-  user: string,
-  date: string,
-  type: T
+  id: string;
+  key: string;
+  user: string;
+  date: string;
+  type: T;
 }
 
 export interface ITokenMasterAPI extends ITokenBaseAPI<'master'> {

@@ -1,5 +1,6 @@
 <md-dialog-content *ngIf="profile&&user.ud.getValue()!==undefined">
     {{profile.name}}●{{profile.sn}}
     <hr>
-    <div [innerHTML]="profile.mdtext|html" class="markdown"></div>
+    <div [innerHTML]="profile.text|md|html"
+        class="markdown"></div>
 </md-dialog-content>

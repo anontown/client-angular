@@ -1,5 +1,5 @@
 <md-menu #menu="mdMenu">
-  <button *ngIf="isSelf&&res.deleteFlag==='active'"
+  <button *ngIf="isSelf&&res.type==='normal'"
     (click)="del()"
     md-menu-item>
       削除
@@ -23,10 +23,18 @@
       </button>
   </div>
   <div class="res-right">
-    <div [ngClass]="{'res-self':isSelf,'res-reply':res.isReply&&!isSelf,'res-header':true}">
-      <a (click)="isReply=!isReply">{{res.name}}</a>
-      <a *ngIf="res.profile!==null"
-        (click)="profileOpen()">[プロフィール]</a>
+    <div [ngClass]="{'res-self':isSelf,'res-reply':res.type==='normal'&&res.isReply&&!isSelf,'res-header':true}">
+      <a (click)="isReply=!isReply">
+        <span *ngIf="res.type==='normal'&&res.name!==null">{{res.name}}</span>
+        <span *ngIf="res.type==='normal'&&res.name===null">名無しさん</span>
+        <span *ngIf="res.type==='history'" class="name-accent">トピックデータ</span>
+        <span *ngIf="res.type==='topic'" class="name-accent">1</span>
+        <span *ngIf="res.type==='fork'" class="name-accent">派生トピック</span>
+        <span *ngIf="res.type==='delete'" class="name-accent">削除</span>
+      </a>
+
+      <a *ngIf="res.type==='normal'&&profile!==null"
+        (click)="profileOpen()">●{{profile.sn}}</a>
       <a class="app-link"
         [routerLink]="['/res',res.id]">{{res.date|atDate}}</a>
       <a (click)="hashClick()">
@@ -45,7 +53,7 @@
     </div>
     <div>
       <span class="action">
-      <button *ngIf="res.reply!==null" (click)="sendReplyClick()" md-icon-button>
+      <button *ngIf="res.type==='normal'&&res.reply!==null" (click)="sendReplyClick()" md-icon-button>
         <md-icon>send</md-icon>
       </button>
       <button (click)="receiveReplyClick()" *ngIf="res.replyCount!==0" md-icon-button>
@@ -53,8 +61,29 @@
         {{res.replyCount}}
       </button>
     </span>
-      <div [innerHTML]="res.mdtext|html"
+      <div *ngIf="res.type==='normal'"
+        [innerHTML]="res.text|md|html"
         class="markdown"></div>
+
+      <div *ngIf="res.type==='history'">
+
+      </div>
+
+      <div *ngIf="res.type==='topic'">
+
+      </div>
+
+      <div *ngIf="res.type==='fork'">
+        <a [routerLink]="['/topic',res.fork]">派生トピック</a>
+      </div>
+
+      <div *ngIf="res.type==='delete'&&res.flag==='self'">
+        投稿者により削除されました。
+      </div>
+
+      <div *ngIf="res.type==='delete'&&res.flag==='freeze'">
+        管理人により削除されました。
+      </div>
     </div>
     <md-card *ngIf="isReply&&user.ud.getValue()!==null">
       <app-res-write [topic]="res.topic"

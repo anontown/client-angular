@@ -221,6 +221,7 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
     });
   }
 
+
   async favo() {
     let ud = this.user.ud.getValue();
     let storage = ud!.storage;
