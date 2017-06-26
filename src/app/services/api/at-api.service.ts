@@ -48,8 +48,39 @@ export class AtApiService {
     return Observable.webSocket<T>(Config.socketServerURL + '?' + query);
   }
 
-  async resesSetProfile(reses: IResAPI[]): Promise<IResAPI<IProfileAPI>[]> {
-    reses.filter(r => r.type === 'normal');
+  async resesSetProfile(reses: IResAPI[], auth: IAuthToken | null): Promise<IResAPI<IProfileAPI>[]> {
+    // TODO: TSでfilter型ガードがサポートされたらキャストを使わない方法に書き換える
+    let profileIDs = Array.from(new Set((reses.filter(r => r.type === 'normal') as IResNormalAPI[])
+      .filter(r => r.profile !== null)
+      .map(r => r.profile)));
+
+    let profiles = new Map<string, IProfileAPI>();
+
+    (await this.findProfileIn(auth, {
+      ids: profileIDs
+    })).forEach(p => profiles.set(p.id, p));
+
+    return reses.map(r => {
+      if (r.type !== 'normal') {
+        return r;
+      } else {
+        return {
+          ...r,
+          profile: profiles.get(r.profile)
+        };
+      }
+    });
+  }
+
+  async resSetProfile(res: IResAPI, auth: IAuthToken | null): Promise<IResAPI<IProfileAPI>> {
+    if (res.type !== 'normal') {
+      return res;
+    } else {
+      return {
+        ...res,
+        profile: await this.findProfileOne(auth, { id: res.profile })
+      };
+    }
   }
 
   private async request<T>(name: string, params: any, authToken: IAuthToken | null, authUser: IAuthUser | null, recaptcha: string | null): Promise<T> {

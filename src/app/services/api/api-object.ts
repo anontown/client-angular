@@ -16,7 +16,7 @@ export interface IHistoryAPI {
   hash: string;
 }
 
-export type IResAPI<TP extends string | IResAPI = string> =
+export type IResAPI<TP extends string | IProfileAPI = string> =
   IResNormalAPI<TP> | IResHistoryAPI | IResTopicAPI | IResForkAPI | IResDeleteAPI;
 
 export interface IResBaseAPI<T extends ResType> {
@@ -32,7 +32,7 @@ export interface IResBaseAPI<T extends ResType> {
   type: T;
 }
 
-export interface IResNormalAPI<TP extends string | IResAPI= string> extends IResBaseAPI<'normal'> {
+export interface IResNormalAPI<TP extends string | IProfileAPI= string> extends IResBaseAPI<'normal'> {
   name: string | null;
   text: string;
   reply: string | null;
