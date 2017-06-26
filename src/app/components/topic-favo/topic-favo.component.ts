@@ -5,7 +5,7 @@ import {
   ChangeDetectionStrategy,
   Input
 } from '@angular/core';
-import { UserService,ITopicAPI, AtApiService } from '../../services';
+import { UserService, ITopicAPI, AtApiService } from '../../services';
 
 import { MdSnackBar } from '@angular/material';
 import * as Immutable from 'immutable';

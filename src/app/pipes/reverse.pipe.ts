@@ -4,7 +4,7 @@ import * as Immutable from 'immutable';
 @Pipe({ name: 'reverse' })
 export class ReversePipe implements PipeTransform {
     transform(value: Immutable.List<any>): any {
-        if(!value){
+        if (!value){
             return value;
         }
         return value.reverse();

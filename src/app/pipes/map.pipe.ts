@@ -6,7 +6,7 @@ export class MapPipe implements PipeTransform {
         if (map === null) {
             return null;
         }
-        var result: { key: any, value: any }[] = [];
+        let result: { key: any, value: any }[] = [];
         map.forEach((value, key) => result.push({ key, value }));
         return result;
     }

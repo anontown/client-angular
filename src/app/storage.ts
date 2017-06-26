@@ -11,36 +11,36 @@ interface StorageJSON1 {
 }
 
 interface StorageJSON2 {
-  ver: '2',
-  topicFav: string[],
-  topicRead: { topic: string, res: string, count: number }[]
+  ver: '2';
+  topicFav: string[];
+  topicRead: { topic: string, res: string, count: number }[];
 }
 
 interface StorageJSON3 {
-  ver: '3',
-  topicFavo: string[],
+  ver: '3';
+  topicFavo: string[];
   topicRead: { [key: string]: { res: string, count: number } };
 }
 
 interface StorageJSON4 {
-  ver: '4',
-  topicFavo: string[],
-  boardFavo: string[],
+  ver: '4';
+  topicFavo: string[];
+  boardFavo: string[];
   topicRead: { [key: string]: { res: string, count: number } };
 }
 
 interface StorageJSON5 {
   //バグでtopicFavoが壊れたのでリセットする用
-  ver: '5',
-  topicFavo: string[],
-  boardFavo: string[],
+  ver: '5';
+  topicFavo: string[];
+  boardFavo: string[];
   topicRead: { [key: string]: { res: string, count: number } };
 }
 
 interface StorageJSON6 {
-  ver: '6',
-  topicFavo: string[],
-  tagsFavo: string[][],
+  ver: '6';
+  topicFavo: string[];
+  tagsFavo: string[][];
   topicRead: { [key: string]: { res: string, count: number } };
 }
 
@@ -101,7 +101,7 @@ export class Storage {
           topic: x.topic,
           res: x.res,
           count: 0
-        }
+        };
       })
     };
   }

@@ -40,7 +40,7 @@ export class InPageComponent implements OnInit {
         id = await this.api.findUserID({ sn: this.sn });
       }
 
-      let token = await this.api.createTokenMaster({ id, pass: this.pass })
+      let token = await this.api.createTokenMaster({ id, pass: this.pass });
       this.user.login(token);
       localStorage.setItem('token', JSON.stringify({
         id: token.id,

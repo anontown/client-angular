@@ -17,6 +17,6 @@ export class TagFavoComponent implements OnInit {
   }
 
   click(tag: Immutable.Set<string>) {
-    this.router.navigate(['/topic/search'], { queryParams: { tags: tag.join(' ') } })
+    this.router.navigate(['/topic/search'], { queryParams: { tags: tag.join(' ') } });
   }
 }

@@ -22,10 +22,10 @@ import { Title } from '@angular/platform-browser';
   selector: 'app-page-topic-create'
 })
 export class TopicCreatePageComponent implements OnInit, OnDestroy {
-  private title = "";
-  private tags = "";
-  private text = "";
-  private type: TopicType = "one";
+  private title = '';
+  private tags = '';
+  private text = '';
+  private type: TopicType = 'one';
   private errors: IAtError[] = [];
 
   constructor(public user: UserService,
@@ -36,7 +36,7 @@ export class TopicCreatePageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.titleService.setTitle("トピック作成");
+    this.titleService.setTitle('トピック作成');
   }
 
   ngOnDestroy() {
@@ -62,12 +62,12 @@ export class TopicCreatePageComponent implements OnInit, OnDestroy {
         tags: this.tags.length === 0 ? [] : this.tags.split(/[\s　\,]+/),
         text: this.text,
       };
-      let topic = this.type === "one" ?
+      let topic = this.type === 'one' ?
         await this.api.createTopicOne(ud.auth, params) :
         await this.api.createTopicNormal(ud.auth, params);
 
       this.errors = [];
-      this.router.navigate(["topic", topic.id]);
+      this.router.navigate(['topic', topic.id]);
     } catch (e) {
       if (e instanceof AtError) {
         this.errors = e.errors;

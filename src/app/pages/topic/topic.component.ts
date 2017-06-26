@@ -200,7 +200,7 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
     storage.topicRead = storage.topicRead.set(this.topic.id, {
       res: res,
       count: this.topic.resCount
-    })
+    });
     this.user.ud.next(ud);
   }
 
@@ -231,6 +231,6 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   get isFavo(): boolean {
-    return this.user.ud.getValue()!.storage.topicFavo.has(this.topic.id)
+    return this.user.ud.getValue()!.storage.topicFavo.has(this.topic.id);
   }
 }

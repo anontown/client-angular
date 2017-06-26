@@ -1,61 +1,62 @@
 export interface IClientAPI {
-  id: string,
-  name: string,
-  url: string,
-  user: string | null
-  date: string,
-  update: string
+  id: string;
+  name: string;
+  url: string;
+  user: string | null;
+  date: string;
+  update: string;
 }
 export interface IHistoryAPI {
-  id: string,
-  topic: string,
-  title: string,
-  tags: string[],
-  text: string,
-  date: string,
-  hash: string
+  id: string;
+  topic: string;
+  title: string;
+  tags: string[];
+  text: string;
+  date: string;
+  hash: string;
 }
 
-export type IResAPI = IResNormalAPI | IResHistoryAPI | IResTopicAPI | IResForkAPI | IResDeleteAPI;
+export type IResAPI<TP extends string | IResAPI = string> =
+  IResNormalAPI<TP> | IResHistoryAPI | IResTopicAPI | IResForkAPI | IResDeleteAPI;
 
 export interface IResBaseAPI<T extends ResType> {
-  id: string,
-  topic: string,
-  date: string,
-  user: string | null,
-  uv: number,
-  dv: number,
-  hash: string,
-  replyCount: number,
-  voteFlag: ResVoteFlag | null,
-  type: T
+  id: string;
+  topic: string;
+  date: string;
+  user: string | null;
+  uv: number;
+  dv: number;
+  hash: string;
+  replyCount: number;
+  voteFlag: ResVoteFlag | null;
+  type: T;
 }
 
-export interface IResNormalAPI extends IResBaseAPI<"normal"> {
-  name: string | null,
-  text: string,
-  reply: string | null,
-  profile: string | null,
-  isReply: boolean | null
+export interface IResNormalAPI<TP extends string | IResAPI= string> extends IResBaseAPI<'normal'> {
+  name: string | null;
+  text: string;
+  reply: string | null;
+  profile: TP | null;
+  isReply: boolean | null;
 }
 
-export interface IResHistoryAPI extends IResBaseAPI<"history"> {
+export interface IResHistoryAPI extends IResBaseAPI<'history'> {
   history: string;
 }
 
-export interface IResTopicAPI extends IResBaseAPI<"topic"> {
+export interface IResTopicAPI extends IResBaseAPI<'topic'> {
 }
 
-export interface IResForkAPI extends IResBaseAPI<"fork"> {
+export interface IResForkAPI extends IResBaseAPI<'fork'> {
   fork: string;
 }
 
-export interface IResDeleteAPI extends IResBaseAPI<"delete"> {
-  flag: "self" | "freeze";
+export interface IResDeleteAPI extends IResBaseAPI<'delete'> {
+  flag: 'self' | 'freeze';
 }
 
 export type ResVoteFlag = 'uv' | 'dv' | 'not';
-export type ResType = "normal" | "history" | "topic" | "fork" | "delete";
+export type ResType = 'normal' | 'history' | 'topic' | 'fork' | 'delete';
 
 export interface IProfileAPI {
   id: string;
@@ -126,15 +127,15 @@ export interface ITokenMasterAPI extends ITokenBaseAPI<'master'> {
 }
 
 export interface ITokenGeneralAPI extends ITokenBaseAPI<'general'> {
-  client: string,
-  active: boolean,
+  client: string;
+  active: boolean;
 }
 export interface IUserAPI {
-  id: string,
-  sn: string
+  id: string;
+  sn: string;
 }
 
 export interface ITokenReqAPI {
-  token: string,
-  key: string
+  token: string;
+  key: string;
 }

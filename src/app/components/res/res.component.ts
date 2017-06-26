@@ -44,7 +44,7 @@ export class ResComponent implements OnInit, OnDestroy {
   isReply = false;
 
   @Input()
-  isPop: boolean = false;
+  isPop = false;
 
   @Output()
   update = new EventEmitter<IResAPI>();
@@ -104,7 +104,7 @@ export class ResComponent implements OnInit, OnDestroy {
   }
 
   async sendReplyClick() {
-    if (this.res.type !== "normal") {
+    if (this.res.type !== 'normal') {
       return;
     }
 

@@ -5,7 +5,7 @@ import {
   OnDestroy,
   ChangeDetectionStrategy
 } from '@angular/core';
-import { UserService,IProfileAPI } from '../../services'
+import { UserService, IProfileAPI } from '../../services';
 
 @Component({
   selector: 'app-dialog-profile',

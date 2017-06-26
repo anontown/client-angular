@@ -26,9 +26,9 @@ export class UserProfileEditComponent implements OnInit, OnDestroy {
 
   private isEdit = false;
 
-  private name = "";
-  private text = "";
-  sn = "";
+  private name = '';
+  private text = '';
+  sn = '';
   private errors: IAtError[] = [];
 
   constructor(public user: UserService,

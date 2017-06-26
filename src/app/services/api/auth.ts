@@ -1,9 +1,9 @@
 export interface IAuthToken {
-    id: string,
-    key: string,
+    id: string;
+    key: string;
 }
 
 export interface IAuthUser {
-    id: string,
+    id: string;
     pass: string;
 }

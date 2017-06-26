@@ -12,13 +12,14 @@ import {
   IClientAPI,
   IHistoryAPI,
   IProfileAPI,
-  ITokenMasterAPI
+  ITokenMasterAPI,
+  IResNormalAPI
 } from './api-object';
 import { IAuthUser, IAuthToken } from './auth';
 import { Http, Headers, Response } from '@angular/http';
 import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/toPromise';
-import { Observable, Observer } from "rxjs";
+import { Observable, Observer } from 'rxjs';
 
 export class IAtError {
   message: string;
@@ -45,6 +46,10 @@ export class AtApiService {
     }))}`;
 
     return Observable.webSocket<T>(Config.socketServerURL + '?' + query);
+  }
+
+  async resesSetProfile(reses: IResAPI[]): Promise<IResAPI<IProfileAPI>[]> {
+    reses.filter(r => r.type === 'normal');
   }
 
   private async request<T>(name: string, params: any, authToken: IAuthToken | null, authUser: IAuthUser | null, recaptcha: string | null): Promise<T> {
@@ -361,7 +366,7 @@ export class AtApiService {
       params,
       null,
       null,
-      null)
+      null);
   }
 
   findHistoryAll(params: {

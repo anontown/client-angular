@@ -23,7 +23,7 @@ import { MdSnackBar } from '@angular/material';
 })
 export class TopicDataDialogComponent implements OnInit, OnDestroy {
   topic: ITopicAPI;
-  parent:ITopicAPI;
+  parent: ITopicAPI;
 
   histories: Immutable.List<IHistoryAPI>;
   constructor(public user: UserService,
@@ -38,7 +38,7 @@ export class TopicDataDialogComponent implements OnInit, OnDestroy {
       } catch (_e) {
         this.snackBar.open('編集履歴取得に失敗');
       }
-    }else if(this.topic.type==='fork'){
+    }else if (this.topic.type === 'fork'){
       try {
         this.parent = await this.api.findTopicOne({ id: this.topic.parent });
       } catch (_e) {

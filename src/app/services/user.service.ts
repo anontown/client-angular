@@ -45,7 +45,7 @@ export class UserService {
 }
 
 export interface IUserData {
-  auth: IAuthToken,
-  token: ITokenMasterAPI,
-  storage: Storage
+  auth: IAuthToken;
+  token: ITokenMasterAPI;
+  storage: Storage;
 }
