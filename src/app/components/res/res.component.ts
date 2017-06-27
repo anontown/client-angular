@@ -34,12 +34,9 @@ import { MdSnackBar } from '@angular/material';
 })
 export class ResComponent implements OnInit, OnDestroy {
   @Input()
-  res: IResAPI;
+  res: IResAPI<IProfileAPI>;
 
-  @Input()
-  profile: IProfileAPI;
-
-  children = Immutable.List<IResAPI>();
+  children = Immutable.List<IResAPI<IProfileAPI>>();
 
   isReply = false;
 
@@ -47,7 +44,7 @@ export class ResComponent implements OnInit, OnDestroy {
   isPop = false;
 
   @Output()
-  update = new EventEmitter<IResAPI>();
+  update = new EventEmitter<IResAPI<IProfileAPI>>();
 
   childrenMsg: string | null = null;
 
@@ -79,7 +76,7 @@ export class ResComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  childrenUpdate(res: IResAPI) {
+  childrenUpdate(res: IResAPI<IProfileAPI>) {
     this.children = this.children.set(this.children.findIndex(r => r!.id === res.id), res);
     this.cdr.markForCheck();
   }
@@ -88,13 +85,13 @@ export class ResComponent implements OnInit, OnDestroy {
     let ud = this.user.ud.getValue();
     try {
       if (this.children.size !== 0) {
-        this.children = Immutable.List<IResAPI>();
+        this.children = Immutable.List<IResAPI<IProfileAPI>>();
         this.childrenMsg = null;
       } else {
-        this.children = Immutable.List(await this.api.findResHash(ud !== null ? ud.auth : null, {
+        this.children = Immutable.List(await this.api.resesSetProfile(await this.api.findResHash(ud !== null ? ud.auth : null, {
           topic: this.res.topic,
           hash: this.res.hash
-        }));
+        }), ud !== null ? ud.auth : null));
         this.childrenMsg = '抽出 HASH:' + this.res.hash;
       }
       this.cdr.markForCheck();
@@ -111,11 +108,11 @@ export class ResComponent implements OnInit, OnDestroy {
     let ud = this.user.ud.getValue();
     try {
       if (this.children.size !== 0) {
-        this.children = Immutable.List<IResAPI>();
+        this.children = Immutable.List<IResAPI<IProfileAPI>>();
       } else {
-        this.children = Immutable.List([await this.api.findResOne(ud !== null ? ud.auth : null, {
+        this.children = Immutable.List([await this.api.resSetProfile(await this.api.findResOne(ud !== null ? ud.auth : null, {
           id: this.res.reply as string
-        })]);
+        }), ud !== null ? ud.auth : null)]);
       }
       this.childrenMsg = null;
       this.cdr.markForCheck();
@@ -128,12 +125,12 @@ export class ResComponent implements OnInit, OnDestroy {
     let ud = this.user.ud.getValue();
     try {
       if (this.children.size !== 0) {
-        this.children = Immutable.List<IResAPI>();
+        this.children = Immutable.List<IResAPI<IProfileAPI>>();
       } else {
-        this.children = Immutable.List(await this.api.findResReply(ud !== null ? ud.auth : null, {
+        this.children = Immutable.List(await this.api.resesSetProfile(await this.api.findResReply(ud !== null ? ud.auth : null, {
           topic: this.res.topic,
           reply: this.res.id
-        }));
+        }), ud !== null ? ud.auth : null));
       }
       this.childrenMsg = null;
       this.cdr.markForCheck();
@@ -147,22 +144,22 @@ export class ResComponent implements OnInit, OnDestroy {
     try {
       switch (this.res.voteFlag) {
         case 'uv':
-          this.update.emit(await this.api.cvRes(ud.auth, {
+          this.update.emit(await this.api.resSetProfile(await this.api.cvRes(ud.auth, {
             id: this.res.id
-          }));
+          }), ud.auth));
           break;
         case 'dv':
           await this.api.cvRes(ud.auth, {
             id: this.res.id
           });
-          this.update.emit(await this.api.uvRes(ud.auth, {
+          this.update.emit(await this.api.resSetProfile(await this.api.uvRes(ud.auth, {
             id: this.res.id
-          }));
+          }), ud.auth));
           break;
         case 'not':
-          this.update.emit(await this.api.uvRes(ud.auth, {
+          this.update.emit(await this.api.resSetProfile(await this.api.uvRes(ud.auth, {
             id: this.res.id
-          }));
+          }), ud.auth));
           break;
       }
     } catch (_e) {
@@ -175,22 +172,23 @@ export class ResComponent implements OnInit, OnDestroy {
     try {
       switch (this.res.voteFlag) {
         case 'dv':
-          this.update.emit(await this.api.cvRes(ud.auth, {
+          this.update.emit(await this.api.resSetProfile(await this.api.cvRes(ud.auth, {
             id: this.res.id
-          }));
+          }), ud.auth));
           break;
         case 'uv':
           await this.api.cvRes(ud.auth, {
             id: this.res.id
           });
-          this.update.emit(await this.api.dvRes(ud.auth, {
+
+          this.update.emit(await this.api.resSetProfile(await await this.api.dvRes(ud.auth, {
             id: this.res.id
-          }));
+          }), ud.auth));
           break;
         case 'not':
-          this.update.emit(await this.api.dvRes(ud.auth, {
+          this.update.emit(await this.api.resSetProfile(await this.api.dvRes(ud.auth, {
             id: this.res.id
-          }));
+          }), ud.auth));
           break;
       }
     } catch (_e) {
@@ -209,9 +207,9 @@ export class ResComponent implements OnInit, OnDestroy {
       let result: boolean = await dialogRef.afterClosed().toPromise();
 
       if (result) {
-        this.update.emit(await this.api.delRes(ud.auth, {
+        this.update.emit(await this.api.resSetProfile(await this.api.delRes(ud.auth, {
           id: this.res.id
-        }));
+        }), ud.auth));
       }
     } catch (_e) {
       this.snackBar.open('レス削除に失敗');
@@ -220,10 +218,14 @@ export class ResComponent implements OnInit, OnDestroy {
 
 
   async profileOpen() {
+    if (this.res.type !== 'normal') {
+      return;
+    }
+
     let ud = this.user.ud.getValue();
     try {
       this.dialog.open(ProfileDialogComponent).componentInstance.profile = await this.api.findProfileOne(ud ? ud.auth : null, {
-        id: this.res.profile as string
+        id: this.res.profile.id
       });
     } catch (_e) {
       this.snackBar.open('プロフ取得に失敗');

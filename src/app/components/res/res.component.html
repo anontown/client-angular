@@ -33,8 +33,8 @@
         <span *ngIf="res.type==='delete'" class="name-accent">削除</span>
       </a>
 
-      <a *ngIf="res.type==='normal'&&profile!==null"
-        (click)="profileOpen()">●{{profile.sn}}</a>
+      <a *ngIf="res.type==='normal'&&res.profile!==null"
+        (click)="profileOpen()">●{{res.profile.sn}}</a>
       <a class="app-link"
         [routerLink]="['/res',res.id]">{{res.date|atDate}}</a>
       <a (click)="hashClick()">

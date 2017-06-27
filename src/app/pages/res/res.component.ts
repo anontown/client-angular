@@ -4,7 +4,8 @@ import {
   UserService,
   IResAPI,
   AtApiService,
-  IAuthToken
+  IAuthToken,
+  IProfileAPI
 } from '../../services';
 
 @Component({
@@ -13,7 +14,7 @@ import {
   selector: 'app-page-res'
 })
 export class ResPageComponent implements OnInit {
-  res: IResAPI;
+  res: IResAPI<IProfileAPI>;
 
   constructor(private api: AtApiService,
     private route: ActivatedRoute,
@@ -31,9 +32,9 @@ export class ResPageComponent implements OnInit {
             token = null;
           }
 
-          this.res = await this.api.findResOne(token, {
+          this.res = await this.api.resSetProfile(await this.api.findResOne(token, {
             id: params['id']
-          });
+          }), token);
         });
 
     });

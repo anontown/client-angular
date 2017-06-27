@@ -23,7 +23,8 @@ import {
   ITopicAPI,
   AtApiService,
   IResAPI,
-  ITopicNormalAPI
+  ITopicNormalAPI,
+  IProfileAPI
 } from '../../services';
 import {
   TopicDataDialogComponent,
@@ -67,31 +68,31 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
     private titleService: Title) {
   }
 
-  updateItem$ = new Subject<IResAPI>();
+  updateItem$ = new Subject<IResAPI<IProfileAPI>>();
 
   findNewItem = async () => {
     let ud = await this.user.ud.take(1).toPromise();
-    return Immutable.List(await this.api.findResNew(ud ? ud.auth : null, {
+    return Immutable.List(await this.api.resesSetProfile(await this.api.findResNew(ud ? ud.auth : null, {
       topic: this.topic.id,
       limit: this.limit
-    }));
+    }), ud ? ud.auth : null));
   }
 
   findItem = async (type: 'after' | 'before', date: string, equal: boolean) => {
     let ud = await this.user.ud.take(1).toPromise();
-    return Immutable.List(await this.api.findRes(ud ? ud.auth : null, {
+    return Immutable.List(await this.api.resesSetProfile(await this.api.findRes(ud ? ud.auth : null, {
       topic: this.topic.id,
       type: type,
       equal: equal,
       date,
       limit: this.limit
-    }));
+    }), ud ? ud.auth : null));
   }
 
   @ViewChild('autoScrollDialog')
   autoScrollDialog: TemplateRef<any>;
   autoScrollSpeed = 15;
-  private isAutoScroll = false;
+  isAutoScroll = false;
   autoScroll() {
     this.isAutoScroll = !this.isAutoScroll;
   }
@@ -113,7 +114,7 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
 
-  updateNew$ = Observable.empty<IResAPI>();
+  updateNew$ = Observable.empty<IResAPI<IProfileAPI>>();
 
   afterViewChecked = new Subject<void>();
   ngAfterViewChecked() {
@@ -169,7 +170,7 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
           this.topic.resCount = x.count;
           this.storageSave(null);
         })
-        .map(x => x.res);
+        .flatMap(async x => await this.api.resSetProfile(x.res, ud ? ud.auth : null));
     });
   }
 
@@ -207,7 +208,7 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
   private subscriptions: Subscription[] = [];
 
   @ViewChild('infiniteScroll')
-  infiniteScroll: InfiniteScrollDirective<IResAPI>;
+  infiniteScroll: InfiniteScrollDirective<IResAPI<IProfileAPI>>;
 
   openFork() {
     let dia = this.dialog.open(TopicForkDialogComponent);

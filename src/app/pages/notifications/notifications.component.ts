@@ -8,6 +8,7 @@ import {
   UserService,
   IResAPI,
   AtApiService,
+  IProfileAPI
 } from '../../services';
 import * as Immutable from 'immutable';
 import { MdSnackBar } from '@angular/material';
@@ -20,7 +21,7 @@ import { Title } from '@angular/platform-browser';
   selector: 'app-page-notifications'
 })
 export class NotificationsPageComponent implements OnInit, OnDestroy {
-  private reses = Immutable.List<IResAPI>();
+  private reses = Immutable.List<IResAPI<IProfileAPI>>();
   private limit = 50;
 
   constructor(
@@ -49,34 +50,34 @@ export class NotificationsPageComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  updateRes(res: IResAPI) {
+  updateRes(res: IResAPI<IProfileAPI>) {
     this.reses.set(this.reses.findIndex((r) => r!.id === res.id), res);
   }
 
   private async findNew() {
-    let ud = this.user.ud.getValue() !;
+    let ud = this.user.ud.getValue()!;
     try {
-      this.reses = Immutable.List(await this.api.findResNoticeNew(ud.auth, {
+      this.reses = Immutable.List(await this.api.resesSetProfile(await this.api.findResNoticeNew(ud.auth, {
         limit: this.limit
-      }));
+      }), ud.auth));
     } catch (_e) {
       this.snackBar.open('レス取得に失敗');
     }
   }
 
   async readNew() {
-    let ud = this.user.ud.getValue() !;
+    let ud = this.user.ud.getValue()!;
     try {
       if (this.reses.size === 0) {
         this.findNew();
       } else {
-        this.reses = Immutable.List((await this.api.findResNotice(ud.auth,
+        this.reses = Immutable.List(await this.api.resesSetProfile(await this.api.findResNotice(ud.auth,
           {
             type: 'after',
             equal: false,
             date: this.reses.first().date,
             limit: this.limit
-          })).concat(this.reses.toArray()));
+          }), ud.auth)).concat(this.reses.toArray());
       }
     } catch (_e) {
       this.snackBar.open('レス取得に失敗');
@@ -84,18 +85,18 @@ export class NotificationsPageComponent implements OnInit, OnDestroy {
   }
 
   async readOld() {
-    let ud = this.user.ud.getValue() !;
+    let ud = this.user.ud.getValue()!;
     try {
       if (this.reses.size === 0) {
         this.findNew();
       } else {
-        this.reses = Immutable.List(this.reses.toArray().concat(await this.api.findResNotice(ud.auth,
+        this.reses = Immutable.List(this.reses.toArray().concat(await this.api.resesSetProfile(await this.api.findResNotice(ud.auth,
           {
             type: 'before',
             equal: false,
             date: this.reses.last().date,
             limit: this.limit
-          })));
+          }), ud.auth)));
       }
     } catch (_e) {
       this.snackBar.open('レス取得に失敗');
