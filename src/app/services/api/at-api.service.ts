@@ -56,9 +56,11 @@ export class AtApiService {
 
     let profiles = new Map<string, IProfileAPI>();
 
-    (await this.findProfileIn(auth, {
-      ids: profileIDs
-    })).forEach(p => profiles.set(p.id, p));
+    if (profileIDs.length !== 0) {
+      (await this.findProfileIn(auth, {
+        ids: profileIDs
+      })).forEach(p => profiles.set(p.id, p));
+    }
 
     return reses.map(r => {
       if (r.type !== 'normal') {
@@ -66,7 +68,7 @@ export class AtApiService {
       } else {
         return {
           ...r,
-          profile: profiles.get(r.profile)
+          profile: r.profile !== null ? profiles.get(r.profile) : null
         };
       }
     });
