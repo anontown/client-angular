@@ -80,7 +80,7 @@ export class AtApiService {
     } else {
       return {
         ...res,
-        profile: await this.findProfileOne(auth, { id: res.profile })
+        profile: res.profile !== null ? await this.findProfileOne(auth, { id: res.profile }) : null
       };
     }
   }
