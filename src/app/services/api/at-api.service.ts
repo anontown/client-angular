@@ -105,7 +105,7 @@ export class AtApiService {
   createRes(authToken: IAuthToken,
     params: {
       topic: string,
-      name: string,
+      name: string | null,
       text: string,
       reply: string | null,
       profile: string | null,

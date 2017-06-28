@@ -64,11 +64,11 @@ export class ResWriteComponent implements OnInit, OnDestroy {
   profiles: IProfileAPI[];
 
   async ok() {
-    let ud = this.user.ud.getValue() !;
+    let ud = this.user.ud.getValue()!;
     try {
       let res = await this.api.createRes(ud.auth, {
         topic: typeof this.topic === 'string' ? this.topic : this.topic.id,
-        name: this.name,
+        name: this.name.length !== 0 ? this.name : null,
         text: this.text,
         reply: this.reply !== null
           ? typeof this.reply === 'string'
