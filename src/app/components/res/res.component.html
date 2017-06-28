@@ -26,9 +26,9 @@
     <div [ngClass]="{'res-self':isSelf,'res-reply':res.type==='normal'&&res.isReply&&!isSelf,'res-header':true}">
       <a (click)="isReply=!isReply">
         <span *ngIf="res.type==='normal'&&res.name!==null">{{res.name}}</span>
-        <span *ngIf="res.type==='normal'&&res.name===null">名無しさん</span>
+        <span *ngIf="res.type==='normal'&&res.name===null&&res.profile===null">名無しさん</span>
         <span *ngIf="res.type==='history'" class="name-accent">トピックデータ</span>
-        <span *ngIf="res.type==='topic'" class="name-accent">1</span>
+        <span *ngIf="res.type==='topic'" class="name-accent">トピ主</span>
         <span *ngIf="res.type==='fork'" class="name-accent">派生トピック</span>
         <span *ngIf="res.type==='delete'" class="name-accent">削除</span>
       </a>
