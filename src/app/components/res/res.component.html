@@ -65,24 +65,38 @@
         [innerHTML]="res.text|md|html"
         class="markdown"></div>
 
-      <div *ngIf="res.type==='history'">
-
+      <div *ngIf="res.type==='history'&&historyRes!==null"
+        class="markdown"
+        [innerHTML]="historyRes.text|md|html">
       </div>
 
-      <div *ngIf="res.type==='topic'">
+      <div *ngIf="res.type==='topic'&&topicRes!==null&&topicRes.type==='one'"
+        class="markdown"
+        [innerHTML]="topicRes.text|md|html">
+      </div>
 
+      <div *ngIf="res.type==='topic'&&topicRes!==null&&topicRes.type==='fork'">
+        <p>
+          派生トピックが建ちました。
+        </p>
       </div>
 
       <div *ngIf="res.type==='fork'">
-        <a [routerLink]="['/topic',res.fork]">派生トピック</a>
+        <p>
+          <a [routerLink]="['/topic',res.fork]">派生トピック</a>
+        </p>
       </div>
 
       <div *ngIf="res.type==='delete'&&res.flag==='self'">
-        投稿者により削除されました。
+        <p>
+          投稿者により削除されました。
+        </p>
       </div>
 
       <div *ngIf="res.type==='delete'&&res.flag==='freeze'">
-        管理人により削除されました。
+        <p>
+          管理人により削除されました。
+        </p>
       </div>
     </div>
     <md-card *ngIf="isReply&&user.ud.getValue()!==null">

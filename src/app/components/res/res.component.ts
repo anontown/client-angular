@@ -19,6 +19,8 @@ import {
   AtApiService,
   IProfileAPI,
   IResAPI,
+  IHistoryAPI,
+  ITopicAPI
 } from '../../services';
 
 import { MdDialog } from '@angular/material';
@@ -33,6 +35,9 @@ import { MdSnackBar } from '@angular/material';
   styleUrls: ['./res.component.scss']
 })
 export class ResComponent implements OnInit, OnDestroy {
+  topicRes: null | ITopicAPI = null;
+  historyRes: null | IHistoryAPI = null;
+
   @Input()
   res: IResAPI<IProfileAPI>;
 
@@ -60,7 +65,7 @@ export class ResComponent implements OnInit, OnDestroy {
 
   private subscription: Subscription;
 
-  ngOnInit() {
+  async ngOnInit() {
     this.subscription = this.user.ud.subscribe((ud) => {
       if (ud !== null) {
         this.isSelf = ud.token.user === this.res.user;
@@ -70,6 +75,15 @@ export class ResComponent implements OnInit, OnDestroy {
       this.cdr.markForCheck();
     });
 
+    if (this.res.type === 'topic') {
+      this.topicRes = await this.api.findTopicOne({ id: this.res.topic });
+      this.cdr.markForCheck();
+    }
+
+    if (this.res.type === 'history') {
+      this.historyRes = await this.api.findHistoryOne({ id: this.res.history });
+      this.cdr.markForCheck();
+    }
   }
 
   ngOnDestroy() {

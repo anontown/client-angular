@@ -22,14 +22,11 @@ import { MdSnackBar } from '@angular/material';
 })
 export class TopicHistoryComponent implements OnInit, OnDestroy {
   @Input()
-  topic: ITopicAPI;
-
-  @Input()
   history: IHistoryAPI;
 
-  private hashReses = Immutable.List<IResAPI>();
+  hashReses = Immutable.List<IResAPI>();
 
-  private isDetail = false;
+  isDetail = false;
 
   detail() {
     this.isDetail = !this.isDetail;
@@ -52,13 +49,13 @@ export class TopicHistoryComponent implements OnInit, OnDestroy {
   }
 
   async hashClick() {
-    let ud = this.user.ud.getValue() !;
+    let ud = this.user.ud.getValue()!;
     try {
       if (this.hashReses.size !== 0) {
         this.hashReses = Immutable.List<IResAPI>();
       } else {
         this.hashReses = Immutable.List(await this.api.findResHash(ud.auth, {
-          topic: this.topic.id,
+          topic: this.history.topic,
           hash: this.history.hash
         }));
 
