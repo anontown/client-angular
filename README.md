@@ -2,7 +2,7 @@
 Anontownのクライアントプログラムです。  
 
 # 使い方
-node.jsが必要です。npmでangular-cliもインストールしておいて下さい。
+node.jsが必要です。npmで`@angular/cli`もインストールしておいて下さい。
 ```
 $ git clone https://github.com/kgtkr/anontown-client.git
 $ npm i
