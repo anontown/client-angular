@@ -1,31 +1,25 @@
-# AnontownClient
+# Anontown Client
+Anontownのクライアントプログラムです。  
 
-This project was generated with [angular-cli](https://github.com/angular/angular-cli) version 1.0.0-beta.24.
+# 使い方
+node.jsが必要です。npmで`@angular/cli`もインストールしておいて下さい。
+```
+$ git clone https://github.com/kgtkr/anontown-client.git
+$ npm i
+$ npm start 
+```
 
-## Development server
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+# 設定ファイルの編集
+`./src/app/config.ts`が設定ファイルです。  
+`static 設定項目 = environment.production ? 本番用の値 : 開発用の値;`となっています。
 
-## Code scaffolding
+# 公式サーバー
+https://anontown.com/  
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive/pipe/service/class/module`.
+# 寄付
+サーバーの運営費などの為に寄付して下さると助かります。
 
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-Before running the tests make sure you are serving the app via `ng serve`.
-
-## Deploying to Github Pages
-
-Run `ng github-pages:deploy` to deploy to Github Pages.
-
-## Further help
-
-To get more help on the `angular-cli` use `ng help` or go check out the [Angular-CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+|種類|アドレス|
+|:--|:--|
+|bitcoin|1BzX1EtapU8kFubJnBwxbR1t3icpVneMZo|
+|monacoin|MSp6GRJNfrkewkqezL3NuTUuYysuZ1eZ3u|
