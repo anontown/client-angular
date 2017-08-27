@@ -4,7 +4,7 @@ Anontownのクライアントプログラムです。  
 # 使い方
 node.jsが必要です。npmで`@angular/cli`もインストールしておいて下さい。
 ```
-$ git clone https://github.com/kgtkr/anontown-client.git
+$ git clone https://github.com/anontown/client.git
 $ npm i
 $ npm start 
 ```
