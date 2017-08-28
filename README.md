@@ -1,4 +1,6 @@
 # Anontown Client
+
+[![Join the chat at https://gitter.im/anontown/client](https://badges.gitter.im/anontown/client.svg)](https://gitter.im/anontown/client?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 Anontownのクライアントプログラムです。  
 
 # 使い方
