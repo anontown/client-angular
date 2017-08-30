@@ -2,21 +2,29 @@ const markdown = require('remark-parse');
 const unified = require('unified');
 const breaks = require('remark-breaks');
 const emoji = require('remark-emoji');
+const disable = require('remark-disable-tokenizers');
 
-function MdParse(text: string): Root {
+export function mdParse(text: string): Root {
   return unified()
     .use(markdown)
+    .use(disable, {
+      block: [
+        'html',
+        'footnote'
+      ],
+      inline: [
+      ]
+    })
     .use(breaks)
     .use(emoji)
     .parse(text);
 }
 
-type MdNode = Paragraph |
+export type MdNode = Paragraph |
   Blockquote |
   Heading |
   Code |
   InlineCode |
-  HTML |
   List |
   ListItem |
   Table |
@@ -39,7 +47,7 @@ interface IText {
   value: string;
 }
 
-interface Root extends IParent {
+export interface Root extends IParent {
   type: 'root';
 }
 
@@ -63,10 +71,6 @@ interface Code extends IText {
 
 interface InlineCode extends IText {
   type: "inlineCode";
-}
-
-interface HTML extends IText {
-  type: "html";
 }
 
 interface List extends IParent {

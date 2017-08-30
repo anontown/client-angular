@@ -1,0 +1,167 @@
+<ng-container *ngFor="let c of _ast.children">
+  <ng-container *ngTemplateOutlet="node; context: {ast:c}"></ng-container>
+</ng-container>
+
+<ng-template #node
+  let-ast="ast">
+  <ng-container [ngSwitch]="ast.type">
+    <ng-container *ngSwitchCase="'paragraph'">
+      <p>
+        <ng-container *ngFor="let c of ast.children">
+          <ng-container *ngTemplateOutlet="node; context: {ast:c}"></ng-container>
+        </ng-container>
+      </p>
+    </ng-container>
+    <ng-container *ngSwitchCase="'blockquote'">
+      <blockquote>
+        <ng-container *ngFor="let c of ast.children">
+          <ng-container *ngTemplateOutlet="node; context: {ast:c}"></ng-container>
+        </ng-container>
+      </blockquote>
+    </ng-container>
+    <ng-container *ngSwitchCase="'heading'">
+      <ng-container [ngSwitch]="ast.depth">
+        <h1 *ngSwitchCase="1">
+          <ng-container *ngFor="let c of ast.children">
+            <ng-container *ngTemplateOutlet="node; context: {ast:c}"></ng-container>
+          </ng-container>
+        </h1>
+        <h2 *ngSwitchCase="2">
+          <ng-container *ngFor="let c of ast.children">
+            <ng-container *ngTemplateOutlet="node; context: {ast:c}"></ng-container>
+          </ng-container>
+        </h2>
+        <h3 *ngSwitchCase="3">
+          <ng-container *ngFor="let c of ast.children">
+            <ng-container *ngTemplateOutlet="node; context: {ast:c}"></ng-container>
+          </ng-container>
+        </h3>
+        <h4 *ngSwitchCase="4">
+          <ng-container *ngFor="let c of ast.children">
+            <ng-container *ngTemplateOutlet="node; context: {ast:c}"></ng-container>
+          </ng-container>
+        </h4>
+        <h5 *ngSwitchCase="5">
+          <ng-container *ngFor="let c of ast.children">
+            <ng-container *ngTemplateOutlet="node; context: {ast:c}"></ng-container>
+          </ng-container>
+        </h5>
+        <h6 *ngSwitchCase="6">
+          <ng-container *ngFor="let c of ast.children">
+            <ng-container *ngTemplateOutlet="node; context: {ast:c}"></ng-container>
+          </ng-container>
+        </h6>
+      </ng-container>
+    </ng-container>
+    <ng-container *ngSwitchCase="'code'">
+      <pre>
+        <code>{{ast.value}}</code>
+      </pre>
+    </ng-container>
+    <ng-container *ngSwitchCase="'inlineCode'">
+      <code>{{ast.value}}</code>
+    </ng-container>
+    <ng-container *ngSwitchCase="'list'">
+      <ng-container [ngSwitch]="ast.ordered">
+        <ul *ngSwitchCase="false">
+          <ng-container *ngFor="let c of ast.children">
+            <ng-container *ngTemplateOutlet="node; context: {ast:c}"></ng-container>
+          </ng-container>
+        </ul>
+        <ol *ngSwitchCase="true">
+          <ng-container *ngFor="let c of ast.children">
+            <ng-container *ngTemplateOutlet="node; context: {ast:c}"></ng-container>
+          </ng-container>
+        </ol>
+      </ng-container>
+    </ng-container>
+    <ng-container *ngSwitchCase="'listItem'">
+      <li>
+        <ng-container *ngFor="let c of ast.children">
+          <ng-container *ngTemplateOutlet="node; context: {ast:c}"></ng-container>
+        </ng-container>
+      </li>
+    </ng-container>
+    <ng-container *ngSwitchCase="'table'">
+      <table>
+        <ng-container *ngFor="let c of ast.children">
+          <ng-container *ngTemplateOutlet="node; context: {ast:c}"></ng-container>
+        </ng-container>
+      </table>
+    </ng-container>
+    <ng-container *ngSwitchCase="'tableRow'">
+      <tr>
+        <ng-container *ngFor="let c of ast.children">
+          <ng-container *ngTemplateOutlet="node; context: {ast:c}"></ng-container>
+        </ng-container>
+      </tr>
+    </ng-container>
+    <ng-container *ngSwitchCase="'tableCell'">
+      <td>
+        <ng-container *ngFor="let c of ast.children">
+          <ng-container *ngTemplateOutlet="node; context: {ast:c}"></ng-container>
+        </ng-container>
+      </td>
+    </ng-container>
+    <ng-container *ngSwitchCase="'thematicBreak'">
+      <hr>
+    </ng-container>
+    <ng-container *ngSwitchCase="'break'">
+      <br>
+    </ng-container>
+    <ng-container *ngSwitchCase="'emphasis'">
+      <em>
+        <ng-container *ngFor="let c of ast.children">
+          <ng-container *ngTemplateOutlet="node; context: {ast:c}"></ng-container>
+        </ng-container>
+      </em>
+    </ng-container>
+    <ng-container *ngSwitchCase="'strong'">
+      <strong>
+        <ng-container *ngFor="let c of ast.children">
+          <ng-container *ngTemplateOutlet="node; context: {ast:c}"></ng-container>
+        </ng-container>
+      </strong>
+    </ng-container>
+    <ng-container *ngSwitchCase="'delete'">
+      <del>
+        <ng-container *ngFor="let c of ast.children">
+          <ng-container *ngTemplateOutlet="node; context: {ast:c}"></ng-container>
+        </ng-container>
+      </del>
+    </ng-container>
+    <ng-container *ngSwitchCase="'link'">
+      <ng-container [ngSwitch]="urlParse(ast.url)">
+        <a *ngSwitchCase="'normal'"
+          [attr.title]="ast.title"
+          [attr.href]="ast.url"
+          target="_blank">
+          <ng-container *ngFor="let c of ast.children">
+            <ng-container *ngTemplateOutlet="node; context: {ast:c}"></ng-container>
+          </ng-container>
+        </a>
+        <a *ngSwitchCase="'anontown'"
+          [routerLink]="getAnontownPath(ast.url)">
+          <ng-container *ngFor="let c of ast.children">
+            <ng-container *ngTemplateOutlet="node; context: {ast:c}"></ng-container>
+          </ng-container>
+        </a>
+        <img *ngSwitchCase="'img'"
+          [attr.src]="getHttpsUrl(ast.url)">
+        <div *ngSwitchCase="'youtube'"
+          class="youtube">
+          <iframe [attr.src]="getYouTubeURL(ast.url)"
+            frameborder="0"></iframe>
+        </div>
+      </ng-container>
+    </ng-container>
+    <ng-container *ngSwitchCase="'image'">
+      <img [attr.title]="ast.title"
+        [attr.src]="getHttpsUrl(ast.url)"
+        [attr.alt]="ast.alt">
+    </ng-container>
+    <ng-container *ngSwitchCase="'text'">
+      {{ast.value}}
+    </ng-container>
+  </ng-container>
+</ng-template>

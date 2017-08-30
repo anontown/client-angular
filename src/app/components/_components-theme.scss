@@ -2,6 +2,7 @@
 @import './client-add/_client-add-theme.scss';
 @import './client-edit/_client-edit-theme.scss';
 @import './md-editor/_md-editor-theme.scss';
+@import './md/_md-theme.scss';
 @import './page/_page-theme.scss';
 @import './res/_res-theme.scss';
 @import './res-write/_res-write-theme.scss';
@@ -18,6 +19,7 @@
     @include app-client-add-theme($theme);
     @include app-client-edit-theme($theme);
     @include app-md-editor-theme($theme);
+    @include app-md-theme($theme);    
     @include app-page-theme($theme);
     @include app-res-theme($theme);
     @include app-res-write-theme($theme);
