@@ -84,24 +84,29 @@
     </ng-container>
     <ng-container *ngSwitchCase="'table'">
       <table>
-        <ng-container *ngFor="let c of ast.children">
-          <ng-container *ngTemplateOutlet="node; context: {ast:c}"></ng-container>
-        </ng-container>
+        <thead>
+          <tr>
+            <th *ngFor="let cell of ast.children[0].children;let i=index;"
+              [ngStyle]="{'text-align':ast.align[i]}">
+              <ng-container *ngFor="let c of cell.children">
+                <ng-container *ngTemplateOutlet="node; context: {ast:c}"></ng-container>
+              </ng-container>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let row of ast.children;let index=index;">
+            <tr *ngIf="index!==0">
+              <td *ngFor="let cell of row.children;let i=index;"
+                [ngStyle]="{'text-align':ast.align[i]}">
+                <ng-container *ngFor="let c of cell.children">
+                  <ng-container *ngTemplateOutlet="node; context: {ast:c}"></ng-container>
+                </ng-container>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
       </table>
-    </ng-container>
-    <ng-container *ngSwitchCase="'tableRow'">
-      <tr>
-        <ng-container *ngFor="let c of ast.children">
-          <ng-container *ngTemplateOutlet="node; context: {ast:c}"></ng-container>
-        </ng-container>
-      </tr>
-    </ng-container>
-    <ng-container *ngSwitchCase="'tableCell'">
-      <td>
-        <ng-container *ngFor="let c of ast.children">
-          <ng-container *ngTemplateOutlet="node; context: {ast:c}"></ng-container>
-        </ng-container>
-      </td>
     </ng-container>
     <ng-container *ngSwitchCase="'thematicBreak'">
       <hr>
