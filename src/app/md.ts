@@ -1,7 +1,6 @@
 const markdown = require('remark-parse');
 const unified = require('unified');
 const breaks = require('remark-breaks');
-const emoji = require('remark-emoji');
 const disable = require('remark-disable-tokenizers');
 
 export function mdParse(text: string): Root {
@@ -16,7 +15,6 @@ export function mdParse(text: string): Root {
       ]
     })
     .use(breaks)
-    .use(emoji)
     .parse(text);
 }
 
