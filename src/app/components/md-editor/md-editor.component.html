@@ -19,6 +19,5 @@
   [rows]="rows"
   wrap="off">
 </textarea>
-<div *ngIf="isPreview"
-  class="preview markdown"
-  [innerHTML]="value|md|html"></div>
+<app-md *ngIf="isPreview"
+  [text]="value"></app-md>

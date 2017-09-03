@@ -4,7 +4,6 @@
 @import './app/dialogs/_dialogs-theme.scss';
 @import './app/pages/_pages-theme.scss';
 @import './app/_app-root-theme.scss';
-@import './_md-theme.scss';
 
 @import '~@angular/material/theming';
 
@@ -22,7 +21,6 @@
     @include app-dialogs-theme($theme);
     @include app-pages-theme($theme);
     @include app-root-theme($theme);
-    @include md-theme($theme);
 
 
     //スクロールバー

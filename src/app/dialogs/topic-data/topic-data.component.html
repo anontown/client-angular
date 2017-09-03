@@ -12,8 +12,7 @@
           [queryParams]="{title:'',tags:topic.tags.join(' ')}">{{topic.tags.join(',')}}</a></dd>
       <dt>本文</dt>
       <dd>
-        <div [innerHTML]="topic.text|md|html"
-          class="markdown"></div>
+        <app-md [text]="topic.text"></app-md>
       </dd>
     </ng-container>
     <ng-container *ngIf="topic.type==='fork'&&parent">

@@ -61,19 +61,9 @@
         {{res.replyCount}}
       </button>
     </span>
-      <div *ngIf="res.type==='normal'"
-        [innerHTML]="res.text|md|html"
-        class="markdown"></div>
-
-      <div *ngIf="res.type==='history'&&historyRes!==null"
-        class="markdown"
-        [innerHTML]="historyRes.text|md|html">
-      </div>
-
-      <div *ngIf="res.type==='topic'&&topicRes!==null&&topicRes.type==='one'"
-        class="markdown"
-        [innerHTML]="topicRes.text|md|html">
-      </div>
+        <app-md *ngIf="res.type==='normal'" [text]="res.text"></app-md>
+        <app-md *ngIf="res.type==='history'&&historyRes!==null" [text]="historyRes.text"></app-md>
+        <app-md *ngIf="res.type==='topic'&&topicRes!==null&&topicRes.type==='one'" [text]="topicRes.text"></app-md>
 
       <div *ngIf="res.type==='topic'&&topicRes!==null&&topicRes.type==='fork'">
         <p>

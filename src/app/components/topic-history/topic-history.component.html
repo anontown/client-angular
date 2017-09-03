@@ -15,8 +15,7 @@
         [queryParams]="{title:'',tags:history.tags.join(' ')}">{{history.tags.join(',')}}</a></dd>
     <dt>本文</dt>
     <dd>
-      <div [innerHTML]="history.text|md|html"
-        class="markdown"></div>
+      <app-md [text]="history.text"></app-md>
     </dd>
   </dl>
   <div *ngIf="hashReses.size!==0">

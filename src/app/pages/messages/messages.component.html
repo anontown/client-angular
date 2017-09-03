@@ -7,8 +7,7 @@
     <div>
       <md-card *ngFor="let m of msgs">
         <div class="header">{{m.date|atDate}}</div>
-        <div [innerHTML]="m.text|md|html"
-          class="markdown"></div>
+        <app-md [text]="m.text"></app-md>
       </md-card>
     </div>
     <div>

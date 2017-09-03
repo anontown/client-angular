@@ -5,10 +5,8 @@ import { HttpModule } from '@angular/http';
 import { MaterialModule } from '@angular/material';
 import { ColorPickerModule } from 'ngx-color-picker';
 import {
-  MdPipe,
   MapPipe,
   AtDatePipe,
-  HtmlPipe,
   ReversePipe
 } from './pipes';
 import {
@@ -33,7 +31,8 @@ import {
   ClientComponent,
   ClientAddComponent,
   ClientEditComponent,
-  PageComponent
+  PageComponent,
+  MdComponent
 } from './components';
 
 import {
@@ -149,10 +148,8 @@ import { InfiniteScrollDirective, InfiniteScrollItemDirective } from './directiv
     ])
   ],
   declarations: [
-    MdPipe,
     MapPipe,
     AtDatePipe,
-    HtmlPipe,
     ReversePipe,
 
     InfiniteScrollDirective,
@@ -194,7 +191,8 @@ import { InfiniteScrollDirective, InfiniteScrollItemDirective } from './directiv
     AppsSettingPageComponent,
     AccountSettingPageComponent,
     SettingsPageComponent,
-    PageComponent
+    PageComponent,
+    MdComponent
   ],
   // エントリ
   bootstrap: [AppComponent],
