@@ -33,7 +33,6 @@
     "immutable": "^4.0.0-rc.2",
     "ngx-color-picker": "^4.0.0",
     "remark-breaks": "^1.0.0",
-    "remark-disable-tokenizers": "^1.0.6",
     "remark-parse": "^4.0.0",
     "rxjs": "^5.0.1",
     "ts-helpers": "^1.1.1",
