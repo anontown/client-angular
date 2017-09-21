@@ -10,6 +10,9 @@
       (click)="changeTheme()">テーマ切り替え</button>
     <button md-menu-item
       [routerLink]="['/settings/account']">設定</button>
+    <button md-menu-item
+      type="button"
+      (click)="changeCoinHive()">コイン採掘を{{isCoinHive?'無効':'有効'}}にする</button>
     <a md-menu-item
       href="https://document.anontown.com/"
       target="_blank">ドキュメント</a>
