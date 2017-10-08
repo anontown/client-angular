@@ -4,12 +4,10 @@ import {
   ChangeDetectionStrategy,
   Input,
   forwardRef,
-  Output,
-  EventEmitter,
   AfterViewInit
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { MatTabChangeEvent, MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material';
 import {
   ImageUploadDialogComponent,
   OekakiDialogComponent

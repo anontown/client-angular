@@ -19,7 +19,7 @@ import { IAuthUser, IAuthToken } from './auth';
 import { Http, Headers, Response } from '@angular/http';
 import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/toPromise';
-import { Observable, Observer } from 'rxjs';
+import { Observable } from 'rxjs';
 
 export class IAtError {
   message: string;

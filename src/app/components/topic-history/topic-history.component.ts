@@ -8,7 +8,6 @@ import {
 import {
   UserService,
   AtApiService,
-  ITopicAPI,
   IResAPI,
   IHistoryAPI
 } from '../../services';

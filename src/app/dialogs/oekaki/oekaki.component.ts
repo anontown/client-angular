@@ -3,8 +3,7 @@ import {
   OnInit,
   ViewChild,
   ElementRef,
-  AfterViewInit,
-  Output
+  AfterViewInit
 } from '@angular/core';
 
 import * as Immutable from 'immutable';

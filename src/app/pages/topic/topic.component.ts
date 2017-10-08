@@ -4,20 +4,16 @@ import {
   ViewChildren,
   QueryList,
   OnDestroy,
-  NgZone,
   AfterViewChecked,
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   ViewChild,
-  ElementRef,
   TemplateRef,
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription, Subject, Observable } from 'rxjs';
 import { MatDialog } from '@angular/material';
 
-import { InfiniteScrollDirective, IInfiniteScrollElement } from '../../directives';
-import { Config } from '../../config';
+import { InfiniteScrollDirective } from '../../directives';
 import {
   UserService,
   ITopicAPI,
@@ -60,10 +56,8 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
     public user: UserService,
     private api: AtApiService,
     private route: ActivatedRoute,
-    private zone: NgZone,
     private dialog: MatDialog,
     public snackBar: MatSnackBar,
-    private cdr: ChangeDetectorRef,
     private router: Router,
     private titleService: Title) {
   }
