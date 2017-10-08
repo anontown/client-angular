@@ -18,16 +18,19 @@
           [(ngModel)]="pass"
           name="pass">
       </mat-form-field>
-      <mat-select placeholder="ログイン/登録"
-        [(ngModel)]="isLogin"
-        name="isLogin">
-        <mat-option [value]="true">
-          ログイン
-        </mat-option>
-        <mat-option [value]="false">
-          登録
-        </mat-option>
-      </mat-select>
+      <mat-form-field>
+        <mat-select placeholder="ログイン/登録"
+          [(ngModel)]="isLogin"
+          name="isLogin">
+          <mat-option [value]="true">
+            ログイン
+          </mat-option>
+          <mat-option [value]="false">
+            登録
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
       <re-captcha *ngIf="!isLogin"
         site_key="{{siteKey}}"></re-captcha>
 

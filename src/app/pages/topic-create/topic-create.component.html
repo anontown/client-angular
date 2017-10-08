@@ -5,16 +5,18 @@
         <mat-icon color="warn">error</mat-icon> {{e.message}}
       </div>
       <div>
-        <mat-select placeholder="種別"
-          [(ngModel)]="type"
-          name="type">
-          <mat-option [value]="'one'">
-            単発
-          </mat-option>
-          <mat-option [value]="'normal'">
-            通常
-          </mat-option>
-        </mat-select>
+        <mat-form-field>
+          <mat-select placeholder="種別"
+            [(ngModel)]="type"
+            name="type">
+            <mat-option [value]="'one'">
+              単発
+            </mat-option>
+            <mat-option [value]="'normal'">
+              通常
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
       <div>
         <mat-form-field>

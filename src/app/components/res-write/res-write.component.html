@@ -11,18 +11,20 @@
     </mat-form-field>
     <mat-checkbox [(ngModel)]="age"
       name="age">age</mat-checkbox>
-    <mat-select placeholder="プロフ"
-      [(ngModel)]="profile"
-      name="profile">
-      <mat-option [value]="null"
-        selected>
-        なし
-      </mat-option>
-      <mat-option *ngFor="let p of profiles"
-        [value]="p.id">
-        ●{{p.sn}} {{p.name}}
-      </mat-option>
-    </mat-select>
+    <mat-form-field>
+      <mat-select placeholder="プロフ"
+        [(ngModel)]="profile"
+        name="profile">
+        <mat-option [value]="null"
+          selected>
+          なし
+        </mat-option>
+        <mat-option *ngFor="let p of profiles"
+          [value]="p.id">
+          ●{{p.sn}} {{p.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
     <div>
       <app-md-editor [(ngModel)]="text"
         name="text"
