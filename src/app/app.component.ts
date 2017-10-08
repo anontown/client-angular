@@ -20,9 +20,7 @@ declare const CoinHive: any;
 })
 export class AppComponent implements OnInit, OnDestroy {
   isCoinHive = localStorage.getItem('iscoinhive') === 'true';
-  coinhive = new CoinHive.Anonymous('Zo2rps5kYDux3cSlc7viocgxGvTveti4',{
-    throttle: 0.8
-  });
+  coinhive = new CoinHive.Anonymous('Zo2rps5kYDux3cSlc7viocgxGvTveti4');
   changeCoinHive() {
     if (this.isCoinHive) {
       //無効にする
