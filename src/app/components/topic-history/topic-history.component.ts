@@ -13,7 +13,7 @@ import {
   IHistoryAPI
 } from '../../services';
 import * as Immutable from 'immutable';
-import { MdSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-topic-history',
@@ -34,7 +34,7 @@ export class TopicHistoryComponent implements OnInit, OnDestroy {
 
   constructor(private api: AtApiService,
     public user: UserService,
-    public snackBar: MdSnackBar) {
+    public snackBar: MatSnackBar) {
 
   }
 

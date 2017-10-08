@@ -1,34 +1,49 @@
 <app-page>
-  <md-card *ngIf="user.ud.getValue()!==undefined">
-    <button md-icon-button *ngIf="user.ud.getValue()!==null" (click)="favo()">
-    <md-icon>{{isFavo?'star':'star_border'}}</md-icon>
-  </button>
+  <mat-card *ngIf="user.ud.getValue()!==undefined">
+    <button mat-icon-button
+      *ngIf="user.ud.getValue()!==null"
+      (click)="favo()">
+      <mat-icon>{{isFavo?'star':'star_border'}}</mat-icon>
+    </button>
     <div>
       <div>
-        <app-tags-input name="tags" [(ngModel)]="tags" (ngModelChange)="formChangeObs.next()"></app-tags-input>
+        <app-tags-input name="tags"
+          [(ngModel)]="tags"
+          (ngModelChange)="formChangeObs.next()"></app-tags-input>
       </div>
       <div>
-        <md-input-container>
-          <input mdInput placeholder="タイトル" [(ngModel)]="form.title" name="title" (input)="formChangeObs.next()">
-        </md-input-container>
+        <mat-form-field>
+          <input matInput
+            placeholder="タイトル"
+            [(ngModel)]="form.title"
+            name="title"
+            (input)="formChangeObs.next()">
+        </mat-form-field>
       </div>
       <div>
-        <md-checkbox [(ngModel)]="form.dead" name="dead" (change)="formChangeObs.next()">過去ログも</md-checkbox>
+        <mat-checkbox [(ngModel)]="form.dead"
+          name="dead"
+          (change)="formChangeObs.next()">過去ログも</mat-checkbox>
       </div>
     </div>
-  </md-card>
+  </mat-card>
   <div>
-    <button md-icon-button [routerLink]="['/topic/create']" *ngIf="user.ud.getValue()!==null">
-    <md-icon>edit</md-icon>
-  </button>
-    <button md-icon-button (click)="update()">
-    <md-icon>refresh</md-icon>
-  </button>
+    <button mat-icon-button
+      [routerLink]="['/topic/create']"
+      *ngIf="user.ud.getValue()!==null">
+      <mat-icon>edit</mat-icon>
+    </button>
+    <button mat-icon-button
+      (click)="update()">
+      <mat-icon>refresh</mat-icon>
+    </button>
   </div>
   <div>
-    <app-topic-list-item *ngFor="let t of topics" [topic]="t"></app-topic-list-item>
+    <app-topic-list-item *ngFor="let t of topics"
+      [topic]="t"></app-topic-list-item>
   </div>
   <div *ngIf="count===limit">
-    <button (click)="more()" md-raised-button>もっと</button>
+    <button (click)="more()"
+      mat-raised-button>もっと</button>
   </div>
 </app-page>

@@ -1,24 +1,33 @@
-<md-card *ngIf="user.ud.getValue()!==undefined">
-  <form *ngIf="user.ud.getValue()!==null" (ngSubmit)="ok()">
+<mat-card *ngIf="user.ud.getValue()!==undefined">
+  <form *ngIf="user.ud.getValue()!==null"
+    (ngSubmit)="ok()">
     <div *ngFor="let r of errors">
-      <md-icon color="warn">error</md-icon> {{e.message}}
+      <mat-icon color="warn">error</mat-icon> {{e.message}}
     </div>
     <div>
-      <md-input-container>
-        <input mdInput placeholder="ID" [(ngModel)]="sn" name="sn">
-      </md-input-container>
+      <mat-form-field>
+        <input matInput
+          placeholder="ID"
+          [(ngModel)]="sn"
+          name="sn">
+      </mat-form-field>
     </div>
     <div>
-      <md-input-container>
-        <input mdInput placeholder="名前" [(ngModel)]="name" name="name">
-      </md-input-container>
+      <mat-form-field>
+        <input matInput
+          placeholder="名前"
+          [(ngModel)]="name"
+          name="name">
+      </mat-form-field>
     </div>
-    <app-md-editor [(ngModel)]="text" name="text"></app-md-editor>
+    <app-md-editor [(ngModel)]="text"
+      name="text"></app-md-editor>
     <div>
-      <button type="submit" md-raised-button>OK</button>
+      <button type="submit"
+        mat-raised-button>OK</button>
     </div>
   </form>
   <div *ngIf="user.ud.getValue()===null">
     ログインしないとプロフィール管理は出来ません
   </div>
-</md-card>
+</mat-card>

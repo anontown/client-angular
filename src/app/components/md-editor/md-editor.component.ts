@@ -9,7 +9,7 @@ import {
   AfterViewInit
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { MdTabChangeEvent, MdDialog } from '@angular/material';
+import { MatTabChangeEvent, MatDialog } from '@angular/material';
 import {
   ImageUploadDialogComponent,
   OekakiDialogComponent
@@ -29,7 +29,7 @@ import {
   ]
 })
 export class MdEditorComponent implements OnInit, ControlValueAccessor, AfterViewInit {
-  constructor(private dialog: MdDialog) { }
+  constructor(private dialog: MatDialog) { }
 
   @Input()
   maxRows: number | null = null;

@@ -11,7 +11,7 @@ import {
   IProfileAPI
 } from '../../services';
 import * as Immutable from 'immutable';
-import { MdSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material';
 import { Subscription } from 'rxjs';
 import { Title } from '@angular/platform-browser';
 
@@ -27,7 +27,7 @@ export class NotificationsPageComponent implements OnInit, OnDestroy {
   constructor(
     public user: UserService,
     private api: AtApiService,
-    public snackBar: MdSnackBar,
+    public snackBar: MatSnackBar,
     private titleService: Title) {
   }
 

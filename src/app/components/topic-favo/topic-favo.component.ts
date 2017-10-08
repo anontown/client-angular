@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { UserService, ITopicAPI, AtApiService } from '../../services';
 
-import { MdSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material';
 import * as Immutable from 'immutable';
 import { Subscription } from 'rxjs';
 
@@ -24,7 +24,7 @@ export class TopicFavoComponent implements OnInit, OnDestroy {
 
   constructor(public user: UserService,
     private api: AtApiService,
-    public snackBar: MdSnackBar) {
+    public snackBar: MatSnackBar) {
   }
 
   tfavo: Immutable.List<ITopicAPI>;

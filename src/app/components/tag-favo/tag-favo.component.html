@@ -1,13 +1,18 @@
-<div *ngIf="user.ud.getValue()!==null&&user.ud.getValue()!==undefined" class="contents">
-  <md-card *ngFor="let t of user.ud.getValue().storage.tagsFavo">
-    <a class="app-link" [routerLink]="['/topic/search']" [queryParams]="{ tags: t.join(' ') }">
+<div *ngIf="user.ud.getValue()!==null&&user.ud.getValue()!==undefined"
+  class="contents">
+  <mat-card *ngFor="let t of user.ud.getValue().storage.tagsFavo">
+    <a class="app-link"
+      [routerLink]="['/topic/search']"
+      [queryParams]="{ tags: t.join(' ') }">
       {{t.size!==0?t.join(','):'(なし)'}}
     </a>
-  </md-card>
-  <md-card *ngIf="user.ud.getValue().storage.tagsFavo.size===0">
-    お気に入りタグがありません。<br>
-    <a class="app-link" [routerLink]="['/topic/search']">検索</a>
-  </md-card>
+  </mat-card>
+  <mat-card *ngIf="user.ud.getValue().storage.tagsFavo.size===0">
+    お気に入りタグがありません。
+    <br>
+    <a class="app-link"
+      [routerLink]="['/topic/search']">検索</a>
+  </mat-card>
 </div>
 <div *ngIf="user.ud.getValue()===null&&user.ud.getValue()!==undefined">
   ログインしないと表示出来ません。

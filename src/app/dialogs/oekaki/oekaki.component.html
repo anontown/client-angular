@@ -1,23 +1,39 @@
-<div md-dialog-content>
-  <md-spinner *ngIf="now==='posting'"></md-spinner>
+<div mat-dialog-content>
+  <mat-spinner *ngIf="now==='posting'"></mat-spinner>
   <div *ngIf="now==='error'">
-    <md-icon color="warn">error</md-icon>
+    <mat-icon color="warn">error</mat-icon>
     アップロードに失敗しました
   </div>
   <div>
-    <button md-icon-button type="button" [(colorPicker)]="color" [style.color]="color">
-      <md-icon>invert_colors</md-icon>
+    <button mat-icon-button
+      type="button"
+      [(colorPicker)]="color"
+      [style.color]="color">
+      <mat-icon>invert_colors</mat-icon>
     </button>
-    <button md-icon-button type="button" (click)="undo()">
-      <md-icon>undo</md-icon>
+    <button mat-icon-button
+      type="button"
+      (click)="undo()">
+      <mat-icon>undo</mat-icon>
     </button>
-    <button md-icon-button type="button" (click)="redo()">
-      <md-icon>redo</md-icon>
+    <button mat-icon-button
+      type="button"
+      (click)="redo()">
+      <mat-icon>redo</mat-icon>
     </button>
-    <button md-icon-button type="button" (click)="ok()">
-      <md-icon>file_upload</md-icon>
+    <button mat-icon-button
+      type="button"
+      (click)="ok()">
+      <mat-icon>file_upload</mat-icon>
     </button>
   </div>
-  <canvas #canvas [width]="w" [height]="h" (mousedown)="mousedown($event)" (mouseup)="mouseup()" (mousemove)="mousemove($event)"
-    (touchstart)="touchstart($event)" (touchmove)="touchmove($event)" (touchend)="touchend()"></canvas>
+  <canvas #canvas
+    [width]="w"
+    [height]="h"
+    (mousedown)="mousedown($event)"
+    (mouseup)="mouseup()"
+    (mousemove)="mousemove($event)"
+    (touchstart)="touchstart($event)"
+    (touchmove)="touchmove($event)"
+    (touchend)="touchend()"></canvas>
 </div>

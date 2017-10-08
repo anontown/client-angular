@@ -4,20 +4,16 @@
   top:0px;
   left:0px;
   right: 0px;
-
-  md-icon{
-    line-height:48px;
-  }
 }
 
-[md-tab-nav-bar]{
+[mat-tab-nav-bar]{
   display: table;
   table-layout: fixed;
   text-align: center;
   width: 100%;
 }
 
-[md-tab-link]{
+[matTabLink]{
   display: table-cell;
   vertical-align: middle;
 }

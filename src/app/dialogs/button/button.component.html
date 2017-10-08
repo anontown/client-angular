@@ -1,4 +1,6 @@
-<div md-dialog-content>{{message}}</div>
-<div md-dialog-actions>
-  <button *ngFor="let action of actions" md-button (click)="dialogRef.close(action.data)">{{action.text}}</button>
+<div mat-dialog-content>{{message}}</div>
+<div mat-dialog-actions>
+  <button *ngFor="let action of actions"
+    mat-button
+    (click)="dialogRef.close(action.data)">{{action.text}}</button>
 </div>

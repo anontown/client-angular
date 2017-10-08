@@ -23,10 +23,10 @@ import {
   ITopicAPI
 } from '../../services';
 
-import { MdDialog } from '@angular/material';
+import { MatDialog } from '@angular/material';
 
 import { ProfileDialogComponent, ButtonDialogComponent } from '../../dialogs';
-import { MdSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material';
 
 @Component({
   selector: 'app-res',
@@ -57,10 +57,10 @@ export class ResComponent implements OnInit, OnDestroy {
 
   constructor(public user: UserService,
     private api: AtApiService,
-    private dialog: MdDialog,
+    private dialog: MatDialog,
     public elementRef: ElementRef,
     private cdr: ChangeDetectorRef,
-    public snackBar: MdSnackBar) {
+    public snackBar: MatSnackBar) {
   }
 
   private subscription: Subscription;

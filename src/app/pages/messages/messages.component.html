@@ -2,20 +2,20 @@
   <div *ngIf="user.ud.getValue()!==null&&user.ud.getValue()!==undefined">
     <div>
       <button (click)="readNew()"
-        md-raised-button>最新</button>
+        mat-raised-button>最新</button>
     </div>
     <div>
-      <md-card *ngFor="let m of msgs">
+      <mat-card *ngFor="let m of msgs">
         <div class="header">{{m.date|atDate}}</div>
         <app-md [text]="m.text"></app-md>
-      </md-card>
+      </mat-card>
     </div>
     <div>
       <button (click)="readOld()"
-        md-raised-button>前</button>
+        mat-raised-button>前</button>
     </div>
   </div>
-  <md-card *ngIf="user.ud.getValue()===null&&user.ud.getValue()!==undefined">
+  <mat-card *ngIf="user.ud.getValue()===null&&user.ud.getValue()!==undefined">
     ログインしてください。
-  </md-card>
+  </mat-card>
 </app-page>

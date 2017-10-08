@@ -1,20 +1,20 @@
 <div>
-  <button md-icon-button
+  <button mat-icon-button
     (click)="image()"
     type="button">
-    <md-icon>add_a_photo</md-icon>
+    <mat-icon>add_a_photo</mat-icon>
   </button>
-  <button md-icon-button
+  <button mat-icon-button
     (click)="oekaki()"
     type="button">
-    <md-icon>create</md-icon>
+    <mat-icon>create</mat-icon>
   </button>
 </div>
-<md-slide-toggle [(ngModel)]="isPreview">
+<mat-slide-toggle [(ngModel)]="isPreview">
   Preview
-</md-slide-toggle>
+</mat-slide-toggle>
 <textarea #textbox
-  mdInput
+  matInput
   [(ngModel)]="value"
   [rows]="rows"
   wrap="off">

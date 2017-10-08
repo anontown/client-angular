@@ -1,11 +1,14 @@
-<div md-dialog-content>
-  <md-spinner *ngIf="now==='posting'"></md-spinner>
+<div mat-dialog-content>
+  <mat-spinner *ngIf="now==='posting'"></mat-spinner>
   <div *ngIf="now==='error'">
-    <md-icon color="warn">error</md-icon>
+    <mat-icon color="warn">error</mat-icon>
     アップロードに失敗しました
   </div>
-  <input type="file" #img>
-  <button md-icon-button type="button" (click)="ok()">
-    <md-icon>file_upload</md-icon>
+  <input type="file"
+    #img>
+  <button mat-icon-button
+    type="button"
+    (click)="ok()">
+    <mat-icon>file_upload</mat-icon>
   </button>
 </div>

@@ -15,13 +15,13 @@
   font-size: $icon-size;
   line-height: $icon-size;
 
-  [md-icon-button] {
+  [mat-icon-button] {
     width: $icon-button-size;
     height: $icon-button-size;
     line-height: $icon-button-size;
   }
 
-  md-icon{
+  mat-icon{
     font-size: $icon-size;
     line-height: $icon-size;
     display: inline;
@@ -35,7 +35,7 @@ app-res:last{
   margin-bottom: 1px;
 }
 
-md-card{
+mat-card{
   padding: 8px;
   margin: 1px;
 }

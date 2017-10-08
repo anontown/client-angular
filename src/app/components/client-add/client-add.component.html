@@ -1,16 +1,23 @@
-<md-card *ngIf="user.ud|async">
+<mat-card *ngIf="user.ud|async">
   <form (ngSubmit)="ok()">
     <div *ngFor="let e of errors">
-      <md-icon color="warn">error</md-icon> {{e.message}}
+      <mat-icon color="warn">error</mat-icon> {{e.message}}
     </div>
 
-    <md-input-container>
-      <input mdInput placeholder="名前" [(ngModel)]="name" name="name">
-    </md-input-container>
-    <md-input-container>
-      <input mdInput placeholder="URL" [(ngModel)]="url" name="url">
-    </md-input-container>
+    <mat-form-field>
+      <input matInput
+        placeholder="名前"
+        [(ngModel)]="name"
+        name="name">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput
+        placeholder="URL"
+        [(ngModel)]="url"
+        name="url">
+    </mat-form-field>
 
-    <button type="submit" md-button>OK</button>
+    <button type="submit"
+      mat-button>OK</button>
   </form>
-</md-card>
+</mat-card>

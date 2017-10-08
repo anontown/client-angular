@@ -11,7 +11,7 @@ import {
   ITopicAPI,
   AtApiService
 } from '../../services';
-import { MdSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material';
 import { Title } from '@angular/platform-browser';
 @Component({
   templateUrl: './topic-search.component.html',
@@ -43,7 +43,7 @@ export class TopicSearchPageComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     public user: UserService,
-    public snackBar: MdSnackBar,
+    public snackBar: MatSnackBar,
     private titleService: Title) {
 
   }

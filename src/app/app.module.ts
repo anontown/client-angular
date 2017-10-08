@@ -2,7 +2,21 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
-import { MaterialModule } from '@angular/material';
+import {
+  MatAutocompleteModule,
+  MatButtonModule,
+  MatCardModule,
+  MatCheckboxModule,
+  MatDialogModule,
+  MatFormFieldModule,
+  MatIconModule,
+  MatInputModule,
+  MatMenuModule,
+  MatSelectModule,
+  MatSlideToggleModule,
+  MatSnackBarModule,
+  MatTabsModule
+} from '@angular/material';
 import { ColorPickerModule } from 'ngx-color-picker';
 import {
   MapPipe,
@@ -65,16 +79,32 @@ import {
   TopicCreatePageComponent
 } from './pages';
 
-import { InfiniteScrollDirective, InfiniteScrollItemDirective } from './directives';
-
+import {
+  InfiniteScrollDirective,
+  InfiniteScrollItemDirective
+} from './directives';
 
 @NgModule({
   imports: [
+    MatAutocompleteModule,
+    MatButtonModule,
+    MatCardModule,
+    MatCheckboxModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
+    MatMenuModule,
+    MatSelectModule,
+    MatSlideToggleModule,
+    MatSnackBarModule,
+    MatTabsModule,
+
+
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
     HttpModule,
-    MaterialModule,
     ReactiveFormsModule,
     ReCaptchaModule,
     ColorPickerModule,

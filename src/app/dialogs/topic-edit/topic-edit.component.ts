@@ -13,7 +13,7 @@ import {
   IAtError
 } from '../../services';
 
-import { MdSnackBar, MdDialogRef } from '@angular/material';
+import { MatSnackBar, MatDialogRef } from '@angular/material';
 
 @Component({
   selector: 'app-dialog-topic-edit',
@@ -29,8 +29,8 @@ export class TopicEditDialogComponent implements OnInit, OnDestroy {
 
   constructor(public user: UserService,
     private api: AtApiService,
-    public snackBar: MdSnackBar,
-    private dialogRef: MdDialogRef<TopicEditDialogComponent>) {
+    public snackBar: MatSnackBar,
+    private dialogRef: MatDialogRef<TopicEditDialogComponent>) {
   }
 
   ngOnInit() {
@@ -43,7 +43,7 @@ export class TopicEditDialogComponent implements OnInit, OnDestroy {
   }
 
   async ok() {
-    let ud = this.user.ud.getValue() !;
+    let ud = this.user.ud.getValue()!;
     try {
       let topic = await this.api.updateTopic(ud.auth, {
         id: this.topic.id,

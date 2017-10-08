@@ -1,19 +1,26 @@
-<div md-dialog-content *ngIf="user.ud.getValue()!==null&&user.ud.getValue()!==undefined">
+<div mat-dialog-content
+  *ngIf="user.ud.getValue()!==null&&user.ud.getValue()!==undefined">
   <form (ngSubmit)="ok()">
     <div *ngFor="let e of errors">
-      <md-icon color="warn">error</md-icon> {{e.message}}
+      <mat-icon color="warn">error</mat-icon> {{e.message}}
     </div>
     <div>
-      <md-input-container>
-        <input mdInput placeholder="タイトル" [(ngModel)]="title" name="title">
-      </md-input-container>
+      <mat-form-field>
+        <input matInput
+          placeholder="タイトル"
+          [(ngModel)]="title"
+          name="title">
+      </mat-form-field>
     </div>
     <div>
-      <app-tags-input [(ngModel)]="tags" name="tags"></app-tags-input>
+      <app-tags-input [(ngModel)]="tags"
+        name="tags"></app-tags-input>
     </div>
-    <app-md-editor [(ngModel)]="text" name="text"></app-md-editor>
+    <app-md-editor [(ngModel)]="text"
+      name="text"></app-md-editor>
     <div>
-      <button type="submit" md-raised-button>OK</button>
+      <button type="submit"
+        mat-raised-button>OK</button>
     </div>
   </form>
 </div>

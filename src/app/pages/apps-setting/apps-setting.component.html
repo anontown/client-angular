@@ -1,8 +1,9 @@
 <div *ngIf="user.ud.getValue()">
-  <md-card *ngFor="let c of clients">
+  <mat-card *ngFor="let c of clients">
     {{c.name}}
-    <button (click)="del(c.id)" md-icon-button>
-      <md-icon>delete</md-icon>
+    <button (click)="del(c.id)"
+      mat-icon-button>
+      <mat-icon>delete</mat-icon>
     </button>
-  </md-card>
+  </mat-card>
 </div>

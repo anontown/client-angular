@@ -1,13 +1,13 @@
 <ng-template #autoScrollDialog>
-  <md-dialog-content>
-    <button md-icon-button
+  <mat-dialog-content>
+    <button mat-icon-button
       (click)="autoScroll()">
-  <md-icon>{{isAutoScroll?'stop':'play_arrow'}}</md-icon>
-</button>
+      <mat-icon>{{isAutoScroll?'stop':'play_arrow'}}</mat-icon>
+    </button>
     <input type="range"
       [(ngModel)]="autoScrollSpeed"
       max="30">
-  </md-dialog-content>
+  </mat-dialog-content>
 </ng-template>
 <app-page [column]="2"
   *ngIf="topic&&user.ud.getValue()!==undefined">
@@ -16,44 +16,44 @@
     <app-topic-favo [simple]="true"></app-topic-favo>
   </aside>
   <main class="main-column">
-    <md-card class="header">
+    <mat-card class="header">
       <div class="subject">
-        <md-icon *ngIf="topic.type==='fork'"
-          class="icon">call_split</md-icon>
-        <md-icon *ngIf="topic.type==='one'"
-          class="icon">looks_one</md-icon>
+        <mat-icon *ngIf="topic.type==='fork'"
+          class="icon">call_split</mat-icon>
+        <mat-icon *ngIf="topic.type==='one'"
+          class="icon">looks_one</mat-icon>
         {{topic.title}}
       </div>
       <div class="tool">
-        <button md-icon-button
+        <button mat-icon-button
           (click)="openData()">
-      <md-icon>keyboard_arrow_down</md-icon>
-    </button>
-        <button md-icon-button
+          <mat-icon>keyboard_arrow_down</mat-icon>
+        </button>
+        <button mat-icon-button
           (click)="openFork()"
           *ngIf="topic.type==='normal'">
-      <md-icon>call_split</md-icon>
-    </button>
-        <button md-icon-button
+          <mat-icon>call_split</mat-icon>
+        </button>
+        <button mat-icon-button
           *ngIf="user.ud.getValue()!==null&&topic.type==='normal'"
           (click)="openEdit()">
-      <md-icon>settings</md-icon>
-    </button>
-        <button md-icon-button
+          <mat-icon>settings</mat-icon>
+        </button>
+        <button mat-icon-button
           *ngIf="user.ud.getValue()!==null"
           (click)="favo()">
-        <md-icon>{{isFavo?'star':'star_border'}}</md-icon>
-    </button>
-        <button md-icon-button
-          (click)="autoScrollMenu()">
-        <md-icon>play_circle_outline</md-icon>
+          <mat-icon>{{isFavo?'star':'star_border'}}</mat-icon>
         </button>
-        <button md-icon-button
+        <button mat-icon-button
+          (click)="autoScrollMenu()">
+          <mat-icon>play_circle_outline</mat-icon>
+        </button>
+        <button mat-icon-button
           (click)="isResWrite = !isResWrite">
-        <md-icon>create</md-icon>
+          <mat-icon>create</mat-icon>
         </button>
       </div>
-    </md-card>
+    </mat-card>
     <div class="reses"
       *ngIf="scrollNewItem!==undefined"
       #infiniteScroll=infiniteScroll
@@ -76,10 +76,10 @@
         [itemId]="r.id"
         [itemDate]="r.date"></app-res>
     </div>
-    <md-card *ngIf="user.ud.getValue()!==null&&topic.active"
+    <mat-card *ngIf="user.ud.getValue()!==null&&topic.active"
       class="res-write"
       [ngClass]="{hide:!isResWrite}">
       <app-res-write [topic]="topic"></app-res-write>
-    </md-card>
+    </mat-card>
   </main>
 </app-page>

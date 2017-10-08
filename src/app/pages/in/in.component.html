@@ -1,38 +1,38 @@
 <app-page>
-  <md-card>
+  <mat-card>
     <form (ngSubmit)="ok()">
       <div *ngFor="let e of errors">
-        <md-icon color="warn">error</md-icon> {{e.message}}
+        <mat-icon color="warn">error</mat-icon> {{e.message}}
       </div>
 
-      <md-input-container>
-        <input mdInput
+      <mat-form-field>
+        <input matInput
           placeholder="ID"
           [(ngModel)]="sn"
           name="sn">
-      </md-input-container>
-      <md-input-container>
-        <input mdInput
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput
           type="password"
           placeholder="Pass"
           [(ngModel)]="pass"
           name="pass">
-      </md-input-container>
-      <md-select placeholder="ログイン/登録"
+      </mat-form-field>
+      <mat-select placeholder="ログイン/登録"
         [(ngModel)]="isLogin"
         name="isLogin">
-        <md-option [value]="true">
+        <mat-option [value]="true">
           ログイン
-        </md-option>
-        <md-option [value]="false">
+        </mat-option>
+        <mat-option [value]="false">
           登録
-        </md-option>
-      </md-select>
+        </mat-option>
+      </mat-select>
       <re-captcha *ngIf="!isLogin"
         site_key="{{siteKey}}"></re-captcha>
 
       <button type="submit"
-        md-button>OK</button>
+        mat-button>OK</button>
     </form>
-  </md-card>
+  </mat-card>
 </app-page>

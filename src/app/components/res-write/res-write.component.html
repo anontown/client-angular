@@ -1,28 +1,28 @@
 <div *ngIf="user.ud.getValue()!==null&&user.ud.getValue()!==undefined">
   <form (ngSubmit)="ok()">
     <div *ngFor="let e of errors">
-      <md-icon color="warn">error</md-icon> {{e.message}}
+      <mat-icon color="warn">error</mat-icon> {{e.message}}
     </div>
-    <md-input-container>
-      <input mdInput
+    <mat-form-field>
+      <input matInput
         placeholder="名前"
         [(ngModel)]="name"
         name="name">
-    </md-input-container>
-    <md-checkbox [(ngModel)]="age"
-      name="age">age</md-checkbox>
-    <md-select placeholder="プロフ"
+    </mat-form-field>
+    <mat-checkbox [(ngModel)]="age"
+      name="age">age</mat-checkbox>
+    <mat-select placeholder="プロフ"
       [(ngModel)]="profile"
       name="profile">
-      <md-option [value]="null"
+      <mat-option [value]="null"
         selected>
         なし
-      </md-option>
-      <md-option *ngFor="let p of profiles"
+      </mat-option>
+      <mat-option *ngFor="let p of profiles"
         [value]="p.id">
         ●{{p.sn}} {{p.name}}
-      </md-option>
-    </md-select>
+      </mat-option>
+    </mat-select>
     <div>
       <app-md-editor [(ngModel)]="text"
         name="text"
@@ -31,8 +31,8 @@
         [minRows]="1">
       </app-md-editor>
       <button type="submit"
-        md-icon-button>
-        <md-icon>arrow_forward</md-icon>
+        mat-icon-button>
+        <mat-icon>arrow_forward</mat-icon>
       </button>
     </div>
   </form>

@@ -1,16 +1,20 @@
 <app-page>
     <div *ngIf="user.ud.getValue()!==null&&user.ud.getValue()!==undefined">
-    <div>
-        <button (click)="readNew()" md-raised-button>最新</button>
+        <div>
+            <button (click)="readNew()"
+                mat-raised-button>最新</button>
+        </div>
+        <div>
+            <app-res *ngFor="let r of reses"
+                [res]="r"
+                (update)="updateRes($event)"></app-res>
+        </div>
+        <div>
+            <button (click)="readOld()"
+                mat-raised-button>前</button>
+        </div>
     </div>
-    <div>
-        <app-res *ngFor="let r of reses" [res]="r" (update)="updateRes($event)"></app-res>
-    </div>
-    <div>
-        <button (click)="readOld()" md-raised-button>前</button>
-    </div>
-    </div>
-<md-card *ngIf="user.ud.getValue()===null&&user.ud.getValue()!==undefined">
-    ログインしてください。
-</md-card>
+    <mat-card *ngIf="user.ud.getValue()===null&&user.ud.getValue()!==undefined">
+        ログインしてください。
+    </mat-card>
 </app-page>

@@ -1,36 +1,40 @@
-<md-menu #menu="mdMenu">
+<mat-menu #menu="matMenu">
   <button *ngIf="isSelf&&res.type==='normal'"
     (click)="del()"
-    md-menu-item>
-      削除
-    </button>
-</md-menu>
+    mat-menu-item>
+    削除
+  </button>
+</mat-menu>
 
-<md-card [ngClass]="{'res-pop':isPop}"
+<mat-card [ngClass]="{'res-pop':isPop}"
   class="res-container">
   <div class="res-left">
     <button type="button"
-      md-icon-button
+      mat-icon-button
       (click)="uv()"
       [disabled]="isSelf||user.ud.getValue()===null">
-        <md-icon [ngClass]="{'is-vote':res.voteFlag==='uv'}">keyboard_arrow_up</md-icon>
-      </button>
+      <mat-icon [ngClass]="{'is-vote':res.voteFlag==='uv'}">keyboard_arrow_up</mat-icon>
+    </button>
     <button type="button"
-      md-icon-button
+      mat-icon-button
       (click)="dv()"
       [disabled]="isSelf||user.ud.getValue()===null">
-        <md-icon [ngClass]="{'is-vote':res.voteFlag==='dv'}">keyboard_arrow_down</md-icon>
-      </button>
+      <mat-icon [ngClass]="{'is-vote':res.voteFlag==='dv'}">keyboard_arrow_down</mat-icon>
+    </button>
   </div>
   <div class="res-right">
     <div [ngClass]="{'res-self':isSelf,'res-reply':res.type==='normal'&&res.isReply&&!isSelf,'res-header':true}">
       <a (click)="isReply=!isReply">
         <span *ngIf="res.type==='normal'&&res.name!==null">{{res.name}}</span>
         <span *ngIf="res.type==='normal'&&res.name===null&&res.profile===null">名無しさん</span>
-        <span *ngIf="res.type==='history'" class="name-accent">トピックデータ</span>
-        <span *ngIf="res.type==='topic'" class="name-accent">トピ主</span>
-        <span *ngIf="res.type==='fork'" class="name-accent">派生トピック</span>
-        <span *ngIf="res.type==='delete'" class="name-accent">削除</span>
+        <span *ngIf="res.type==='history'"
+          class="name-accent">トピックデータ</span>
+        <span *ngIf="res.type==='topic'"
+          class="name-accent">トピ主</span>
+        <span *ngIf="res.type==='fork'"
+          class="name-accent">派生トピック</span>
+        <span *ngIf="res.type==='delete'"
+          class="name-accent">削除</span>
       </a>
 
       <a *ngIf="res.type==='normal'&&res.profile!==null"
@@ -38,32 +42,39 @@
       <a class="app-link"
         [routerLink]="['/res',res.id]">{{res.date|atDate}}</a>
       <a (click)="hashClick()">
-      HASH:{{res.hash.substr(0,6)}}...
-    </a>
+        HASH:{{res.hash.substr(0,6)}}...
+      </a>
       <span class="action">
-      <span>
-      {{res.uv-res.dv}}ポイント
-    </span>
-      <button type="button"
-        md-icon-button
-        [mdMenuTriggerFor]="menu">
-      <md-icon>keyboard_arrow_down</md-icon>
-    </button>
+        <span>
+          {{res.uv-res.dv}}ポイント
+        </span>
+        <button type="button"
+          mat-icon-button
+          [matMenuTriggerFor]="menu">
+          <mat-icon>keyboard_arrow_down</mat-icon>
+        </button>
       </span>
     </div>
     <div>
       <span class="action">
-      <button *ngIf="res.type==='normal'&&res.reply!==null" (click)="sendReplyClick()" md-icon-button>
-        <md-icon>send</md-icon>
-      </button>
-      <button (click)="receiveReplyClick()" *ngIf="res.replyCount!==0" md-icon-button>
-        <md-icon>reply</md-icon>
-        {{res.replyCount}}
-      </button>
-    </span>
-        <app-md *ngIf="res.type==='normal'" [text]="res.text"></app-md>
-        <app-md *ngIf="res.type==='history'&&historyRes!==null" [text]="historyRes.text"></app-md>
-        <app-md *ngIf="res.type==='topic'&&topicRes!==null&&topicRes.type==='one'" [text]="topicRes.text"></app-md>
+        <button *ngIf="res.type==='normal'&&res.reply!==null"
+          (click)="sendReplyClick()"
+          mat-icon-button>
+          <mat-icon>send</mat-icon>
+        </button>
+        <button (click)="receiveReplyClick()"
+          *ngIf="res.replyCount!==0"
+          mat-icon-button>
+          <mat-icon>reply</mat-icon>
+          {{res.replyCount}}
+        </button>
+      </span>
+      <app-md *ngIf="res.type==='normal'"
+        [text]="res.text"></app-md>
+      <app-md *ngIf="res.type==='history'&&historyRes!==null"
+        [text]="historyRes.text"></app-md>
+      <app-md *ngIf="res.type==='topic'&&topicRes!==null&&topicRes.type==='one'"
+        [text]="topicRes.text"></app-md>
 
       <div *ngIf="res.type==='topic'&&topicRes!==null&&topicRes.type==='fork'">
         <p>
@@ -89,20 +100,20 @@
         </p>
       </div>
     </div>
-    <md-card *ngIf="isReply&&user.ud.getValue()!==null">
+    <mat-card *ngIf="isReply&&user.ud.getValue()!==null">
       <app-res-write [topic]="res.topic"
         [reply]="res.id"
         (write)="isReply=false"></app-res-write>
-    </md-card>
+    </mat-card>
     <div *ngIf="children.size!==0">
-      <md-card *ngIf="childrenMsg!==null"
+      <mat-card *ngIf="childrenMsg!==null"
         class="children-msg">
         <strong>{{childrenMsg}}</strong>
-      </md-card>
+      </mat-card>
       <app-res *ngFor="let c of children|reverse"
         [res]="c"
         (update)="childrenUpdate($event)"
         [isPop]="true"></app-res>
     </div>
   </div>
-</md-card>
+</mat-card>

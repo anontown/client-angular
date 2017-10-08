@@ -8,7 +8,7 @@ import {
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import * as Immutable from 'immutable';
 import { AtApiService } from '../../services';
-import { MdSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material';
 import { FormControl } from '@angular/forms';
 
 @Component({
@@ -73,7 +73,7 @@ export class TagsInputComponent implements OnInit, OnDestroy, ControlValueAccess
   tag = '';
 
   constructor(private api: AtApiService,
-    public snackBar: MdSnackBar) { }
+    public snackBar: MatSnackBar) { }
 
   ngOnDestroy() {
   }

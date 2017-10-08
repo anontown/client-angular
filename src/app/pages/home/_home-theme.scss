@@ -1,6 +1,6 @@
 @mixin app-page-home-theme($theme){
   app-page-home{
-    md-tab-header{
+    mat-tab-header{
         $color:mat-color(map-get($theme,foreground),text);
         color:$color;
     }

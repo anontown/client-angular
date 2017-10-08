@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MdDialogRef } from '@angular/material';
+import { MatDialogRef } from '@angular/material';
 
 @Component({
   selector: 'app-dialog-button',
@@ -11,7 +11,7 @@ export class ButtonDialogComponent implements OnInit {
   actions: { data: any, text: string }[];
 
 
-  constructor(public dialogRef: MdDialogRef<ButtonDialogComponent>) { }
+  constructor(public dialogRef: MatDialogRef<ButtonDialogComponent>) { }
 
   ngOnInit() {
   }

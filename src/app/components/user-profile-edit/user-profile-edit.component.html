@@ -1,30 +1,40 @@
-<md-card *ngIf="user.ud.getValue()!==undefined">
-  <md-card-header>
-    <md-card-title>●{{profile.sn}}</md-card-title>
-  </md-card-header>
-  <md-card-actions>
-    <button md-icon-button (click)="edit()">
-      <md-icon>edit</md-icon>
+<mat-card *ngIf="user.ud.getValue()!==undefined">
+  <mat-card-header>
+    <mat-card-title>●{{profile.sn}}</mat-card-title>
+  </mat-card-header>
+  <mat-card-actions>
+    <button mat-icon-button
+      (click)="edit()">
+      <mat-icon>edit</mat-icon>
     </button>
-  </md-card-actions>
+  </mat-card-actions>
 
-  <form *ngIf="isEdit" (ngSubmit)="ok()">
+  <form *ngIf="isEdit"
+    (ngSubmit)="ok()">
     <div *ngFor="let e of errors">
-      <md-icon color="warn">error</md-icon> {{e.message}}
+      <mat-icon color="warn">error</mat-icon> {{e.message}}
     </div>
     <div>
-      <md-input-container>
-        <input mdInput placeholder="ID" [(ngModel)]="sn" name="sn">
-      </md-input-container>
+      <mat-form-field>
+        <input matInput
+          placeholder="ID"
+          [(ngModel)]="sn"
+          name="sn">
+      </mat-form-field>
     </div>
     <div>
-      <md-input-container>
-        <input mdInput placeholder="名前" [(ngModel)]="name" name="name">
-      </md-input-container>
+      <mat-form-field>
+        <input matInput
+          placeholder="名前"
+          [(ngModel)]="name"
+          name="name">
+      </mat-form-field>
     </div>
-    <app-md-editor [(ngModel)]="text" name="text"></app-md-editor>
+    <app-md-editor [(ngModel)]="text"
+      name="text"></app-md-editor>
     <div>
-      <button type="submit" md-button>OK</button>
+      <button type="submit"
+        mat-button>OK</button>
     </div>
   </form>
-</md-card>
+</mat-card>

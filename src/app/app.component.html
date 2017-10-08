@@ -1,52 +1,52 @@
 <div id="app-root"
   class="mat-app-background">
-  <md-menu #menu="mdMenu">
-    <button md-menu-item
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item
       [routerLink]="['/profiles']">プロフ管理</button>
-    <button md-menu-item
+    <button mat-menu-item
       [routerLink]="['/messages']">お知らせ</button>
-    <button md-menu-item
+    <button mat-menu-item
       type="button"
       (click)="changeTheme()">テーマ切り替え</button>
-    <button md-menu-item
+    <button mat-menu-item
       [routerLink]="['/settings/account']">設定</button>
-    <a md-menu-item
+    <a mat-menu-item
       href="https://document.anontown.com/"
       target="_blank">ドキュメント</a>
-    <button md-menu-item
+    <button mat-menu-item
       (click)="logout()">ログアウト</button>
-  </md-menu>
+  </mat-menu>
 
-  <nav md-tab-nav-bar
+  <nav mat-tab-nav-bar
     class="tab-nav">
-    <a md-tab-link
+    <a matTabLink
       [routerLink]="['/']">
-      <md-icon>home</md-icon>
+      <mat-icon>home</mat-icon>
     </a>
-    <a md-tab-link
+    <a matTabLink
       [routerLink]="['/topic/search']">
-      <md-icon>search</md-icon>
+      <mat-icon>search</mat-icon>
     </a>
-    <a md-tab-link
+    <a matTabLink
       [routerLink]="['/notifications']"
       *ngIf="user.ud.getValue()!==null">
-      <md-icon>notifications</md-icon>
+      <mat-icon>notifications</mat-icon>
     </a>
-    <a md-tab-link
+    <a matTabLink
       *ngIf="user.ud.getValue()!==null"
-      [mdMenuTriggerFor]="menu">
-      <md-icon>more_vert</md-icon>
+      [matMenuTriggerFor]="menu">
+      <mat-icon>more_vert</mat-icon>
     </a>
-    <a md-tab-link
+    <a matTabLink
       *ngIf="user.ud.getValue()===null"
       [routerLink]="['/in']">
-    ログイン/登録
-  </a>
-    <a md-tab-link
+      ログイン/登録
+    </a>
+    <a matTabLink
       *ngIf="user.ud.getValue()===null"
       (click)="changeTheme()">
-    テーマ切り替え
-  </a>
+      テーマ切り替え
+    </a>
   </nav>
   <router-outlet></router-outlet>
 </div>

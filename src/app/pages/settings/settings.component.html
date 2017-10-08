@@ -1,14 +1,21 @@
 <app-page>
-  <nav md-tab-nav-bar class="tab-nav">
-    <a md-tab-link [routerLink]="['/settings/account']" class="app-link">
-    ユーザー設定
-  </a>
-    <a md-tab-link [routerLink]="['/settings/apps']" class="app-link">
-    連携アプリ
-  </a>
-    <a md-tab-link [routerLink]="['/settings/dev']" class="app-link">
-    開発者向け
-  </a>
+  <nav mat-tab-nav-bar
+    class="tab-nav">
+    <a matTabLink
+      [routerLink]="['/settings/account']"
+      class="app-link">
+      ユーザー設定
+    </a>
+    <a matTabLink
+      [routerLink]="['/settings/apps']"
+      class="app-link">
+      連携アプリ
+    </a>
+    <a matTabLink
+      [routerLink]="['/settings/dev']"
+      class="app-link">
+      開発者向け
+    </a>
   </nav>
   <router-outlet></router-outlet>
 </app-page>

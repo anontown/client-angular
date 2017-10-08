@@ -5,7 +5,7 @@ import {
   AtApiService
 } from './api';
 import { Storage } from '../storage';
-import { MdSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material';
 import { Behavior2Subject } from './behavior2subject';
 
 
@@ -14,7 +14,7 @@ export class UserService {
   ud = new Behavior2Subject<IUserData | null>();
 
   constructor(private api: AtApiService,
-    public snackBar: MdSnackBar) {
+    public snackBar: MatSnackBar) {
   }
 
   async login(token: ITokenMasterAPI) {

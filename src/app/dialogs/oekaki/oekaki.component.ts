@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 
 import * as Immutable from 'immutable';
-import { MdDialogRef } from '@angular/material';
+import { MatDialogRef } from '@angular/material';
 import { ImgurApiService } from '../../services';
 
 @Component({
@@ -50,7 +50,7 @@ export class OekakiDialogComponent implements OnInit, AfterViewInit {
 
   ctx: CanvasRenderingContext2D;
 
-  constructor(private dialog: MdDialogRef<OekakiDialogComponent>,
+  constructor(private dialog: MatDialogRef<OekakiDialogComponent>,
     private imgur: ImgurApiService) { }
 
   ngOnInit() {

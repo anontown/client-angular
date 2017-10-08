@@ -14,7 +14,7 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription, Subject, Observable } from 'rxjs';
-import { MdDialog } from '@angular/material';
+import { MatDialog } from '@angular/material';
 
 import { InfiniteScrollDirective, IInfiniteScrollElement } from '../../directives';
 import { Config } from '../../config';
@@ -34,7 +34,7 @@ import {
 import { ActivatedRoute } from '@angular/router';
 import { ResComponent } from '../../components';
 import * as Immutable from 'immutable';
-import { MdSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material';
 import { Title } from '@angular/platform-browser';
 
 @Component({
@@ -61,8 +61,8 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
     private api: AtApiService,
     private route: ActivatedRoute,
     private zone: NgZone,
-    private dialog: MdDialog,
-    public snackBar: MdSnackBar,
+    private dialog: MatDialog,
+    public snackBar: MatSnackBar,
     private cdr: ChangeDetectorRef,
     private router: Router,
     private titleService: Title) {

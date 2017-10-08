@@ -1,4 +1,4 @@
-<div md-dialog-content
+<div mat-dialog-content
   *ngIf="user.ud.getValue()!==undefined">
   <dl>
     <dt>作成</dt>
@@ -7,9 +7,11 @@
     <dd>{{topic.update|atDate}}</dd>
     <ng-container *ngIf="topic.type!=='fork'">
       <dt>カテゴリ</dt>
-      <dd><a class="app-link"
+      <dd>
+        <a class="app-link"
           [routerLink]="['/topic/search']"
-          [queryParams]="{title:'',tags:topic.tags.join(' ')}">{{topic.tags.join(',')}}</a></dd>
+          [queryParams]="{title:'',tags:topic.tags.join(' ')}">{{topic.tags.join(',')}}</a>
+      </dd>
       <dt>本文</dt>
       <dd>
         <app-md [text]="topic.text"></app-md>
@@ -17,8 +19,10 @@
     </ng-container>
     <ng-container *ngIf="topic.type==='fork'&&parent">
       <dt>派生元</dt>
-      <dd><a class="app-link"
-          [routerLink]="['/topic',parent.id]">{{parent.title}}</a></dd>
+      <dd>
+        <a class="app-link"
+          [routerLink]="['/topic',parent.id]">{{parent.title}}</a>
+      </dd>
     </ng-container>
     <ng-container *ngIf="topic.type==='normal'">
       <dt>編集履歴</dt>

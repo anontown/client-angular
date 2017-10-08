@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 
 import {
-  MdDialogRef
+  MatDialogRef
 } from '@angular/material';
 
 import { ImgurApiService } from '../../services';
@@ -41,7 +41,7 @@ export class ImageUploadDialogComponent implements OnInit {
   }
 
   constructor(private imgur: ImgurApiService,
-    private dialogRef: MdDialogRef<ImageUploadDialogComponent>) { }
+    private dialogRef: MatDialogRef<ImageUploadDialogComponent>) { }
 
   ngOnInit() {
   }

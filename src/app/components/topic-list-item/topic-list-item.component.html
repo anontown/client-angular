@@ -1,16 +1,21 @@
-<md-card *ngIf="user.ud.getValue()!==undefined">
+<mat-card *ngIf="user.ud.getValue()!==undefined">
   <div>
-    <md-icon *ngIf="!topic.active">not_interested</md-icon>
-    <md-icon *ngIf="topic.type==='one'">looks_one</md-icon>
-    <md-icon *ngIf="topic.type==='fork'">call_split</md-icon>
-    <md-icon *ngIf="newRes!==null&&newRes!==0">fiber_new</md-icon>
-    <a class="app-link" [routerLink]="['/topic',topic.id]">{{topic.title}}</a>
+    <mat-icon *ngIf="!topic.active">not_interested</mat-icon>
+    <mat-icon *ngIf="topic.type==='one'">looks_one</mat-icon>
+    <mat-icon *ngIf="topic.type==='fork'">call_split</mat-icon>
+    <mat-icon *ngIf="newRes!==null&&newRes!==0">fiber_new</mat-icon>
+    <a class="app-link"
+      [routerLink]="['/topic',topic.id]">{{topic.title}}</a>
   </div>
-  <div class="data" *ngIf="!simple">
-    <div class="tags" *ngIf="topic.type!=='fork'">
+  <div class="data"
+    *ngIf="!simple">
+    <div class="tags"
+      *ngIf="topic.type!=='fork'">
       {{topic.tags.join(',')}}
     </div>
-    <a class="app-link" *ngIf="topic.type==='fork'" [routerLink]="['/topic',topic.parent]">
+    <a class="app-link"
+      *ngIf="topic.type==='fork'"
+      [routerLink]="['/topic',topic.parent]">
       親トピック
     </a>
     <div>
@@ -21,4 +26,4 @@
       <span *ngIf="newRes!==null">新着 {{newRes}}</span>
     </div>
   </div>
-</md-card>
+</mat-card>

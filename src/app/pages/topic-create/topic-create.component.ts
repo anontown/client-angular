@@ -12,7 +12,7 @@ import {
   IAtError
 } from '../../services';
 import { Router } from '@angular/router';
-import { MdDialog } from '@angular/material';
+import { MatDialog } from '@angular/material';
 import { ButtonDialogComponent } from '../../dialogs';
 import { Title } from '@angular/platform-browser';
 
@@ -31,7 +31,7 @@ export class TopicCreatePageComponent implements OnInit, OnDestroy {
   constructor(public user: UserService,
     private api: AtApiService,
     private router: Router,
-    private dialog: MdDialog,
+    private dialog: MatDialog,
     private titleService: Title) {
   }
 
@@ -55,7 +55,7 @@ export class TopicCreatePageComponent implements OnInit, OnDestroy {
       }
     }
 
-    let ud = this.user.ud.getValue() !;
+    let ud = this.user.ud.getValue()!;
     try {
       let params = {
         title: this.title,

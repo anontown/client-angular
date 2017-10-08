@@ -8,7 +8,7 @@ import {
   IAtError
 } from '../../services';
 
-import { MdDialogRef, MdSnackBar } from '@angular/material';
+import { MatDialogRef, MatSnackBar } from '@angular/material';
 import * as Immutable from 'immutable';
 
 @Component({
@@ -23,8 +23,8 @@ export class TopicForkDialogComponent implements OnInit {
   errors: IAtError[] = [];
   constructor(public user: UserService,
     private api: AtApiService,
-    private dialogRef: MdDialogRef<TopicForkDialogComponent>,
-    private snackBar: MdSnackBar) { }
+    private dialogRef: MatDialogRef<TopicForkDialogComponent>,
+    private snackBar: MatSnackBar) { }
 
   async ngOnInit() {
     try {
