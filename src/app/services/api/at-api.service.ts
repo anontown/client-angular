@@ -45,7 +45,7 @@ export class AtApiService {
       params
     }))}`;
 
-    return Observable.webSocket<T>(Config.socketServerURL + '?' + query);
+    return Observable.webSocket<T>(Config.socket.origin + '?' + query);
   }
 
   async resesSetProfile(reses: IResAPI[], auth: IAuthToken | null): Promise<IResAPI<IProfileAPI>[]> {
@@ -86,7 +86,7 @@ export class AtApiService {
   }
 
   private async request<T>(name: string, params: any, authToken: IAuthToken | null, authUser: IAuthUser | null, recaptcha: string | null): Promise<T> {
-    let url = Config.serverURL + name;
+    let url = Config.api.origin + name;
     let headers = new Headers();
     headers.append('Content-Type', 'application/json');
 

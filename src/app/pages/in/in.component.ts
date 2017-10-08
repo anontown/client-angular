@@ -13,7 +13,7 @@ export class InPageComponent implements OnInit {
   pass = '';
   isLogin = true;
   errors: IAtError[] = [];
-  siteKey = Config.recaptcha;
+  siteKey = Config.recaptcha.siteKey;
 
   @ViewChild(ReCaptchaComponent) captcha: ReCaptchaComponent;
 

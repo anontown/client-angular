@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Root, mdParse } from "../../md";
 import { getHttpsUrl } from '../../camo';
 import { DomSanitizer } from '@angular/platform-browser';
-
+import { Config } from "../../config";
 
 @Component({
   selector: 'app-md',
@@ -33,7 +33,7 @@ export class MdComponent implements OnInit {
   }
 
   urlParse(url: string): 'anontown' | 'normal' | 'img' | 'youtube' {
-    if ((url.indexOf('http://') !== 0 && url.indexOf('https://') !== 0) || url.indexOf('https://anontown.com') === 0) {
+    if ((url.indexOf('http://') !== 0 && url.indexOf('https://') !== 0) || url.indexOf(Config.client.origin) === 0) {
       return 'anontown';
     }
 
