@@ -4,7 +4,7 @@ import {
   ITokenMasterAPI,
   AtApiService
 } from './api';
-import { Storage } from '../storage';
+import { Storage, StorageJSON, initStorage, toStorage, convert, verArray } from '../storage';
 import { MatSnackBar } from '@angular/material';
 import { Behavior2Subject } from './behavior2subject';
 
@@ -24,14 +24,23 @@ export class UserService {
         key: token.key
       };
 
-      let storageStr = '';
+      let storageJSON: StorageJSON;
       try {
-        storageStr = await this.api.getTokenStorage(auth, { name: 'main' });
+        //ストレージ名一覧
+        let storageNames = await this.api.listTokenStorage(auth);
+        //ストレージ名一覧にある最も新しいストレージ名を取得
+        let name = [...verArray, 'main'].find(ver => storageNames.indexOf(ver) !== -1);
+        if (name !== undefined) {
+          let jsonStr = await this.api.getTokenStorage(auth, { name });
+          storageJSON = JSON.parse(jsonStr);
+        } else {
+          storageJSON = initStorage;
+        }
       } catch (_e) {
-        storageStr = '';
+        storageJSON = initStorage;
       }
 
-      let storage = Storage.fromJSON(storageStr);
+      let storage = toStorage(convert(storageJSON));
 
       this.ud.next({
         auth,

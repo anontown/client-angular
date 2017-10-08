@@ -10,6 +10,7 @@ import {
 } from './services';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
+import { toJSON } from './storage';
 
 @Component({
   selector: 'app-root',
@@ -38,7 +39,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private api: AtApiService,
     public router: Router,
     public snackBar: MatSnackBar) {
-    setInterval(() => this.save(), 30 * 1000);
+    setInterval(() => this.save(), 10 * 1000);
     this.isDarkTheme = localStorage.getItem('theme') === 'dark';
   }
 
@@ -75,9 +76,10 @@ export class AppComponent implements OnInit, OnDestroy {
     let ud = this.user.ud.getValue();
     if (ud !== null) {
       try {
+        let json = toJSON(ud.storage);
         await this.api.setTokenStorage(ud.auth, {
-          name: 'main',
-          value: ud.storage.toJSON()
+          name: json.ver,
+          value: JSON.stringify(json)
         });
       } catch (_e) {
         this.snackBar.open('お気に入りなどのデータ保存に失敗');
