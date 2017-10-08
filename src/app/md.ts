@@ -1,11 +1,19 @@
 const markdown = require('remark-parse');
 const unified = require('unified');
 const breaks = require('remark-breaks');
-
+const disable = require('remark-disable-tokenizers');
 
 export function mdParse(text: string): Root {
   return unified()
     .use(markdown)
+    .use(disable, {
+      block: [
+        'html',
+        'footnote'
+      ],
+      inline: [
+      ]
+    })
     .use(breaks)
     .parse(text);
 }
