@@ -14,9 +14,9 @@ import {
   styleUrls: ['client-add.component.scss']
 })
 export class ClientAddComponent {
-  private url = '';
-  private name = '';
-  private errors: IAtError[] = [];
+  url = '';
+  name = '';
+  errors: IAtError[] = [];
 
   @Output()
   add = new EventEmitter<IClientAPI>();

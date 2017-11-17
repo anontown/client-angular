@@ -1,5 +1,5 @@
 <div mat-dialog-content>
-  <mat-spinner *ngIf="now==='posting'"></mat-spinner>
+  <mat-progress-spinner *ngIf="now==='posting'"></mat-progress-spinner>
   <div *ngIf="now==='error'">
     <mat-icon color="warn">error</mat-icon>
     アップロードに失敗しました

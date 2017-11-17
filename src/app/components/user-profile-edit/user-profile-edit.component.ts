@@ -22,14 +22,14 @@ import {
 })
 export class UserProfileEditComponent implements OnInit, OnDestroy {
   @Input()
-  private profile: IProfileAPI;
+  profile: IProfileAPI;
 
-  private isEdit = false;
+  isEdit = false;
 
-  private name = '';
-  private text = '';
+  name = '';
+  text = '';
   sn = '';
-  private errors: IAtError[] = [];
+  errors: IAtError[] = [];
 
   constructor(public user: UserService,
     private api: AtApiService) {
@@ -48,7 +48,7 @@ export class UserProfileEditComponent implements OnInit, OnDestroy {
   }
 
   async ok() {
-    let ud = this.user.ud.getValue() !;
+    let ud = this.user.ud.getValue()!;
     try {
       let profile = await this.api.updateProfile(ud.auth, {
         id: this.profile.id,

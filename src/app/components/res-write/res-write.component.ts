@@ -26,11 +26,11 @@ import {
   changeDetection: ChangeDetectionStrategy.Default
 })
 export class ResWriteComponent implements OnInit, OnDestroy {
-  private name = '';
-  private text = '';
-  private profile: string | null = null;
-  private errors: IAtError[] = [];
-  private age = true;
+  name = '';
+  text = '';
+  profile: string | null = null;
+  errors: IAtError[] = [];
+  age = true;
   @Output()
   write = new EventEmitter<IResAPI>();
 

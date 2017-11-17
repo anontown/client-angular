@@ -22,10 +22,10 @@ import { MatSnackBar, MatDialogRef } from '@angular/material';
 })
 export class TopicEditDialogComponent implements OnInit, OnDestroy {
   topic: ITopicNormalAPI;
-  private title = '';
-  private tags = '';
-  private text = '';
-  private errors: IAtError[] = [];
+  title = '';
+  tags = '';
+  text = '';
+  errors: IAtError[] = [];
 
   constructor(public user: UserService,
     private api: AtApiService,

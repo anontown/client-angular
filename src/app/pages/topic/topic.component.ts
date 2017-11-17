@@ -49,8 +49,8 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
   private limit = 50;
 
   // 全レス読んだか
-  private isReadAllNew = false;
-  private isReadAllOld = false;
+  isReadAllNew = false;
+  isReadAllOld = false;
 
   constructor(
     public user: UserService,

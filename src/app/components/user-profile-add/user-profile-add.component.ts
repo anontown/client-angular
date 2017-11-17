@@ -21,10 +21,10 @@ import {
   changeDetection: ChangeDetectionStrategy.Default
 })
 export class UserProfileAddComponent implements OnInit, OnDestroy {
-  private name = '';
-  private text = '';
+  name = '';
+  text = '';
   sn = '';
-  private errors: IAtError[] = [];
+  errors: IAtError[] = [];
 
   @Output()
   add = new EventEmitter<IProfileAPI>();
@@ -39,7 +39,7 @@ export class UserProfileAddComponent implements OnInit, OnDestroy {
   }
 
   async ok() {
-    let ud = this.user.ud.getValue() !;
+    let ud = this.user.ud.getValue()!;
     try {
       let p = await this.api.createProfile(ud.auth, {
         name: this.name,

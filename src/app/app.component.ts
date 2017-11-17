@@ -10,6 +10,7 @@ import {
 } from './services';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
+import { OverlayContainer } from '@angular/cdk/overlay';
 import { toJSON } from './storage';
 
 @Component({
@@ -27,10 +28,12 @@ export class AppComponent implements OnInit, OnDestroy {
       case true:
         localStorage.setItem('theme', 'dark');
         document.body.classList.add('app-dark-theme');
+        this.overlayContainer.getContainerElement().classList.add('app-dark-theme');
         break;
       case false:
         localStorage.setItem('theme', 'light');
         document.body.classList.remove('app-dark-theme');
+        this.overlayContainer.getContainerElement().classList.remove('app-dark-theme');
         break;
     }
   }
@@ -38,7 +41,8 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(public user: UserService,
     private api: AtApiService,
     public router: Router,
-    public snackBar: MatSnackBar) {
+    public snackBar: MatSnackBar,
+    public overlayContainer: OverlayContainer) {
     setInterval(() => this.save(), 10 * 1000);
     this.isDarkTheme = localStorage.getItem('theme') === 'dark';
   }

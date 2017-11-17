@@ -22,11 +22,11 @@ import { Title } from '@angular/platform-browser';
   selector: 'app-page-topic-create'
 })
 export class TopicCreatePageComponent implements OnInit, OnDestroy {
-  private title = '';
-  private tags = '';
-  private text = '';
-  private type: TopicType = 'one';
-  private errors: IAtError[] = [];
+  title = '';
+  tags = '';
+  text = '';
+  type: TopicType = 'one';
+  errors: IAtError[] = [];
 
   constructor(public user: UserService,
     private api: AtApiService,

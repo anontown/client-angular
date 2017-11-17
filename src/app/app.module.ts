@@ -15,7 +15,8 @@ import {
   MatSelectModule,
   MatSlideToggleModule,
   MatSnackBarModule,
-  MatTabsModule
+  MatTabsModule,
+  MatProgressSpinnerModule
 } from '@angular/material';
 import { ColorPickerModule } from 'ngx-color-picker';
 import {
@@ -84,6 +85,10 @@ import {
   InfiniteScrollItemDirective
 } from './directives';
 
+import 'rxjs/add/operator/filter';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/startWith';
+
 @NgModule({
   imports: [
     MatAutocompleteModule,
@@ -99,7 +104,7 @@ import {
     MatSlideToggleModule,
     MatSnackBarModule,
     MatTabsModule,
-
+    MatProgressSpinnerModule,
 
     BrowserModule,
     BrowserAnimationsModule,

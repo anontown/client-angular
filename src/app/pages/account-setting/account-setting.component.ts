@@ -19,7 +19,7 @@ export class AccountSettingPageComponent implements OnInit, OnDestroy {
   newPass = '';
   oldPass = '';
   sn = '';
-  private errors: IAtError[] = [];
+  errors: IAtError[] = [];
 
   constructor(public user: UserService,
     private api: AtApiService,
@@ -35,7 +35,7 @@ export class AccountSettingPageComponent implements OnInit, OnDestroy {
   }
 
   async ok() {
-    let ud = this.user.ud.getValue() !;
+    let ud = this.user.ud.getValue()!;
     let auth = {
       id: ud.token.user,
       pass: this.oldPass
