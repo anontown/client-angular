@@ -88,6 +88,7 @@ import {
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/startWith';
+import 'rxjs/add/observable/of';
 
 @NgModule({
   imports: [

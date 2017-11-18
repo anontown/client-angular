@@ -20,19 +20,19 @@ import { toJSON } from './storage';
 })
 export class AppComponent implements OnInit, OnDestroy {
   get isDarkTheme(): boolean {
-    return document.body.classList.contains('app-dark-theme');
+    return document.getElementById('p2rfix').classList.contains('app-dark-theme');
   }
 
   set isDarkTheme(value: boolean) {
     switch (value) {
       case true:
         localStorage.setItem('theme', 'dark');
-        document.body.classList.add('app-dark-theme');
+        document.getElementById('p2rfix').classList.add('app-dark-theme');
         this.overlayContainer.getContainerElement().classList.add('app-dark-theme');
         break;
       case false:
         localStorage.setItem('theme', 'light');
-        document.body.classList.remove('app-dark-theme');
+        document.getElementById('p2rfix').classList.remove('app-dark-theme');
         this.overlayContainer.getContainerElement().classList.remove('app-dark-theme');
         break;
     }

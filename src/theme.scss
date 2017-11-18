@@ -12,10 +12,6 @@
         @include link-color($theme);
     }
 
-    *{
-        color:mat-color(map-get($theme,foreground),text);
-    }
-
     @include angular-material-theme($theme);
     @include app-components-theme($theme);
     @include app-dialogs-theme($theme);
