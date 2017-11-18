@@ -6,12 +6,12 @@ import {
 } from './api';
 import { Storage, StorageJSON, initStorage, toStorage, convert, verArray } from '../storage';
 import { MatSnackBar } from '@angular/material';
-import { ReplaySubject } from 'rxjs';
+import { Behavior2Subject } from './behavior2subject';
 
 
 @Injectable()
 export class UserService {
-  ud = new ReplaySubject<IUserData | null>(1);
+  ud = new Behavior2Subject<IUserData | null>();
 
   constructor(private api: AtApiService,
     public snackBar: MatSnackBar) {
