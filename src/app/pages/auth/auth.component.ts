@@ -21,7 +21,7 @@ export class AuthPageComponent implements OnInit, OnDestroy {
   }
 
   async ok() {
-    let ud = this.user.ud.getValue() !;
+    let ud = this.user.ud.getValue()!;
     let token = await this.api.createTokenGeneral(ud.auth, { client: this.client.id });
     let req = await this.api.createTokenReq({ id: token.id, key: token.key });
     //リダイレクト
@@ -33,7 +33,7 @@ export class AuthPageComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     this.titleService.setTitle('アプリ認証');
-    let ud = await this.user.ud.take(1).toPromise();
+    let ud = await this.user.ud.first().toPromise();
     if (ud) {
       let clientID = '';
       this.route.queryParams.forEach((params) => {

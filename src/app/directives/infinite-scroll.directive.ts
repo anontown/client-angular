@@ -79,13 +79,13 @@ export class InfiniteScrollDirective<T extends TItem> implements OnInit, OnDestr
    * 最新アイテム設定をリクエスト
    */
   @Input() findNewItem: () => Promise<Immutable.List<T>> =
-  () => Promise.resolve(Immutable.List());
+    () => Promise.resolve(Immutable.List());
 
   /**
    * 新規アイテム追加をリクエスト
    */
   @Input() findItem: (type: 'before' | 'after', date: string, equal: boolean) => Promise<Immutable.List<T>> =
-  () => Promise.resolve(Immutable.List());
+    () => Promise.resolve(Immutable.List());
 
   @Input() afterViewChecked: Observable<void>;
 
@@ -113,7 +113,7 @@ export class InfiniteScrollDirective<T extends TItem> implements OnInit, OnDestr
         await this._lock(async () => {
           this.list = await this.findItem('before', val.date, true);
 
-          await this.afterViewChecked.take(1).toPromise();
+          await this.afterViewChecked.first().toPromise();
 
           switch (this.newItem) {
             case 'top':
@@ -363,7 +363,7 @@ export class InfiniteScrollDirective<T extends TItem> implements OnInit, OnDestr
           .concat(await this.findItem('after', this._list.last().date, false))
           .toList();
 
-        await this.afterViewChecked.take(1).toPromise();
+        await this.afterViewChecked.first().toPromise();
 
         switch (this.newItem) {
           case 'bottom':
@@ -396,7 +396,7 @@ export class InfiniteScrollDirective<T extends TItem> implements OnInit, OnDestr
           .concat(await this.findItem('before', this._list.first().date, false))
           .toList();
 
-        await this.afterViewChecked.take(1).toPromise();
+        await this.afterViewChecked.first().toPromise();
 
         switch (this.newItem) {
           case 'bottom':
@@ -414,7 +414,7 @@ export class InfiniteScrollDirective<T extends TItem> implements OnInit, OnDestr
     await this._lock(async () => {
       this.list = await this.findNewItem();
 
-      await this.afterViewChecked.take(1).toPromise();
+      await this.afterViewChecked.first().toPromise();
 
       switch (this.newItem) {
         case 'bottom':

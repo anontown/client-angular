@@ -19,7 +19,7 @@ export class AppsSettingPageComponent implements OnInit, OnDestroy {
 
   }
   async ngOnInit() {
-    let ud = await this.user.ud.take(1).toPromise();
+    let ud = await this.user.ud.first().toPromise();
     this.clients = Immutable.List(await this.api.findTokenClientAll(ud!.auth));
   }
 
@@ -27,7 +27,7 @@ export class AppsSettingPageComponent implements OnInit, OnDestroy {
   }
 
   async del(id: string) {
-    await this.api.deleteTokenClient(this.user.ud.getValue() !.auth, { client: id });
+    await this.api.deleteTokenClient(this.user.ud.getValue()!.auth, { client: id });
     this.clients = this.clients.remove(this.clients.findIndex(c => c!.id === id));
   }
 }

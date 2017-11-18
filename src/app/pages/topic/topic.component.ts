@@ -65,7 +65,7 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
   updateItem$ = new Subject<IResAPI<IProfileAPI>>();
 
   findNewItem = async () => {
-    let ud = await this.user.ud.take(1).toPromise();
+    let ud = await this.user.ud.first().toPromise();
     return Immutable.List(await this.api.resesSetProfile(await this.api.findResNew(ud ? ud.auth : null, {
       topic: this.topic.id,
       limit: this.limit
@@ -73,7 +73,7 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   findItem = async (type: 'after' | 'before', date: string, equal: boolean) => {
-    let ud = await this.user.ud.take(1).toPromise();
+    let ud = await this.user.ud.first().toPromise();
     return Immutable.List(await this.api.resesSetProfile(await this.api.findRes(ud ? ud.auth : null, {
       topic: this.topic.id,
       type: type,
@@ -140,7 +140,7 @@ export class TopicPageComponent implements OnInit, OnDestroy, AfterViewChecked {
         this.snackBar.open('トピック取得に失敗');
       }
 
-      let ud = await this.user.ud.take(1).toPromise();
+      let ud = await this.user.ud.first().toPromise();
       if (ud) {
         let topicRead = ud.storage.topicRead.get(this.topic.id);
         if (topicRead) {

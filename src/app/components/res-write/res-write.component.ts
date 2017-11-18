@@ -36,7 +36,7 @@ export class ResWriteComponent implements OnInit, OnDestroy {
 
 
   async ngOnInit() {
-    let ud = await this.user.ud.take(1).toPromise();
+    let ud = await this.user.ud.first().toPromise();
     this.profiles = await this.api.findProfileAll(ud.auth);
   }
 

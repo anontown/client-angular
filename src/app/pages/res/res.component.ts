@@ -23,7 +23,7 @@ export class ResPageComponent implements OnInit {
   ngOnInit() {
     this.route.params.forEach(params => {
       this.user.ud
-        .take(1)
+        .first()
         .subscribe(async ud => {
           let token: IAuthToken | null;
           if (ud) {
