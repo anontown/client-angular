@@ -63,7 +63,7 @@ export class AppComponent implements OnInit, OnDestroy {
         this.user.ud.next(null);
       }
     } catch (_e) {
-      this.snackBar.open('認証に失敗');
+      this.snackBar.open('認証に失敗', "OK", { duration: 5000 });
       this.user.ud.next(null);
     }
   }
