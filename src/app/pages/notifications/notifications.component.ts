@@ -61,7 +61,7 @@ export class NotificationsPageComponent implements OnInit, OnDestroy {
         limit: this.limit
       }), ud.auth));
     } catch (_e) {
-      this.snackBar.open('レス取得に失敗');
+      this.snackBar.open('レス取得に失敗', "OK", { duration: 5000 });
     }
   }
 
@@ -80,7 +80,7 @@ export class NotificationsPageComponent implements OnInit, OnDestroy {
           }), ud.auth)).concat(this.reses.toArray());
       }
     } catch (_e) {
-      this.snackBar.open('レス取得に失敗');
+      this.snackBar.open('レス取得に失敗', "OK", { duration: 5000 });
     }
   }
 
@@ -99,7 +99,7 @@ export class NotificationsPageComponent implements OnInit, OnDestroy {
           }), ud.auth)));
       }
     } catch (_e) {
-      this.snackBar.open('レス取得に失敗');
+      this.snackBar.open('レス取得に失敗', "OK", { duration: 5000 });
     }
   }
 }

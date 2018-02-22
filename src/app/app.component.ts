@@ -86,7 +86,7 @@ export class AppComponent implements OnInit, OnDestroy {
           value: JSON.stringify(json)
         });
       } catch (_e) {
-        this.snackBar.open('お気に入りなどのデータ保存に失敗');
+        this.snackBar.open('お気に入りなどのデータ保存に失敗', "OK", { duration: 5000 });
       }
     }
   }

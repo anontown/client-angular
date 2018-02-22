@@ -35,7 +35,7 @@ export class TopicForkDialogComponent implements OnInit {
         activeOnly: false
       }));
     } catch (_e) {
-      this.snackBar.open('トピック取得に失敗');
+      this.snackBar.open('トピック取得に失敗', "OK", { duration: 5000 });
     }
   }
 

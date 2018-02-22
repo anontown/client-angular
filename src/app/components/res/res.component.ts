@@ -110,7 +110,7 @@ export class ResComponent implements OnInit, OnDestroy {
       }
       this.cdr.markForCheck();
     } catch (_e) {
-      this.snackBar.open('レス取得に失敗');
+      this.snackBar.open('レス取得に失敗', "OK", { duration: 5000 });
     }
   }
 
@@ -131,7 +131,7 @@ export class ResComponent implements OnInit, OnDestroy {
       this.childrenMsg = null;
       this.cdr.markForCheck();
     } catch (_e) {
-      this.snackBar.open('レス取得に失敗');
+      this.snackBar.open('レス取得に失敗', "OK", { duration: 5000 });
     }
   }
 
@@ -149,7 +149,7 @@ export class ResComponent implements OnInit, OnDestroy {
       this.childrenMsg = null;
       this.cdr.markForCheck();
     } catch (_e) {
-      this.snackBar.open('レス取得に失敗');
+      this.snackBar.open('レス取得に失敗', "OK", { duration: 5000 });
     }
   }
 
@@ -177,7 +177,7 @@ export class ResComponent implements OnInit, OnDestroy {
           break;
       }
     } catch (_e) {
-      this.snackBar.open('投票に失敗');
+      this.snackBar.open('投票に失敗', "OK", { duration: 5000 });
     }
   }
 
@@ -206,7 +206,7 @@ export class ResComponent implements OnInit, OnDestroy {
           break;
       }
     } catch (_e) {
-      this.snackBar.open('レス取得に失敗');
+      this.snackBar.open('レス取得に失敗', "OK", { duration: 5000 });
     }
   }
 
@@ -226,7 +226,7 @@ export class ResComponent implements OnInit, OnDestroy {
         }), ud.auth));
       }
     } catch (_e) {
-      this.snackBar.open('レス削除に失敗');
+      this.snackBar.open('レス削除に失敗', "OK", { duration: 5000 });
     }
   }
 
@@ -242,7 +242,7 @@ export class ResComponent implements OnInit, OnDestroy {
         id: this.res.profile.id
       });
     } catch (_e) {
-      this.snackBar.open('プロフ取得に失敗');
+      this.snackBar.open('プロフ取得に失敗', "OK", { duration: 5000 });
     }
   }
 }

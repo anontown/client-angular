@@ -75,7 +75,7 @@ export class TopicSearchPageComponent implements OnInit, OnDestroy {
       this.topics = Immutable.List(this.topics.toArray().concat(t));
       this.page++;
     } catch (_e) {
-      this.snackBar.open('トピック取得に失敗');
+      this.snackBar.open('トピック取得に失敗', "OK", { duration: 5000 });
     }
   }
 
@@ -100,7 +100,7 @@ export class TopicSearchPageComponent implements OnInit, OnDestroy {
   }
 
   async favo() {
-    let ud = this.user.ud.getValue() !;
+    let ud = this.user.ud.getValue()!;
     let storage = ud.storage;
     let tf = storage.tagsFavo;
     let tags = Immutable.Set(this.tagArray);
@@ -109,7 +109,7 @@ export class TopicSearchPageComponent implements OnInit, OnDestroy {
   }
 
   get isFavo(): boolean {
-    let ud = this.user.ud.getValue() !;
+    let ud = this.user.ud.getValue()!;
     return ud.storage.tagsFavo.has(Immutable.Set(this.tagArray));
   }
 }

@@ -86,7 +86,7 @@ export class TagsInputComponent implements OnInit, OnDestroy, ControlValueAccess
         .map(name => this.filterStates(name));
     } catch (_e) {
       console.log(_e);
-      this.snackBar.open('タグ一覧取得に失敗');
+      this.snackBar.open('タグ一覧取得に失敗', "OK", { duration: 5000 });
     }
   }
 

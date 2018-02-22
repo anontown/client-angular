@@ -47,19 +47,19 @@ export class MessagesPageComponent implements OnInit, OnDestroy {
   }
 
   private async findNew() {
-    let ud = this.user.ud.getValue() !;
+    let ud = this.user.ud.getValue()!;
     try {
       this.msgs = Immutable.List(await this.api.findMsgNew(ud.auth,
         {
           limit: this.limit
         }));
     } catch (_e) {
-      this.snackBar.open('メッセージ取得に失敗');
+      this.snackBar.open('メッセージ取得に失敗', "OK", { duration: 5000 });
     }
   }
 
   async readNew() {
-    let ud = this.user.ud.getValue() !;
+    let ud = this.user.ud.getValue()!;
     try {
       if (this.msgs.size === 0) {
         this.findNew();
@@ -73,12 +73,12 @@ export class MessagesPageComponent implements OnInit, OnDestroy {
           })).concat(this.msgs.toArray()));
       }
     } catch (_e) {
-      this.snackBar.open('メッセージ取得に失敗');
+      this.snackBar.open('メッセージ取得に失敗', "OK", { duration: 5000 });
     }
   }
 
   async readOld() {
-    let ud = this.user.ud.getValue() !;
+    let ud = this.user.ud.getValue()!;
     try {
       if (this.msgs.size === 0) {
         this.findNew();
@@ -92,7 +92,7 @@ export class MessagesPageComponent implements OnInit, OnDestroy {
           })));
       }
     } catch (_e) {
-      this.snackBar.open('メッセージ取得に失敗');
+      this.snackBar.open('メッセージ取得に失敗', "OK", { duration: 5000 });
     }
   }
 }

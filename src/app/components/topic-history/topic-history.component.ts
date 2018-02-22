@@ -60,7 +60,7 @@ export class TopicHistoryComponent implements OnInit, OnDestroy {
 
       }
     } catch (_e) {
-      this.snackBar.open('レス取得に失敗');
+      this.snackBar.open('レス取得に失敗', "OK", { duration: 5000 });
     }
   }
 }

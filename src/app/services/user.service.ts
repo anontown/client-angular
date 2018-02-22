@@ -48,7 +48,7 @@ export class UserService {
         storage
       });
     } catch (_e) {
-      this.snackBar.open('ログインに失敗');
+      this.snackBar.open('ログインに失敗', "OK", { duration: 5000 });
     }
   }
 }
