@@ -8,10 +8,15 @@ import {
   AtApiService,
   IAuthToken
 } from './services';
-import { Router } from '@angular/router';
+import { Router, RouterEvent } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
 import { OverlayContainer } from '@angular/cdk/overlay';
 import { toJSON } from './storage';
+import { gaID } from "./config";
+import "rxjs/add/operator/distinctUntilChanged";
+
+
+declare const gtag: any;
 
 @Component({
   selector: 'app-root',
@@ -45,6 +50,17 @@ export class AppComponent implements OnInit, OnDestroy {
     public overlayContainer: OverlayContainer) {
     setInterval(() => this.save(), 10 * 1000);
     this.isDarkTheme = localStorage.getItem('theme') === 'dark';
+    this.router.events
+      .filter(e => e instanceof RouterEvent)
+      .map(e => (e as RouterEvent).url)
+      .map(path => new URL("https://host" + path).pathname)
+      .distinctUntilChanged()
+      .subscribe(path => {
+        console.log("ga", path);
+        gtag('config', gaID, {
+          page_path: path
+        });
+      });
   }
 
   changeTheme() {
