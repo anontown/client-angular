@@ -17,11 +17,3 @@ $ npm start
 
 # 公式サーバー
 https://anontown.com/  
-
-# 寄付
-サーバーの運営費などの為に寄付して下さると助かります。
-
-|種類|アドレス|
-|:--|:--|
-|bitcoin|1BzX1EtapU8kFubJnBwxbR1t3icpVneMZo|
-|monacoin|MSp6GRJNfrkewkqezL3NuTUuYysuZ1eZ3u|
